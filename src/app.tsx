@@ -38,7 +38,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     footerRender: false,
     logo: 'https://qzz-static.forwe.store/fadmin/%E7%99%BD%E5%BA%95%402x.png',
     onPageChange: () => {
-      return;
       const { location } = history;
       // 如果没有登录，重定向到 login
       if (
