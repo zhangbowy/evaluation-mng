@@ -19,7 +19,7 @@
           {
             name: 'login',
             path: '/user/login',
-            component: './user/Login',
+            component: './user/login',
           },
           { path: '/user/login/callback', component: './user/login/callback' },
           { path: '/user/list', name: '用户权限', component: './user/account' },

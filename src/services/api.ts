@@ -4,7 +4,7 @@ export const login = async (data: any) => {
     return request<Result<LoginResult>>('/api/member/login/dt', { method: 'POST', data })
 }
 
-export const authLogin = async (data: { code: string }) => {
+export const authLogin = async (data: { code: string, appId: string, corpId: string }) => {
     return request<Result<LoginResult>>('/api/member/login/dt/authorization', { method: 'POST', data })
 }
 
