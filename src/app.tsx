@@ -20,7 +20,6 @@ export const initialStateConfig = {
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   user?: User;
-  token?: string;
   loading?: boolean;
 }> {
   return {
@@ -86,6 +85,9 @@ const middleware = async (ctx: any, next: () => void) => {
       ctx.req.options.params = filterParams(ctx.req.options.params);
     }
     await next();
+    if (ctx.res.code !== 1) {
+      message.error(ctx.res.message || '系统错误');
+    }
   } catch (error) {
     notification.error({
       message: `请求错误 ${ctx.res.status}: ${ctx.req.url}`,

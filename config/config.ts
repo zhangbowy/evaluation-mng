@@ -15,17 +15,9 @@ export default defineConfig({
   antd: {},
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
-    locale: true,
+    locale: false,
     siderWidth: 208,
     ...defaultSettings,
-  },
-  // https://umijs.org/zh-CN/plugins/plugin-locale
-  locale: {
-    // default zh-CN
-    default: 'zh-CN',
-    antd: true,
-    // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
   },
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
@@ -45,6 +37,7 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  openAPI: false,
   // Fast Refresh 热更新
   fastRefresh: {},
   nodeModulesTransform: { type: 'none' },

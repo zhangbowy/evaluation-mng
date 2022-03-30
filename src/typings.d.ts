@@ -28,6 +28,15 @@ type Result<T> = {
     message: string;
     data: T
 }
+
+type Page<T> = {
+    curPage: number;
+    pageSize: number;
+    totalPage: number;
+    totalItem: number;
+    resultList: T[];
+}
+
 type LoginResult = {
     user: User;
     token: string;
@@ -39,7 +48,19 @@ type User = {
     name: string;
     avatar: string;
     auths: string[];
+    depts: { deptId: number; name: string }[];
     gender: 0 | 1 | 2; // 0 未设置 1 男 2女
+}
+
+type ExamUser = {
+    id: number;
+    examId: number;
+    userId: string;
+    username: string;
+    sex: 1 | 2;
+    created: string;
+    // 部门名称
+    name: string;
 }
 
 type ExamListItem = {

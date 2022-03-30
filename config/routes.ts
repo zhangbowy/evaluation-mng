@@ -1,7 +1,17 @@
 ﻿export default [
+  { path: '/', redirect: '/exam/template', hideInMenu: true },
+  {
+    path: '/403',
+    name: '无权访问',
+    layout: false,
+    component: './403',
+    hideInMenu: true,
+  },
   {
     path: '/user',
     layout: false,
+    icon: 'user',
+    name: '权限管理',
     routes: [
       {
         path: '/user',
@@ -11,7 +21,8 @@
             path: '/user/login',
             component: './user/Login',
           },
-          { path: '/user/login/callback', component: './user/Login/callback' }
+          { path: '/user/login/callback', component: './user/login/callback' },
+          { path: '/user/list', name: '用户权限', component: './user/account' },
         ],
       },
       {
@@ -19,7 +30,7 @@
       },
     ],
   },
-  { path: '/exam/template', icon: 'Reconciliation', component: './exam/template' },
+  { path: '/exam/template', icon: 'reconciliation', component: './exam/template' },
   {
     component: './404',
   },

@@ -9,7 +9,7 @@ const ExamList: React.FC = () => {
     { title: '序号', valueType: 'index', dataIndex: 'id' },
     { title: '测试名称', dataIndex: 'evaluationName' },
     { title: '覆盖人数', dataIndex: 'totalNumber' },
-    { title: '完成人数', dataIndex: 'finishNumber' },
+    { title: '完成人数', dataIndex: 'finishNumber', valueType: 'progress' },
     { title: '完成率', dataIndex: 'completion' },
     { title: '创建人', dataIndex: '' },
     { title: '创建时间', dataIndex: 'created', valueType: 'dateTime' },
@@ -33,7 +33,7 @@ const ExamList: React.FC = () => {
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
-        <ProTable<ExamListItem> rowKey="id" columns={columns} />
+        <ProTable<ExamListItem> search={false} rowKey="id" columns={columns} />
       </ProCard>
     </PageContainer>
   );
