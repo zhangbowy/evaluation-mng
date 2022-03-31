@@ -18,7 +18,7 @@ export const getJoinExamUsers = async (params: any) => {
 }
 
 export const getUserList = async (params: { curPage?: number, pageSize?: number, name?: string }) => {
-    return request<Result<User[]>>('/api/member/auth/authPoint/list', { params })
+    return request<Result<Page<User>>>('/api/member/auth/authPoint/list', { params })
 }
 
 export const setAuths = async (data: { addAuths?: string[], removeAuths?: string[], userIds: string[] }) => {

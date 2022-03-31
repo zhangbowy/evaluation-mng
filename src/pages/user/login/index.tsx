@@ -50,7 +50,7 @@ const Login: React.FC = () => {
       }
     });
   }, [corpId, appId, clientId, setInitialState, initialState]);
-  return <PageLoading />;
+  return <PageLoading tips="登录中" />;
 };
 
 export default Login;

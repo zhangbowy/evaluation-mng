@@ -71,8 +71,8 @@ const UserList: React.FC = () => {
             if (res.code) {
               return {
                 success: true,
-                data: res.data,
-                total: res.data.length,
+                data: res.data.resultList,
+                total: res.data.totalItem,
               };
             }
             return {
