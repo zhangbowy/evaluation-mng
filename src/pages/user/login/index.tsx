@@ -8,7 +8,7 @@ import { history, useModel } from 'umi';
 
 const Login: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
-  const { corpId, appId, clientId } = queryString.parse(location.hash) as {
+  const { corpId, appId, clientId } = queryString.parse(location.search) as {
     corpId: string;
     appId: string;
     clientId: string;
