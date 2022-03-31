@@ -32,7 +32,7 @@ const Login: React.FC = () => {
           // 未授权登录需要先授权登录
           window.location.replace(
             `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(
-              `https://${window.location.hostname}${window.location.search}#/user/callback`,
+              `${window.location.protocol}//${window.location.hostname}${window.location.search}#/user/callback`,
             )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
           );
         } else {
