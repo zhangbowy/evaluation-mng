@@ -30,7 +30,7 @@ const Callback: React.FC = () => {
         }
       });
     }
-  }, [corpId, appId, authCode, setInitialState, initialState]);
+  }, [corpId, appId, authCode]);
   return <PageLoading />;
 };
 

@@ -49,7 +49,7 @@ const Login: React.FC = () => {
         history.replace('/403');
       }
     });
-  }, [corpId, appId, clientId, setInitialState, initialState]);
+  }, [corpId, appId, clientId]);
   return <PageLoading tips="登录中" />;
 };
 
