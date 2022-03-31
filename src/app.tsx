@@ -7,7 +7,7 @@ import defaultSettings from '../config/defaultSettings';
 import { message, notification, Result } from 'antd';
 
 const loginPath = '/user/login';
-const callbackPath = '/usr/login/callback';
+const callbackPath = '/user/login/callback';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
