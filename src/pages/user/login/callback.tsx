@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { history, useModel } from 'umi';
 
 const Callback: React.FC = () => {
-  const { corpId, appId, authCode } = queryString.parse(location.hash) as {
+  const { corpId, appId, authCode } = queryString.parse(location.search) as {
     corpId: string;
     appId: string;
     authCode: string;
