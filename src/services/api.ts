@@ -12,9 +12,9 @@ export const getExamTemplateList = async () => {
     return request<Result<ExamTemplateListItem[]>>('/api/spf-cc/b/evaluation/library/getExamTemplateList')
 }
 
-export const getJoinExamUsers = async (params: any) => {
+export const getExamUsers = async (params: any) => {
     return request<Result<ExamUser & { completion: string, evalutionNum: number }[]>>(
-        '/api/spf-cc/getJoinExamUsers', { params })
+        '/api/spf-cc/b/evaluation/management/getExamUsers', { params })
 }
 
 export const getUserList = async (params: { curPage?: number, pageSize?: number, name?: string }) => {
@@ -27,4 +27,12 @@ export const setAuths = async (data: { addAuths?: string[], removeAuths?: string
 
 export const createExam = async (data: any) => {
     return request<Result<boolean>>('/api/spf-cc/b/evaluation/library/createExam', { data, method: 'POST' })
+}
+
+export const examList = async (params?: any) => {
+    return request<Result<Page<ExamListItem>>>('/api/spf-cc/b/evaluation/management/getExamInformationList', { params })
+}
+
+export const editExam = async (data: any) => {
+    return request<Result<boolean>>('/api/spf-cc/b/evaluation/management/updateExamInformation', { data, method: 'POST' })
 }

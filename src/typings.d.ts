@@ -52,15 +52,20 @@ type User = {
     gender: 0 | 1 | 2; // 0 未设置 1 男 2女
 }
 
+
+type ExamUsers = {
+    finishValue: string;
+    examTitle: string;
+    introduction: string;
+    examUserDOList: ExamUser[];
+}
+
 type ExamUser = {
-    id: number;
     examId: number;
     userId: string;
-    username: string;
-    sex: 1 | 2;
-    created: string;
-    // 部门名称
-    name: string;
+    startTime: string;
+    // 状态 0:未开始 1：答题中 2:答题完成 3:分析中 10:分析完成
+    status: number;
 }
 
 type ExamListItem = {
@@ -70,6 +75,7 @@ type ExamListItem = {
     finishNumber: number;
     completion: string;
     created: string;
+    type: boolean;
 }
 
 type ExamTemplateListItem = {

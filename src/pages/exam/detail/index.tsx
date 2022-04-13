@@ -6,6 +6,7 @@ import { message, Progress } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from './report';
+import { getExamUsers } from '@/services/api';
 
 const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -58,17 +59,14 @@ const ExamDetail: React.FC = () => {
       message.error('缺少必要参数');
       return;
     }
+    getExamUsers({ examid: id });
   }, [id]);
   return (
     <PageContainer>
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <ProCard>
-        <ProCard direction="row">
-          <ProCard>
-            <Progress type="circle" percent={75} format={(percent) => `完成度${percent}%`} />
-          </ProCard>
-        </ProCard>
-        <ProTable<ExamUser> search={false} columns={columns} rowKey="id" />
+        <Progress type="circle" percent={75} format={(percent) => `完成度${percent}%`} />
+        {/* <ProTable<ExamUser> search={false} columns={columns} rowKey="id" dataSource={} /> */}
       </ProCard>
     </PageContainer>
   );
