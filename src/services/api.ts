@@ -24,3 +24,7 @@ export const getUserList = async (params: { curPage?: number, pageSize?: number,
 export const setAuths = async (data: { addAuths?: string[], removeAuths?: string[], userIds: string[] }) => {
     return request<Result<boolean>>('/api/member/auth/setAuthPoint', { data, method: 'POST' })
 }
+
+export const createExam = async (data: any) => {
+    return request<Result<boolean>>('/api/spf-cc/b/evaluation/library/createExam', { data, method: 'POST' })
+}

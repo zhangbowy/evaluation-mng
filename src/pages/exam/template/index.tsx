@@ -3,8 +3,19 @@ import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
 import { Button } from 'antd';
 import { getExamTemplateList } from '@/services/api';
+import dd from 'dingtalk-jsapi';
+import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
+  const { corpId } = queryString.parse(location.search);
+  const handleClick = async (id: number) => {
+    // TODO选择钉钉用户
+    const res = await dd.biz.contact.choose({
+      multiple: true, //是否多选：true多选 false单选； 默认true
+      corpId: corpId, //企业id
+    });
+    console.log(res);
+  };
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
@@ -39,14 +50,14 @@ const ExamTemplate: React.FC = () => {
                     <div>
                       <div>
                         <span>作答时间</span>
-                        <span>{entity.duration}</span>
+                        <span>{entity.durationDesc}</span>
                       </div>
                       <div>
                         <span>题目数量</span>
                         <span>{entity.examLibrarySum}</span>
                       </div>
                     </div>
-                    <Button>创建</Button>
+                    <Button onClick={() => handleClick(entity.id)}>创建</Button>
                   </div>
                 );
               },

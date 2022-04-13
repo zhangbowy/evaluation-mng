@@ -40,13 +40,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (
-        !initialState?.user &&
-        location.pathname !== loginPath &&
-        location.pathname !== callbackPath
-      ) {
-        history.push(loginPath);
-      }
+      // if (
+      //   !initialState?.user &&
+      //   location.pathname !== loginPath &&
+      //   location.pathname !== callbackPath
+      // ) {
+      //   history.push(loginPath);
+      // }
     },
     menuHeaderRender: undefined,
     // 自定义 403 页面
@@ -96,7 +96,8 @@ const middleware = async (ctx: any, next: () => void) => {
 };
 
 const authHeaderInterceptor = (url: string, options: any) => {
-  const token = window.sessionStorage.getItem('QAT');
+  // const token = window.sessionStorage.getItem('QAT');
+  const token = '9bf7bb6b815d6717ee0e455177bd0df8';
   const authHeader = { QZZ_ACCESS_TOKEN: token };
   return {
     url,
