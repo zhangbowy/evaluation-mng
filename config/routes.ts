@@ -31,6 +31,7 @@
     ],
   },
   { path: '/exam/template', icon: 'reconciliation', component: './exam/template' },
+  { path: '/exam', icon: 'appstore', component: './exam' },
   {
     component: './404',
   },

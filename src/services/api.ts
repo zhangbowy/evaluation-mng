@@ -9,7 +9,7 @@ export const authLogin = async (data: { code: string, appId: string, corpId: str
 }
 
 export const getExamTemplateList = async () => {
-    return request('/api/spf-cc/getExamTemplateList')
+    return request<Result<ExamTemplateListItem[]>>('/api/spf-cc/b/evaluation/library/getExamTemplateList')
 }
 
 export const getJoinExamUsers = async (params: any) => {

@@ -2,6 +2,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
 import { Button } from 'antd';
+import { getExamTemplateList } from '@/services/api';
 
 const ExamTemplate: React.FC = () => {
   return (
@@ -15,6 +16,13 @@ const ExamTemplate: React.FC = () => {
           rowKey="id"
           grid={{ gutter: 16, column: 4 }}
           request={async () => {
+            const res = await getExamTemplateList();
+            if (res.code === 1) {
+              return {
+                success: true,
+                data: res.data,
+              };
+            }
             return { success: false };
           }}
           metas={{

@@ -79,6 +79,7 @@ type ExamTemplateListItem = {
     introduction: string;
     durationType: string;
     duration: string;
+    durationDesc: string;
     //题库总数
     examLibrarySum: number;
 }
