@@ -8,14 +8,18 @@ import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
   const { corpId } = queryString.parse(location.search);
-  notification.info({ message: location.href });
+  notification.info({ message: corpId });
   const handleClick = async (id: number) => {
     // TODO选择钉钉用户
-    const res = await dd.biz.contact.choose({
-      multiple: true, //是否多选：true多选 false单选； 默认true
-      corpId: corpId, //企业id
-    });
-    console.log(res);
+    try {
+      const res = await dd.biz.contact.choose({
+        multiple: true, //是否多选：true多选 false单选； 默认true
+        corpId: corpId, //企业id
+      });
+      notification.info({ message: res });
+    } catch (e: any) {
+      notification.error({ message: e });
+    }
   };
   return (
     <PageContainer header={{ breadcrumb: {} }}>
