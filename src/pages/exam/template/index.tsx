@@ -9,6 +9,7 @@ import queryString from 'query-string';
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const handleClick = async (id: number) => {
+    message.info(id);
     // TODO选择钉钉用户
     message.info(111);
     try {
