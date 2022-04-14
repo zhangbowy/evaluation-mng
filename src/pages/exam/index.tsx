@@ -1,12 +1,14 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import type { ProColumnType } from '@ant-design/pro-table';
+import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Switch } from 'antd';
+import { message, Switch } from 'antd';
 import { editExam, examList } from '@/services/api';
 import { history } from 'umi';
+import { useRef } from 'react';
 
 const ExamList: React.FC = () => {
+  const actionRef = useRef<ActionType>();
   const handleClick = (id: number) => {
     history.push('/exam/' + id);
   };
@@ -32,8 +34,12 @@ const ExamList: React.FC = () => {
           key="switch"
           checkedChildren="开启"
           unCheckedChildren="关闭"
-          onClick={(checked) => {
-            editExam({ type: checked, examId: entity.id });
+          onClick={async (checked) => {
+            const res = await editExam({ type: checked, examId: entity.id });
+            if (res.code === 1) {
+              message.success('修改成功');
+              actionRef.current?.reload();
+            }
           }}
           checked={entity.type}
         />,
@@ -44,6 +50,7 @@ const ExamList: React.FC = () => {
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
         <ProTable<ExamListItem>
+          actionRef={actionRef}
           search={false}
           rowKey="id"
           columns={columns}
