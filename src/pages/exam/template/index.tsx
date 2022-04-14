@@ -1,13 +1,14 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import { getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
   const { corpId } = queryString.parse(location.search);
+  notification.info({ message: location.href });
   const handleClick = async (id: number) => {
     // TODO选择钉钉用户
     const res = await dd.biz.contact.choose({
