@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
-import { Button, notification } from 'antd';
+import { Button, message, notification } from 'antd';
 import { getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
@@ -9,6 +9,7 @@ import queryString from 'query-string';
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const handleClick = async (id: number) => {
+    message.info(id);
     notification.info({ message: id, duration: null });
     // TODO选择钉钉用户
     try {
