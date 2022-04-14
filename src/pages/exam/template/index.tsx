@@ -10,8 +10,11 @@ const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const handleClick = async (id: number) => {
     // TODO选择钉钉用户
+    message.info(111);
     try {
+      message.info(222);
       message.info(`${appId}| ${corpId}`);
+      message.info(333);
       dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
         // @ts-ignore
