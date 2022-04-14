@@ -9,8 +9,13 @@ import queryString from 'query-string';
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const handleClick = async (id: number) => {
+    notification.info({ message: id, duration: null });
     // TODO选择钉钉用户
     try {
+      notification.info({
+        message: `${appId}| ${corpId}`,
+        duration: null,
+      });
       const res = await dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
         // @ts-ignore
@@ -21,7 +26,7 @@ const ExamTemplate: React.FC = () => {
       });
       notification.error({ message: res.users });
     } catch (e: any) {
-      notification.error({ message: e });
+      notification.error({ message: '111' });
     }
   };
   return (
