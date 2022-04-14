@@ -18,7 +18,17 @@ const ExamTemplate: React.FC = () => {
         corpId: corpId, //企业id
         // @ts-ignore
         appId: appId,
+        limitTips: '超出了',
+        maxUsers: 1000,
+        pickedUsers: [],
+        pickedDepartments: [],
+        disabledUsers: [],
+        disabledDepartments: [],
+        requiredUsers: [],
+        requiredDepartments: [],
+        permissionType: 'GLOBAL',
         responseUserOnly: false,
+        startWithDepartmentId: 0,
         onSuccess: function (result: any) {
           message.info(result);
         },
