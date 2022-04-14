@@ -8,6 +8,31 @@ import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
+  message.info('start');
+  dd.biz.contact.complexPicker({
+    multiple: true, //是否多选：true多选 false单选； 默认true
+    // @ts-ignore
+    corpId: corpId, //企业id
+    // @ts-ignore
+    appId: appId,
+    limitTips: '超出了',
+    maxUsers: 1000,
+    pickedUsers: [],
+    pickedDepartments: [],
+    disabledUsers: [],
+    disabledDepartments: [],
+    requiredUsers: [],
+    requiredDepartments: [],
+    permissionType: 'GLOBAL',
+    responseUserOnly: false,
+    startWithDepartmentId: 0,
+    onSuccess: function (result: any) {
+      message.info(result);
+    },
+    onFail: function (err: any) {
+      message.error(err);
+    },
+  });
   const handleClick = async (id: number) => {
     message.info(id);
     // TODO选择钉钉用户
