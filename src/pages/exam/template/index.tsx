@@ -26,7 +26,7 @@ const ExamTemplate: React.FC = () => {
       });
       notification.error({ message: res.users });
     } catch (e: any) {
-      notification.error({ message: '111' });
+      notification.error({ message: e });
     }
   };
   return (
