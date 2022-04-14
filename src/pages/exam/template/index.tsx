@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
-import { Button, message, notification } from 'antd';
+import { Button, message } from 'antd';
 import { getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
@@ -9,14 +9,9 @@ import queryString from 'query-string';
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const handleClick = async (id: number) => {
-    message.info(id);
-    notification.info({ message: id, duration: null });
     // TODO选择钉钉用户
     try {
-      notification.info({
-        message: `${appId}| ${corpId}`,
-        duration: null,
-      });
+      message.info(`${appId}| ${corpId}`);
       const res = await dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
         // @ts-ignore
@@ -25,9 +20,9 @@ const ExamTemplate: React.FC = () => {
         appId: appId,
         responseUserOnly: false,
       });
-      notification.error({ message: res.users });
+      message.error(res.users);
     } catch (e: any) {
-      notification.error({ message: e });
+      message.error(e);
     }
   };
   return (
