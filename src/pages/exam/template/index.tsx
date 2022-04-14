@@ -12,17 +12,22 @@ const ExamTemplate: React.FC = () => {
     // TODO选择钉钉用户
     try {
       message.info(`${appId}| ${corpId}`);
-      const res = await dd.biz.contact.complexPicker({
+      dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
         // @ts-ignore
         corpId: corpId, //企业id
         // @ts-ignore
         appId: appId,
         responseUserOnly: false,
+        onSuccess: function (result: any) {
+          message.info(result);
+        },
+        onFail: function (err: any) {
+          message.error(err);
+        },
       });
-      message.error(res.users);
     } catch (e: any) {
-      message.error(e);
+      message.error(1111);
     }
   };
   return (
