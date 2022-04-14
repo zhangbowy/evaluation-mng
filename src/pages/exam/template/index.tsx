@@ -8,39 +8,30 @@ import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
-  message.info('start');
-  dd.biz.contact.complexPicker({
-    multiple: true, //是否多选：true多选 false单选； 默认true
-    // @ts-ignore
-    corpId: corpId, //企业id
-    // @ts-ignore
-    appId: appId,
-    limitTips: '超出了',
-    maxUsers: 1000,
-    pickedUsers: [],
-    pickedDepartments: [],
-    disabledUsers: [],
-    disabledDepartments: [],
-    requiredUsers: [],
-    requiredDepartments: [],
-    permissionType: 'GLOBAL',
-    responseUserOnly: false,
-    startWithDepartmentId: 0,
-    onSuccess: function (result: any) {
-      message.info(result);
-    },
-    onFail: function (err: any) {
-      message.error(err);
-    },
-  });
+  dd.device.notification.toast({
+    type: 'success',
+    text: 'start',
+    duration: 3000,
+  })
+  
   const handleClick = async (id: number) => {
-    message.info(id);
-    // TODO选择钉钉用户
-    message.info(111);
+    dd.device.notification.toast({
+      type: 'success',
+      text: '111',
+      duration: 3000,
+    })
     try {
-      message.info(222);
+      dd.device.notification.toast({
+        type: 'success',
+        text: '222',
+        duration: 3000,
+      })
       message.info(`${appId}| ${corpId}`);
-      message.info(333);
+      dd.device.notification.toast({
+        type: 'success',
+        text: '333',
+        duration: 3000,
+      })
       dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
         // @ts-ignore
@@ -59,14 +50,26 @@ const ExamTemplate: React.FC = () => {
         responseUserOnly: false,
         startWithDepartmentId: 0,
         onSuccess: function (result: any) {
-          message.info(result);
+          dd.device.notification.toast({
+            type: 'success',
+            text: result,
+            duration: 3000,
+          })
         },
         onFail: function (err: any) {
-          message.error(err);
+          dd.device.notification.toast({
+            type: 'error',
+            text: err,
+            duration: 3000,
+          })
         },
       });
     } catch (e: any) {
-      message.error(1111);
+      dd.device.notification.toast({
+        type: 'success',
+        text: 'error',
+        duration: 3000,
+      });
     }
   };
   return (
