@@ -7,16 +7,19 @@ import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
-  const { corpId } = queryString.parse(location.search);
-  notification.info({ message: corpId });
+  const { corpId, appId } = queryString.parse(location.search);
   const handleClick = async (id: number) => {
     // TODO选择钉钉用户
     try {
-      const res = await dd.biz.contact.choose({
+      const res = await dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
+        // @ts-ignore
         corpId: corpId, //企业id
+        // @ts-ignore
+        appId: appId,
+        responseUserOnly: false,
       });
-      notification.info({ message: res });
+      notification.error({ message: res.users });
     } catch (e: any) {
       notification.error({ message: e });
     }
