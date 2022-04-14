@@ -8,24 +8,19 @@ import queryString from 'query-string';
 
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
-  dd.device.notification.toast({
-    type: 'success',
-    text: 'start',
-    duration: 3000,
-  })
-  
+
   const handleClick = async (id: number) => {
     dd.device.notification.toast({
       type: 'success',
       text: '111',
       duration: 3000,
-    })
+    });
     try {
       dd.device.notification.toast({
         type: 'success',
         text: '333',
         duration: 3000,
-      })
+      });
       const res = await dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
         limitTips: '超出了',
@@ -43,8 +38,8 @@ const ExamTemplate: React.FC = () => {
         type: 'success',
         text: '444',
         duration: 3000,
-      })
-      message.info(res)
+      });
+      message.info(res);
     } catch (e: any) {
       dd.device.notification.toast({
         type: 'success',

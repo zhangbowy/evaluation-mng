@@ -2,7 +2,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import { useParams } from 'umi';
 import { useEffect, useState } from 'react';
-import { message, Progress } from 'antd';
+import { Col, message, Progress, Row, Space, Typography } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from './report';
@@ -70,11 +70,24 @@ const ExamDetail: React.FC = () => {
     <PageContainer>
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <ProCard>
-        <Progress
-          type="circle"
-          percent={parseFloat(examUsers?.finishValue || '0')}
-          format={(percent) => `完成度${percent}%`}
-        />
+        <Typography>
+          <Row>
+            <Col span={18}>
+              <Space>
+                <Typography.Title>{examUsers?.examTitle}</Typography.Title>
+                <Typography.Text disabled>覆盖人数:{examUsers?.num}</Typography.Text>
+              </Space>
+            </Col>
+            <Col span={4}>
+              <Progress
+                type="line"
+                percent={parseFloat(examUsers?.finishValue || '0')}
+                format={(percent) => `完成度${percent}%`}
+              />
+            </Col>
+          </Row>
+          <Typography.Paragraph>{examUsers?.introduction}</Typography.Paragraph>
+        </Typography>
         <ProTable<ExamUser>
           search={false}
           columns={columns}

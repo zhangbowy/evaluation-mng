@@ -54,7 +54,13 @@ type User = {
 
 
 type UserReport = {
-
+    userId: string;
+    name: string;
+    sex: number;
+    completion: number;
+    remainingNum: number;
+    successNum: number;
+    deptAggregationDTOS: {}[];
 }
 type ExamUsers = {
     num: number;

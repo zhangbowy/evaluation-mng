@@ -5,8 +5,10 @@ import ProCard from '@ant-design/pro-card';
 import { message, Space, Switch } from 'antd';
 import { useRef } from 'react';
 import { getUserList, setAuths } from '@/services/api';
+import queryString from 'query-string';
 
 const UserList: React.FC = () => {
+  const { corpId, appId } = queryString.parse(location.search);
   const actionRef = useRef<ActionType>();
   const columns: ProColumnType<User>[] = [
     { title: 'id', dataIndex: 'userId', valueType: 'index', search: false },
@@ -64,6 +66,7 @@ const UserList: React.FC = () => {
           options={false}
           request={async (params) => {
             const res = await getUserList({
+              corpId,
               name: params.name,
               curPage: params.current,
               pageSize: params.pageSize,

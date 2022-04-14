@@ -10,29 +10,30 @@
   { path: '/exam/template', icon: 'reconciliation', name: '测评库', component: './exam/template' },
   { path: '/exam/index', icon: 'appstore', name: '测评管理', component: './exam' },
   { path: '/exam/:id', hideInMenu: true, name: '测评详情', component: './exam/detail' },
+  { path: '/report', name: '人才报告', icon: 'file', component: './user/report' },
   {
     path: '/user',
-    layout: false,
     icon: 'user',
     name: '权限管理',
     routes: [
       {
-        path: '/user',
-        routes: [
-          {
-            name: 'login',
-            path: '/user/login',
-            component: './user/login',
-          },
-          { path: '/user/login/callback', component: './user/login/callback' },
-          { path: '/user/list', name: '用户权限', component: './user/account' },
-        ],
+        path: '/user/list',
+        name: '账号管理',
+        component: './user/account',
       },
       {
         component: './404',
       },
     ],
   },
+  {
+    name: 'login',
+    path: '/user/login',
+    layout: false,
+    hideInMenu: true,
+    component: './user/login',
+  },
+  { path: '/user/login/callback', layout: false, hideInMenu: true, component: './user/login/callback' },
   {
     component: './404',
   },
