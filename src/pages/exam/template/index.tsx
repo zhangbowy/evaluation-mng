@@ -23,23 +23,12 @@ const ExamTemplate: React.FC = () => {
     try {
       dd.device.notification.toast({
         type: 'success',
-        text: '222',
-        duration: 3000,
-      })
-      message.info(`${appId}| ${corpId}`);
-      dd.device.notification.toast({
-        type: 'success',
         text: '333',
         duration: 3000,
       })
-      dd.biz.contact.complexPicker({
+      const res = await dd.biz.contact.complexPicker({
         multiple: true, //是否多选：true多选 false单选； 默认true
-        // @ts-ignore
-        corpId: corpId, //企业id
-        // @ts-ignore
-        appId: appId,
         limitTips: '超出了',
-        maxUsers: 1000,
         pickedUsers: [],
         pickedDepartments: [],
         disabledUsers: [],
@@ -49,25 +38,17 @@ const ExamTemplate: React.FC = () => {
         permissionType: 'GLOBAL',
         responseUserOnly: false,
         startWithDepartmentId: 0,
-        onSuccess: function (result: any) {
-          dd.device.notification.toast({
-            type: 'success',
-            text: result,
-            duration: 3000,
-          })
-        },
-        onFail: function (err: any) {
-          dd.device.notification.toast({
-            type: 'error',
-            text: err,
-            duration: 3000,
-          })
-        },
       });
+      dd.device.notification.toast({
+        type: 'success',
+        text: '444',
+        duration: 3000,
+      })
+      message.info(res)
     } catch (e: any) {
       dd.device.notification.toast({
         type: 'success',
-        text: 'error',
+        text: e.message,
         duration: 3000,
       });
     }
