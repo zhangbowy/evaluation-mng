@@ -53,7 +53,11 @@ type User = {
 }
 
 
+type UserReport = {
+
+}
 type ExamUsers = {
+    num: number;
     finishValue: string;
     examTitle: string;
     introduction: string;

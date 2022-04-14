@@ -12,6 +12,7 @@ const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>();
   const [examId, setExamId] = useState<number>();
+  const [examUsers, setExamUsers] = useState<ExamUsers>();
 
   const columns: ProColumnType<ExamUser>[] = [
     {
@@ -59,14 +60,27 @@ const ExamDetail: React.FC = () => {
       message.error('缺少必要参数');
       return;
     }
-    getExamUsers({ examid: id });
+    getExamUsers({ examid: id }).then((res) => {
+      if (res.code === 1) {
+        setExamUsers(res.data);
+      }
+    });
   }, [id]);
   return (
     <PageContainer>
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <ProCard>
-        <Progress type="circle" percent={75} format={(percent) => `完成度${percent}%`} />
-        {/* <ProTable<ExamUser> search={false} columns={columns} rowKey="id" dataSource={} /> */}
+        <Progress
+          type="circle"
+          percent={parseFloat(examUsers?.finishValue || '0')}
+          format={(percent) => `完成度${percent}%`}
+        />
+        <ProTable<ExamUser>
+          search={false}
+          columns={columns}
+          rowKey="id"
+          dataSource={examUsers?.examUserDOList}
+        />
       </ProCard>
     </PageContainer>
   );
