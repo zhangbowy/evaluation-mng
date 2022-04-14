@@ -17,7 +17,7 @@ export const getExamUsers = async (params: any) => {
         '/api/spf-cc/b/evaluation/management/getExamUsers', { params })
 }
 
-export const getUserList = async (params: { curPage?: number, pageSize?: number, name?: string }) => {
+export const getUserList = async (params: any) => {
     return request<Result<Page<User>>>('/api/member/auth/authPoint/list', { params })
 }
 
@@ -39,4 +39,8 @@ export const editExam = async (data: any) => {
 
 export const getJoinExamUsers = async (params: any) => {
     return request<Result<Page<UserReport>>>('/api/spf-cc/b/evaluation/report/getJoinExamUsers', { params })
+}
+
+export const getAllExam = async (params: any) => {
+    return request<Result<Exam[]>>('/api/spf-cc/b/evaluation/report/getUserAllExams', { params })
 }

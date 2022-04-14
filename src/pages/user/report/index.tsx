@@ -4,6 +4,7 @@ import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { getJoinExamUsers } from '@/services/api';
 import { Space } from 'antd';
+import { history } from 'umi';
 
 const UserReport: React.FC = () => {
   const columns: ProColumnType<UserReport>[] = [
@@ -47,7 +48,7 @@ const UserReport: React.FC = () => {
       valueType: 'option',
       render: (dom, entity) => {
         return (
-          <a>
+          <a onClick={() => history.push(`/report/user?id=${entity.userId}`)}>
             报告({entity.successNum}/{entity.remainingNum})
           </a>
         );

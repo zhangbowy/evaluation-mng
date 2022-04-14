@@ -11,6 +11,7 @@
   { path: '/exam/index', icon: 'appstore', name: '测评管理', component: './exam' },
   { path: '/exam/:id', hideInMenu: true, name: '测评详情', component: './exam/detail' },
   { path: '/report', name: '人才报告', icon: 'file', component: './user/report' },
+  { path: '/report/user', hideInMenu: true, component: './user/detail' },
   {
     path: '/user',
     icon: 'user',

@@ -99,3 +99,11 @@ type ExamTemplateListItem = {
     //题库总数
     examLibrarySum: number;
 }
+
+type Exam = {
+    examId: number;
+    examName: string;
+    date: string;
+    // 答题状态 0:未开始 1：答题中 2:答题完成 3:分析中 10:分析完成
+    answerStatus: number;
+}

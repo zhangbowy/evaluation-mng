@@ -29,7 +29,7 @@ const ExamList: React.FC = () => {
       title: '操作',
       valueType: 'option',
       render: (_dom, entity) => [
-        // <a key="edit">编辑</a>,
+        <a key="edit">编辑</a>,
         <Switch
           key="switch"
           checkedChildren="开启"

@@ -67,6 +67,7 @@ const UserList: React.FC = () => {
           request={async (params) => {
             const res = await getUserList({
               corpId,
+              appId,
               name: params.name,
               curPage: params.current,
               pageSize: params.pageSize,
