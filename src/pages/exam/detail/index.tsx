@@ -35,6 +35,7 @@ const ExamDetail: React.FC = () => {
       title: '性别',
       dataIndex: 'sex',
       valueEnum: {
+        0: '未设置',
         1: '男',
         2: '女',
       },
