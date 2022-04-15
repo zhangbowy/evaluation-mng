@@ -12,6 +12,7 @@ const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const actionRef = useRef<ActionType>();
   const [userOptions, setUserOptions] = useState<any[]>([]);
+  const [userId, setUserId] = useState<string>();
   const fetchRef = useRef(0);
   const debounceUserFetcher = useMemo(() => {
     const fetchUser = async (value: string) => {
@@ -51,7 +52,10 @@ const UserList: React.FC = () => {
         defaultActiveFirstOption: false,
         filterOption: false,
         options: userOptions,
-        onSearch: { debounceUserFetcher },
+        onSelect: (value: any) => {
+          setUserId(value.key);
+        },
+        onSearch: debounceUserFetcher,
         notFoundContent: <Empty />,
       },
     },
@@ -106,6 +110,7 @@ const UserList: React.FC = () => {
           columns={columns}
           actionRef={actionRef}
           options={false}
+          params={{ userId }}
           request={async (params) => {
             const res = await getUserList({
               corpId,
@@ -114,6 +119,7 @@ const UserList: React.FC = () => {
               name: params.name,
               curPage: params.current,
               pageSize: params.pageSize,
+              userId,
             });
             if (res.code === 1) {
               return {

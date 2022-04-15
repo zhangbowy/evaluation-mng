@@ -49,6 +49,7 @@ const ExamTemplate: React.FC = () => {
             defaultPageSize: 10,
             showSizeChanger: false,
           }}
+          className="template"
           rowKey="id"
           grid={{ gutter: 16, column: 4 }}
           request={async () => {
@@ -65,7 +66,7 @@ const ExamTemplate: React.FC = () => {
             title: {
               dataIndex: 'title',
               render: (title) => {
-                return <div className={`${style.titleHeader}`}>{title}</div>;
+                return <div className={style.titleHeader}>{title}</div>;
               },
             },
             content: {

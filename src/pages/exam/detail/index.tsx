@@ -1,4 +1,4 @@
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import { useParams } from 'umi';
 import { useEffect, useState } from 'react';
@@ -66,6 +66,9 @@ const ExamDetail: React.FC = () => {
       }
     });
   }, [id]);
+  if (!examUsers) {
+    return <PageLoading />;
+  }
   return (
     <PageContainer>
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
@@ -81,7 +84,7 @@ const ExamDetail: React.FC = () => {
             <Col span={4}>
               <Progress
                 type="line"
-                percent={parseFloat(examUsers?.finishValue || '0')}
+                percent={parseFloat(examUsers?.finishValue || '0') * 100}
                 format={(percent) => `完成度${percent}%`}
               />
             </Col>
@@ -92,7 +95,7 @@ const ExamDetail: React.FC = () => {
           search={false}
           columns={columns}
           rowKey="id"
-          dataSource={examUsers?.examUserDOList}
+          dataSource={examUsers?.userExamVos}
         />
       </ProCard>
     </PageContainer>

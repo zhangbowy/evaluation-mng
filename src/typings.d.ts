@@ -69,11 +69,16 @@ type ExamUsers = {
     finishValue: string;
     examTitle: string;
     introduction: string;
-    examUserDOList: ExamUser[];
+    userExamVos: ExamUser[];
 }
 
 type ExamUser = {
+    deptAggregationDTOS: {
+        name: string;
+    }[],
     examId: number;
+    name: string;
+    sex: number;
     userId: string;
     startTime: string;
     // 状态 0:未开始 1：答题中 2:答题完成 3:分析中 10:分析完成
