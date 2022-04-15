@@ -49,8 +49,8 @@ export const getExamResult = async (params: any) => {
     return request<Result<ExamResult>>('/api/spf-cc/b/evaluation/management/getUserExamResult', { params })
 }
 
-export const queryUser = (appId: string, fuzzyName?: string) => {
-    return request<Result<Page<User>>>('/api/member/user/aggr/fuzzy', { params: { appId, fuzzyName, curPage: 1, pageSize: 10 } })
+export const queryUser = (corpId: string, appId: string, fuzzyName?: string) => {
+    return request<Result<Page<User>>>('/api/member/user/aggr/fuzzy', { params: { corpId, appId, fuzzyName, curPage: 1, pageSize: 10 } })
 }
 
 export const getSign = (url: string) => {

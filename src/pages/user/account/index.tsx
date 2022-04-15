@@ -16,7 +16,7 @@ const UserList: React.FC = () => {
     fetchRef.current += 1;
     const fetchId = fetchRef.current;
     // @ts-ignore
-    const res = await queryUser(appId, value);
+    const res = await queryUser(corpId, appId, value);
     if (fetchId !== fetchRef.current) {
       // for fetch callback order
       return;
