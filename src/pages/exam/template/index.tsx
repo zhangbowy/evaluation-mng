@@ -10,18 +10,11 @@ const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
 
   const handleClick = async (id: number) => {
-    dd.device.notification.toast({
-      type: 'success',
-      text: '111',
-      duration: 3000,
-    });
     try {
-      dd.device.notification.toast({
-        type: 'success',
-        text: '333',
-        duration: 3000,
-      });
+console.log('111')
       const res = await dd.biz.contact.complexPicker({
+        corpId,
+        appId,
         multiple: true, //是否多选：true多选 false单选； 默认true
         limitTips: '超出了',
         pickedUsers: [],
@@ -32,15 +25,10 @@ const ExamTemplate: React.FC = () => {
         requiredDepartments: [],
         permissionType: 'GLOBAL',
         responseUserOnly: false,
-        startWithDepartmentId: 0,
       });
-      dd.device.notification.toast({
-        type: 'success',
-        text: '444',
-        duration: 3000,
-      });
-      message.info(res);
+console.log(res)
     } catch (e: any) {
+console.log(e)
       dd.device.notification.toast({
         type: 'success',
         text: e.message,
