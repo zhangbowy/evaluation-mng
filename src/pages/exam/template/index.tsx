@@ -98,7 +98,7 @@ const ExamTemplate: React.FC = () => {
                       <Button
                         onClick={() => handleClick(entity)}
                         style={{
-                          width: 284,
+                          width: '100%',
                           height: 43,
                           backgroundColor: '#E5F2FF',
                           color: '#1890FF',
