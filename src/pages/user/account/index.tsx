@@ -41,7 +41,7 @@ const UserList: React.FC = () => {
         showSearch: true,
         placeholder: '支持姓名模糊查询',
         defaultActiveFirstOption: false,
-        showArrow: true,
+        showArrow: false,
         filterOption: false,
         onSearch: async (fuzzyName) => {
           return debounce(fetchUser, 2000)(fuzzyName);
