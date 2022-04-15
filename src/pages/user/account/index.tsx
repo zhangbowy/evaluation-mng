@@ -3,7 +3,7 @@ import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProCard from '@ant-design/pro-card';
 import { Avatar, Empty, message, Space, Switch } from 'antd';
-import { useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { getUserList, queryUser, setAuths } from '@/services/api';
 import queryString from 'query-string';
 import debounce from 'lodash/debounce';
@@ -11,26 +11,33 @@ import debounce from 'lodash/debounce';
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const actionRef = useRef<ActionType>();
+  const [userOptions, setUserOptions] = useState<any[]>([]);
   const fetchRef = useRef(0);
-  const fetchUser = async (value: string) => {
-    fetchRef.current += 1;
-    const fetchId = fetchRef.current;
-    // @ts-ignore
-    const res = await queryUser(corpId, appId, value);
-    if (fetchId !== fetchRef.current) {
-      // for fetch callback order
-      return;
-    }
-    if (res.code === 1 && res.data.totalItem > 0) {
-      return res.data.resultList.map((item) => {
-        return {
-          value: item.userId,
-          label: item.name,
-        };
+  const debounceUserFetcher = useMemo(() => {
+    const fetchUser = async (value: string) => {
+      fetchRef.current += 1;
+      const fetchId = fetchRef.current;
+      setUserOptions([]);
+      // @ts-ignore
+      queryUser(corpId, appId, value).then((res) => {
+        if (fetchId !== fetchRef.current) {
+          // for fetch callback order
+          return;
+        }
+        if (res.code === 1 && res.data.totalItem > 0) {
+          setUserOptions(
+            res.data.resultList.map((item) => {
+              return {
+                value: item.userId,
+                label: item.name,
+              };
+            }),
+          );
+        }
       });
-    }
-    return [];
-  };
+    };
+    return debounce(fetchUser, 800);
+  }, [appId, corpId]);
   const columns: ProColumnType<User>[] = [
     { title: 'id', dataIndex: 'userId', valueType: 'index', search: false },
     {
@@ -38,14 +45,13 @@ const UserList: React.FC = () => {
       dataIndex: 'name',
       valueType: 'select',
       fieldProps: {
+        labelInValue: true,
         showSearch: true,
         placeholder: '支持姓名模糊查询',
         defaultActiveFirstOption: false,
-        showArrow: false,
         filterOption: false,
-        onSearch: async (fuzzyName) => {
-          return debounce(fetchUser, 2000)(fuzzyName);
-        },
+        options: userOptions,
+        onSearch: { debounceUserFetcher },
         notFoundContent: <Empty />,
       },
     },

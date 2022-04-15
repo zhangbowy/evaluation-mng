@@ -37,7 +37,7 @@ const ExamTemplate: React.FC = () => {
       });
       if (res.code === 1) {
         message.success('创建成功');
-        history.push('/exam');
+        history.push('/exam/index');
       }
     });
   };
