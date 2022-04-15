@@ -9,31 +9,22 @@ import { history } from 'umi';
 import style from './index.less';
 
 const ExamTemplate: React.FC = () => {
-  const { corpId, appId } = queryString.parse(location.search);
+  const { corpId } = queryString.parse(location.search);
   const handleClick = async (template: ExamTemplateListItem) => {
     dd.ready(async () => {
-      const pickResult = await dd.biz.contact.complexPicker({
-        corpId,
-        appId,
+      const pickResult = await dd.biz.contact.choose({
         multiple: true, //是否多选：true多选 false单选； 默认true
-        limitTips: '超出了',
-        pickedUsers: [],
-        pickedDepartments: [],
-        disabledUsers: [],
-        disabledDepartments: [],
-        requiredUsers: [],
-        requiredDepartments: [],
-        permissionType: 'GLOBAL',
-        responseUserOnly: false,
+        corpId,
       });
-      if (pickResult.selectedCount === 0) {
+      if (pickResult.length === 0) {
+        message.error('请至少选择一个人');
         return;
       }
       const res = await createExam({
         examTemplateType: template.type,
         examTemplateId: template.id,
         examTitle: template.title,
-        examUserList: pickResult?.users?.map((item) => ({ userId: item.emplId })),
+        examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
       });
       if (res.code === 1) {
         message.success('创建成功');

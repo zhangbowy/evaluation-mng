@@ -16,25 +16,17 @@ const ExamList: React.FC = () => {
   const handleEdit = async (examId: number) => {
     const res = await queryExamUserIds(examId);
     if (res.code === 1) {
-      const pickResult = await dd.biz.contact.complexPicker({
+      const pickResult = await dd.biz.contact.choose({
         multiple: true, //是否多选：true多选 false单选； 默认true
-        limitTips: '超出了',
-        pickedUsers: res.data,
-        pickedDepartments: [],
-        disabledUsers: [],
-        disabledDepartments: [],
-        requiredUsers: [],
-        requiredDepartments: [],
-        permissionType: 'GLOBAL',
-        responseUserOnly: false,
+        users: res.data,
       });
-      if (pickResult.selectedCount < 1) {
+      if (pickResult.length < 1) {
         message.error('至少选择一个用户');
         return;
       }
       const result = await updateExam({
         examId,
-        examUsers: pickResult.users?.map((item) => ({ userId: item.emplId })),
+        examUsers: pickResult.map((item: any) => ({ userId: item.emplId })),
       });
       if (result.code === 1) {
         message.success('修改成功');
