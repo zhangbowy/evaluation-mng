@@ -49,6 +49,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         location.pathname !== callbackPath
       ) {
         history.push(loginPath);
+        return;
       }
       if (!initialState?.ddConfig) {
         const res = await getSign(window.location.href.split('#')[0]);

@@ -2,16 +2,17 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
 import { Button, message } from 'antd';
-import { getExamTemplateList } from '@/services/api';
+import { createExam, getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
+import { history } from 'umi';
 
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
 
   const handleClick = async (id: number) => {
     dd.ready(async () => {
-      const res = await dd.biz.contact.complexPicker({
+      const pickResult = await dd.biz.contact.complexPicker({
         corpId,
         appId,
         multiple: true, //是否多选：true多选 false单选； 默认true
@@ -25,7 +26,17 @@ const ExamTemplate: React.FC = () => {
         permissionType: 'GLOBAL',
         responseUserOnly: false,
       });
-      console.log(res);
+      if (pickResult.selectedCount === 0) {
+        return;
+      }
+      const res = await createExam({
+        examTemplateId: id,
+        examUserList: pickResult?.users?.map((item) => item.emplId),
+      });
+      if (res.code === 1) {
+        message.success('创建成功');
+        history.push('/exam');
+      }
     });
   };
   return (
