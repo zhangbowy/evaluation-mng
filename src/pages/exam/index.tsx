@@ -7,9 +7,11 @@ import { editExam, examList, queryExamUserIds, updateExam } from '@/services/api
 import { history } from 'umi';
 import dd from 'dingtalk-jsapi';
 import { useRef } from 'react';
+import queryString from 'query-string';
 
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
+  const { corpId } = queryString.parse(location.search);
   const handleClick = (id: number) => {
     history.push('/exam/' + id);
   };
@@ -19,6 +21,7 @@ const ExamList: React.FC = () => {
       const pickResult = await dd.biz.contact.choose({
         multiple: true, //是否多选：true多选 false单选； 默认true
         users: res.data,
+        corpId,
       });
       if (pickResult.length < 1) {
         message.error('至少选择一个用户');
