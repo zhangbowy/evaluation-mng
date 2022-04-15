@@ -31,7 +31,7 @@ const ExamTemplate: React.FC = () => {
       }
       const res = await createExam({
         examTemplateId: id,
-        examUserList: pickResult?.users?.map((item) => item.emplId),
+        examUserList: pickResult?.users?.map((item) => ({ userId: item.emplId })),
       });
       if (res.code === 1) {
         message.success('创建成功');

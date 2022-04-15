@@ -25,12 +25,7 @@ const UserList: React.FC = () => {
       return res.data.resultList.map((item) => {
         return {
           value: item.userId,
-          text: (
-            <Space>
-              <Avatar src={item.avatar}>{item.name}</Avatar>
-              <span>{item.name}</span>
-            </Space>
-          ),
+          text: item.name,
         };
       });
     }
