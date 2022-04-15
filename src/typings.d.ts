@@ -100,6 +100,7 @@ type ExamTemplateListItem = {
     title: string;
     type: string;
     introduction: string;
+    introductionImage: string;
     durationType: string;
     duration: string;
     durationDesc: string;

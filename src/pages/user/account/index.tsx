@@ -129,7 +129,7 @@ const UserList: React.FC = () => {
           columns={columns}
           actionRef={actionRef}
           options={false}
-          params={{ userId, deptId }}
+          params={{ deptId }}
           request={async (params) => {
             const res = await getUserList({
               corpId,
@@ -138,7 +138,6 @@ const UserList: React.FC = () => {
               name: params.name,
               curPage: params.current,
               pageSize: params.pageSize,
-              userId,
               deptId,
             });
             if (res.code === 1) {
