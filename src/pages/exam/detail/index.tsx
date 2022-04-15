@@ -21,16 +21,23 @@ const ExamDetail: React.FC = () => {
       valueType: 'index',
     },
     {
-      dataIndex: 'username',
+      dataIndex: 'name',
       title: '姓名',
     },
     {
       title: '部门',
-      dataIndex: 'name',
+      dataIndex: 'deptAggregationDTOS',
+      render: (dom, entity) => {
+        return <Space>{entity.deptAggregationDTOS.map((item) => item.name)}</Space>;
+      },
     },
     {
       title: '性别',
       dataIndex: 'sex',
+      valueEnum: {
+        1: '男',
+        2: '女',
+      },
     },
     {
       title: '测评时间',

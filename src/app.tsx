@@ -51,7 +51,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
         return;
       }
-      if (!initialState?.ddConfig) {
+      if (
+        location.pathname !== loginPath &&
+        location.pathname !== callbackPath &&
+        !initialState?.ddConfig
+      ) {
         const res = await getSign(window.location.href.split('#')[0]);
         if (res.code === 1) {
           dd.config({
