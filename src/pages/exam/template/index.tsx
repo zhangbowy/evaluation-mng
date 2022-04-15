@@ -6,11 +6,11 @@ import { createExam, getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 import { history } from 'umi';
+import { useState } from 'react';
 
 const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
-
-  const handleClick = async (id: number) => {
+  const handleClick = async (template: ExamTemplateListItem) => {
     dd.ready(async () => {
       const pickResult = await dd.biz.contact.complexPicker({
         corpId,
@@ -30,7 +30,9 @@ const ExamTemplate: React.FC = () => {
         return;
       }
       const res = await createExam({
-        examTemplateId: id,
+        examTemplateType: template.type,
+        examTemplateId: template.id,
+        examTitle: template.title,
         examUserList: pickResult?.users?.map((item) => ({ userId: item.emplId })),
       });
       if (res.code === 1) {
@@ -80,7 +82,7 @@ const ExamTemplate: React.FC = () => {
                         <span>{entity.examLibrarySum}</span>
                       </div>
                     </div>
-                    <Button onClick={() => handleClick(entity.id)}>创建</Button>
+                    <Button onClick={() => handleClick(entity)}>创建</Button>
                   </div>
                 );
               },
