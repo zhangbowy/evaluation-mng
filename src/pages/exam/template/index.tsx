@@ -43,7 +43,7 @@ const ExamTemplate: React.FC = () => {
   };
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
+      <ProCard style={{ padding: '20px' }}>
         <ProList<ExamTemplateListItem>
           pagination={{
             defaultPageSize: 10,
