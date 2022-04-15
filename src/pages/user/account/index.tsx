@@ -60,7 +60,7 @@ const UserList: React.FC = () => {
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
         <ProTable<User>
-          rowKey="id"
+          rowKey="userId"
           columns={columns}
           actionRef={actionRef}
           options={false}
@@ -73,7 +73,7 @@ const UserList: React.FC = () => {
               curPage: params.current,
               pageSize: params.pageSize,
             });
-            if (res.code) {
+            if (res.code === 1) {
               return {
                 success: true,
                 data: res.data.resultList,
