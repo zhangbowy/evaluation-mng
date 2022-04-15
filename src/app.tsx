@@ -51,6 +51,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
         return;
       }
+      if (initialState?.user && !initialState?.user.auths.includes('admin')) {
+        history.replace('/403');
+      }
       if (
         location.pathname !== loginPath &&
         location.pathname !== callbackPath &&
