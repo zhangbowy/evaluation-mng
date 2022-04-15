@@ -11,8 +11,8 @@ import queryString from 'query-string';
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
-  const [userOptions, setUserOptions] = useState<any[]>([]);
-  const [userId, setUserId] = useState<string>();
+  // const [userOptions, setUserOptions] = useState<any[]>([]);
+  // const [userId, setUserId] = useState<string>();
   const [deptId, setDeptId] = useState<string>();
   const [deptOptions, setDeptOptions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,43 +46,43 @@ const UserReport: React.FC = () => {
     };
     return debounce(fetchDept, 500);
   }, [appId, corpId]);
-  const debounceUserFetcher = useMemo(() => {
-    const fetchUser = async (value: string) => {
-      fetchRef.current += 1;
-      const fetchId = fetchRef.current;
-      setUserOptions([]);
-      setLoading(true);
-      try {
-        // @ts-ignore
-        queryUser(corpId, appId, value).then((res) => {
-          if (fetchId !== fetchRef.current) {
-            // for fetch callback order
-            return;
-          }
-          if (res.code === 1 && res.data.totalItem > 0) {
-            setUserOptions(
-              res.data.resultList.map((item) => {
-                return {
-                  value: item.userId,
-                  label: (
-                    <Space>
-                      <Avatar size="small" src={item.avatar}>
-                        {item.name}
-                      </Avatar>
-                      {item.name}
-                    </Space>
-                  ),
-                };
-              }),
-            );
-          }
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-    return debounce(fetchUser, 500);
-  }, [appId, corpId]);
+  // const debounceUserFetcher = useMemo(() => {
+  //   const fetchUser = async (value: string) => {
+  //     fetchRef.current += 1;
+  //     const fetchId = fetchRef.current;
+  //     setUserOptions([]);
+  //     setLoading(true);
+  //     try {
+  //       // @ts-ignore
+  //       queryUser(corpId, appId, value).then((res) => {
+  //         if (fetchId !== fetchRef.current) {
+  //           // for fetch callback order
+  //           return;
+  //         }
+  //         if (res.code === 1 && res.data.totalItem > 0) {
+  //           setUserOptions(
+  //             res.data.resultList.map((item) => {
+  //               return {
+  //                 value: item.userId,
+  //                 label: (
+  //                   <Space>
+  //                     <Avatar size="small" src={item.avatar}>
+  //                       {item.name}
+  //                     </Avatar>
+  //                     {item.name}
+  //                   </Space>
+  //                 ),
+  //               };
+  //             }),
+  //           );
+  //         }
+  //       });
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   return debounce(fetchUser, 500);
+  // }, [appId, corpId]);
   const columns: ProColumnType<UserReport>[] = [
     {
       dataIndex: 'id',
@@ -93,20 +93,20 @@ const UserReport: React.FC = () => {
     {
       dataIndex: 'name',
       title: '姓名',
-      valueType: 'select',
-      fieldProps: {
-        labelInValue: true,
-        showSearch: true,
-        placeholder: '支持姓名模糊查询',
-        defaultActiveFirstOption: false,
-        filterOption: false,
-        options: userOptions,
-        onSelect: (value: any) => {
-          setUserId(value.key);
-        },
-        onSearch: debounceUserFetcher,
-        notFoundContent: loading ? <Spin size="small" /> : <Empty />,
-      },
+      // valueType: 'select',
+      // fieldProps: {
+      //   labelInValue: true,
+      //   showSearch: true,
+      //   placeholder: '支持姓名模糊查询',
+      //   defaultActiveFirstOption: false,
+      //   filterOption: false,
+      //   options: userOptions,
+      //   onSelect: (value: any) => {
+      //     setUserId(value.key);
+      //   },
+      //   onSearch: debounceUserFetcher,
+      //   notFoundContent: loading ? <Spin size="small" /> : <Empty />,
+      // },
     },
     {
       title: '部门',
