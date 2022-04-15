@@ -2,9 +2,9 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProCard from '@ant-design/pro-card';
-import { Avatar, Empty, message, Space, Switch } from 'antd';
+import { Avatar, Empty, message, Space, Spin, Switch } from 'antd';
 import { useMemo, useRef, useState } from 'react';
-import { getUserList, queryUser, setAuths } from '@/services/api';
+import { getUserList, queryUser, setAuths, queryDept } from '@/services/api';
 import queryString from 'query-string';
 import debounce from 'lodash/debounce';
 
@@ -13,34 +13,78 @@ const UserList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [userOptions, setUserOptions] = useState<any[]>([]);
   const [userId, setUserId] = useState<string>();
+  const [deptId, setDeptId] = useState<string>();
+  const [deptOptions, setDeptOptions] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const fetchRef = useRef(0);
+  const debounceDeptFetcher = useMemo(() => {
+    const fetchDept = async (value: string) => {
+      fetchRef.current += 1;
+      const fetchId = fetchRef.current;
+      setDeptOptions([]);
+      setLoading(true);
+      try {
+        queryDept({ corpId, appId, fuzzyName: value }).then((res) => {
+          if (fetchId !== fetchRef.current) {
+            // for fetch callback order
+            return;
+          }
+          if (res.code === 1 && res.data.resultList.length > 0) {
+            setDeptOptions(
+              res.data.resultList.map((item) => {
+                return {
+                  value: item.deptId,
+                  label: item.name,
+                };
+              }),
+            );
+          }
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    return debounce(fetchDept, 500);
+  }, [appId, corpId]);
   const debounceUserFetcher = useMemo(() => {
     const fetchUser = async (value: string) => {
       fetchRef.current += 1;
       const fetchId = fetchRef.current;
       setUserOptions([]);
-      // @ts-ignore
-      queryUser(corpId, appId, value).then((res) => {
-        if (fetchId !== fetchRef.current) {
-          // for fetch callback order
-          return;
-        }
-        if (res.code === 1 && res.data.totalItem > 0) {
-          setUserOptions(
-            res.data.resultList.map((item) => {
-              return {
-                value: item.userId,
-                label: item.name,
-              };
-            }),
-          );
-        }
-      });
+      setLoading(true);
+      try {
+        // @ts-ignore
+        queryUser(corpId, appId, value).then((res) => {
+          if (fetchId !== fetchRef.current) {
+            // for fetch callback order
+            return;
+          }
+          if (res.code === 1 && res.data.totalItem > 0) {
+            setUserOptions(
+              res.data.resultList.map((item) => {
+                return {
+                  value: item.userId,
+                  label: (
+                    <Space>
+                      <Avatar size="small" src={item.avatar}>
+                        {item.name}
+                      </Avatar>
+                      {item.name}
+                    </Space>
+                  ),
+                };
+              }),
+            );
+          }
+        });
+      } finally {
+        setLoading(false);
+      }
     };
-    return debounce(fetchUser, 800);
+    return debounce(fetchUser, 500);
   }, [appId, corpId]);
   const columns: ProColumnType<User>[] = [
-    { title: 'id', dataIndex: 'userId', valueType: 'index', search: false },
+    { title: 'id', dataIndex: 'userId', search: false },
     {
       title: '姓名',
       dataIndex: 'name',
@@ -56,11 +100,25 @@ const UserList: React.FC = () => {
           setUserId(value.key);
         },
         onSearch: debounceUserFetcher,
-        notFoundContent: <Empty />,
+        notFoundContent: loading ? <Spin /> : <Empty />,
       },
     },
     {
       title: '部门',
+      valueType: 'select',
+      fieldProps: {
+        labelInValue: true,
+        showSearch: true,
+        placeholder: '支持部门模糊查询',
+        defaultActiveFirstOption: false,
+        filterOption: false,
+        options: deptOptions,
+        onSelect: (value: any) => {
+          setDeptId(value.key);
+        },
+        onSearch: debounceDeptFetcher,
+        notFoundContent: loading ? <Spin /> : <Empty />,
+      },
       render: (_, record) => {
         return (
           <Space>
@@ -110,7 +168,7 @@ const UserList: React.FC = () => {
           columns={columns}
           actionRef={actionRef}
           options={false}
-          params={{ userId }}
+          params={{ userId, deptId }}
           request={async (params) => {
             const res = await getUserList({
               corpId,
@@ -120,6 +178,7 @@ const UserList: React.FC = () => {
               curPage: params.current,
               pageSize: params.pageSize,
               userId,
+              deptId,
             });
             if (res.code === 1) {
               return {

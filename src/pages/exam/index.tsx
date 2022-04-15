@@ -3,8 +3,9 @@ import ProCard from '@ant-design/pro-card';
 import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { message, Progress, Switch } from 'antd';
-import { editExam, examList } from '@/services/api';
+import { editExam, examList, queryExamUserIds, updateExam } from '@/services/api';
 import { history } from 'umi';
+import dd from 'dingtalk-jsapi';
 import { useRef } from 'react';
 
 const ExamList: React.FC = () => {
@@ -12,8 +13,36 @@ const ExamList: React.FC = () => {
   const handleClick = (id: number) => {
     history.push('/exam/' + id);
   };
+  const handleEdit = async (examId: number) => {
+    const res = await queryExamUserIds(examId);
+    if (res.code === 1) {
+      const pickResult = await dd.biz.contact.complexPicker({
+        multiple: true, //是否多选：true多选 false单选； 默认true
+        limitTips: '超出了',
+        pickedUsers: res.data,
+        pickedDepartments: [],
+        disabledUsers: [],
+        disabledDepartments: [],
+        requiredUsers: [],
+        requiredDepartments: [],
+        permissionType: 'GLOBAL',
+        responseUserOnly: false,
+      });
+      if (pickResult.selectedCount < 1) {
+        message.error('至少选择一个用户');
+        return;
+      }
+      const result = await updateExam({
+        examId,
+        examUsers: pickResult.users?.map((item) => ({ userId: item.emplId })),
+      });
+      if (result.code === 1) {
+        message.success('修改成功');
+      }
+    }
+  };
   const columns: ProColumnType<ExamListItem>[] = [
-    { title: '序号', valueType: 'index', dataIndex: 'id' },
+    { title: '序号', dataIndex: 'id' },
     { title: '测试名称', dataIndex: 'evaluationName' },
     { title: '覆盖人数', dataIndex: 'totalNumber' },
     { title: '完成人数', dataIndex: 'finishNumber' },
@@ -33,7 +62,9 @@ const ExamList: React.FC = () => {
       title: '操作',
       valueType: 'option',
       render: (_dom, entity) => [
-        <a key="edit">编辑</a>,
+        <a key="edit" onClick={() => handleEdit(entity.id)}>
+          编辑
+        </a>,
         <Switch
           key="switch"
           checkedChildren="开启"

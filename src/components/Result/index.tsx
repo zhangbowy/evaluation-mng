@@ -29,7 +29,8 @@ const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, ex
     const chart = new Chart({
       container: 'container',
       autoFit: true,
-      height: 210,
+      height: 200,
+      padding: 30,
     });
 
     chart.data(dv.rows);
@@ -111,26 +112,14 @@ const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, ex
                   <div className={styles.describe}>{result.textDesc}</div>
                 </div>
                 <div className={styles.resultRight}>
-                  <img
-                    src={result.results?.[0]?.typeIcon.replace(
-                      'https://qzz-static.forwe.store',
-                      '',
-                    )}
-                  />
+                  <img src={result.results?.[0]?.typeIcon} />
                   {result.results?.length > 1 && (
                     <img
                       className={styles.jiahao}
                       src="https://qzz-static.forwe.store/evaluation-web/imgs/pdp/jiahao%402x.png"
                     />
                   )}
-                  {result.results?.length > 1 && (
-                    <img
-                      src={result.results?.[1]?.typeIcon.replace(
-                        'https://qzz-static.forwe.store',
-                        '',
-                      )}
-                    />
-                  )}
+                  {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
                 </div>
               </div>
               {/* 雷达图 */}
