@@ -25,7 +25,7 @@ const UserList: React.FC = () => {
       return res.data.resultList.map((item) => {
         return {
           value: item.userId,
-          text: item.name,
+          label: item.name,
         };
       });
     }
@@ -44,7 +44,7 @@ const UserList: React.FC = () => {
         showArrow: true,
         filterOption: false,
         onSearch: async (fuzzyName) => {
-          return debounce(fetchUser, 500)(fuzzyName);
+          return debounce(fetchUser, 2000)(fuzzyName);
         },
         notFoundContent: <Empty />,
       },
