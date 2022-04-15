@@ -137,19 +137,13 @@ const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, ex
               <div className={styles.container}>
                 <div id="container" ref={container} />
                 <div className={styles.userInfo}>
-                  {initialState?.user?.avatar ? (
-                    <img
-                      className={styles.userImg}
-                      src={initialState?.user?.avatar.replace(
-                        'https://static-legacy.dingtalk.com',
-                        '',
-                      )}
-                    />
+                  {result.user.avatar ? (
+                    <img className={styles.userImg} src={result.user.avatar} />
                   ) : (
-                    <span className={styles.span}>{initialState?.user?.name}</span>
+                    <span className={styles.span}>{result.user.name}</span>
                   )}
                 </div>
-                <div className={styles.userName}>{initialState?.user?.name}</div>
+                <div className={styles.userName}>{result.user.name}</div>
               </div>
             </div>
           </div>

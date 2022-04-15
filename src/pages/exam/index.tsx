@@ -2,7 +2,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { message, Switch } from 'antd';
+import { message, Progress, Switch } from 'antd';
 import { editExam, examList } from '@/services/api';
 import { history } from 'umi';
 import { useRef } from 'react';
@@ -17,7 +17,11 @@ const ExamList: React.FC = () => {
     { title: '测试名称', dataIndex: 'evaluationName' },
     { title: '覆盖人数', dataIndex: 'totalNumber' },
     { title: '完成人数', dataIndex: 'finishNumber' },
-    { title: '完成率', dataIndex: 'completion', valueType: 'progress' },
+    {
+      title: '完成率',
+      dataIndex: 'completion',
+      render: (dom, entity) => <Progress percent={entity.completion * 100} />,
+    },
     { title: '创建人', dataIndex: 'createName' },
     { title: '创建时间', dataIndex: 'created', valueType: 'dateTime' },
     {

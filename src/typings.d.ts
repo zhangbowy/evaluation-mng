@@ -85,7 +85,7 @@ type ExamListItem = {
     evaluationName: string;
     totalNumber: number;
     finishNumber: number;
-    completion: string;
+    completion: number;
     created: string;
     type: boolean;
 }
@@ -125,7 +125,11 @@ type Exam = {
 }
 
 type ExamResult = {
-    userId: number;
+    user: {
+        name: string;
+        avatar: string;
+        userId: string;
+    };
     // 答题进度, questionSeqId
     progress: number;
     status: number;
