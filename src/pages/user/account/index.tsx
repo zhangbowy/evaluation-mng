@@ -135,7 +135,7 @@ const UserList: React.FC = () => {
               corpId,
               appId,
               authPoint: 'admin',
-              name: params.name,
+              fuzzyName: params.name,
               curPage: params.current,
               pageSize: params.pageSize,
               deptId,

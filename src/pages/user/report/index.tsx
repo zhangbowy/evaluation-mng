@@ -177,6 +177,7 @@ const UserReport: React.FC = () => {
             const res = await getJoinExamUsers({
               pageSize: params.pageSize,
               curPage: params.current,
+              name: params.name,
               deptId,
             });
             if (res.code === 1) {
