@@ -85,8 +85,8 @@ const UserReport: React.FC = () => {
   // }, [appId, corpId]);
   const columns: ProColumnType<UserReport>[] = [
     {
-      dataIndex: 'id',
       key: 'id',
+      valueType: 'index',
       title: '序号',
       search: false,
     },
@@ -171,12 +171,11 @@ const UserReport: React.FC = () => {
         <ProTable<UserReport>
           rowKey="id"
           columns={columns}
-          params={{ userId, deptId }}
+          params={{ deptId }}
           request={async (params) => {
             const res = await getJoinExamUsers({
               pageSize: params.pageSize,
               curPage: params.current,
-              userId,
               deptId,
             });
             if (res.code === 1) {

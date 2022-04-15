@@ -2,17 +2,15 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProCard from '@ant-design/pro-card';
-import { Avatar, Empty, message, Space, Spin, Switch } from 'antd';
+import { Empty, message, Space, Spin, Switch } from 'antd';
 import { useMemo, useRef, useState } from 'react';
-import { getUserList, queryUser, setAuths, queryDept } from '@/services/api';
+import { getUserList, setAuths, queryDept } from '@/services/api';
 import queryString from 'query-string';
 import debounce from 'lodash/debounce';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const actionRef = useRef<ActionType>();
-  const [userOptions, setUserOptions] = useState<any[]>([]);
-  const [userId, setUserId] = useState<string>();
   const [deptId, setDeptId] = useState<string>();
   const [deptOptions, setDeptOptions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,62 +44,25 @@ const UserList: React.FC = () => {
     };
     return debounce(fetchDept, 500);
   }, [appId, corpId]);
-  const debounceUserFetcher = useMemo(() => {
-    const fetchUser = async (value: string) => {
-      fetchRef.current += 1;
-      const fetchId = fetchRef.current;
-      setUserOptions([]);
-      setLoading(true);
-      try {
-        // @ts-ignore
-        queryUser(corpId, appId, value).then((res) => {
-          if (fetchId !== fetchRef.current) {
-            // for fetch callback order
-            return;
-          }
-          if (res.code === 1 && res.data.totalItem > 0) {
-            setUserOptions(
-              res.data.resultList.map((item) => {
-                return {
-                  value: item.userId,
-                  label: (
-                    <Space>
-                      <Avatar size="small" src={item.avatar}>
-                        {item.name}
-                      </Avatar>
-                      {item.name}
-                    </Space>
-                  ),
-                };
-              }),
-            );
-          }
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-    return debounce(fetchUser, 500);
-  }, [appId, corpId]);
   const columns: ProColumnType<User>[] = [
-    { title: 'id', dataIndex: 'userId', search: false },
+    { title: 'id', key: 'id', valueType: 'index', search: false },
     {
       title: '姓名',
       dataIndex: 'name',
-      valueType: 'select',
-      fieldProps: {
-        labelInValue: true,
-        showSearch: true,
-        placeholder: '支持姓名模糊查询',
-        defaultActiveFirstOption: false,
-        filterOption: false,
-        options: userOptions,
-        onSelect: (value: any) => {
-          setUserId(value.key);
-        },
-        onSearch: debounceUserFetcher,
-        notFoundContent: loading ? <Spin /> : <Empty />,
-      },
+      // valueType: 'select',
+      // fieldProps: {
+      //   labelInValue: true,
+      //   showSearch: true,
+      //   placeholder: '支持姓名模糊查询',
+      //   defaultActiveFirstOption: false,
+      //   filterOption: false,
+      //   options: userOptions,
+      //   onSelect: (value: any) => {
+      //     setUserId(value.key);
+      //   },
+      //   onSearch: debounceUserFetcher,
+      //   notFoundContent: loading ? <Spin /> : <Empty />,
+      // },
     },
     {
       title: '部门',

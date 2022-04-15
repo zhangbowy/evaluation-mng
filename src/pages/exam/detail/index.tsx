@@ -16,7 +16,7 @@ const ExamDetail: React.FC = () => {
 
   const columns: ProColumnType<ExamUser>[] = [
     {
-      dataIndex: 'id',
+      key: 'id',
       title: '序号',
       valueType: 'index',
     },

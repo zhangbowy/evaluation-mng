@@ -34,7 +34,7 @@ const ExamList: React.FC = () => {
     }
   };
   const columns: ProColumnType<ExamListItem>[] = [
-    { title: '序号', dataIndex: 'id' },
+    { title: '序号', key: 'id', valueType: 'index' },
     { title: '测试名称', dataIndex: 'evaluationName' },
     { title: '覆盖人数', dataIndex: 'totalNumber' },
     { title: '完成人数', dataIndex: 'finishNumber' },
