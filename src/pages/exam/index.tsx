@@ -23,16 +23,13 @@ const ExamList: React.FC = () => {
         users: res.data,
         corpId,
       });
-      if (pickResult.length < 1) {
-        message.error('至少选择一个用户');
-        return;
-      }
       const result = await updateExam({
         examId,
         examUsers: pickResult.map((item: any) => ({ userId: item.emplId })),
       });
       if (result.code === 1) {
         message.success('修改成功');
+        actionRef.current?.reload();
       }
     }
   };

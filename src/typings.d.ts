@@ -58,7 +58,7 @@ type UserReport = {
     name: string;
     sex: number;
     completion: number;
-    remainingNum: number;
+    totalNum: number;
     successNum: number;
     deptAggregationDTOS: {
         name: string;
