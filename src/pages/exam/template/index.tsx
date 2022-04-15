@@ -10,8 +10,7 @@ const ExamTemplate: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
 
   const handleClick = async (id: number) => {
-    try {
-console.log('111')
+    dd.ready(async () => {
       const res = await dd.biz.contact.complexPicker({
         corpId,
         appId,
@@ -26,15 +25,8 @@ console.log('111')
         permissionType: 'GLOBAL',
         responseUserOnly: false,
       });
-console.log(res)
-    } catch (e: any) {
-console.log(e)
-      dd.device.notification.toast({
-        type: 'success',
-        text: e.message,
-        duration: 3000,
-      });
-    }
+      console.log(res);
+    });
   };
   return (
     <PageContainer header={{ breadcrumb: {} }}>
