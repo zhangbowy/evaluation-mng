@@ -73,9 +73,11 @@ const UserDetail: React.FC = () => {
             </Space>
           </Row>
         </Typography>
-        <Space>
+        <Space style={{ margin: '10px 0' }}>
           {all.userTagVoList.map((item) => (
-            <Tag key={item.id}>{item.name}</Tag>
+            <Tag color="processing" key={item.id}>
+              {item.name}
+            </Tag>
           ))}
         </Space>
         <ProTable

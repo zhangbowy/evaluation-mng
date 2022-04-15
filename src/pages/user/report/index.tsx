@@ -88,7 +88,6 @@ const UserReport: React.FC = () => {
       dataIndex: 'id',
       key: 'id',
       title: '序号',
-      valueType: 'index',
       search: false,
     },
     {
@@ -175,8 +174,10 @@ const UserReport: React.FC = () => {
           params={{ userId, deptId }}
           request={async (params) => {
             const res = await getJoinExamUsers({
-              ...params,
+              pageSize: params.pageSize,
               curPage: params.current,
+              userId,
+              deptId,
             });
             if (res.code === 1) {
               return {
