@@ -1,22 +1,61 @@
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
+import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Col, Progress, Row, Space, Typography } from 'antd';
+import { Col, Progress, Row, Space, Tag, Typography } from 'antd';
 import queryString from 'query-string';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getAllExam } from '@/services/api';
+import ExamReport from '@/components/Result/report';
 
 const UserDetail: React.FC = () => {
-  const { id } = queryString.parse(location.hash);
-  useEffect(() => {}, []);
+  const { id } = queryString.parse(location.hash.split('?')[1]);
+  const [all, setAll] = useState<AllExam>();
+  const [visible, setVisible] = useState<boolean>(false);
+  const [examId, setExamId] = useState<number>();
+  useEffect(() => {
+    getAllExam({ userId: id }).then((res) => {
+      if (res.code === 1) {
+        setAll(res.data);
+      }
+    });
+  }, [id]);
+  if (!all) {
+    return <PageLoading />;
+  }
+  const columns: ProColumnType<Exam>[] = [
+    { title: '序号', dataIndex: 'examId', key: 'examId' },
+    { title: '测评名称', dataIndex: 'examName' },
+    { title: '测评时间', dataIndex: 'date', valueType: 'dateTime' },
+    {
+      title: '测评报告',
+      key: 'op',
+      valueType: 'option',
+      render: (dom, record) => [
+        <a
+          key="report"
+          onClick={() => {
+            setExamId(record.examId);
+            setVisible(true);
+          }}
+        >
+          查看报告
+        </a>,
+      ],
+    },
+  ];
   return (
-    <PageContainer header={{ title: '大熊-产品部' }}>
+    <PageContainer header={{ breadcrumb: {} }}>
+      <ExamReport userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <ProCard>
         <Typography>
           <Row>
             <Col span={18}>
               <Space>
-                <Typography.Title>{}</Typography.Title>
-                <Typography.Text disabled></Typography.Text>
+                <Typography.Title>
+                  {all.name}-{all.deptList?.[0]?.name}
+                </Typography.Title>
+                <Typography.Text disabled>性别:{all.sex === 1 ? '男' : '女'}</Typography.Text>
               </Space>
             </Col>
             <Col span={4}>
@@ -27,9 +66,25 @@ const UserDetail: React.FC = () => {
               />
             </Col>
           </Row>
-          <Typography.Paragraph>{}</Typography.Paragraph>
+          <Row>
+            <Space>
+              <Typography.Text disabled>完成测评:{all.successNum}个</Typography.Text>
+              <Typography.Text disabled>剩余测评:{all.remainingNum}个</Typography.Text>
+            </Space>
+          </Row>
         </Typography>
-        <ProTable rowKey="id" />
+        <Space>
+          {all.userTagVoList.map((item) => (
+            <Tag key={item.id}>{item.name}</Tag>
+          ))}
+        </Space>
+        <ProTable
+          search={false}
+          toolBarRender={false}
+          rowKey="examId"
+          dataSource={all.evaluationVoList}
+          columns={columns}
+        />
       </ProCard>
     </PageContainer>
   );

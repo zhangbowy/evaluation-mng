@@ -1,3 +1,4 @@
+import ReportResult from './index';
 import { Drawer } from 'antd';
 
 type ExamReportPropsType = {
@@ -6,15 +7,21 @@ type ExamReportPropsType = {
   userId: string;
   examId: number;
 };
-const ExamReport: React.FC<ExamReportPropsType> = ({ visible, onVisibleChange }) => {
+const ExamReport: React.FC<ExamReportPropsType> = ({
+  visible,
+  onVisibleChange,
+  userId,
+  examId,
+}) => {
   return (
     <Drawer
       visible={visible}
       onClose={() => onVisibleChange(false)}
       placement="right"
       title="测评报告详情"
+      width="375px"
     >
-      <p></p>
+      <ReportResult userId={userId} examId={examId} />
     </Drawer>
   );
 };

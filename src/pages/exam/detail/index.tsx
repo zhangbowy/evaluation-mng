@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Col, message, Progress, Row, Space, Typography } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import ExamReport from './report';
+import ExamReport from '../../../components/Result/report';
 import { getExamUsers } from '@/services/api';
 
 const ExamDetail: React.FC = () => {

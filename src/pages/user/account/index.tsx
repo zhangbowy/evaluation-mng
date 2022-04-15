@@ -2,17 +2,58 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProCard from '@ant-design/pro-card';
-import { message, Space, Switch } from 'antd';
+import { Avatar, Empty, message, Space, Switch } from 'antd';
 import { useRef } from 'react';
-import { getUserList, setAuths } from '@/services/api';
+import { getUserList, queryUser, setAuths } from '@/services/api';
 import queryString from 'query-string';
+import debounce from 'lodash/debounce';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
   const actionRef = useRef<ActionType>();
+  const fetchRef = useRef(0);
+  const fetchUser = async (value: string) => {
+    fetchRef.current += 1;
+    const fetchId = fetchRef.current;
+    // @ts-ignore
+    const res = await queryUser(appId, value);
+    if (fetchId !== fetchRef.current) {
+      // for fetch callback order
+      return;
+    }
+    if (res.code === 1 && res.data.totalItem > 0) {
+      return res.data.resultList.map((item) => {
+        return {
+          value: item.userId,
+          text: (
+            <Space>
+              <Avatar src={item.avatar}>{item.name}</Avatar>
+              <span>{item.name}</span>
+            </Space>
+          ),
+        };
+      });
+    }
+    return [];
+  };
   const columns: ProColumnType<User>[] = [
     { title: 'id', dataIndex: 'userId', valueType: 'index', search: false },
-    { title: '姓名', dataIndex: 'name' },
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      valueType: 'select',
+      fieldProps: {
+        showSearch: true,
+        placeholder: '支持姓名模糊查询',
+        defaultActiveFirstOption: false,
+        showArrow: true,
+        filterOption: false,
+        onSearch: async (fuzzyName) => {
+          return debounce(fetchUser, 500)(fuzzyName);
+        },
+        notFoundContent: <Empty />,
+      },
+    },
     {
       title: '部门',
       render: (_, record) => {

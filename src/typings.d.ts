@@ -60,7 +60,9 @@ type UserReport = {
     completion: number;
     remainingNum: number;
     successNum: number;
-    deptAggregationDTOS: {}[];
+    deptAggregationDTOS: {
+        name: string;
+    }[];
 }
 type ExamUsers = {
     num: number;
@@ -100,10 +102,51 @@ type ExamTemplateListItem = {
     examLibrarySum: number;
 }
 
+type AllExam = {
+    deptList: { name }[];
+    name: string;
+    sex: number;
+    successNum: number;
+    remainingNum: number;
+    userTagVoList: {
+        id: string;
+        name: string;
+        icon: string;
+    }[];
+    evaluationVoList: Exan[]
+}
+
 type Exam = {
     examId: number;
     examName: string;
     date: string;
     // 答题状态 0:未开始 1：答题中 2:答题完成 3:分析中 10:分析完成
     answerStatus: number;
+}
+
+type ExamResult = {
+    userId: number;
+    // 答题进度, questionSeqId
+    progress: number;
+    status: number;
+    polygon: string;
+    textDesc: string;
+    imageDesc: string;
+    htmlDesc: string;
+    results: {
+        type: string;
+        typeIcon: string;
+    }[];
+    tags: {
+        name: string;
+        icon: string;
+    }
+}
+
+type SignResult = {
+    agentId: string;
+    corpId: string;
+    timeStamp: string;
+    nonceStr: string;
+    signature: string;
 }

@@ -1,0 +1,208 @@
+:global(.pageResult) {
+  padding-bottom: 88px;
+  background-color: #5200db;
+  background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
+  background-size: 100% auto;
+
+  .capture {
+    position: relative;
+    padding: 10px 0;
+  }
+
+  .backImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #5200db;
+    background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
+    background-size: 100% auto;
+    z-index: -1;
+  }
+
+  // 性格结果
+  .resultBox {
+    margin: 0 15px;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #fff;
+
+    .resultLitterBox {
+      padding: 25px 20px;
+      background: rgba(255, 251, 230, 0.28);
+      border-radius: 5px;
+      border: 1px solid rgba(84, 84, 84, 0.5);
+      font-family: PingFangSC-Semibold, PingFang SC;
+    }
+
+    .contentBox {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .resultLeft {}
+
+    .text {
+      font-size: 16px;
+      font-weight: 400;
+      color: #01084d;
+      line-height: 23px;
+      opacity: 0.7;
+    }
+
+    .character {
+      margin-top: 7px;
+      line-height: 37px;
+      font-size: 26px;
+      font-weight: 700;
+      color: #01084d;
+    }
+
+    .describe {
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #000;
+      line-height: 22px;
+    }
+
+    .resultRight {
+      margin-left: 60px;
+      flex: 1;
+      text-align: center;
+
+      img {
+        width: 80px;
+        height: auto;
+      }
+
+      .jiahao {
+        width: 16px;
+        height: auto;
+        margin: 10px;
+      }
+    }
+  }
+
+  .container {
+    position: relative;
+    margin-top: 24px;
+    padding: 10px 0;
+
+    .userInfo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -21px;
+      margin-left: -21px;
+      text-align: center;
+
+      .userImg {
+        width: 42px;
+        height: 42px;
+        border: 1px solid #f51386;
+        margin: 0 auto;
+        border-radius: 21px;
+      }
+
+      .span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        text-align: center;
+        font-size: 8px;
+        font-weight: 500;
+        color: #ffffff;
+        box-sizing: border-box;
+        background: #f51386;
+        height: 42px;
+        width: 42px;
+        border-radius: 50%;
+      }
+    }
+
+    .userName {
+      position: absolute;
+      top: calc(50% + 21px);
+      width: 100%;
+      text-align: center;
+      font-size: 10px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #f51386;
+      line-height: 14px;
+      margin-top: 4px;
+      // -webkit-text-stroke: 1px #FFFFFF;
+      text-shadow: #fff 1px 0 0, #fff 0 1px 0, #fff -1px 0 0, #fff 0 -1px 0;
+    }
+  }
+
+  // 类型描述
+  .describeBox {
+    font-family: PingFangSC-Medium, PingFang SC;
+    background: #fff;
+    border-radius: 8px;
+    margin: 0 15px 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .titleBox {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      .title {
+        font-size: 18px;
+        color: rgba(13, 13, 13, 0.86);
+        line-height: 25px;
+        text-align: center;
+        border: 1px solid #474747;
+        padding: 2px 22px;
+        background-color: #fff;
+        z-index: 99;
+      }
+
+      .title1 {
+        font-size: 18px;
+        border: 1px solid #474747;
+        line-height: 25px;
+        padding: 2px 22px;
+        position: absolute;
+        margin-left: 5px;
+        margin-top: 4px;
+        color: transparent;
+      }
+    }
+
+    .content {
+      .title {
+        margin: 24px 0 12px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(34, 34, 34, 0.86);
+      }
+
+      .describe {
+        font-size: 12px;
+        font-weight: 400;
+        color: #666;
+        line-height: 20px;
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+.describeImg {
+  width: 100%;
+  height: auto;
+}

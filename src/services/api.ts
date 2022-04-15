@@ -42,5 +42,17 @@ export const getJoinExamUsers = async (params: any) => {
 }
 
 export const getAllExam = async (params: any) => {
-    return request<Result<Exam[]>>('/api/spf-cc/b/evaluation/report/getUserAllExams', { params })
+    return request<Result<AllExam>>('/api/spf-cc/b/evaluation/report/getUserAllExams', { params })
+}
+
+export const getExamResult = async (params: any) => {
+    return request<Result<ExamResult>>('/api/spf-cc/b/evaluation/management/getUserExamResult', { params })
+}
+
+export const queryUser = (appId: string, fuzzyName?: string) => {
+    return request<Result<Page<User>>>('/api/member/user/aggr/fuzzy', { params: { appId, fuzzyName, curPage: 1, pageSize: 10 } })
+}
+
+export const getSign = (url: string) => {
+    return request<Result<SignResult>>('/api/member/dt/app/token/jsapiTicketSign', { data: { url }, method: 'POST' })
 }

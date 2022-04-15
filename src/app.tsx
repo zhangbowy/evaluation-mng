@@ -5,6 +5,8 @@ import { history } from 'umi';
 import RightContent from '@/components/RightContent';
 import defaultSettings from '../config/defaultSettings';
 import { message, notification, Result } from 'antd';
+import dd from 'dingtalk-jsapi';
+import { getSign } from './services/api';
 
 const loginPath = '/user/login';
 const callbackPath = '/user/login/callback';
@@ -21,6 +23,7 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   user?: User;
   loading?: boolean;
+  ddConfig?: boolean;
 }> {
   return {
     settings: defaultSettings,
@@ -28,7 +31,7 @@ export async function getInitialState(): Promise<{
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
@@ -37,7 +40,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     footerRender: false,
     logo: 'https://qzz-static.forwe.store/fadmin/%E7%99%BD%E5%BA%95%402x.png',
-    onPageChange: () => {
+    onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
       if (
@@ -45,7 +48,25 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         location.pathname !== loginPath &&
         location.pathname !== callbackPath
       ) {
-        // history.push(loginPath);
+        history.push(loginPath);
+      }
+      if (!initialState?.ddConfig) {
+        const res = await getSign(window.location.href.split('#')[0]);
+        if (res.code === 1) {
+          dd.config({
+            agentId: res.data.agentId, // 必填，微应用ID
+            corpId: res.data.corpId, //必填，企业ID
+            timeStamp: res.data.timeStamp, // 必填，生成签名的时间戳
+            nonceStr: res.data.nonceStr, // 必填，自定义固定字符串。
+            signature: res.data.signature, // 必填，签名
+            type: 0, //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
+            jsApiList: ['biz.contact.complexPicker'], // 必填，需要使用的jsapi列表，注意：不要带dd。
+          });
+          setInitialState({
+            ...initialState,
+            ddConfig: true,
+          });
+        }
       }
     },
     menuHeaderRender: undefined,
@@ -96,8 +117,8 @@ const middleware = async (ctx: any, next: () => void) => {
 };
 
 const authHeaderInterceptor = (url: string, options: any) => {
-  // const token = window.sessionStorage.getItem('QAT');
-  const token = '9bf7bb6b815d6717ee0e455177bd0df8';
+  const token = window.sessionStorage.getItem('QAT');
+  // const token = '9bf7bb6b815d6717ee0e455177bd0df8';
   const authHeader = { QZZ_ACCESS_TOKEN: token };
   return {
     url,
