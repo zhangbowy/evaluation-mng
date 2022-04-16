@@ -42,24 +42,29 @@ const ExamDetail: React.FC = () => {
     },
     {
       title: '测评时间',
-      dataIndex: 'created',
+      dataIndex: 'startTime',
     },
     {
       title: '测评报告',
       key: 'report',
       valueType: 'option',
-      render: (dom, entity) => [
-        <a
-          key="view"
-          onClick={() => {
-            setVisible(true);
-            setUserId(entity.userId);
-            setExamId(entity.examId);
-          }}
-        >
-          查看报告
-        </a>,
-      ],
+      render: (dom, entity) => {
+        if (entity.status === 10) {
+          return (
+            <a
+              key="view"
+              onClick={() => {
+                setVisible(true);
+                setUserId(entity.userId);
+                setExamId(entity.examId);
+              }}
+            >
+              查看报告
+            </a>
+          );
+        }
+        return entity.status === 0 ? '未参加测评' : '测评中';
+      },
     },
   ];
   const { id } = useParams() as { id: string };
