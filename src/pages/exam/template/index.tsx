@@ -86,32 +86,34 @@ const ExamTemplate: React.FC = () => {
               dataIndex: 'introduction',
               render: (introduction, entity) => {
                 return (
-                  <div
-                    onClick={() => {
-                      setImg(JSON.parse(entity.introductionImage).admin);
-                      setVisible(true);
-                    }}
-                  >
-                    <div style={{ color: '#000000', opacity: '45%', fontSize: 16, margin: 20 }}>
-                      {introduction}
-                    </div>
-                    <div className={`${style.bottom}`} style={{ backgroundColor: '#ffffff' }}>
-                      <div style={{ margin: '10px 20px' }}>
-                        <div>
-                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                            作答时间：
-                          </span>
-                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                            {entity.durationDesc}
-                          </span>
-                        </div>
-                        <div>
-                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                            题目数量：
-                          </span>
-                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                            {entity.examLibrarySum}
-                          </span>
+                  <div>
+                    <div
+                      onClick={() => {
+                        setImg(JSON.parse(entity.introductionImage).admin);
+                        setVisible(true);
+                      }}
+                    >
+                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16, margin: 20 }}>
+                        {introduction}
+                      </div>
+                      <div className={`${style.bottom}`} style={{ backgroundColor: '#ffffff' }}>
+                        <div style={{ margin: '10px 20px' }}>
+                          <div>
+                            <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
+                              作答时间：
+                            </span>
+                            <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
+                              {entity.durationDesc}
+                            </span>
+                          </div>
+                          <div>
+                            <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
+                              题目数量：
+                            </span>
+                            <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
+                              {entity.examLibrarySum}
+                            </span>
+                          </div>
                         </div>
                       </div>
                       <Button
