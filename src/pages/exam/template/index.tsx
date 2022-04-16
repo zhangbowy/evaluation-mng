@@ -73,7 +73,7 @@ const ExamTemplate: React.FC = () => {
                   <div
                     className={style.titleHeader}
                     onClick={() => {
-                      setImg(entity.introductionImage);
+                      setImg(JSON.parse(entity.introductionImage).admin);
                       setVisible(true);
                     }}
                   >
@@ -88,7 +88,7 @@ const ExamTemplate: React.FC = () => {
                 return (
                   <div
                     onClick={() => {
-                      setImg(entity.introductionImage);
+                      setImg(JSON.parse(entity.introductionImage).admin);
                       setVisible(true);
                     }}
                   >
