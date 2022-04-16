@@ -29,7 +29,7 @@ const ExamTemplate: React.FC = () => {
         examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
       });
       if (res.code === 1) {
-        message.success('创建成功');
+        message.success(res.message);
         history.push('/exam/index');
       }
     });
