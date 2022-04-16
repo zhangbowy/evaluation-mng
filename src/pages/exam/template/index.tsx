@@ -116,21 +116,21 @@ const ExamTemplate: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      <Button
-                        onClick={() => handleClick(entity)}
-                        style={{
-                          width: '100%',
-                          height: 43,
-                          backgroundColor: '#E5F2FF',
-                          color: '#1890FF',
-                          borderRadius: '0px 0px 4px 4px',
-                          border: 'none',
-                          fontSize: 16,
-                        }}
-                      >
-                        创建
-                      </Button>
                     </div>
+                    <Button
+                      onClick={() => handleClick(entity)}
+                      style={{
+                        width: '100%',
+                        height: 43,
+                        backgroundColor: '#E5F2FF',
+                        color: '#1890FF',
+                        borderRadius: '0px 0px 4px 4px',
+                        border: 'none',
+                        fontSize: 16,
+                      }}
+                    >
+                      创建
+                    </Button>
                   </div>
                 );
               },
