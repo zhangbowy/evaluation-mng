@@ -47,6 +47,9 @@ const ExamTemplate: React.FC = () => {
           <div className={style.describeBox}>
             <img className={style.describeImg} src={img} />
           </div>
+          <div className={style.buttonBox}>
+            <div className={style.button}>开始测试</div>
+          </div>
         </div>
       </Drawer>
       <ProCard style={{ padding: '20px' }}>
