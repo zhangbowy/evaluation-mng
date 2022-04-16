@@ -41,7 +41,7 @@ const ExamList: React.FC = () => {
     {
       title: '完成率',
       dataIndex: 'completion',
-      render: (dom, entity) => <Progress percent={entity.completion * 100} />,
+      render: (dom, entity) => <Progress percent={entity.completion} />,
     },
     { title: '创建人', dataIndex: 'createName' },
     { title: '创建时间', dataIndex: 'created', valueType: 'dateTime' },
