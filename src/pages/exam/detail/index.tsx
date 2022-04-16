@@ -97,7 +97,7 @@ const ExamDetail: React.FC = () => {
             <Col span={4}>
               <Progress
                 type="line"
-                percent={parseFloat(examUsers?.finishValue || '0') * 100}
+                percent={parseFloat(examUsers?.finishValue || '0')}
                 format={(percent) => `完成度${percent}%`}
               />
             </Col>
