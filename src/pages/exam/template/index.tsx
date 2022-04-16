@@ -19,6 +19,9 @@ const ExamTemplate: React.FC = () => {
         multiple: true, //是否多选：true多选 false单选； 默认true
         corpId,
       });
+      if (pickResult.length < 1) {
+        return;
+      }
       const res = await createExam({
         examTemplateType: template.type,
         examTemplateId: template.id,
