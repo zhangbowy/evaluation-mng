@@ -48,7 +48,7 @@ const ExamTemplate: React.FC = () => {
             <img className={style.describeImg} src={img} />
           </div>
           <div className={style.buttonBox}>
-            <div className={style.button}>开始测试</div>
+            <div className={style.button}>创建</div>
           </div>
         </div>
       </Drawer>
