@@ -13,6 +13,7 @@ const ExamTemplate: React.FC = () => {
   const { corpId } = queryString.parse(location.search);
   const [visible, setVisible] = useState<boolean>(false);
   const [img, setImg] = useState<string>();
+  const [selected, setSelected] = useState<ExamTemplateListItem>();
   const handleClick = async (template: ExamTemplateListItem) => {
     dd.ready(async () => {
       const pickResult = await dd.biz.contact.choose({
@@ -48,7 +49,9 @@ const ExamTemplate: React.FC = () => {
             <img className={style.describeImg} src={img} />
           </div>
           <div className={style.buttonBox}>
-            <div className={style.button}>创建</div>
+            <div className={style.button} onClick={() => handleClick(selected)}>
+              创建
+            </div>
           </div>
         </div>
       </Drawer>
@@ -79,6 +82,7 @@ const ExamTemplate: React.FC = () => {
                   <div
                     className={style.titleHeader}
                     onClick={() => {
+                      setSelected(entity);
                       setImg(JSON.parse(entity.introductionImage).admin);
                       setVisible(true);
                     }}
@@ -95,6 +99,7 @@ const ExamTemplate: React.FC = () => {
                   <div>
                     <div
                       onClick={() => {
+                        setSelected(entity);
                         setImg(JSON.parse(entity.introductionImage).admin);
                         setVisible(true);
                       }}
