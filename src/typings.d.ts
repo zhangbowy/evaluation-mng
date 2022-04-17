@@ -114,12 +114,13 @@ type AllExam = {
     sex: number;
     successNum: number;
     remainingNum: number;
+    finishValue: number;
     userTagVoList: {
         id: string;
         name: string;
         icon: string;
     }[];
-    evaluationVoList: Exan[]
+    evaluationVoList: Exam[]
 }
 
 type Exam = {

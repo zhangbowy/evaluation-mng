@@ -31,17 +31,26 @@ const UserDetail: React.FC = () => {
       title: '测评报告',
       key: 'op',
       valueType: 'option',
-      render: (dom, record) => [
-        <a
-          key="report"
-          onClick={() => {
-            setExamId(record.examId);
-            setVisible(true);
-          }}
-        >
-          查看报告
-        </a>,
-      ],
+      render: (dom, record) => {
+        if (record.answerStatus === 0) {
+          return <span>未开始</span>;
+        } else if (record.answerStatus < 3) {
+          return <span>答题中</span>;
+        } else if (record.answerStatus < 10) {
+          return <span>报告生成中</span>;
+        }
+        return (
+          <a
+            key="report"
+            onClick={() => {
+              setExamId(record.examId);
+              setVisible(true);
+            }}
+          >
+            查看报告
+          </a>
+        );
+      },
     },
   ];
   return (
@@ -61,7 +70,7 @@ const UserDetail: React.FC = () => {
             <Col span={4}>
               <Progress
                 type="line"
-                percent={parseFloat('0' || '0')}
+                percent={all.finishValue}
                 format={(percent) => `完成度${percent}%`}
               />
             </Col>
