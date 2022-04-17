@@ -74,6 +74,7 @@ const UserList: React.FC = () => {
         defaultActiveFirstOption: false,
         filterOption: false,
         options: deptOptions,
+        onClear: () => setDeptId(undefined),
         onSelect: (value: any) => {
           setDeptId(value.key);
         },

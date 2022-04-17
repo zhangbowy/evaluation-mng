@@ -115,6 +115,7 @@ const UserReport: React.FC = () => {
       fieldProps: {
         labelInValue: true,
         showSearch: true,
+        onClear: () => setDeptId(undefined),
         placeholder: '支持部门模糊查询',
         defaultActiveFirstOption: false,
         filterOption: false,
