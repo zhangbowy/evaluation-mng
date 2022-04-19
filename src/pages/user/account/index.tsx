@@ -2,11 +2,13 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProCard from '@ant-design/pro-card';
-import { Empty, message, Space, Spin, Switch } from 'antd';
+import { Button, Empty, message, Space, Spin, Switch } from 'antd';
 import { useMemo, useRef, useState } from 'react';
 import { getUserList, setAuths, queryDept } from '@/services/api';
 import queryString from 'query-string';
 import debounce from 'lodash/debounce';
+import { PlusOutlined } from '@ant-design/icons';
+import dd from 'dingtalk-jsapi';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -15,6 +17,23 @@ const UserList: React.FC = () => {
   const [deptOptions, setDeptOptions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const fetchRef = useRef(0);
+  const handleClick = async () => {
+    const pickResult = await dd.biz.contact.choose({
+      multiple: true, //是否多选：true多选 false单选； 默认true
+      corpId,
+    });
+    if (pickResult.length < 1) {
+      return;
+    }
+    const res = await setAuths({
+      addAuths: ['admin'],
+      userIds: pickResult.map((item: any) => item.emplId),
+    });
+    if (res.code === 1) {
+      message.success('新建成功');
+      actionRef.current?.reload();
+    }
+  };
   const debounceDeptFetcher = useMemo(() => {
     const fetchDept = async (value: string) => {
       fetchRef.current += 1;
@@ -131,6 +150,11 @@ const UserList: React.FC = () => {
           actionRef={actionRef}
           options={false}
           params={{ deptId }}
+          toolBarRender={() => [
+            <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => handleClick}>
+              新建权限
+            </Button>,
+          ]}
           request={async (params) => {
             const res = await getUserList({
               corpId,
