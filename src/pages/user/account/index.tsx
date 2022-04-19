@@ -151,7 +151,7 @@ const UserList: React.FC = () => {
           options={false}
           params={{ deptId }}
           toolBarRender={() => [
-            <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => handleClick}>
+            <Button key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
               新建权限
             </Button>,
           ]}
