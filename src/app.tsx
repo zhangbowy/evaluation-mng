@@ -39,7 +39,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       content: initialState?.user?.name,
     },
     footerRender: false,
-    logo: 'https://qzz-static.forwe.store/fadmin/%E7%99%BD%E5%BA%95%402x.png',
+    logo: 'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png',
     onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
