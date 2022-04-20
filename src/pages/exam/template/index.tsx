@@ -105,7 +105,7 @@ const ExamTemplate: React.FC = () => {
                         setVisible(true);
                       }}
                     >
-                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16}}>
+                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16,padding:20}}>
                         {introduction}
                       </div>
                       <div style={{ backgroundColor: '#ffffff' }}>
