@@ -8,6 +8,7 @@ import { history } from 'umi';
 import dd from 'dingtalk-jsapi';
 import { useRef } from 'react';
 import queryString from 'query-string';
+import './index.less'
 
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -79,6 +80,7 @@ const ExamList: React.FC = () => {
         <ProTable<ExamListItem>
           actionRef={actionRef}
           search={false}
+          options={false}
           rowKey="id"
           columns={columns}
           request={async (params) => {
