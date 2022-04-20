@@ -9,6 +9,7 @@ import queryString from 'query-string';
 import debounce from 'lodash/debounce';
 import { PlusOutlined } from '@ant-design/icons';
 import dd from 'dingtalk-jsapi';
+import './index.less';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -64,7 +65,7 @@ const UserList: React.FC = () => {
     return debounce(fetchDept, 500);
   }, [appId, corpId]);
   const columns: ProColumnType<User>[] = [
-    { title: 'id', key: 'id', valueType: 'index', search: false },
+    { title: '序号', key: 'id', valueType: 'index', search: false },
     {
       title: '姓名',
       dataIndex: 'name',
@@ -103,9 +104,12 @@ const UserList: React.FC = () => {
       render: (_, record) => {
         return (
           <Space>
-            {record.depts?.map((item) => (
-              <span key={item.deptId}>{item.name}</span>
-            ))}
+            {record.depts?.length > 2
+              ? record.depts
+                  .slice(0, 1)
+                  .map((item) => <span key={item.deptId}>{item.name}</span>)
+                  .concat(<span>...</span>)
+              : record.depts.map((item) => <span key={item.deptId}>{item.name}</span>)}
           </Space>
         );
       },
@@ -117,6 +121,7 @@ const UserList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => [
         <Switch
+          // style={{ display:'inline-block' }}
           key="switch"
           checkedChildren="开启"
           unCheckedChildren="关闭"
@@ -145,6 +150,7 @@ const UserList: React.FC = () => {
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
         <ProTable<User>
+          search={{className:'tabTitle'}}
           rowKey="userId"
           columns={columns}
           actionRef={actionRef}

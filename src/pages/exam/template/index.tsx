@@ -6,7 +6,7 @@ import { createExam, getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 import { history } from 'umi';
-import style from './index.less';
+import styles from './index.less';
 import { useState } from 'react';
 
 const ExamTemplate: React.FC = () => {
@@ -41,112 +41,117 @@ const ExamTemplate: React.FC = () => {
         visible={visible}
         onClose={() => setVisible(false)}
         placement="right"
-        title="报告详情"
-        width="375px"
+        title="测评介绍"
+        closable={false}
+        destroyOnClose={true}
       >
         <div className="pageIntroduce">
-          <div className={style.describeBox}>
-            <img className={style.describeImg} src={img} />
+          <div className={styles.describeBox}>
+            <img className={styles.describeImg} src={img} />
           </div>
-          <div className={style.buttonBox}>
-            <div className={style.button} onClick={() => handleClick(selected)}>
+          <div className={styles.buttonBox}>
+            <div className={styles.button} onClick={() => handleClick(selected)}>
               创建
             </div>
           </div>
         </div>
       </Drawer>
-      <ProList<ExamTemplateListItem>
-        pagination={{
-          defaultPageSize: 10,
-          showSizeChanger: false,
-        }}
-        className="template"
-        rowKey="id"
-        grid={{ gutter: 16, column: 4 }}
-        request={async () => {
-          const res = await getExamTemplateList();
-          if (res.code === 1) {
-            return {
-              success: true,
-              data: res.data,
-            };
-          }
-          return { success: false };
-        }}
-        metas={{
-          title: {
-            dataIndex: 'title',
-            render: (title, entity) => {
-              return (
-                <div
-                  className={style.titleHeader}
-                  onClick={() => {
-                    setSelected(entity);
-                    setImg(JSON.parse(entity.introductionImage).admin);
-                    setVisible(true);
-                  }}
-                >
-                  {title}
-                </div>
-              );
-            },
-          },
-          content: {
-            dataIndex: 'introduction',
-            render: (introduction, entity) => {
-              return (
-                <div>
+      <ProCard style={{ backgroundColor: '#f3f3f3' }}>
+        <ProList<ExamTemplateListItem>
+          pagination={false}
+          style={{ backgroundColor: '#f3f3f3' }}
+          className="template"
+          rowKey="id"
+          grid={{ gutter: 16, column: 4 }}
+          request={async () => {
+            const res = await getExamTemplateList();
+            if (res.code === 1) {
+              return {
+                success: true,
+                data: res.data,
+              };
+            }
+            return { success: false };
+          }}
+          metas={{
+            title: {
+              dataIndex: 'title',
+              render: (title, entity) => {
+                return (
                   <div
+                    className={styles.titleHeader}
                     onClick={() => {
                       setSelected(entity);
                       setImg(JSON.parse(entity.introductionImage).admin);
                       setVisible(true);
                     }}
                   >
-                    <div style={{ color: '#000000', opacity: '45%', fontSize: 16, margin: 20 }}>
-                      {introduction}
-                    </div>
-                    <div className={`${style.bottom}`} style={{ backgroundColor: '#ffffff' }}>
-                      <div style={{ margin: '10px 20px' }}>
-                        <div>
-                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                            作答时间：
-                          </span>
-                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                            {entity.durationDesc}
-                          </span>
+                    {title}
+                  </div>
+                );
+              },
+            },
+            content: {
+              dataIndex: 'introduction',
+              render: (introduction, entity) => {
+                return (
+                  <div>
+                    <div>
+                      <div
+                        onClick={() => {
+                          setSelected(entity);
+                          setImg(JSON.parse(entity.introductionImage).admin);
+                          setVisible(true);
+                        }}
+                      >
+                        <div
+                          style={{ color: '#000000', opacity: '45%', fontSize: 16, padding: 20 }}
+                        >
+                          {introduction}
                         </div>
-                        <div>
-                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                            题目数量：
-                          </span>
-                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                            {entity.examLibrarySum}
-                          </span>
+                        <div style={{ backgroundColor: '#ffffff' }}>
+                          <div style={{ margin: '10px 20px' }}>
+                            <div>
+                              <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
+                                作答时间：
+                              </span>
+                              <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
+                                {entity.durationDesc}
+                              </span>
+                            </div>
+                            <div>
+                              <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
+                                题目数量：
+                              </span>
+                              <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
+                                {entity.examLibrarySum}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <Button
+                      onClick={() => handleClick(entity)}
+                      style={{
+                        width: '100%',
+                        height: 43,
+                        backgroundColor: '#E5F2FF',
+                        color: '#1890FF',
+                        borderRadius: '0px 0px 4px 4px',
+                        border: 'none',
+                        fontSize: 16,
+                      }}
+                    >
+                      创建
+                    </Button>
                   </div>
-                  <Button
-                    onClick={() => handleClick(entity)}
-                    style={{
-                      width: '100%',
-                      height: 43,
-                      backgroundColor: '#E5F2FF',
-                      color: '#1890FF',
-                      borderRadius: '0px 0px 4px 4px',
-                      border: 'none',
-                      fontSize: 16,
-                    }}
-                  >
-                    创建
-                  </Button>
-                </div>
-              );
+                );
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </ProCard>
     </PageContainer>
   );
 };
