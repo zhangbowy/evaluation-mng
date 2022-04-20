@@ -1,0 +1,40 @@
+@import '~antd/es/style/themes/index';
+
+:global {
+  .ant-row {
+    margin-left: -35px;
+  }
+
+  .ant-pro-table-list-toolbar-container {
+    display: none;
+  }
+
+  .ant-table-cell {
+    a {
+      float: right;
+    }
+
+    &::before {
+      display: none;
+    }
+
+    .ant-progress {
+      width: 200px;
+    }
+  }
+}
+
+// :global(.ant-table-thead){
+//     th:nth-child(6){
+//         text-align: end;
+//   }
+// }
+.ant-table-thead {
+  th:nth-child(6) {
+    text-align: end;
+  }
+}
+
+.reportBtn {
+  margin-right: 0;
+}

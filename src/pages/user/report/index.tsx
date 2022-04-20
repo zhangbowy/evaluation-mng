@@ -8,6 +8,7 @@ import { history } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
+import styles from './index.less'
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -154,6 +155,7 @@ const UserReport: React.FC = () => {
       render: (dom, entity) => {
         return (
           <a
+          className={styles.reportBtn}
             onClick={() => {
               if (entity.successNum === 0) {
                 return;

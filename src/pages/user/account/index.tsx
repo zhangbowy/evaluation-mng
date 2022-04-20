@@ -64,7 +64,7 @@ const UserList: React.FC = () => {
     return debounce(fetchDept, 500);
   }, [appId, corpId]);
   const columns: ProColumnType<User>[] = [
-    { title: 'id', key: 'id', valueType: 'index', search: false },
+    { title: '序号', key: 'id', valueType: 'index', search: false },
     {
       title: '姓名',
       dataIndex: 'name',

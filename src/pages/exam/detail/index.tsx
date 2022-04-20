@@ -7,6 +7,7 @@ import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from '../../../components/Result/report';
 import { getExamUsers } from '@/services/api';
+import styles from './index.less'
 
 const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
