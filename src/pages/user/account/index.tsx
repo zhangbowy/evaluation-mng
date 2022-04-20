@@ -103,9 +103,12 @@ const UserList: React.FC = () => {
       render: (_, record) => {
         return (
           <Space>
-            {record.depts?.map((item) => (
-              <span key={item.deptId}>{item.name}</span>
-            ))}
+            {record.depts?.length > 2
+              ? record.depts
+                  .slice(0, 1)
+                  .map((item) => <span key={item.deptId}>{item.name}</span>)
+                  .concat(<span>...</span>)
+              : record.depts.map((item) => <span key={item.deptId}>{item.name}</span>)}
           </Space>
         );
       },

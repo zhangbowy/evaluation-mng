@@ -2,13 +2,13 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { getJoinExamUsers, queryDept, queryUser } from '@/services/api';
-import { Avatar, Empty, Space, Spin } from 'antd';
+import { getJoinExamUsers, queryDept } from '@/services/api';
+import { Empty, Space, Spin } from 'antd';
 import { history } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
-import styles from './index.less'
+import styles from './index.less';
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -128,7 +128,16 @@ const UserReport: React.FC = () => {
         notFoundContent: loading ? <Spin /> : <Empty />,
       },
       render: (dom, entity) => {
-        return <Space>{entity.deptAggregationDTOS?.map((item) => item.name)}</Space>;
+        return (
+          <Space>
+            {entity.deptAggregationDTOS?.length > 2
+              ? entity.deptAggregationDTOS
+                  .slice(0, 1)
+                  .map((item) => item.name)
+                  .concat('...')
+              : entity.deptAggregationDTOS.map((item) => item.name)}
+          </Space>
+        );
       },
     },
     {
@@ -155,7 +164,7 @@ const UserReport: React.FC = () => {
       render: (dom, entity) => {
         return (
           <a
-          className={styles.reportBtn}
+            className={styles.reportBtn}
             onClick={() => {
               if (entity.successNum === 0) {
                 return;
