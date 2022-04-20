@@ -107,6 +107,7 @@ const ExamDetail: React.FC = () => {
         </Typography>
         <ProTable<ExamUser>
           search={false}
+          options={false}
           columns={columns}
           rowKey="id"
           dataSource={examUsers?.userExamVos}

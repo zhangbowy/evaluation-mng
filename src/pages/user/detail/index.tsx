@@ -65,7 +65,7 @@ const UserDetail: React.FC = () => {
                 <Typography.Title>
                   {all.name}-{all.deptList?.[0]?.name}
                 </Typography.Title>
-                <Typography.Text disabled className={styles.TypographyText}>性别:{all.sex === 1 ? '男' : '女'}</Typography.Text>
+                <Typography.Text disabled style={{ color: '#333' }}>性别:{all.sex === 1 ? '男' : '女'}</Typography.Text>
               </Space>
             </Col>
             <Col span={4}>
@@ -78,8 +78,13 @@ const UserDetail: React.FC = () => {
           </Row>
           <Row>
             <Space>
-              <Typography.Text disabled>完成测评:{all.successNum}个</Typography.Text>
-              <Typography.Text disabled>剩余测评:{all.remainingNum}个</Typography.Text>
+              <Typography.Text style={{ color: '#333' }}>性格标签：</Typography.Text>
+            </Space>
+          </Row>
+          <Row style={{ float: 'right' }}>
+            <Space>
+              <Typography.Text disabled style={{ color: '#333' }}>完成测评:{all.successNum}个</Typography.Text>
+              <Typography.Text disabled style={{ color: '#333' }}>剩余测评:{all.remainingNum}个</Typography.Text>
             </Space>
           </Row>
         </Typography>
