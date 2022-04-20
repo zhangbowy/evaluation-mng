@@ -8,7 +8,7 @@ import { history } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
-import './index.less'
+import './index.less';
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -154,6 +154,7 @@ const UserReport: React.FC = () => {
       title: '测评完成率',
       dataIndex: 'completion',
       valueType: 'progress',
+      width: 50,
       search: false,
     },
     {
@@ -164,7 +165,7 @@ const UserReport: React.FC = () => {
       render: (dom, entity) => {
         return (
           <a
-          className='reportBtn'
+            className="reportBtn"
             onClick={() => {
               if (entity.successNum === 0) {
                 return;
@@ -182,7 +183,7 @@ const UserReport: React.FC = () => {
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
         <ProTable<UserReport>
-          search={{className:'proTitle'}}
+          search={{ className: 'proTitle' }}
           rowKey="id"
           columns={columns}
           params={{ deptId }}

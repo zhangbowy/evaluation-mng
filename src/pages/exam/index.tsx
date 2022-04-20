@@ -8,7 +8,7 @@ import { history } from 'umi';
 import dd from 'dingtalk-jsapi';
 import { useRef } from 'react';
 import queryString from 'query-string';
-import './index.less'
+import './index.less';
 
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -48,6 +48,7 @@ const ExamList: React.FC = () => {
     { title: '创建时间', dataIndex: 'created', valueType: 'dateTime' },
     {
       key: 'detail',
+      title: '详情',
       render: (_dom, entity) => <a onClick={() => handleClick(entity.id)}>查看详情</a>,
     },
     {
