@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { getAllExam } from '@/services/api';
 import ExamReport from '@/components/Result/report';
-import styles from './index.less'
+import styles from './index.less';
 
 const UserDetail: React.FC = () => {
   const { id } = queryString.parse(location.hash.split('?')[1]);
@@ -65,7 +65,9 @@ const UserDetail: React.FC = () => {
                 <Typography.Title>
                   {all.name}-{all.deptList?.[0]?.name}
                 </Typography.Title>
-                <Typography.Text disabled className={styles.TypographyText}>性别:{all.sex === 1 ? '男' : '女'}</Typography.Text>
+                <Typography.Text className={styles.TypographyText}>
+                  性别:{all.sex === 1 ? '男' : '女'}
+                </Typography.Text>
               </Space>
             </Col>
             <Col span={4}>
@@ -78,8 +80,8 @@ const UserDetail: React.FC = () => {
           </Row>
           <Row>
             <Space>
-              <Typography.Text disabled>完成测评:{all.successNum}个</Typography.Text>
-              <Typography.Text disabled>剩余测评:{all.remainingNum}个</Typography.Text>
+              <Typography.Text>完成测评:{all.successNum}个</Typography.Text>
+              <Typography.Text>剩余测评:{all.remainingNum}个</Typography.Text>
             </Space>
           </Row>
         </Typography>
