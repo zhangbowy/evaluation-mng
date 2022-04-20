@@ -8,7 +8,7 @@ import { history } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
-import styles from './index.less'
+import './index.less'
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -155,7 +155,7 @@ const UserReport: React.FC = () => {
       render: (dom, entity) => {
         return (
           <a
-          className={styles.reportBtn}
+          className='reportBtn'
             onClick={() => {
               if (entity.successNum === 0) {
                 return;
@@ -173,9 +173,11 @@ const UserReport: React.FC = () => {
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
         <ProTable<UserReport>
+          search={{className:'proTitle'}}
           rowKey="id"
           columns={columns}
           params={{ deptId }}
+          options={false}
           request={async (params) => {
             const res = await getJoinExamUsers({
               pageSize: params.pageSize,

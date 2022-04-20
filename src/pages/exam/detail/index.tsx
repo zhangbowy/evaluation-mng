@@ -7,7 +7,7 @@ import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from '../../../components/Result/report';
 import { getExamUsers } from '@/services/api';
-import styles from './index.less'
+import './index.less'
 
 const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -92,7 +92,7 @@ const ExamDetail: React.FC = () => {
             <Col span={18}>
               <Space>
                 <Typography.Title>{examUsers?.examTitle}</Typography.Title>
-                <Typography.Text disabled>覆盖人数:{examUsers?.num}</Typography.Text>
+                <Typography.Text disabled style={{color:'#333333',cursor:'default',fontSize:14}}>覆盖人数:{examUsers?.num}</Typography.Text>
               </Space>
             </Col>
             <Col span={4}>

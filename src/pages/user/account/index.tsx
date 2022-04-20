@@ -9,6 +9,7 @@ import queryString from 'query-string';
 import debounce from 'lodash/debounce';
 import { PlusOutlined } from '@ant-design/icons';
 import dd from 'dingtalk-jsapi';
+import './index.less';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -117,6 +118,7 @@ const UserList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => [
         <Switch
+          // style={{ display:'inline-block' }}
           key="switch"
           checkedChildren="开启"
           unCheckedChildren="关闭"
@@ -145,6 +147,7 @@ const UserList: React.FC = () => {
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard>
         <ProTable<User>
+          search={{className:'tabTitle'}}
           rowKey="userId"
           columns={columns}
           actionRef={actionRef}

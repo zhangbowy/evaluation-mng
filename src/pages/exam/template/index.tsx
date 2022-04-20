@@ -55,7 +55,7 @@ const ExamTemplate: React.FC = () => {
           </div>
         </div>
       </Drawer>
-      <ProCard className={styles.card}>
+      <ProCard>
         <ProList<ExamTemplateListItem>
           pagination={{
             defaultPageSize: 10,
@@ -104,10 +104,10 @@ const ExamTemplate: React.FC = () => {
                         setVisible(true);
                       }}
                     >
-                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16, margin: 20 }}>
+                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16}}>
                         {introduction}
                       </div>
-                      <div className={`${styles.bottom}`} style={{ backgroundColor: '#ffffff' }}>
+                      <div style={{ backgroundColor: '#ffffff' }}>
                         <div style={{ margin: '10px 20px' }}>
                           <div>
                             <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>

@@ -128,7 +128,7 @@ const middleware = async (ctx: any, next: () => void) => {
 
 const authHeaderInterceptor = (url: string, options: any) => {
   // const token = window.sessionStorage.getItem('QAT');
-  const token = '9bf7bb6b815d6717ee0e455177bd0df8';
+  const token = 'beeacb6187c7ce40ab711ab57bee14c9';
   const authHeader = { QZZ_ACCESS_TOKEN: token };
   return {
     url,
