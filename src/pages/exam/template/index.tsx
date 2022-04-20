@@ -41,8 +41,9 @@ const ExamTemplate: React.FC = () => {
         visible={visible}
         onClose={() => setVisible(false)}
         placement="right"
-        title="报告详情"
-        width="375px"
+        title="测评介绍"
+        closable={false}
+        destroyOnClose={true}
       >
         <div className="pageIntroduce">
           <div className={styles.describeBox}>
