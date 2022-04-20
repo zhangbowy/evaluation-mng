@@ -64,7 +64,7 @@ const ExamDetail: React.FC = () => {
             </a>
           );
         }
-        return entity.status === 0 ? '未参加测评' : '测评中';
+        return entity.status === 0 ? <span style={{ color: 'f3f3f3' }}>未参加测评</span> : '测评中';
       },
     },
   ];
