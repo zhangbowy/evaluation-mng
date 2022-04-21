@@ -9,6 +9,7 @@ import queryString from 'query-string';
 import debounce from 'lodash/debounce';
 import { PlusOutlined } from '@ant-design/icons';
 import dd from 'dingtalk-jsapi';
+import './index.less';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -64,7 +65,7 @@ const UserList: React.FC = () => {
     return debounce(fetchDept, 500);
   }, [appId, corpId]);
   const columns: ProColumnType<User>[] = [
-    { title: 'id', key: 'id', valueType: 'index', search: false },
+    { title: '序号', key: 'id', valueType: 'index', search: false },
     {
       title: '姓名',
       dataIndex: 'name',
@@ -103,9 +104,12 @@ const UserList: React.FC = () => {
       render: (_, record) => {
         return (
           <Space>
-            {record.depts?.map((item) => (
-              <span key={item.deptId}>{item.name}</span>
-            ))}
+            {record.depts?.length > 2
+              ? record.depts
+                  .slice(0, 1)
+                  .map((item) => <span key={item.deptId}>{item.name}</span>)
+                  .concat(<span>...</span>)
+              : record.depts.map((item) => <span key={item.deptId}>{item.name}</span>)}
           </Space>
         );
       },
@@ -115,8 +119,9 @@ const UserList: React.FC = () => {
       key: 'op',
       search: false,
       valueType: 'option',
-      render: (_, record) => [
+      render: (_dom, record) => [
         <Switch
+          style={{ color: 'red' }}
           key="switch"
           checkedChildren="开启"
           unCheckedChildren="关闭"
@@ -143,41 +148,50 @@ const UserList: React.FC = () => {
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
-        <ProTable<User>
-          rowKey="userId"
-          columns={columns}
-          actionRef={actionRef}
-          options={false}
-          params={{ deptId }}
-          toolBarRender={() => [
-            <Button key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
-              新建权限
-            </Button>,
-          ]}
-          request={async (params) => {
-            const res = await getUserList({
-              corpId,
-              appId,
-              authPoint: 'admin',
-              fuzzyName: params.name,
-              curPage: params.current,
-              pageSize: params.pageSize,
-              deptId,
-            });
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data.resultList,
-                total: res.data.totalItem,
-              };
-            }
+      <ProCard className="heads"></ProCard>
+
+      <ProTable<User>
+        search={{ className: 'tabTitle' }}
+        rowKey="userId"
+        columns={columns}
+        actionRef={actionRef}
+        options={false}
+        params={{ deptId }}
+        toolBarRender={() => [
+          <Button
+            style={{ display: 'inline-block' }}
+            key="button"
+            icon={<PlusOutlined />}
+            type="primary"
+            onClick={handleClick}
+          >
+            新建权限
+          </Button>,
+        ]}
+        request={async (params) => {
+          const res = await getUserList({
+            corpId,
+            appId,
+            authPoint: 'admin',
+            fuzzyName: params.name,
+            curPage: params.current,
+            pageSize: params.pageSize,
+            deptId,
+          });
+          if (res.code === 1) {
             return {
-              success: false,
+              success: true,
+              data: res.data.resultList,
+              total: res.data.totalItem,
             };
-          }}
-        />
-      </ProCard>
+          }
+          return {
+            success: true,
+            data: res.data.resultList,
+            total: res.data.totalItem,
+          };
+        }}
+      />
     </PageContainer>
   );
 };

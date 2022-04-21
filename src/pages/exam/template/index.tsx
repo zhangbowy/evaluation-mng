@@ -6,7 +6,7 @@ import { createExam, getExamTemplateList } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 import { history } from 'umi';
-import style from './index.less';
+import styles from './index.less';
 import { useState } from 'react';
 
 const ExamTemplate: React.FC = () => {
@@ -41,15 +41,16 @@ const ExamTemplate: React.FC = () => {
         visible={visible}
         onClose={() => setVisible(false)}
         placement="right"
-        title="报告详情"
-        width="375px"
+        title="测评介绍"
+        closable={false}
+        destroyOnClose={true}
       >
         <div className="pageIntroduce">
-          <div className={style.describeBox}>
-            <img className={style.describeImg} src={img} />
+          <div className={styles.describeBox}>
+            <img className={styles.describeImg} src={img} />
           </div>
-          <div className={style.buttonBox}>
-            <div className={style.button} onClick={() => handleClick(selected)}>
+          <div className={styles.buttonBox}>
+            <div className={styles.button} onClick={() => handleClick(selected)}>
               创建
             </div>
           </div>
@@ -76,7 +77,7 @@ const ExamTemplate: React.FC = () => {
               render: (title, entity) => {
                 return (
                   <div
-                    className={style.titleHeader}
+                    className={styles.titleHeader}
                     onClick={() => {
                       setSelected(entity);
                       setImg(JSON.parse(entity.introductionImage).admin);
@@ -116,7 +117,7 @@ const ExamTemplate: React.FC = () => {
                       >
                         {introduction}
                       </div>
-                      <div className={`${style.bottom}`} style={{ backgroundColor: '#ffffff' }}>
+                      <div style={{ backgroundColor: '#ffffff' }}>
                         <div style={{ margin: '10px 20px' }}>
                           <div>
                             <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>

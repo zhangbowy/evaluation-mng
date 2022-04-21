@@ -8,6 +8,7 @@ import { history } from 'umi';
 import dd from 'dingtalk-jsapi';
 import { useRef } from 'react';
 import queryString from 'query-string';
+import './index.less';
 
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -47,6 +48,7 @@ const ExamList: React.FC = () => {
     { title: '创建时间', dataIndex: 'created', valueType: 'dateTime' },
     {
       key: 'detail',
+      title: '详情',
       render: (_dom, entity) => <a onClick={() => handleClick(entity.id)}>查看详情</a>,
     },
     {
@@ -54,9 +56,6 @@ const ExamList: React.FC = () => {
       title: '操作',
       valueType: 'option',
       render: (_dom, entity) => [
-        <a key="edit" onClick={() => handleEdit(entity.id)}>
-          编辑
-        </a>,
         <Switch
           key="switch"
           checkedChildren="开启"
@@ -70,30 +69,33 @@ const ExamList: React.FC = () => {
           }}
           checked={entity.type}
         />,
+        <a key="edit" onClick={() => handleEdit(entity.id)}>
+          编辑
+        </a>,
       ],
     },
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
-        <ProTable<ExamListItem>
-          actionRef={actionRef}
-          search={false}
-          rowKey="id"
-          columns={columns}
-          request={async (params) => {
-            const res = await examList({ ...params, curPage: params.current });
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data.resultList,
-                total: res.data.totalItem,
-              };
-            }
-            return { success: false };
-          }}
-        />
-      </ProCard>
+      <ProCard className="card-head"></ProCard>
+      <ProTable<ExamListItem>
+        actionRef={actionRef}
+        options={false}
+        search={false}
+        rowKey="id"
+        columns={columns}
+        request={async (params) => {
+          const res = await examList({ ...params, curPage: params.current });
+          if (res.code === 1) {
+            return {
+              success: true,
+              data: res.data.resultList,
+              total: res.data.totalItem,
+            };
+          }
+          return { success: false };
+        }}
+      />
     </PageContainer>
   );
 };

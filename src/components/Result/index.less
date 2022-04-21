@@ -1,39 +1,43 @@
 :global(.pageResult) {
   padding-bottom: 88px;
-  background-color: #5200db;
-  background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
+  // background-color: #5200db;
+  background-color: #ffffff;
+  // background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
   background-size: 100% auto;
 
   .capture {
     position: relative;
     padding: 10px 0;
+    background-color: #f3f3f3;
   }
 
   .backImg {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    z-index: -1;
     width: 100%;
-    background-color: #5200db;
+    height: 100%;
+    // background-color: #5200db;
+    background-color: #fff;
     background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
     background-size: 100% auto;
-    z-index: -1;
   }
 
   // 性格结果
   .resultBox {
-    margin: 0 15px;
-    padding: 8px;
+    // background-color: #fff;
+    background-color: #F3F3F3;
+    // margin: 0 15px;
+    // padding: 8px;
     border-radius: 10px;
-    background-color: #fff;
 
     .resultLitterBox {
       padding: 25px 20px;
+      // border: 1px solid rgba(84, 84, 84, 0.5);
+      font-family: PingFangSC-Semibold, PingFang SC;
       background: rgba(255, 251, 230, 0.28);
       border-radius: 5px;
-      border: 1px solid rgba(84, 84, 84, 0.5);
-      font-family: PingFangSC-Semibold, PingFang SC;
     }
 
     .contentBox {
@@ -41,34 +45,37 @@
       justify-content: space-between;
     }
 
-    .resultLeft {}
+    // .resultLeft {}
 
     .text {
-      font-size: 16px;
+      // color: #01084d;
+      color: #000;
       font-weight: 400;
-      color: #01084d;
+      font-size: 32px;
       line-height: 23px;
       opacity: 0.7;
     }
 
     .character {
-      margin-top: 7px;
-      line-height: 37px;
-      font-size: 26px;
+      // color: #01084d;
+      color: #010101;
       font-weight: 700;
-      color: #01084d;
+      font-size: 22px;
+      line-height: 37px;
+      padding: 6px 0 14px 0;
     }
 
     .describe {
       margin-top: 5px;
-      font-size: 12px;
+      // color: #000;
+      color: #666;
       font-weight: 400;
-      color: #000;
+      font-size: 14px;
       line-height: 22px;
     }
 
     .resultRight {
-      margin-left: 60px;
+      margin-left: 20px;
       flex: 1;
       text-align: center;
 
@@ -101,8 +108,8 @@
       .userImg {
         width: 42px;
         height: 42px;
-        border: 1px solid #f51386;
         margin: 0 auto;
+        border: 1px solid rgba(210, 210, 210, 1);
         border-radius: 21px;
       }
 
@@ -110,15 +117,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0 10px;
-        text-align: center;
-        font-size: 8px;
-        font-weight: 500;
-        color: #ffffff;
+        // color: #ffffff;
         box-sizing: border-box;
-        background: #f51386;
-        height: 42px;
         width: 42px;
+        height: 42px;
+        padding: 0 10px;
+        font-weight: 500;
+        font-size: 8px;
+        text-align: center;
+        background: #f51386;
         border-radius: 50%;
       }
     }
@@ -127,13 +134,13 @@
       position: absolute;
       top: calc(50% + 21px);
       width: 100%;
-      text-align: center;
+      margin-top: 4px;
+      color: #434343;
+      font-weight: 500;
       font-size: 10px;
       font-family: PingFangSC-Medium, PingFang SC;
-      font-weight: 500;
-      color: #f51386;
       line-height: 14px;
-      margin-top: 4px;
+      text-align: center;
       // -webkit-text-stroke: 1px #FFFFFF;
       text-shadow: #fff 1px 0 0, #fff 0 1px 0, #fff -1px 0 0, #fff 0 -1px 0;
     }
@@ -144,7 +151,7 @@
     font-family: PingFangSC-Medium, PingFang SC;
     background: #fff;
     border-radius: 8px;
-    margin: 0 15px 10px;
+    // margin: 0 15px 10px;
 
     &:last-child {
       margin-bottom: 0;
@@ -153,45 +160,45 @@
     .titleBox {
       position: relative;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
 
       .title {
-        font-size: 18px;
+        z-index: 99;
+        padding: 2px 22px;
         color: rgba(13, 13, 13, 0.86);
+        font-size: 18px;
         line-height: 25px;
         text-align: center;
-        border: 1px solid #474747;
-        padding: 2px 22px;
         background-color: #fff;
-        z-index: 99;
+        border: 1px solid #474747;
       }
 
       .title1 {
-        font-size: 18px;
-        border: 1px solid #474747;
-        line-height: 25px;
-        padding: 2px 22px;
         position: absolute;
-        margin-left: 5px;
         margin-top: 4px;
+        margin-left: 5px;
+        padding: 2px 22px;
         color: transparent;
+        font-size: 18px;
+        line-height: 25px;
+        border: 1px solid #474747;
       }
     }
 
     .content {
       .title {
         margin: 24px 0 12px 0;
-        font-size: 14px;
-        font-weight: 500;
         color: rgba(34, 34, 34, 0.86);
+        font-weight: 500;
+        font-size: 14px;
       }
 
       .describe {
-        font-size: 12px;
-        font-weight: 400;
         color: #666;
+        font-weight: 400;
+        font-size: 12px;
         line-height: 20px;
 
         p {

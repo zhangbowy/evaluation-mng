@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { getAllExam } from '@/services/api';
 import ExamReport from '@/components/Result/report';
+import './index.less';
 
 const UserDetail: React.FC = () => {
   const { id } = queryString.parse(location.hash.split('?')[1]);
@@ -41,6 +42,7 @@ const UserDetail: React.FC = () => {
         }
         return (
           <a
+            style={{ float:'right',marginRight: 20 }}
             key="report"
             onClick={() => {
               setExamId(record.examId);
@@ -58,29 +60,49 @@ const UserDetail: React.FC = () => {
       <ExamReport userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <ProCard>
         <Typography>
-          <Row>
-            <Col span={18}>
+          <div className="information">
+            {/* 名字性别 */}
+            <div>
               <Space>
                 <Typography.Title>
                   {all.name}-{all.deptList?.[0]?.name}
                 </Typography.Title>
-                <Typography.Text disabled>性别:{all.sex === 1 ? '男' : '女'}</Typography.Text>
+                <Typography.Text style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
+                  性别:{all.sex === 1 ? '男' : '女'}
+                </Typography.Text>
               </Space>
-            </Col>
-            <Col span={4}>
+            </div>
+            {/* 完成度 */}
+            <div style={{marginRight:'40px'}}>
               <Progress
+                style={{ width: '150px' }}
                 type="line"
                 percent={all.finishValue}
                 format={(percent) => `完成度${percent}%`}
               />
-            </Col>
-          </Row>
-          <Row>
-            <Space>
-              <Typography.Text disabled>完成测评:{all.successNum}个</Typography.Text>
-              <Typography.Text disabled>剩余测评:{all.remainingNum}个</Typography.Text>
-            </Space>
-          </Row>
+            </div>
+          </div>
+          <div className="information">
+            {/* 性格 */}
+            <div>
+              <Space>
+                <Typography.Text style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
+                  性格标签:
+                </Typography.Text>
+              </Space>
+            </div>
+            {/* 完成信息 */}
+            <div>
+              <Space>
+                <Typography.Text style={{ color: 'rgba(0, 0, 0, 0.65)', marginRight: 23 }}>
+                  完成测评:{all.successNum}个
+                </Typography.Text>
+                <Typography.Text style={{ color: 'rgba(0, 0, 0, 0.65)' }}>
+                  剩余测评:{all.remainingNum}个
+                </Typography.Text>
+              </Space>
+            </div>
+          </div>
         </Typography>
         <Space style={{ margin: '10px 0' }}>
           {all.userTagVoList.map((item) => (
