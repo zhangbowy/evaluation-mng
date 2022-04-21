@@ -55,12 +55,8 @@ const ExamTemplate: React.FC = () => {
           </div>
         </div>
       </Drawer>
-      <ProCard style={{ padding: '20px' }}>
         <ProList<ExamTemplateListItem>
-          pagination={{
-            defaultPageSize: 10,
-            showSizeChanger: false,
-          }}
+          pagination={false}
           className="template"
           rowKey="id"
           grid={{ gutter: 16, column: 4 }}
@@ -104,7 +100,20 @@ const ExamTemplate: React.FC = () => {
                         setVisible(true);
                       }}
                     >
-                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16, margin: 20 }}>
+                      <div
+                        style={{
+                          color: '#000000',
+                          opacity: '45%',
+                          fontSize: 16,
+                          padding: '20px 20px 0 20px',
+                          wordBreak: 'break-all',
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 4,
+                          overflow: 'hidden',
+                        }}
+                      >
                         {introduction}
                       </div>
                       <div className={`${style.bottom}`} style={{ backgroundColor: '#ffffff' }}>
@@ -148,7 +157,6 @@ const ExamTemplate: React.FC = () => {
             },
           }}
         />
-      </ProCard>
     </PageContainer>
   );
 };

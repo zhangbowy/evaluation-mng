@@ -21,21 +21,27 @@
 }
 
 
-:global(.template .context-body-text) {
-  padding: 20px;
-}
+// :global(.template .context-body-text) {
+//   padding: 20px;
+// }
 
 :global(.template .ant-pro-card-body) {
   margin: 0 !important;
   padding: 0 !important;
 }
 
+:global(.template .ant-row) {
+  background-color: #f3f3f3;
+}
+
 :global(.template .ant-pro-list-row-card) {
   margin: 0 !important;
 }
 
-.bottom {
-  box-sizing: border-box;
+:global(.ant-table-cell){
+  &::before{
+    display: none;
+  }
 }
 
 :global(.pageIntroduce) {
@@ -56,7 +62,6 @@
 }
 
 .buttonBox {
-  width: 375px;
   position: fixed;
   bottom: 0;
   padding: 8px 0;
