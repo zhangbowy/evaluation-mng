@@ -107,7 +107,7 @@ const ExamDetail: React.FC = () => {
               </Space>
             </div>
             <div className="det-right">
-              <div  style={{ marginRight: '40px' }}>
+              <div>
                 <Progress
                   className="schedule"
                   type="line"
@@ -123,7 +123,7 @@ const ExamDetail: React.FC = () => {
                   cursor: 'default',
                   fontSize: 14,
                   marginTop: 10,
-                  marginLeft:115
+                  marginLeft:160
                 }}
               >
                 覆盖人数:{examUsers?.num}

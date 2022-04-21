@@ -60,7 +60,7 @@ const UserDetail: React.FC = () => {
       <ExamReport userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <Breadcrumb  style={{marginBottom:20}}>
         <Breadcrumb.Item>人才报告</Breadcrumb.Item>
-        <Breadcrumb.Item>{all.name}-{all.deptList?.[0]?.name}</Breadcrumb.Item>
+        <Breadcrumb.Item>{all.name}</Breadcrumb.Item>
       </Breadcrumb>
       <ProCard>
         <Typography>
@@ -79,7 +79,7 @@ const UserDetail: React.FC = () => {
             {/* 完成度 */}
             <div style={{ marginRight: '40px' }}>
               <Progress
-                style={{ width: '150px' }}
+                style={{ marginRight:10 }}
                 type="line"
                 percent={all.finishValue}
                 format={(percent) => `完成度${percent}%`}
