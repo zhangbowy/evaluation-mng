@@ -121,7 +121,7 @@ const UserList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => [
         <Switch
-          style={{ color:'red' }}
+          style={{ color: 'red' }}
           key="switch"
           checkedChildren="开启"
           unCheckedChildren="关闭"
@@ -148,42 +148,40 @@ const UserList: React.FC = () => {
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
-        <ProTable<User>
-          search={{className:'tabTitle'}}
-          rowKey="userId"
-          columns={columns}
-          actionRef={actionRef}
-          options={false}
-          params={{ deptId }}
-          toolBarRender={() => [
-            <Button key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
-              新建权限
-            </Button>,
-          ]}
-          request={async (params) => {
-            const res = await getUserList({
-              corpId,
-              appId,
-              authPoint: 'admin',
-              fuzzyName: params.name,
-              curPage: params.current,
-              pageSize: params.pageSize,
-              deptId,
-            });
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data.resultList,
-                total: res.data.totalItem,
-              };
-            }
+      <ProTable<User>
+        search={{ className: 'tabTitle' }}
+        rowKey="userId"
+        columns={columns}
+        actionRef={actionRef}
+        options={false}
+        params={{ deptId }}
+        toolBarRender={() => [
+          <Button key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
+            新建权限
+          </Button>,
+        ]}
+        request={async (params) => {
+          const res = await getUserList({
+            corpId,
+            appId,
+            authPoint: 'admin',
+            fuzzyName: params.name,
+            curPage: params.current,
+            pageSize: params.pageSize,
+            deptId,
+          });
+          if (res.code === 1) {
             return {
-              success: false,
+              success: true,
+              data: res.data.resultList,
+              total: res.data.totalItem,
             };
-          }}
-        />
-      </ProCard>
+          }
+          return {
+            success: false,
+          };
+        }}
+      />
     </PageContainer>
   );
 };

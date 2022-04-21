@@ -181,33 +181,31 @@ const UserReport: React.FC = () => {
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
-        <ProTable<UserReport>
-          search={{ className: 'proTitle' }}
-          rowKey="id"
-          columns={columns}
-          params={{ deptId }}
-          options={false}
-          request={async (params) => {
-            const res = await getJoinExamUsers({
-              pageSize: params.pageSize,
-              curPage: params.current,
-              name: params.name,
-              deptId,
-            });
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data.resultList,
-                total: res.data.totalItem,
-              };
-            }
+      <ProTable<UserReport>
+        search={{ className: 'proTitle' }}
+        rowKey="id"
+        columns={columns}
+        params={{ deptId }}
+        options={false}
+        request={async (params) => {
+          const res = await getJoinExamUsers({
+            pageSize: params.pageSize,
+            curPage: params.current,
+            name: params.name,
+            deptId,
+          });
+          if (res.code === 1) {
             return {
-              success: false,
+              success: true,
+              data: res.data.resultList,
+              total: res.data.totalItem,
             };
-          }}
-        />
-      </ProCard>
+          }
+          return {
+            success: false,
+          };
+        }}
+      />
     </PageContainer>
   );
 };
