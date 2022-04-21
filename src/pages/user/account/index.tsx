@@ -143,52 +143,55 @@ const UserList: React.FC = () => {
           }}
           checked={record.auths?.includes('admin')}
         />,
-        <a>
-          编辑
-        </a>
       ],
     },
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard className='heads'></ProCard>
-      
-        <ProTable<User>
-          search={{className:'tabTitle'}}
-          rowKey="userId"
-          columns={columns}
-          actionRef={actionRef}
-          options={false}
-          params={{ deptId }}
-          toolBarRender={() => [
-            <Button style={{display:'inline-block'}} key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
-              新建权限
-            </Button>
-          ]}
-          request={async (params) => {
-            const res = await getUserList({
-              corpId,
-              appId,
-              authPoint: 'admin',
-              fuzzyName: params.name,
-              curPage: params.current,
-              pageSize: params.pageSize,
-              deptId,
-            });
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data.resultList,
-                total: res.data.totalItem,
-              };
-            }
+      <ProCard className="heads"></ProCard>
+
+      <ProTable<User>
+        search={{ className: 'tabTitle' }}
+        rowKey="userId"
+        columns={columns}
+        actionRef={actionRef}
+        options={false}
+        params={{ deptId }}
+        toolBarRender={() => [
+          <Button
+            style={{ display: 'inline-block' }}
+            key="button"
+            icon={<PlusOutlined />}
+            type="primary"
+            onClick={handleClick}
+          >
+            新建权限
+          </Button>,
+        ]}
+        request={async (params) => {
+          const res = await getUserList({
+            corpId,
+            appId,
+            authPoint: 'admin',
+            fuzzyName: params.name,
+            curPage: params.current,
+            pageSize: params.pageSize,
+            deptId,
+          });
+          if (res.code === 1) {
             return {
               success: true,
               data: res.data.resultList,
               total: res.data.totalItem,
             };
-          }}
-        />
+          }
+          return {
+            success: true,
+            data: res.data.resultList,
+            total: res.data.totalItem,
+          };
+        }}
+      />
     </PageContainer>
   );
 };
