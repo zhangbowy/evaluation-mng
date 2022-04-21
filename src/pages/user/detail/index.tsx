@@ -59,7 +59,7 @@ const UserDetail: React.FC = () => {
     <PageContainer header={{}}>
       <ExamReport userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <Breadcrumb  style={{marginBottom:20}}>
-        <Breadcrumb.Item>人才报告</Breadcrumb.Item>
+        <Breadcrumb.Item><a href='#/report'>人才报告</a></Breadcrumb.Item>
         <Breadcrumb.Item>{all.name}</Breadcrumb.Item>
       </Breadcrumb>
       <ProCard>

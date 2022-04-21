@@ -2,7 +2,7 @@ import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import { useParams } from 'umi';
 import { useEffect, useState } from 'react';
-import { Col, message, Progress, Row, Space, Typography,Breadcrumb } from 'antd';
+import { Col, message, Progress, Row, Space, Typography, Breadcrumb } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from '../../../components/Result/report';
@@ -93,8 +93,10 @@ const ExamDetail: React.FC = () => {
   return (
     <PageContainer>
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
-      <Breadcrumb style={{marginBottom:20}}>
-        <Breadcrumb.Item>测评管理</Breadcrumb.Item>
+      <Breadcrumb style={{ marginBottom: 20 }}>
+        <Breadcrumb.Item>
+          <a href='#/exam/index'>测评管理</a>
+        </Breadcrumb.Item>
         <Breadcrumb.Item>{examUsers?.examTitle}</Breadcrumb.Item>
       </Breadcrumb>
       <ProCard>
@@ -123,14 +125,16 @@ const ExamDetail: React.FC = () => {
                   cursor: 'default',
                   fontSize: 14,
                   marginTop: 10,
-                  marginLeft:160
+                  marginLeft: 160,
                 }}
               >
                 覆盖人数:{examUsers?.num}
               </Typography.Text>
             </div>
           </Row>
-          <Typography.Paragraph style={{paddingRight:'24px'}}>{examUsers?.introduction}</Typography.Paragraph>
+          <Typography.Paragraph style={{ paddingRight: '24px' }}>
+            {examUsers?.introduction}
+          </Typography.Paragraph>
         </Typography>
         <ProTable<ExamUser>
           search={false}
