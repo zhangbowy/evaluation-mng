@@ -1,10 +1,6 @@
 @import '~antd/es/style/themes/index';
 
 :global {
-  // .ant-row {
-  //   margin-left: -35px;
-  // }
-
   .ant-pro-table-list-toolbar-container {
     display: none;
   }
@@ -21,20 +17,18 @@
     .ant-progress {
       width: 200px;
     }
+    &last-child{
+      color: red;
+    }
   }
 }
 
-:global(.ant-table-thead) {
-  th:last-of-type {
-    text-align: end;
-  }
-}
-
-// .ant-table-thead {
+// :global(.ant-table-thead) {
 //   th:last-of-type {
 //     text-align: end;
 //   }
 // }
+
 
 .reportBtn {
   margin-right: 0;
@@ -50,5 +44,11 @@
       width: 200px;
     }
   }
+}
+.ant-table-container table > thead > tr:first-child th:last-child{
+  text-align: end;
+}
 
+.ant-table-tbody > tr > td:last-child{
+  text-align: end;
 }

@@ -105,9 +105,7 @@ const ExamTemplate: React.FC = () => {
                         setVisible(true);
                       }}
                     >
-                      <div style={{
-                        color: '#000000', opacity: '45%', fontSize: 16, padding: 20,overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis'
-                      }}>
+                      <div style={{ color: '#000000', opacity: '45%', fontSize: 16,padding:'20px 20px 0 20px', wordBreak:'break-all',textOverflow:'ellipsis',display:'-webkit-box',WebkitBoxOrient:'vertical',WebkitLineClamp:4,overflow:'hidden'}}>
                         {introduction}
                       </div>
                       <div style={{ backgroundColor: '#ffffff' }}>
@@ -152,7 +150,7 @@ const ExamTemplate: React.FC = () => {
           }}
         />
       </ProCard>
-    </PageContainer >
+    </PageContainer>
   );
 };
 
