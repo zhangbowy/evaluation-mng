@@ -2,7 +2,7 @@ import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Col, Progress, Row, Space, Tag, Typography } from 'antd';
+import { Col, Progress, Row, Space, Tag, Typography, Breadcrumb } from 'antd';
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { getAllExam } from '@/services/api';
@@ -25,7 +25,7 @@ const UserDetail: React.FC = () => {
     return <PageLoading />;
   }
   const columns: ProColumnType<Exam>[] = [
-    { title: '序号', dataIndex: 'examId', key: 'examId',valueType:'index' },
+    { title: '序号', dataIndex: 'examId', key: 'examId', valueType: 'index' },
     { title: '测评名称', dataIndex: 'examName' },
     { title: '测评时间', dataIndex: 'date', valueType: 'dateTime' },
     {
@@ -42,7 +42,7 @@ const UserDetail: React.FC = () => {
         }
         return (
           <a
-            style={{ float:'right',marginRight: 20 }}
+            style={{ float: 'right', marginRight: 20 }}
             key="report"
             onClick={() => {
               setExamId(record.examId);
@@ -56,8 +56,12 @@ const UserDetail: React.FC = () => {
     },
   ];
   return (
-    <PageContainer header={{ breadcrumb: {} }}>
+    <PageContainer header={{}}>
       <ExamReport userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <Breadcrumb  style={{marginBottom:20}}>
+        <Breadcrumb.Item>人才报告</Breadcrumb.Item>
+        <Breadcrumb.Item>{all.name}-{all.deptList?.[0]?.name}</Breadcrumb.Item>
+      </Breadcrumb>
       <ProCard>
         <Typography>
           <div className="information">
@@ -73,7 +77,7 @@ const UserDetail: React.FC = () => {
               </Space>
             </div>
             {/* 完成度 */}
-            <div style={{marginRight:'40px'}}>
+            <div style={{ marginRight: '40px' }}>
               <Progress
                 style={{ width: '150px' }}
                 type="line"

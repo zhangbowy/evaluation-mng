@@ -2,7 +2,7 @@ import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import { useParams } from 'umi';
 import { useEffect, useState } from 'react';
-import { Col, message, Progress, Row, Space, Typography } from 'antd';
+import { Col, message, Progress, Row, Space, Typography,Breadcrumb } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from '../../../components/Result/report';
@@ -93,6 +93,10 @@ const ExamDetail: React.FC = () => {
   return (
     <PageContainer>
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <Breadcrumb style={{marginBottom:20}}>
+        <Breadcrumb.Item>测评管理</Breadcrumb.Item>
+        <Breadcrumb.Item>{examUsers?.examTitle}</Breadcrumb.Item>
+      </Breadcrumb>
       <ProCard>
         <Typography>
           <Row className="Details">
