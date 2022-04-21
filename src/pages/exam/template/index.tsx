@@ -56,12 +56,10 @@ const ExamTemplate: React.FC = () => {
           </div>
         </div>
       </Drawer>
-      <ProCard>
+      <ProCard style={{ backgroundColor: '#f3f3f3' }}>
         <ProList<ExamTemplateListItem>
-          pagination={{
-            defaultPageSize: 10,
-            showSizeChanger: false,
-          }}
+          pagination={false}
+          style={{ backgroundColor: '#f3f3f3' }}
           className="template"
           rowKey="id"
           grid={{ gutter: 16, column: 4 }}

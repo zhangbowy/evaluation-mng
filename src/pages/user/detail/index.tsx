@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { getAllExam } from '@/services/api';
 import ExamReport from '@/components/Result/report';
-import styles from './index.less'
+import styles from './index.less';
 
 const UserDetail: React.FC = () => {
   const { id } = queryString.parse(location.hash.split('?')[1]);
@@ -60,15 +60,17 @@ const UserDetail: React.FC = () => {
       <ProCard>
         <Typography>
           <Row>
-            <Col span={18}>
+            <Col span={10}>
               <Space>
                 <Typography.Title>
                   {all.name}-{all.deptList?.[0]?.name}
                 </Typography.Title>
-                <Typography.Text disabled style={{ color: '#333' }}>性别:{all.sex === 1 ? '男' : '女'}</Typography.Text>
+                <Typography.Text className={styles.TypographyText}>
+                  性别:{all.sex === 1 ? '男' : '女'}
+                </Typography.Text>
               </Space>
             </Col>
-            <Col span={4}>
+            <Col span={4} offset={8}>
               <Progress
                 type="line"
                 percent={all.finishValue}
@@ -76,16 +78,18 @@ const UserDetail: React.FC = () => {
               />
             </Col>
           </Row>
-          <Row>
-            <Space>
-              <Typography.Text style={{ color: '#333' }}>性格标签：</Typography.Text>
-            </Space>
-          </Row>
-          <Row style={{ float: 'right' }}>
-            <Space>
-              <Typography.Text disabled style={{ color: '#333' }}>完成测评:{all.successNum}个</Typography.Text>
-              <Typography.Text disabled style={{ color: '#333' }}>剩余测评:{all.remainingNum}个</Typography.Text>
-            </Space>
+          <Row justify="space-between">
+            <Col span={4}>
+              <Space>
+                <Typography.Text>性格标签:</Typography.Text>
+              </Space>
+            </Col>
+            <Col span={4}>
+              <Space>
+                <Typography.Text>完成测评:{all.successNum}个</Typography.Text>
+                <Typography.Text>剩余测评:{all.remainingNum}个</Typography.Text>
+              </Space>
+            </Col>
           </Row>
         </Typography>
         <Space style={{ margin: '10px 0' }}>
