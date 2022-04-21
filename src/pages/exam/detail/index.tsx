@@ -54,6 +54,7 @@ const ExamDetail: React.FC = () => {
           return (
             <a
               key="view"
+              style={{marginRight:20}}
               onClick={() => {
                 setVisible(true);
                 setUserId(entity.userId);
@@ -64,7 +65,7 @@ const ExamDetail: React.FC = () => {
             </a>
           );
         }
-        return entity.status === 0 ? <span style={{ color: 'f3f3f3' }}>未参加测评</span> : '测评中';
+        return entity.status === 0 ? <span style={{ color: 'rgba(0, 0, 0, 0.45)',marginRight:10 }}>未参加测评</span> : '测评中';
       },
     },
   ];

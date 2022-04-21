@@ -119,7 +119,7 @@ const UserList: React.FC = () => {
       key: 'op',
       search: false,
       valueType: 'option',
-      render: (_, record) => [
+      render: (_dom, record) => [
         <Switch
           style={{ color:'red' }}
           key="switch"
@@ -143,12 +143,16 @@ const UserList: React.FC = () => {
           }}
           checked={record.auths?.includes('admin')}
         />,
+        <a>
+          编辑
+        </a>
       ],
     },
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
+      <ProCard className='heads'></ProCard>
+      
         <ProTable<User>
           search={{className:'tabTitle'}}
           rowKey="userId"
@@ -157,9 +161,9 @@ const UserList: React.FC = () => {
           options={false}
           params={{ deptId }}
           toolBarRender={() => [
-            <Button key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
+            <Button style={{display:'inline-block'}} key="button" icon={<PlusOutlined />} type="primary" onClick={handleClick}>
               新建权限
-            </Button>,
+            </Button>
           ]}
           request={async (params) => {
             const res = await getUserList({
@@ -183,7 +187,6 @@ const UserList: React.FC = () => {
             };
           }}
         />
-      </ProCard>
     </PageContainer>
   );
 };

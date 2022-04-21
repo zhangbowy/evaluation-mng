@@ -181,7 +181,7 @@ const UserReport: React.FC = () => {
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
+      <ProCard className='head'></ProCard>
         <ProTable<UserReport>
           search={{ className: 'proTitle' }}
           rowKey="id"
@@ -207,7 +207,6 @@ const UserReport: React.FC = () => {
             };
           }}
         />
-      </ProCard>
     </PageContainer>
   );
 };

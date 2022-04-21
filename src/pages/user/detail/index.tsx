@@ -42,6 +42,7 @@ const UserDetail: React.FC = () => {
         }
         return (
           <a
+          style={{marginRight:20}}
             key="report"
             onClick={() => {
               setExamId(record.examId);

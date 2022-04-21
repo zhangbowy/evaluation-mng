@@ -56,9 +56,6 @@ const ExamList: React.FC = () => {
       title: '操作',
       valueType: 'option',
       render: (_dom, entity) => [
-        <a key="edit" onClick={() => handleEdit(entity.id)}>
-          编辑
-        </a>,
         <Switch
           key="switch"
           checkedChildren="开启"
@@ -72,15 +69,17 @@ const ExamList: React.FC = () => {
           }}
           checked={entity.type}
         />,
+        <a key="edit" onClick={() => handleEdit(entity.id)}>
+          编辑
+        </a>
       ],
     },
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProCard>
+      <ProCard className='card-head'></ProCard>
         <ProTable<ExamListItem>
           actionRef={actionRef}
-          search={false}
           options={false}
           rowKey="id"
           columns={columns}
@@ -95,8 +94,7 @@ const ExamList: React.FC = () => {
             }
             return { success: false };
           }}
-        />
-      </ProCard>
+        /> 
     </PageContainer>
   );
 };

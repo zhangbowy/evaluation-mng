@@ -48,7 +48,7 @@ const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, ex
       grid: {
         line: {
           style: {
-            stroke: 'rgb(245,19,134,0.2)', // 雷达线的颜色
+            stroke: 'rgba(207, 207, 207, 1)', // 雷达线的颜色
             lineDash: null,
           },
         },
@@ -67,7 +67,7 @@ const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, ex
         line: {
           type: 'circle',
           style: {
-            stroke: 'rgb(245,19,134,0.2)', // 网格线的颜色
+            stroke: 'rgba(210, 210, 210, 1)', // 网格线的颜色
             lineDash: null,
           },
         },
@@ -75,8 +75,8 @@ const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, ex
     });
 
     chart.area().position('item*score').style({
-      fill: 'rgb(245,19,134)', //区域填充颜色
-      fillOpacity: '0.3', //区域填充颜色透明度
+      fill: '#DFDFDF', //区域填充颜色
+      fillOpacity: '0.5', //区域填充颜色透明度
     });
     chart.tooltip(false);
     chart.render();
