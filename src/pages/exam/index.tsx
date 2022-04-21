@@ -77,24 +77,24 @@ const ExamList: React.FC = () => {
   ];
   return (
     <PageContainer header={{ breadcrumb: {} }}>
-      <ProTable<ExamListItem>
-        actionRef={actionRef}
-        search={false}
-        options={false}
-        rowKey="id"
-        columns={columns}
-        request={async (params) => {
-          const res = await examList({ ...params, curPage: params.current });
-          if (res.code === 1) {
-            return {
-              success: true,
-              data: res.data.resultList,
-              total: res.data.totalItem,
-            };
-          }
-          return { success: false };
-        }}
-      />
+      <ProCard className='card-head'></ProCard>
+        <ProTable<ExamListItem>
+          actionRef={actionRef}
+          options={false}
+          rowKey="id"
+          columns={columns}
+          request={async (params) => {
+            const res = await examList({ ...params, curPage: params.current });
+            if (res.code === 1) {
+              return {
+                success: true,
+                data: res.data.resultList,
+                total: res.data.totalItem,
+              };
+            }
+            return { success: false };
+          }}
+        /> 
     </PageContainer>
   );
 };

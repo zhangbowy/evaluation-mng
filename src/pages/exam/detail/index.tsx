@@ -54,7 +54,7 @@ const ExamDetail: React.FC = () => {
           return (
             <a
               key="view"
-              style={{marginRight:20}}
+              style={{ float: 'right', marginRight: 20 }}
               onClick={() => {
                 setVisible(true);
                 setUserId(entity.userId);
@@ -65,7 +65,13 @@ const ExamDetail: React.FC = () => {
             </a>
           );
         }
-        return entity.status === 0 ? <span style={{ color: 'rgba(0, 0, 0, 0.45)',marginRight:10 }}>未参加测评</span> : '测评中';
+        return entity.status === 0 ? (
+          <span style={{ color: 'rgba(0, 0, 0, 0.45)', marginRight: 10, float: 'right' }}>
+            未参加测评
+          </span>
+        ) : (
+          '测评中'
+        );
       },
     },
   ];
@@ -89,19 +95,23 @@ const ExamDetail: React.FC = () => {
       <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <ProCard>
         <Typography>
-          <Row>
-            <Col span={18}>
+          <Row className="Details">
+            <div>
               <Space>
                 <Typography.Title>{examUsers?.examTitle}</Typography.Title>
                 {/* <Typography.Text disabled style={{color:'#333333',cursor:'default',fontSize:14,textAlign:'end'}}>覆盖人数:{examUsers?.num}</Typography.Text> */}
               </Space>
-            </Col>
-            <Col span={4}>
-              <Progress
-                type="line"
-                percent={parseFloat(examUsers?.finishValue || '0')}
-                format={(percent) => `完成度${percent}%`}
-              />
+            </div>
+            <div className="det-right">
+              <div  style={{ marginRight: '40px' }}>
+                <Progress
+                  className="schedule"
+                  type="line"
+                  percent={parseFloat(examUsers?.finishValue || '0')}
+                  format={(percent) => `完成度${percent}%`}
+                />
+              </div>
+
               <Typography.Text
                 disabled
                 style={{
@@ -109,12 +119,11 @@ const ExamDetail: React.FC = () => {
                   cursor: 'default',
                   fontSize: 14,
                   marginTop: 10,
-                  float: 'right',
                 }}
               >
                 覆盖人数:{examUsers?.num}
               </Typography.Text>
-            </Col>
+            </div>
           </Row>
           <Typography.Paragraph>{examUsers?.introduction}</Typography.Paragraph>
         </Typography>

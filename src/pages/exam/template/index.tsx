@@ -56,10 +56,10 @@ const ExamTemplate: React.FC = () => {
           </div>
         </div>
       </Drawer>
-      <ProCard style={{ backgroundColor: '#f3f3f3' }}>
+      <ProCard className={styles.distance}>
         <ProList<ExamTemplateListItem>
           pagination={false}
-          style={{ backgroundColor: '#f3f3f3' }}
+          // style={{ backgroundColor: '#f3f3f3' }}
           className="template"
           rowKey="id"
           grid={{ gutter: 16, column: 4 }}
