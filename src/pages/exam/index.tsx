@@ -82,6 +82,7 @@ const ExamList: React.FC = () => {
         actionRef={actionRef}
         options={false}
         rowKey="id"
+        search={false}
         columns={columns}
         request={async (params) => {
           const res = await examList({ ...params, curPage: params.current });
