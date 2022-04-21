@@ -119,13 +119,14 @@ const ExamDetail: React.FC = () => {
                   cursor: 'default',
                   fontSize: 14,
                   marginTop: 10,
+                  marginLeft:115
                 }}
               >
                 覆盖人数:{examUsers?.num}
               </Typography.Text>
             </div>
           </Row>
-          <Typography.Paragraph>{examUsers?.introduction}</Typography.Paragraph>
+          <Typography.Paragraph style={{paddingRight:'24px'}}>{examUsers?.introduction}</Typography.Paragraph>
         </Typography>
         <ProTable<ExamUser>
           search={false}

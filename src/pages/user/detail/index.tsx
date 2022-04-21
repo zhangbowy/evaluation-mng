@@ -25,7 +25,7 @@ const UserDetail: React.FC = () => {
     return <PageLoading />;
   }
   const columns: ProColumnType<Exam>[] = [
-    { title: '序号', dataIndex: 'examId', key: 'examId' },
+    { title: '序号', dataIndex: 'examId', key: 'examId',valueType:'index' },
     { title: '测评名称', dataIndex: 'examName' },
     { title: '测评时间', dataIndex: 'date', valueType: 'dateTime' },
     {

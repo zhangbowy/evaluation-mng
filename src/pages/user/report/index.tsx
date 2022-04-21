@@ -154,7 +154,6 @@ const UserReport: React.FC = () => {
       title: '测评完成率',
       dataIndex: 'completion',
       valueType: 'progress',
-      width: 50,
       search: false,
     },
     {

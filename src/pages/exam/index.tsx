@@ -81,7 +81,6 @@ const ExamList: React.FC = () => {
       <ProTable<ExamListItem>
         actionRef={actionRef}
         options={false}
-        search={false}
         rowKey="id"
         columns={columns}
         request={async (params) => {
