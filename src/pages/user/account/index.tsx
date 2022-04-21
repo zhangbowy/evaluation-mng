@@ -121,7 +121,7 @@ const UserList: React.FC = () => {
       valueType: 'option',
       render: (_dom, record) => [
         <Switch
-          style={{ color:'red' }}
+          style={{ color: 'red' }}
           key="switch"
           checkedChildren="开启"
           unCheckedChildren="关闭"
@@ -183,7 +183,9 @@ const UserList: React.FC = () => {
               };
             }
             return {
-              success: false,
+              success: true,
+              data: res.data.resultList,
+              total: res.data.totalItem,
             };
           }}
         />

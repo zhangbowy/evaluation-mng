@@ -203,7 +203,9 @@ const UserReport: React.FC = () => {
               };
             }
             return {
-              success: false,
+              success: true,
+              data: res.data.resultList,
+              total: res.data.totalItem,
             };
           }}
         />

@@ -48,7 +48,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         location.pathname !== loginPath &&
         location.pathname !== callbackPath
       ) {
-        history.push(loginPath);
+        // history.push(loginPath);
         return;
       }
       if (initialState?.user && !initialState?.user.auths.includes('admin')) {
@@ -127,8 +127,8 @@ const middleware = async (ctx: any, next: () => void) => {
 };
 
 const authHeaderInterceptor = (url: string, options: any) => {
-  const token = window.sessionStorage.getItem('QAT');
-  // const token = 'beeacb6187c7ce40ab711ab57bee14c9';
+  // const token = window.sessionStorage.getItem('QAT');
+  const token = 'beeacb6187c7ce40ab711ab57bee14c9';
   const authHeader = { QZZ_ACCESS_TOKEN: token };
   return {
     url,
