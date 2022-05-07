@@ -132,9 +132,9 @@ const UserReport: React.FC = () => {
           <Space>
             {entity.deptAggregationDTOS?.length > 2
               ? entity.deptAggregationDTOS
-                  .slice(0, 1)
-                  .map((item) => item.name)
-                  .concat('...')
+                .slice(0, 1)
+                .map((item) => item.name)
+                .concat('...')
               : entity.deptAggregationDTOS.map((item) => item.name)}
           </Space>
         );
@@ -155,6 +155,14 @@ const UserReport: React.FC = () => {
       dataIndex: 'completion',
       valueType: 'progress',
       search: false,
+    },
+    {
+      title: '是否在职',
+      dataIndex: 'isDimission',
+      valueEnum: {
+        0: '在职',
+        1: '离职',
+      },
     },
     {
       title: '测评',
@@ -181,33 +189,33 @@ const UserReport: React.FC = () => {
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard className='head'></ProCard>
-        <ProTable<UserReport>
-          search={{ className: 'proTitle' }}
-          rowKey="id"
-          columns={columns}
-          params={{ deptId }}
-          options={false}
-          request={async (params) => {
-            const res = await getJoinExamUsers({
-              pageSize: params.pageSize,
-              curPage: params.current,
-              name: params.name,
-              deptId,
-            });
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data.resultList,
-                total: res.data.totalItem,
-              };
-            }
+      <ProTable<UserReport>
+        search={{ className: 'proTitle' }}
+        rowKey="id"
+        columns={columns}
+        params={{ deptId }}
+        options={false}
+        request={async (params) => {
+          const res = await getJoinExamUsers({
+            pageSize: params.pageSize,
+            curPage: params.current,
+            name: params.name,
+            deptId,
+          });
+          if (res.code === 1) {
             return {
               success: true,
               data: res.data.resultList,
               total: res.data.totalItem,
             };
-          }}
-        />
+          }
+          return {
+            success: true,
+            data: res.data.resultList,
+            total: res.data.totalItem,
+          };
+        }}
+      />
     </PageContainer>
   );
 };

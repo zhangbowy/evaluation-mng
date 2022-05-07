@@ -47,6 +47,14 @@ const ExamDetail: React.FC = () => {
       dataIndex: 'startTime',
     },
     {
+      title: '是否在职',
+      dataIndex: 'isDimission',
+      valueEnum: {
+        0: '在职',
+        1: '离职',
+      },
+    },
+    {
       title: '测评报告',
       key: 'report',
       valueType: 'option',
