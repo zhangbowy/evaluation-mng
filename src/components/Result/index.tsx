@@ -2,11 +2,10 @@ import { getExamResult } from '@/services/api';
 import DataSet from '@antv/data-set';
 import { Chart } from '@antv/g2';
 import { PageLoading } from '@ant-design/pro-layout';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import MbtiPreview from './MBTI';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 
-const ReportResult: React.FC<{ userId: string; examId: number, type: string }> = ({ userId, examId, type }) => {
+const ReportResult: React.FC<{ userId: string; examId: number }> = ({ userId, examId }) => {
   const [result, setResult] = useState<ExamResult>();
   const container = useRef<any>();
 
@@ -87,7 +86,7 @@ const ReportResult: React.FC<{ userId: string; examId: number, type: string }> =
       if (res.code === 1) {
         setResult(res.data);
         //防止多次渲染雷达图
-        container.current && (container.current.innerHTML = '');
+        container.current.innerHTML = '';
         radarMap(res.data.polygon);
       }
     });
@@ -96,62 +95,55 @@ const ReportResult: React.FC<{ userId: string; examId: number, type: string }> =
     return <PageLoading />;
   }
   return (
-    <Fragment>
-      {
-        type == 'PDP' && <div className="pageResult">
-          <div>
-            {/* 性格结果 */}
-            <div id="capture" className={styles.capture}>
-              <div className={styles.backImg} />
-              <div className={styles.resultBox}>
-                <div className={styles.resultLitterBox}>
-                  <div className={styles.contentBox}>
-                    <div className={styles.resultLeft}>
-                      <div className={styles.text}>我是</div>
-                      <div className={styles.character}>
-                        {result.results?.[0]?.type}
-                        {result.results?.length > 1 && `+${result.results?.[1]?.type}`}
-                      </div>
-                      <div className={styles.describe}>{result.textDesc}</div>
-                    </div>
-                    <div className={styles.resultRight}>
-                      <img src={result.results?.[0]?.typeIcon} />
-                      {result.results?.length > 1 && (
-                        <img
-                          className={styles.jiahao}
-                          src="https://qzz-static.forwe.store/evaluation-web/imgs/pdp/jiahao%402x.png"
-                        />
-                      )}
-                      {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
-                    </div>
+    <div className="pageResult">
+      <div>
+        {/* 性格结果 */}
+        <div id="capture" className={styles.capture}>
+          <div className={styles.backImg} />
+          <div className={styles.resultBox}>
+            <div className={styles.resultLitterBox}>
+              <div className={styles.contentBox}>
+                <div className={styles.resultLeft}>
+                  <div className={styles.text}>我是</div>
+                  <div className={styles.character}>
+                    {result.results?.[0]?.type}
+                    {result.results?.length > 1 && `+${result.results?.[1]?.type}`}
                   </div>
-                  {/* 雷达图 */}
-                  <div className={styles.container}>
-                    <div id="container" ref={container} />
-                    <div className={styles.userInfo}>
-                      {result.user.avatar ? (
-                        <img className={styles.userImg} src={result.user.avatar} />
-                      ) : (
-                        <span className={styles.span}>{result.user.name}</span>
-                      )}
-                    </div>
-                    <div className={styles.userName}>{result.user.name}</div>
-                  </div>
+                  <div className={styles.describe}>{result.textDesc}</div>
+                </div>
+                <div className={styles.resultRight}>
+                  <img src={result.results?.[0]?.typeIcon} />
+                  {result.results?.length > 1 && (
+                    <img
+                      className={styles.jiahao}
+                      src="https://qzz-static.forwe.store/evaluation-web/imgs/pdp/jiahao%402x.png"
+                    />
+                  )}
+                  {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
                 </div>
               </div>
-            </div>
-
-            {/* 类型描述 */}
-            <div className={styles.describeBox}>
-              <img src={result.imageDesc} className={styles.describeImg} />
+              {/* 雷达图 */}
+              <div className={styles.container}>
+                <div id="container" ref={container} />
+                <div className={styles.userInfo}>
+                  {result.user.avatar ? (
+                    <img className={styles.userImg} src={result.user.avatar} />
+                  ) : (
+                    <span className={styles.span}>{result.user.name}</span>
+                  )}
+                </div>
+                <div className={styles.userName}>{result.user.name}</div>
+              </div>
             </div>
           </div>
         </div>
-      }
-      {
-        type == 'MBTI' && <MbtiPreview resulyData={result} />
-      }
-    </Fragment>
+
+        {/* 类型描述 */}
+        <div className={styles.describeBox}>
+          <img src={result.imageDesc} className={styles.describeImg} />
+        </div>
+      </div>
+    </div>
   );
 };
 
