@@ -50,29 +50,16 @@
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  background-color: #f3f3f3;
-  // background-color: #5200db;
-  // background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
-  // background-size: 100% auto;
+  background-color: #5200db;
+  background-image: url(/evaluation-web/imgs/qcp_bg.png);
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .personality_main {
-    height: 100%;
-    padding: 15px;
-    margin-bottom: 65px;
-
-    .character_headportrait {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      left: 50%;
-      top: -2%;
-      transform: translateX(-50%);
-      position: absolute;
-    }
+  .character_type_layout {
+    width: 375px;
+    background-color: #5200db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0 0px;
 
     .character_type_wrapper {
       width: 345px;
@@ -81,13 +68,23 @@
       padding: 7.5px;
       position: relative;
 
+      .character_headportrait {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        left: 50%;
+        top: -2%;
+        transform: translateX(-50%);
+        position: absolute;
+      }
+
       .character_type_main {
         width: 330px;
         border-radius: 5px;
         border: 1px solid rgba(84, 84, 84, 0.5);
         display: flex;
         flex-direction: column;
-        background-image: url('/public-assets/pcc_mbti_bj.png');
+        background-image: url('/evaluation-web/imgs/pcc_mbti_bj.png');
 
         .character_type_content {
           display: flex;
@@ -95,11 +92,12 @@
           align-items: center;
           padding-left: 14px;
           padding-top: 17.5px;
-
+          position: relative;
           .character_type_left {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            z-index: 2;
 
             div:nth-child(1),
             div:nth-child(2) {
@@ -123,8 +121,6 @@
               font-weight: bold;
               border-top: 3px solid #f51387;
               opacity: 0.3;
-              // margin: 11px 0 17.5px;
-              // padding-top: 8px;
             }
 
             div:nth-child(5),
@@ -141,19 +137,21 @@
               font-size: 24px;
               font-family: '思源黑体-粗';
               font-weight: bold;
-              // margin: 8px 0;
             }
           }
 
           .character_type_rightImg {
-            width: 163.5px;
+            width: 200px;
             height: 199.5px;
+            position: absolute;
+            right: 0;
+            z-index: 1;
           }
         }
 
         .progress_layout {
           width: 100%;
-          padding: 0 17.5px;
+          padding: 0 14px;
           margin-top: 20px;
 
           .progress_wrapper {
@@ -169,7 +167,6 @@
                 font-weight: bold;
                 color: #01084d;
                 font-size: 18px;
-                margin: 0 5px;
               }
 
               div:nth-child(2) {
@@ -203,7 +200,7 @@
         .trait_character_list {
           width: 100%;
           margin: 16.5px 0;
-          padding: 0 17.5px;
+          padding: 0 12px;
           display: flex;
           //   justify-content: space-between;
           flex-wrap: wrap;
@@ -211,13 +208,12 @@
           span {
             font-size: 14px;
             color: #f51387;
-            padding: 9px 16.5px;
+            padding: 8px 15px;
             background-color: #ffebf5;
             font-family: '思源黑体-常规';
             border-radius: 25.25px;
             display: block;
-            margin-bottom: 10px;
-            margin-right: 10px;
+            margin: 0 5px 10px;
           }
 
           span:last-child {
@@ -226,6 +222,11 @@
         }
       }
     }
+  }
+  .personality_main {
+    height: 100%;
+    padding: 15px;
+    margin-bottom: 65px;
 
     .trait {
       width: 345px;
@@ -316,7 +317,7 @@
       width: 345px;
       border-radius: 10px;
       background-color: #ffffff;
-      padding: 17.5px 17px 7.5px;
+      padding: 17.5px 12px 7.5px;
       margin-top: 36.5px;
       position: relative;
 
@@ -333,6 +334,7 @@
         line-height: 36.5px;
         border-left: 5px solid #f51387;
         font-size: 18px;
+        font-weight: 550;
       }
 
       .field_feature_list {
@@ -344,8 +346,8 @@
           position: absolute;
           width: 0;
           height: 0;
-          left: 171.3px;
-          top: -18.5px;
+          left: 170px;
+          top: -19px;
           border-bottom: 19px solid #000;
           border-right: 16px solid transparent;
         }
@@ -353,8 +355,8 @@
         &::after {
           content: '';
           position: absolute;
-          left: 171.8px;
-          top: -17.5px;
+          left: 171px;
+          top: -18px;
           width: 0;
           height: 0;
           border-bottom: 17.5px solid #fff;
@@ -366,7 +368,7 @@
         }
 
         .field_contentmain {
-          padding: 9px 15px;
+          padding: 9px 10px;
           background-color: #f8f4ff;
           border-radius: 18px;
           font-size: 14px;
@@ -375,8 +377,7 @@
           font-weight: 500;
           display: flex;
           align-items: center;
-          margin-bottom: 12px;
-          margin-right: 10px;
+          margin: 0 5px 12px;
 
           span:nth-child(1) {
             width: 14.63px;
@@ -403,7 +404,73 @@
         }
       }
     }
+
+    .careerpath {
+      width: 345px;
+      border-radius: 10px;
+      background-color: #ffffff;
+      padding: 17.5px 17px 7.5px;
+      margin-top: 36.5px;
+      position: relative;
+
+      &::before {
+        content: attr(data-list);
+        position: absolute;
+        top: -18.3px;
+        left: 0;
+        padding: 0 23.5px 0 16.5px;
+        height: 36.5px;
+        color: #fff;
+        background-color: #131313;
+        text-align: center;
+        line-height: 36.5px;
+        border-left: 5px solid #f51387;
+        font-size: 18px;
+        font-weight: 550;
+      }
+
+      .field_feature_list {
+        &:nth-child(1) {
+          margin-top: 19px;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: 207px;
+          top: -19px;
+          border-bottom: 19px solid #000;
+          border-right: 16px solid transparent;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 207px;
+          top: -18px;
+          width: 0;
+          height: 0;
+          border-bottom: 17.5px solid #fff;
+          border-right: 15px solid transparent;
+        }
+      }
+    }
   }
+}
+
+.field_feature_copywriter {
+  color: #44475d;
+  font-size: 14px;
+  line-height: 25px;
+
+  h3 {
+    margin-top: 12px;
+    font-weight: 550;
+    margin-bottom: 2px;
+  }
+
 }
 
 .mask {

@@ -1,5 +1,7 @@
 import ReportResult from './index';
 import { Drawer } from 'antd';
+import { useEffect, useState } from 'react';
+import { getExamResult } from '@/services/api';
 
 type ExamReportPropsType = {
   visible: boolean;
@@ -15,15 +17,25 @@ const ExamReport: React.FC<ExamReportPropsType> = ({
   examId,
   type
 }) => {
+  const [result, setResult] = useState<ExamResult>();
+  useEffect(() => {
+    if (userId && examId) {
+      getExamResult({ userId, examId }).then((res) => {
+        if (res.code === 1) {
+          setResult({ ...res.data, bankType: type });
+        }
+      });
+    }
+  }, [userId, examId,type])
   return (
     <Drawer
       visible={visible}
-      onClose={() => onVisibleChange(false)}
+      onClose={() => { onVisibleChange(false);}}
       placement="right"
       title="测评报告详情"
       width="425px"
     >
-      <ReportResult type={type} userId={userId} examId={examId} />
+      <ReportResult result={result} />
     </Drawer>
   );
 };

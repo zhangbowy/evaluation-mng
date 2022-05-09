@@ -53,7 +53,7 @@ const MbtiPreview = (props: any) => {
     };
     return (
         <div className={styles.personality_layout} >
-            <div className={styles.personality_main} id="personality">
+            <div className={styles.character_type_layout} >
                 <div className={styles.character_type_wrapper}>
                     <img
                         src={resulyData?.user?.avatar}
@@ -66,7 +66,8 @@ const MbtiPreview = (props: any) => {
                                 <div>{resulyData?.user?.name}</div>
                                 <div>的人格类型是</div>
                                 <div>
-                                    {resulyData &&
+                                    {resulyData.results[0] &&
+                                    resulyData?.results[0]?.type?.match(/\(.+?\)/g) &&
                                         resulyData?.results[0]?.type
                                             ?.match(/\(.+?\)/g)[0]
                                             ?.slice(1, -1)}
@@ -88,7 +89,9 @@ const MbtiPreview = (props: any) => {
                                     <div className={styles.progress_left}>
                                         <div>
                                             {(resulyData?.scoreDetail &&
-                                                resulyData?.scoreDetail[res?.startProgress]) ||
+                                                Math.round(
+                                                    resulyData?.scoreDetail[res?.startProgress],
+                                                )) ||
                                                 0}
                                             %
                                         </div>
@@ -116,7 +119,9 @@ const MbtiPreview = (props: any) => {
                                     <div className={styles.progress_right}>
                                         <div>
                                             {(resulyData?.scoreDetail &&
-                                                resulyData?.scoreDetail[res.endTextProgress]) ||
+                                                Math.round(
+                                                    resulyData?.scoreDetail[res.endTextProgress],
+                                                )) ||
                                                 0}
                                             %
                                         </div>
@@ -132,9 +137,11 @@ const MbtiPreview = (props: any) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className={styles.personality_main} id="personality">
                 <div className={styles.trait} data-list="你的特质是">
                     <div className={styles.trait_feature_list}>
-                        {resulyData?.htmlDesc?.feature.map(
+                        {resulyData?.htmlDesc?.feature?.map(
                             (res: string, index: number) => (
                                 <div key={index} className={styles.trait_feature_listwrapper}>
                                     <span>{index + 1}</span>
@@ -146,7 +153,7 @@ const MbtiPreview = (props: any) => {
                 </div>
                 <div className={styles.field} data-list="你适合的领域是">
                     <div className={styles.field_feature_list}>
-                        {resulyData?.htmlDesc?.field.map((res: string, index: number) => (
+                        {resulyData?.htmlDesc?.field?.map((res: string, index: number) => (
                             <div key={index} className={styles.field_contentmain}>
                                 <span></span>
                                 <span>{res}</span>
@@ -156,13 +163,33 @@ const MbtiPreview = (props: any) => {
                 </div>
                 <div className={styles.field} data-list="你适合的职业是">
                     <div className={styles.field_feature_list}>
-                        {resulyData?.htmlDesc?.profession.map(
+                        {resulyData?.htmlDesc?.profession?.map(
                             (res: string, index: number) => (
                                 <div key={index} className={styles.field_contentmain}>
                                     {res}
                                 </div>
                             ),
                         )}
+                    </div>
+                </div>
+                <div className={styles.careerpath} data-list="你适合的职业道路是">
+                    <div className={styles.field_feature_list}>
+                        <div
+                            className={styles.field_feature_copywriter}
+                            dangerouslySetInnerHTML={{
+                                __html: resulyData?.htmlDesc?.careerPath,
+                            }}
+                        ></div>
+                    </div>
+                </div>
+                <div className={styles.field} data-list="你的工作习惯是">
+                    <div className={styles.field_feature_list}>
+                        <div
+                            className={styles.field_feature_copywriter}
+                            dangerouslySetInnerHTML={{
+                                __html: resulyData?.htmlDesc?.workingHabit,
+                            }}
+                        ></div>
                     </div>
                 </div>
             </div>

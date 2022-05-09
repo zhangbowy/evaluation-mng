@@ -15,25 +15,27 @@ const ExamTemplate: React.FC = () => {
   const [img, setImg] = useState<string>();
   const [selected, setSelected] = useState<ExamTemplateListItem>();
   const handleClick = async (template: ExamTemplateListItem) => {
-    dd.ready(async () => {
-      const pickResult = await dd.biz.contact.choose({
-        multiple: true, //是否多选：true多选 false单选； 默认true
-        corpId,
+    if (dd.env.platform != 'notInDingTalk') {
+      dd.ready(async () => {
+        const pickResult = await dd.biz.contact.choose({
+          multiple: true, //是否多选：true多选 false单选； 默认true
+          corpId,
+        });
+        if (pickResult.length < 1) {
+          return;
+        }
+        const res = await createExam({
+          examTemplateType: template.type,
+          examTemplateId: template.id,
+          examTitle: template.title,
+          examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
+        });
+        if (res.code === 1) {
+          message.success(res.message);
+          history.push('/exam/index');
+        }
       });
-      if (pickResult.length < 1) {
-        return;
-      }
-      const res = await createExam({
-        examTemplateType: template.type,
-        examTemplateId: template.id,
-        examTitle: template.title,
-        examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
-      });
-      if (res.code === 1) {
-        message.success(res.message);
-        history.push('/exam/index');
-      }
-    });
+    }
   };
   return (
     <PageContainer header={{ breadcrumb: {} }}>
@@ -56,108 +58,108 @@ const ExamTemplate: React.FC = () => {
           </div>
         </div>
       </Drawer>
-        <ProList<ExamTemplateListItem>
-          pagination={false}
-          className="template"
-          rowKey="id"
-          grid={{ gutter: 16, column: 4 }}
-          request={async () => {
-            const res = await getExamTemplateList();
-            if (res.code === 1) {
-              return {
-                success: true,
-                data: res.data,
-              };
-            }
-            return { success: false };
-          }}
-          metas={{
-            title: {
-              dataIndex: 'title',
-              render: (title, entity) => {
-                return (
+      <ProList<ExamTemplateListItem>
+        pagination={false}
+        className="template"
+        rowKey="id"
+        grid={{ gutter: 16, column: 4 }}
+        request={async () => {
+          const res = await getExamTemplateList();
+          if (res.code === 1) {
+            return {
+              success: true,
+              data: res.data,
+            };
+          }
+          return { success: false };
+        }}
+        metas={{
+          title: {
+            dataIndex: 'title',
+            render: (title, entity) => {
+              return (
+                <div
+                  className={styles.titleHeader}
+                  onClick={() => {
+                    setSelected(entity);
+                    setImg(JSON.parse(entity.introductionImage).admin);
+                    setVisible(true);
+                  }}
+                >
+                  {title}
+                </div>
+              );
+            },
+          },
+          content: {
+            dataIndex: 'introduction',
+            render: (introduction, entity) => {
+              return (
+                <div>
                   <div
-                    className={styles.titleHeader}
                     onClick={() => {
                       setSelected(entity);
                       setImg(JSON.parse(entity.introductionImage).admin);
                       setVisible(true);
                     }}
                   >
-                    {title}
-                  </div>
-                );
-              },
-            },
-            content: {
-              dataIndex: 'introduction',
-              render: (introduction, entity) => {
-                return (
-                  <div>
                     <div
-                      onClick={() => {
-                        setSelected(entity);
-                        setImg(JSON.parse(entity.introductionImage).admin);
-                        setVisible(true);
+                      style={{
+                        color: '#000000',
+                        opacity: '45%',
+                        fontSize: 16,
+                        padding: '20px 20px 0 20px',
+                        wordBreak: 'break-all',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 4,
+                        overflow: 'hidden',
                       }}
                     >
-                      <div
-                        style={{
-                          color: '#000000',
-                          opacity: '45%',
-                          fontSize: 16,
-                          padding: '20px 20px 0 20px',
-                          wordBreak: 'break-all',
-                          textOverflow: 'ellipsis',
-                          display: '-webkit-box',
-                          WebkitBoxOrient: 'vertical',
-                          WebkitLineClamp: 4,
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {introduction}
-                      </div>
-                      <div style={{ backgroundColor: '#ffffff' }}>
-                        <div style={{ margin: '10px 20px' }}>
-                          <div>
-                            <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                              作答时间：
-                            </span>
-                            <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                              {entity.durationDesc}
-                            </span>
-                          </div>
-                          <div>
-                            <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                              题目数量：
-                            </span>
-                            <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                              {entity.examLibrarySum}
-                            </span>
-                          </div>
+                      {introduction}
+                    </div>
+                    <div style={{ backgroundColor: '#ffffff' }}>
+                      <div style={{ margin: '10px 20px' }}>
+                        <div>
+                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
+                            作答时间：
+                          </span>
+                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
+                            {entity.durationDesc}
+                          </span>
+                        </div>
+                        <div>
+                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
+                            题目数量：
+                          </span>
+                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
+                            {entity.examLibrarySum}
+                          </span>
                         </div>
                       </div>
                     </div>
-                    <Button
-                      onClick={() => handleClick(entity)}
-                      style={{
-                        width: '100%',
-                        height: 43,
-                        backgroundColor: '#E5F2FF',
-                        color: '#1890FF',
-                        borderRadius: '0px 0px 4px 4px',
-                        border: 'none',
-                        fontSize: 16,
-                      }}
-                    >
-                      创建
-                    </Button>
                   </div>
-                );
-              },
+                  <Button
+                    onClick={() => handleClick(entity)}
+                    style={{
+                      width: '100%',
+                      height: 43,
+                      backgroundColor: '#E5F2FF',
+                      color: '#1890FF',
+                      borderRadius: '0px 0px 4px 4px',
+                      border: 'none',
+                      fontSize: 16,
+                    }}
+                  >
+                    创建
+                  </Button>
+                </div>
+              );
             },
-          }}
-        />
+          },
+        }}
+      />
     </PageContainer>
   );
 };

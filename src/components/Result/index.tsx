@@ -6,8 +6,8 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import MbtiPreview from './MBTI';
 import styles from './index.less';
 
-const ReportResult: React.FC<{ userId: string; examId: number, type: string }> = ({ userId, examId, type }) => {
-  const [result, setResult] = useState<ExamResult>();
+const ReportResult: React.FC<{ result: any }> = ({ result }) => {
+
   const container = useRef<any>();
 
   //生成雷达图
@@ -83,24 +83,21 @@ const ReportResult: React.FC<{ userId: string; examId: number, type: string }> =
     chart.render();
   };
   useEffect(() => {
-    getExamResult({ userId, examId }).then((res) => {
-      if (res.code === 1) {
-        setResult(res.data);
-        //防止多次渲染雷达图
-        container.current && (container.current.innerHTML = '');
-        radarMap(res.data.polygon);
-      }
-    });
-  }, [userId, examId]);
+    //防止多次渲染雷达图
+    if (result?.polygon && result?.bankType == 'PDP') {
+      container.current && (container.current.innerHTML = '');
+      radarMap(result?.polygon);
+    }
+  }, [result?.polygon]);
+
   if (!result) {
     return <PageLoading />;
   }
   return (
     <Fragment>
       {
-        type == 'PDP' && <div className="pageResult">
+        result?.bankType == 'PDP' && <div className="pageResult">
           <div>
-            {/* 性格结果 */}
             <div id="capture" className={styles.capture}>
               <div className={styles.backImg} />
               <div className={styles.resultBox}>
@@ -125,7 +122,6 @@ const ReportResult: React.FC<{ userId: string; examId: number, type: string }> =
                       {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
                     </div>
                   </div>
-                  {/* 雷达图 */}
                   <div className={styles.container}>
                     <div id="container" ref={container} />
                     <div className={styles.userInfo}>
@@ -141,7 +137,6 @@ const ReportResult: React.FC<{ userId: string; examId: number, type: string }> =
               </div>
             </div>
 
-            {/* 类型描述 */}
             <div className={styles.describeBox}>
               <img src={result.imageDesc} className={styles.describeImg} />
             </div>
@@ -149,7 +144,7 @@ const ReportResult: React.FC<{ userId: string; examId: number, type: string }> =
         </div>
       }
       {
-        type == 'MBTI' && <MbtiPreview resulyData={result} />
+        result?.bankType && <MbtiPreview resulyData={result} />
       }
     </Fragment>
   );
