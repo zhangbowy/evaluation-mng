@@ -3,8 +3,8 @@ import DataSet from '@antv/data-set';
 import { Chart } from '@antv/g2';
 import { PageLoading } from '@ant-design/pro-layout';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import MbtiPreview from './MBTI';
 import styles from './index.less';
+import MbtiPreview from './MBTI';
 
 const ReportResult: React.FC<{ result: any }> = ({ result }) => {
 
@@ -133,6 +133,17 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
                     </div>
                     <div className={styles.userName}>{result.user.name}</div>
                   </div>
+                  <div className={styles.describe}>{result.textDesc}</div>
+                </div>
+                <div className={styles.resultRight}>
+                  <img src={result.results?.[0]?.typeIcon} />
+                  {result.results?.length > 1 && (
+                    <img
+                      className={styles.jiahao}
+                      src="https://qzz-static.forwe.store/evaluation-web/imgs/pdp/jiahao%402x.png"
+                    />
+                  )}
+                  {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
                 </div>
               </div>
             </div>

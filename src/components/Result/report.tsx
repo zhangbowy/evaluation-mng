@@ -8,14 +8,14 @@ type ExamReportPropsType = {
   onVisibleChange: (visible: boolean) => void;
   userId: string;
   examId: number;
-  type: string
+  type:string;
 };
 const ExamReport: React.FC<ExamReportPropsType> = ({
   visible,
   onVisibleChange,
   userId,
   examId,
-  type
+  type,
 }) => {
   const [result, setResult] = useState<ExamResult>();
   useEffect(() => {
@@ -33,7 +33,7 @@ const ExamReport: React.FC<ExamReportPropsType> = ({
       onClose={() => { onVisibleChange(false);}}
       placement="right"
       title="测评报告详情"
-      width="425px"
+      width="375px"
     >
       <ReportResult result={result} />
     </Drawer>

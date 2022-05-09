@@ -18,40 +18,37 @@ const Login: React.FC = () => {
       message.error('缺少企业id');
       return;
     }
-    if (dd.env.platform != 'notInDingTalk') {
-      dd.ready(async () => {
-        const result = await dd.runtime.permission.requestAuthCode({ corpId });
+    dd.ready(async () => {
+      const result = await dd.runtime.permission.requestAuthCode({ corpId });
 
-        const res = await login({ code: result.code, corpId, appId });
+      const res = await login({ code: result.code, corpId, appId });
 
-        if (res.code === 1) {
-          if (!res.data.authLogin) {
-            if (!clientId) {
-              message.error('缺少clientId');
-              return;
-            }
-            // 未授权登录需要先授权登录
-            window.location.replace(
-              `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(
-                `${window.location.origin}/admin${window.location.search}#/user/login/callback`,
-              )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
-            );
-          } else {
-            // 已经授权则免登进入系统
-            setInitialState({
-              ...initialState,
-              user: res.data.user,
-            });
-            window.sessionStorage.setItem('QAT', res.data.token);
-            history.replace('/exam/template');
+      if (res.code === 1) {
+        if (!res.data.authLogin) {
+          if (!clientId) {
+            message.error('缺少clientId');
+            return;
           }
+          // 未授权登录需要先授权登录
+          window.location.replace(
+            `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(
+              `${window.location.origin}/admin${window.location.search}#/user/login/callback`,
+            )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
+          );
         } else {
-          // 免登失败，提示进入403
-          history.replace('/403');
+          // 已经授权则免登进入系统
+          setInitialState({
+            ...initialState,
+            user: res.data.user,
+          });
+          window.sessionStorage.setItem('QAT', res.data.token);
+          history.replace('/exam/template');
         }
-      });
-    }
-
+      } else {
+        // 免登失败，提示进入403
+        history.replace('/403');
+      }
+    });
   }, [corpId, appId, clientId]);
   return <PageLoading tips="登录中" />;
 };

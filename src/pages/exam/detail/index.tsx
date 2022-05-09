@@ -13,7 +13,6 @@ const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>();
   const [examId, setExamId] = useState<number>();
-  const [examTemplateType, setExamTemplateType] = useState<string>('');
   const [examUsers, setExamUsers] = useState<ExamUsers>();
 
   const columns: ProColumnType<ExamUser>[] = [
@@ -79,9 +78,7 @@ const ExamDetail: React.FC = () => {
             未参加测评
           </span>
         ) : (
-          <div style={{ marginRight: 26, float: 'right' }}>
-            测评中
-          </div>
+          '测评中'
         );
       },
     },
@@ -95,7 +92,6 @@ const ExamDetail: React.FC = () => {
     getExamUsers({ examid: id }).then((res) => {
       if (res.code === 1) {
         setExamUsers(res.data);
-        setExamTemplateType(res.data.examTemplateType);
       }
     });
   }, [id]);
@@ -104,7 +100,7 @@ const ExamDetail: React.FC = () => {
   }
   return (
     <PageContainer>
-      <ExamReport type={examTemplateType} userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item>
           <a href='#/exam/index'>测评管理</a>
@@ -121,12 +117,14 @@ const ExamDetail: React.FC = () => {
               </Space>
             </div>
             <div className="det-right">
-              <Progress
-                className="schedule"
-                type="line"
-                percent={parseFloat(examUsers?.finishValue || '0')}
-                format={(percent) => `完成度${percent}%`}
-              />
+              <div>
+                <Progress
+                  className="schedule"
+                  type="line"
+                  percent={parseFloat(examUsers?.finishValue || '0')}
+                  format={(percent) => `完成度${percent}%`}
+                />
+              </div>
 
               <Typography.Text
                 disabled
@@ -135,8 +133,7 @@ const ExamDetail: React.FC = () => {
                   cursor: 'default',
                   fontSize: 14,
                   marginTop: 10,
-                  paddingRight: 15,
-                  textAlign: 'right'
+                  marginLeft: 160,
                 }}
               >
                 覆盖人数:{examUsers?.num}
