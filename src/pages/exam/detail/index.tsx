@@ -1,6 +1,6 @@
 import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import { useParams } from 'umi';
+import { useParams, useLocation } from 'umi';
 import { useEffect, useState } from 'react';
 import { Col, message, Progress, Row, Space, Typography, Breadcrumb } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
@@ -64,6 +64,7 @@ const ExamDetail: React.FC = () => {
               key="view"
               style={{ float: 'right', marginRight: 20 }}
               onClick={() => {
+                console.log(entity)
                 setVisible(true);
                 setUserId(entity.userId);
                 setExamId(entity.examId);
@@ -78,11 +79,14 @@ const ExamDetail: React.FC = () => {
             未参加测评
           </span>
         ) : (
-          '测评中'
+          <span style={{  marginRight: 30, float: 'right' }}>
+            测评中
+          </span>
         );
       },
     },
   ];
+  const locat = useLocation()
   const { id } = useParams() as { id: string };
   useEffect(() => {
     if (!id) {
@@ -100,7 +104,7 @@ const ExamDetail: React.FC = () => {
   }
   return (
     <PageContainer>
-      <ExamReport userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <ExamReport type={locat?.query?.type} userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
       <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item>
           <a href='#/exam/index'>测评管理</a>

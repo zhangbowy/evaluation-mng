@@ -33,7 +33,7 @@ const ExamReport: React.FC<ExamReportPropsType> = ({
       onClose={() => { onVisibleChange(false);}}
       placement="right"
       title="测评报告详情"
-      width="375px"
+      width={type=='PDP'?'375px':'410px'}
     >
       <ReportResult result={result} />
     </Drawer>

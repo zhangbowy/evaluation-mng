@@ -43,14 +43,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (
-        !initialState?.user &&
-        location.pathname !== loginPath &&
-        location.pathname !== callbackPath
-      ) {
-        history.push(loginPath);
-        return;
-      }
+      // if (
+      //   !initialState?.user &&
+      //   location.pathname !== loginPath &&
+      //   location.pathname !== callbackPath
+      // ) {
+      //   history.push(loginPath);
+      //   return;
+      // }
       if (initialState?.user && !initialState?.user.auths.includes('admin')) {
         history.replace('/403');
       }
@@ -60,7 +60,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         !initialState?.ddConfig
       ) {
         const res = await getSign(window.location.href.split('#')[0]);
-        if (res.code === 1) {
+        if (res.code === 1 && dd.env.platform != 'notInDingTalk') {
           dd.config({
             agentId: res.data.agentId, // 必填，微应用ID
             corpId: res.data.corpId, //必填，企业ID

@@ -96,8 +96,10 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
   return (
     <Fragment>
       {
-        result?.bankType == 'PDP' && <div className="pageResult">
+        result?.bankType == 'PDP' &&
+         <div className="pageResult">
           <div>
+            {/* 性格结果 */}
             <div id="capture" className={styles.capture}>
               <div className={styles.backImg} />
               <div className={styles.resultBox}>
@@ -122,6 +124,7 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
                       {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
                     </div>
                   </div>
+                  {/* 雷达图 */}
                   <div className={styles.container}>
                     <div id="container" ref={container} />
                     <div className={styles.userInfo}>
@@ -133,21 +136,11 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
                     </div>
                     <div className={styles.userName}>{result.user.name}</div>
                   </div>
-                  <div className={styles.describe}>{result.textDesc}</div>
-                </div>
-                <div className={styles.resultRight}>
-                  <img src={result.results?.[0]?.typeIcon} />
-                  {result.results?.length > 1 && (
-                    <img
-                      className={styles.jiahao}
-                      src="https://qzz-static.forwe.store/evaluation-web/imgs/pdp/jiahao%402x.png"
-                    />
-                  )}
-                  {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
                 </div>
               </div>
             </div>
 
+            {/* 类型描述 */}
             <div className={styles.describeBox}>
               <img src={result.imageDesc} className={styles.describeImg} />
             </div>
@@ -155,7 +148,7 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
         </div>
       }
       {
-        result?.bankType && <MbtiPreview resulyData={result} />
+        result?.bankType && result?.bankType == 'MBTI' && <MbtiPreview resulyData={result} />
       }
     </Fragment>
   );

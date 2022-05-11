@@ -14,6 +14,7 @@ const UserDetail: React.FC = () => {
   const [all, setAll] = useState<AllExam>();
   const [visible, setVisible] = useState<boolean>(false);
   const [examId, setExamId] = useState<number>();
+  const [examTemplateType, setExamTemplateType] = useState<string>('');
   useEffect(() => {
     getAllExam({ userId: id }).then((res) => {
       if (res.code === 1) {
@@ -47,6 +48,7 @@ const UserDetail: React.FC = () => {
             onClick={() => {
               setExamId(record.examId);
               setVisible(true);
+              setExamTemplateType(record.examTemplateType)
             }}
           >
             查看报告
@@ -57,8 +59,8 @@ const UserDetail: React.FC = () => {
   ];
   return (
     <PageContainer header={{}}>
-      <ExamReport userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
-      <Breadcrumb  style={{marginBottom:20}}>
+      <ExamReport type={examTemplateType} userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item><a href='#/report'>人才报告</a></Breadcrumb.Item>
         <Breadcrumb.Item>{all.name}</Breadcrumb.Item>
       </Breadcrumb>
@@ -79,7 +81,7 @@ const UserDetail: React.FC = () => {
             {/* 完成度 */}
             <div style={{ marginRight: '40px' }}>
               <Progress
-                style={{ marginRight:10 }}
+                style={{ marginRight: 10 }}
                 type="line"
                 percent={all.finishValue}
                 format={(percent) => `完成度${percent}%`}

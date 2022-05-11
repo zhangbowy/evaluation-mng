@@ -13,8 +13,8 @@ import './index.less';
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const { corpId } = queryString.parse(location.search);
-  const handleClick = (id: number) => {
-    history.push('/exam/' + id);
+  const handleClick = (id: number, type: string) => {
+    history.push(`/exam/${id}?type=${type}`);
   };
   const handleEdit = async (examId: number) => {
     const res = await queryExamUserIds(examId);
@@ -49,7 +49,7 @@ const ExamList: React.FC = () => {
     {
       key: 'detail',
       title: '详情',
-      render: (_dom, entity) => <a onClick={() => handleClick(entity.id)}>查看详情</a>,
+      render: (_dom, entity) => <a onClick={() => handleClick(entity.id, entity.examTemplateType)}>查看详情</a>,
     },
     {
       key: 'op',

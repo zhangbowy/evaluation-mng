@@ -144,6 +144,7 @@ type ExamResult = {
     textDesc: string;
     imageDesc: string;
     htmlDesc: string;
+    bankType?:string;
     results: {
         type: string;
         typeIcon: string;
