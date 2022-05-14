@@ -4,7 +4,7 @@ import type { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { getJoinExamUsers, queryDept } from '@/services/api';
 import { Empty, Space, Spin } from 'antd';
-import { history } from 'umi';
+import { history, useLocation } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
@@ -17,6 +17,7 @@ const UserReport: React.FC = () => {
   const [deptId, setDeptId] = useState<string>();
   const [deptOptions, setDeptOptions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const locquery:any = useLocation()
   const fetchRef = useRef(0);
   const debounceDeptFetcher = useMemo(() => {
     const fetchDept = async (value: string) => {
@@ -214,6 +215,14 @@ const UserReport: React.FC = () => {
             data: res.data.resultList,
             total: res.data.totalItem,
           };
+        }}
+        pagination={{
+          showSizeChanger: true,
+          pageSize: 10,
+          current: locquery.query.current || 1,
+          onChange: (e) => {
+            history.push(`/report?current=${e}`)
+          }
         }}
       />
     </PageContainer>

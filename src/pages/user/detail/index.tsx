@@ -35,9 +35,9 @@ const UserDetail: React.FC = () => {
       valueType: 'option',
       render: (dom, record) => {
         if (record.answerStatus === 0) {
-          return <span>未开始</span>;
+          return <span style={{ marginRight: 20 }}>未开始</span>;
         } else if (record.answerStatus < 3) {
-          return <span>答题中</span>;
+          return <span style={{ marginRight: 20 }}>答题中</span>;
         } else if (record.answerStatus < 10) {
           return <span>报告生成中</span>;
         }
@@ -110,13 +110,13 @@ const UserDetail: React.FC = () => {
             </div>
           </div>
         </Typography>
-        <Space style={{ margin: '10px 0' }}>
+        <div style={{ margin: '10px 0',width:'100%', wordBreak: 'break-all' }}>
           {all.userTagVoList.map((item) => (
-            <Tag color="processing" key={item.id}>
+            <Tag color="processing" style={{margin:'5px 10px 5px 0'}} key={item.id}>
               {item.name}
             </Tag>
           ))}
-        </Space>
+        </div>
         <ProTable
           search={false}
           toolBarRender={false}

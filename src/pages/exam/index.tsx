@@ -95,6 +95,10 @@ const ExamList: React.FC = () => {
           }
           return { success: false };
         }}
+        pagination={{
+          showSizeChanger: true,
+          pageSize: 50,
+        }}
       />
     </PageContainer>
   );

@@ -1,6 +1,6 @@
 import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
-import { useParams, useLocation } from 'umi';
+import { useParams, useLocation ,useHistory} from 'umi';
 import { useEffect, useState } from 'react';
 import { Col, message, Progress, Row, Space, Typography, Breadcrumb } from 'antd';
 import type { ProColumnType } from '@ant-design/pro-table';
@@ -79,14 +79,15 @@ const ExamDetail: React.FC = () => {
             未参加测评
           </span>
         ) : (
-          <span style={{  marginRight: 30, float: 'right' }}>
+          <span style={{ marginRight: 30, float: 'right' }}>
             测评中
           </span>
         );
       },
     },
   ];
-  const locat = useLocation()
+  const locat:any = useLocation()
+  const history = useHistory()
   const { id } = useParams() as { id: string };
   useEffect(() => {
     if (!id) {
@@ -154,6 +155,14 @@ const ExamDetail: React.FC = () => {
           columns={columns}
           rowKey="id"
           dataSource={examUsers?.userExamVos}
+          pagination={{
+            showSizeChanger: true,
+            pageSize: 20,
+            current: locat.query.current || 1,
+            onChange: (e) => {
+              history.push(`/exam/${id}?type=${locat.query.type}&current=${e}`)
+            }
+          }}
         />
       </ProCard>
     </PageContainer>
