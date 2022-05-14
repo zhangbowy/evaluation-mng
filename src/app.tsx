@@ -60,7 +60,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         !initialState?.ddConfig
       ) {
         const res = await getSign(window.location.href.split('#')[0]);
-        if (res.code === 1 && dd.env.platform != 'notInDingTalk') {
+        if (res.code === 1) {
           dd.config({
             agentId: res.data.agentId, // 必填，微应用ID
             corpId: res.data.corpId, //必填，企业ID

@@ -64,7 +64,6 @@ const ExamDetail: React.FC = () => {
               key="view"
               style={{ float: 'right', marginRight: 20 }}
               onClick={() => {
-                console.log(entity)
                 setVisible(true);
                 setUserId(entity.userId);
                 setExamId(entity.examId);
