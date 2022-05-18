@@ -68,3 +68,13 @@ export const updateExam = async (data: any) => {
 export const queryDept = async (params: any) => {
     return request<Result<Page<{ deptId: string, name: string }>>>('/api/member/dept/aggr/fuzzy', { params })
 }
+export const getChart = async (params: chartDate) => {
+    return request<Result<any>>('/api/spf-cc/b/evaluation/management/querySummaryGraphData', { params })
+}
+export const getAllInfo = async (examid: string) =>{
+    return request<Result<Measurement>>('/api/spf-cc/b/evaluation/management/getExamInformation',{ params:{ examid } })
+}
+
+export const measurementExport = async (params: any) =>{
+    return request<Result<any>>('/api/spf-cc/b/evaluation/management/exportExcel',{ params })
+}

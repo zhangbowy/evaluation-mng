@@ -38,12 +38,31 @@
     }
 
     .contentBox {
-      display: flex;
-      justify-content: space-between;
+
+      // display: flex;
+      // justify-content: space-between;
       // border-radius: 10px;
+      .resultRight {
+        margin-left: 60px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        float: right;
+
+        img {
+          width: 80px;
+          height: auto;
+        }
+
+        .jiahao {
+          width: 16px;
+          height: auto;
+          margin: 10px;
+        }
+      }
     }
 
-    // .resultLeft {}
 
     .text {
       // color: #01084d;
@@ -73,22 +92,7 @@
       line-height: 22px;
     }
 
-    .resultRight {
-      margin-left: 20px;
-      flex: 1;
-      text-align: center;
 
-      img {
-        width: 80px;
-        height: auto;
-      }
-
-      .jiahao {
-        width: 16px;
-        height: auto;
-        margin: 10px;
-      }
-    }
   }
 
   .container {
