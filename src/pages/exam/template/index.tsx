@@ -53,7 +53,7 @@ const ExamTemplate: React.FC = () => {
           </div>
           <div className={styles.buttonBox}>
             <div className={styles.button} onClick={() => handleClick(selected)}>
-              创建
+              添加人员
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ const ExamTemplate: React.FC = () => {
                       fontSize: 16,
                     }}
                   >
-                    创建
+                    添加人员
                   </Button>
                 </div>
               );

@@ -64,12 +64,22 @@ type UserReport = {
         name: string;
     }[];
 }
-type ExamUsers = {
+type Measurement = {
     num: number;
     finishValue: string;
     examTitle: string;
     introduction: string;
-    userExamVos: ExamUser[];
+    examTemplateType: string;
+    introductionImage:{
+        admin:string;
+    }
+}
+type ExamUsers = {
+
+    resultList: ExamUser[];
+    curPage: number;
+    totalItem: number;
+    pageSize: number;
 }
 
 type ExamUser = {
@@ -144,7 +154,7 @@ type ExamResult = {
     textDesc: string;
     imageDesc: string;
     htmlDesc: string;
-    bankType?:string;
+    bankType?: string;
     results: {
         type: string;
         typeIcon: string;
@@ -161,4 +171,12 @@ type SignResult = {
     timeStamp: string;
     nonceStr: string;
     signature: string;
+}
+type chartDate = {
+    tpf: 1,
+    appId: string;
+    corpId: string;
+    userId: string | undefined;
+    examId: string;
+    deptId?: string;
 }

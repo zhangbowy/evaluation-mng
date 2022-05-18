@@ -13,6 +13,7 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
   //生成雷达图
   const radarMap = (polygon: string) => {
     if (!polygon) return;
+    console.log(DataView)
     const { DataView } = DataSet;
     const json = JSON.parse(polygon);
     const data = Object.keys(json).map((key) => ({
@@ -97,7 +98,7 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
     <Fragment>
       {
         result?.bankType == 'PDP' &&
-         <div className="pageResult">
+        <div className="pageResult">
           <div>
             {/* 性格结果 */}
             <div id="capture" className={styles.capture}>
@@ -105,24 +106,34 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
               <div className={styles.resultBox}>
                 <div className={styles.resultLitterBox}>
                   <div className={styles.contentBox}>
-                    <div className={styles.resultLeft}>
-                      <div className={styles.text}>我是</div>
-                      <div className={styles.character}>
-                        {result.results?.[0]?.type}
-                        {result.results?.length > 1 && `+${result.results?.[1]?.type}`}
-                      </div>
-                      <div className={styles.describe}>{result.textDesc}</div>
-                    </div>
-                    <div className={styles.resultRight}>
-                      <img src={result.results?.[0]?.typeIcon} />
+                    <div className={styles.resultRight} >
+                      <img
+                        src={result.results?.[0]?.typeIcon.replace(
+                          'https://qzz-static.forwe.store',
+                          '',
+                        )}
+                      />
                       {result.results?.length > 1 && (
                         <img
                           className={styles.jiahao}
-                          src="https://qzz-static.forwe.store/evaluation-web/imgs/pdp/jiahao%402x.png"
+                          src="/evaluation-web/imgs/pdp/jiahao%402x.png"
                         />
                       )}
-                      {result.results?.length > 1 && <img src={result.results?.[1]?.typeIcon} />}
+                      {result.results?.length > 1 && (
+                        <img
+                          src={result.results?.[1]?.typeIcon.replace(
+                            'https://qzz-static.forwe.store',
+                            '',
+                          )}
+                        />
+                      )}
                     </div>
+                    <div className={styles.text}>我是</div>
+                    <div className={styles.character}>
+                      {result.results?.[0]?.type}
+                      {result.results?.length > 1 && `+${result.results?.[1]?.type}`}
+                    </div>
+                    <div className={styles.describe}>{result.textDesc}</div>
                   </div>
                   {/* 雷达图 */}
                   <div className={styles.container}>
@@ -142,7 +153,8 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
 
             {/* 类型描述 */}
             <div className={styles.describeBox}>
-              <img src={result.imageDesc} className={styles.describeImg} />
+              <img src={result.imageDesc[0]} className={styles.describeImg} />
+              <img src={result.imageDesc[1]} className={styles.describeImg} />
             </div>
           </div>
         </div>
@@ -150,7 +162,7 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
       {
         result?.bankType && result?.bankType == 'MBTI' && <MbtiPreview resulyData={result} />
       }
-    </Fragment>
+    </Fragment >
   );
 };
 
