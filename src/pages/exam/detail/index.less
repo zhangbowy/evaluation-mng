@@ -13,9 +13,10 @@
   justify-content: space-between;
 
   .det-right {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     .schedule {
       // width: 150px;
       margin-right: 55px;
@@ -24,32 +25,39 @@
   }
 
 }
-.detatil_card_layout{
+
+.detatil_card_layout {
   width: 100%;
   padding: 20px;
   border-radius: 5px;
   background-color: #fff;
   margin-bottom: 30px;
-  .detatil_card_top{
+
+  .detatil_card_top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    .detatil_card_left{
+
+    .detatil_card_left {
       display: flex;
       align-items: flex-end;
-      div{
+
+      div {
         font-size: 36px;
         font-weight: 600;
       }
     }
-    .detatil_card_right{
+
+    .detatil_card_right {
       width: 300px;
       text-align: right;
-      .detatil_card_progress{
+
+      .detatil_card_progress {
         display: flex;
         align-items: center;
-        span{
+
+        span {
           width: 100px;
           color: #1890ff;
           text-align: right;
@@ -57,88 +65,115 @@
       }
     }
   }
-  .detatil_card_bottom{
+
+  .detatil_card_bottom {
     font-size: 14px;
     word-break: break-all;
     line-height: 25px;
   }
 }
-.detatil_visualarea_layout{
+
+.detatil_visualarea_layout {
   width: 100%;
   padding: 20px;
   border-radius: 5px;
   background-color: #fff;
   margin-bottom: 30px;
-  .detatil_visualarea_header{
+
+  .detatil_visualarea_header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    .detatil_visualarea_title{
+
+    .detatil_visualarea_title {
       font-size: 25px;
       font-weight: 600;
     }
-    .detatil_visualarea_right{
+
+    .detatil_visualarea_right {
       display: flex;
       align-items: center;
-      .detatil_visualarea_text{
+
+      .detatil_visualarea_text {
         margin-right: 20px;
         display: inline-block;
       }
     }
   }
-  .detatil_visualarea_content{
+
+  .detatil_visualarea_content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px 0;
-    .detatil_visualarea_title{
+
+    .detatil_visualarea_title {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      p{
+
+      p {
         font-size: 22px;
         font-weight: bold;
         margin-bottom: 10px;
       }
-      span{
+
+      span {
         display: inline-block;
         font-size: 14px;
+        text-align: center;
+        div{
+          display: inline-block;
+          font-size: 16px;
+          font-weight: bold;
+        }
       }
     }
   }
 }
-.detatil_table_layout{
+
+.detatil_table_layout {
   width: 100%;
   padding: 20px;
   border-radius: 5px;
   background-color: #fff;
-  .detatil_table_title{
+
+  .detatil_table_title {
     font-size: 18px;
     font-weight: bold;
   }
-  .detatil_table_operation{
+
+  .detatil_table_operation {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
-    .detatil_table_left{
+
+    .detatil_table_left {
       display: flex;
       align-items: center;
-      .detatil_table_name{
+
+      .detatil_table_name {
         display: inline-block;
         width: 50px;
       }
     }
-    .detatil_table_right{
-      border: 1px solid #0b0bff;
-      padding: 5px 20px; 
-      border-radius: 5px;
-      cursor: pointer;
+
+    .detatil_table_right {
+      display: flex;
+      justify-content: center;
+      .detatil_table_right_export {
+        border: 1px solid #0b0bff;
+        padding: 4px 20px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
     }
   }
 }
-.introduce_img{
+
+.introduce_img {
   width: 340px;
 }

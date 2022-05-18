@@ -13,7 +13,6 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
   //生成雷达图
   const radarMap = (polygon: string) => {
     if (!polygon) return;
-    console.log(DataView)
     const { DataView } = DataSet;
     const json = JSON.parse(polygon);
     const data = Object.keys(json).map((key) => ({

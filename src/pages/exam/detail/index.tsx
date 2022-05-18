@@ -20,12 +20,15 @@ const ExamDetail: React.FC = () => {
   const [measurement, setMeasurement] = useState<Measurement>(); //测评信息
   const [department, setDepartment] = useState<any>([]); // 部门option
   const [introduceVisible, setIntroduceVisible] = useState<boolean>(false); // 侧边盒子显示
-  const [chartList, setChartList] = useState<any>([]) // 图表数据
+  const [chartList, setChartList] = useState<any>() // 图表数据
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
+  const [searchName, setSearchName] = useState<string>(); // 搜索的name
   const [nameSearchLoading, setNameSearchLoading] = useState<boolean>(false); // 名字搜索的loading
+  const visualRef: any = useRef([])
   const fetchRef = useRef(0);
   const [fetching, setFetching] = useState(false);
   const locat: any = useLocation()
+
   const { corpId, appId, clientId } = queryString.parse(location.search) as {
     corpId: string;
     appId: string;
@@ -105,8 +108,12 @@ const ExamDetail: React.FC = () => {
   const history = useHistory()
   const { id } = useParams() as { id: string };
   // 获取表格数据
-  const getTableList = (name?: string) => {
-    getExamUsers({ examid: id, name }).then((res) => {
+  const getTableList = (params: any) => {
+    const { name, deptId, curPage = 1, pageSize = 20 } = params
+    const obj = { examid: id, name, deptId, curPage, pageSize };
+    (!obj.name || obj.name == '') && delete obj.name;
+    (!obj.deptId) && delete obj.deptId;
+    getExamUsers(obj).then((res) => {
       if (res.code === 1) {
         setExamUsers(res.data);
         setNameSearchLoading(false)
@@ -114,28 +121,34 @@ const ExamDetail: React.FC = () => {
     });
   }
   useEffect(() => {
-    if (!id) {
-      message.error('缺少必要参数');
-      return;
-    }
-    getTableList()
-    getAllInfo(id).then(res => {
-      if (res.code === 1) {
-        setMeasurement(res.data)
-      }
-    })
-  }, [id]);
-  useEffect(() => {
     getChart({ tpf: 1, appId, corpId, userId, examId: id, deptId }).then(res => {
       if (res.code === 1) {
         setChartList(res.data);
       }
     })
+    getTableList({ name: searchName, deptId })
   }, [deptId])
   useEffect(() => {
-    completionList && completionList()
-    personalityList && personalityList()
-    characterList && characterList()
+    if (!id) {
+      message.error('缺少必要参数');
+      return;
+    }
+    getAllInfo(id).then(res => {
+      if (res.code === 1) {
+        setMeasurement(res.data)
+      }
+    })
+    debounceFetcher('')
+  }, [id]);
+  useEffect(() => {
+    if (visualRef?.current && visualRef?.current?.length > 0) {
+      visualRef.current[0].innerHTML = '';
+      visualRef.current[1].innerHTML = '';
+      visualRef.current[2].innerHTML = '';
+      completionList(visualRef.current[0]).render()
+      personalityList(visualRef.current[1]).render()
+      characterList(visualRef.current[2]).render()
+    }
   }, [examUsers])
   // 部门onSerach
   const debounceFetcher = useMemo(() => {
@@ -170,9 +183,9 @@ const ExamDetail: React.FC = () => {
     return <PageLoading />;
   }
   // 测评完成率
-  const completionList = () => {
-    const liquidPlot = new Liquid(document.getElementById('completionRef'), {
-      percent: chartList?.finishDegree && chartList?.finishDegree / 100,
+  const completionList = (node1: HTMLElement) => {
+    const liquidPlot = new Liquid(node1, {
+      percent: chartList?.finishDegree && chartList?.finishDegree / 100 || 0,
       height: 280,
       width: 250,
       outline: {
@@ -183,14 +196,15 @@ const ExamDetail: React.FC = () => {
         length: 128,
       },
     });
-    liquidPlot.render();
+    // liquidPlot.render();
+    return liquidPlot
   }
   // 人格分布占比
-  const personalityList = () => {
-    const columnPlot = new Column(document.getElementById('personalityRef'), {
+  const personalityList = (node2: HTMLElement) => {
+    const columnPlot = new Column(node2, {
       width: 400,
       height: 300,
-      data: chartList?.personalityProportions,
+      data: chartList?.personalityProportions || [],
       xField: 'name',
       yField: 'value',
       color: '#fe7345',
@@ -210,33 +224,48 @@ const ExamDetail: React.FC = () => {
         },
       },
     });
-    columnPlot.render();
+    // columnPlot.render();
+    return columnPlot
   }
   // 性格图表
-  const characterList = () => {
+  const characterList = (node3: HTMLElement) => {
     const data = {
       name: 'root',
-      children: chartList?.characterProportions
+      children: chartList?.characterProportions || []
     }
-    const treemapPlot = new Treemap(document.getElementById('characterRef'), {
+    const treemapPlot = new Treemap(node3, {
       width: 400,
       height: 300,
       data,
       colorField: 'name',
     });
-    treemapPlot.render();
+    // treemapPlot.render();
+    return treemapPlot
   }
   // 表格名称搜索
-  const onSearch = (value: string) => {
-    setNameSearchLoading(true)
-    // getTableList(value)
-    // console.log(completionList())
+  const onSearch = (e: any) => {
+    setSearchName(e?.target?.value)
   }
   // 导出
   const onDeriveClick = () => {
-    // measurementExport().then(res=>{
-    //   console.log(res)
-    // })
+    measurementExport(id).then((res: any) => {
+      if (res.code == 1) {
+        let a = document.createElement('a')
+        a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
+        a.download = res.data.cname
+        a.click()
+      }
+    })
+  }
+  // 搜索
+  const onSearchClick = () => {
+    setNameSearchLoading(true)
+    getTableList({ name: searchName, deptId })
+  }
+  // 重置
+  const onResetClick = () => {
+    setSearchName('')
+    getTableList({})
   }
   return (
     <PageContainer>
@@ -287,6 +316,7 @@ const ExamDetail: React.FC = () => {
               onClear={() => setDeptId(undefined)}
               onSelect={(value: any) => {
                 setDeptId(value.key);
+                setSearchName('')
               }}
             />
           </div>
@@ -294,48 +324,51 @@ const ExamDetail: React.FC = () => {
         <div className='detatil_visualarea_content'>
           <div className='detatil_visualarea_title'>
             <p>测评完成率</p>
-            <div id="completionRef" />
-            <span>覆盖人数: {chartList?.totalNum}人  完成认数: {chartList?.finishNum}人</span>
+            <div ref={(el) => visualRef.current[0] = el} />
+            <span>覆盖人数: <div>{chartList?.totalNum || 0}</div>人 &ensp;&ensp;&ensp;   完成人数: <div>{chartList?.finishNum || 0}</div>人</span>
           </div>
           <div className='detatil_visualarea_title'>
             <p>人格分布占比</p>
-            <div id="personalityRef" />
+            <div ref={(el) => visualRef.current[1] = el} />
           </div>
           <div className='detatil_visualarea_title'>
             <p>性格标签分布</p>
-            <div id="characterRef" />
+            <div ref={(el) => visualRef.current[2] = el} />
           </div>
         </div>
       </div>
       <div className='detatil_table_layout'>
         <div className='detatil_table_title'>测评详情</div>
-        {/* <div className='detatil_table_operation'>
+        <div className='detatil_table_operation'>
           <div className='detatil_table_left'>
             <span className='detatil_table_name'>姓名</span>
-            <Input.Search
+            <Input
               placeholder="请输入"
-              allowClear
-              loading={nameSearchLoading}
-              enterButton="查询"
-              size="large"
-              onSearch={onSearch}
+              value={searchName}
+              onChange={onSearch}
+              style={{ width: 280 }}
             />
           </div>
-          <div className='detatil_table_right' onClick={onDeriveClick}>导出</div>
-        </div> */}
+          <div className='detatil_table_right'>
+            <Button onClick={onSearchClick} loading={nameSearchLoading} type="primary" >搜索</Button>
+            <Button onClick={onResetClick} style={{ margin: '0 25px' }}>重置</Button>
+            <div className='detatil_table_right_export' onClick={onDeriveClick}>导出</div>
+          </div>
+        </div>
       </div>
-      <ProTable<ExamUser>
+      <ProTable
         search={false}
         options={false}
         columns={columns}
-        rowKey="id"
+        rowKey="examPaperId"
         dataSource={examUsers?.resultList}
         pagination={{
           showSizeChanger: true,
-          pageSize: 20,
-          current: locat.query.current || 1,
-          onChange: (e) => {
-            history.push(`/exam/${id}?type=${locat.query.type}&current=${e}`)
+          current: examUsers.curPage,
+          total: examUsers.totalItem,
+          onChange: (pageNo, pageSize) => {
+            getTableList({ name: searchName, deptId, curPage: pageNo, pageSize })
+            // history.push(`/exam/${id}?type=${locat.query.type}&current=${pageNo}`)
           }
         }}
       />

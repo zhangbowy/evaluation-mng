@@ -75,6 +75,6 @@ export const getAllInfo = async (examid: string) =>{
     return request<Result<Measurement>>('/api/spf-cc/b/evaluation/management/getExamInformation',{ params:{ examid } })
 }
 
-export const measurementExport = async (params: any) =>{
-    return request<Result<any>>('/api/spf-cc/b/evaluation/management/exportExcel',{ params })
+export const measurementExport = async (examId: string) =>{
+    return request<Result<any>>('/api/spf-cc/b/evaluation/management/exportExcel',{ params:{ examId } })
 }
