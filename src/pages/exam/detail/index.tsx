@@ -1,12 +1,12 @@
 import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import { useParams, useLocation, useHistory, } from 'umi';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Col, message, Progress, Row, Space, Typography, Breadcrumb, Button, Select, Input, Drawer, Empty, Spin } from 'antd';
 import { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from '../../../components/Result/report';
-import { getExamUsers, getChart, queryDept, getAllInfo,measurementExport } from '@/services/api';
+import { getExamUsers, getChart, queryDept, getAllInfo, measurementExport } from '@/services/api';
 import { Liquid, Column, Treemap } from '@antv/g2plot';
 import debounce from 'lodash/debounce';
 import queryString from 'query-string';
@@ -20,10 +20,9 @@ const ExamDetail: React.FC = () => {
   const [measurement, setMeasurement] = useState<Measurement>(); //测评信息
   const [department, setDepartment] = useState<any>([]); // 部门option
   const [introduceVisible, setIntroduceVisible] = useState<boolean>(false); // 侧边盒子显示
-  const [chartList, setChartList] = useState<any>() // 图表数据
+  const [chartList, setChartList] = useState<any>([]) // 图表数据
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
   const [nameSearchLoading, setNameSearchLoading] = useState<boolean>(false); // 名字搜索的loading
-  const completionRef: any = useRef([]) // 图表显示的节点
   const fetchRef = useRef(0);
   const [fetching, setFetching] = useState(false);
   const locat: any = useLocation()
@@ -134,12 +133,9 @@ const ExamDetail: React.FC = () => {
     })
   }, [deptId])
   useEffect(() => {
-    // console.log(completionRef.current.length)
-    if (completionRef.current.length > 0) {
-      completionList().render()
-      personalityList().render()
-      characterList().render()
-    }
+    completionList && completionList()
+    personalityList && personalityList()
+    characterList && characterList()
   }, [examUsers])
   // 部门onSerach
   const debounceFetcher = useMemo(() => {
@@ -175,7 +171,7 @@ const ExamDetail: React.FC = () => {
   }
   // 测评完成率
   const completionList = () => {
-    const liquidPlot = new Liquid(completionRef.current[0], {
+    const liquidPlot = new Liquid(document.getElementById('completionRef'), {
       percent: chartList?.finishDegree && chartList?.finishDegree / 100,
       height: 280,
       width: 250,
@@ -187,12 +183,11 @@ const ExamDetail: React.FC = () => {
         length: 128,
       },
     });
-    return liquidPlot
-    // liquidPlot.render();
+    liquidPlot.render();
   }
   // 人格分布占比
   const personalityList = () => {
-    const columnPlot = new Column(completionRef.current[1], {
+    const columnPlot = new Column(document.getElementById('personalityRef'), {
       width: 400,
       height: 300,
       data: chartList?.personalityProportions,
@@ -215,8 +210,7 @@ const ExamDetail: React.FC = () => {
         },
       },
     });
-    return columnPlot
-    // columnPlot.render();
+    columnPlot.render();
   }
   // 性格图表
   const characterList = () => {
@@ -224,14 +218,13 @@ const ExamDetail: React.FC = () => {
       name: 'root',
       children: chartList?.characterProportions
     }
-    const treemapPlot = new Treemap(completionRef.current[2], {
+    const treemapPlot = new Treemap(document.getElementById('characterRef'), {
       width: 400,
       height: 300,
       data,
       colorField: 'name',
     });
-    return treemapPlot
-    // treemapPlot.render();
+    treemapPlot.render();
   }
   // 表格名称搜索
   const onSearch = (value: string) => {
@@ -240,7 +233,7 @@ const ExamDetail: React.FC = () => {
     // console.log(completionList())
   }
   // 导出
-  const onDeriveClick = () =>{
+  const onDeriveClick = () => {
     // measurementExport().then(res=>{
     //   console.log(res)
     // })
@@ -301,16 +294,16 @@ const ExamDetail: React.FC = () => {
         <div className='detatil_visualarea_content'>
           <div className='detatil_visualarea_title'>
             <p>测评完成率</p>
-            <div ref={(el) => completionRef.current[0] = el} />
-            <span>覆盖人数: {chartList?.totalNum}人  完成认识: {chartList?.finishNum}人</span>
+            <div id="completionRef" />
+            <span>覆盖人数: {chartList?.totalNum}人  完成认数: {chartList?.finishNum}人</span>
           </div>
           <div className='detatil_visualarea_title'>
             <p>人格分布占比</p>
-            <div ref={(el) => completionRef.current[1] = el} />
+            <div id="personalityRef" />
           </div>
           <div className='detatil_visualarea_title'>
             <p>性格标签分布</p>
-            <div ref={(el) => completionRef.current[2] = el} />
+            <div id="characterRef" />
           </div>
         </div>
       </div>
@@ -353,11 +346,9 @@ const ExamDetail: React.FC = () => {
         title="测评介绍"
         closable={false}
         destroyOnClose={true}
+        width="390px"
       >
-        <div>
-          {/* <img src="" alt="" /> */}
-          1111
-        </div>
+        <img className='introduce_img' src={measurement?.introductionImage?.admin} alt="" />
       </Drawer>
     </PageContainer>
   );

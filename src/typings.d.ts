@@ -70,6 +70,9 @@ type Measurement = {
     examTitle: string;
     introduction: string;
     examTemplateType: string;
+    introductionImage:{
+        admin:string;
+    }
 }
 type ExamUsers = {
 

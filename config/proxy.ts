@@ -8,7 +8,6 @@
  */
 export default {
   dev: {
-    // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/api/': {
       // 要代理的地址
       target: 'http://daily-eval.sunmeta.top',
