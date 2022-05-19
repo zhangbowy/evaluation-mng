@@ -149,7 +149,7 @@ const ExamDetail: React.FC = () => {
       personalityList(visualRef.current[1]).render()
       characterList(visualRef.current[2]).render()
     }
-  }, [examUsers])
+  }, [examUsers,chartList])
   // 部门onSerach
   const debounceFetcher = useMemo(() => {
     const loadOptions = async (value: string) => {
