@@ -211,8 +211,10 @@ const ExamDetail: React.FC = () => {
       xField: 'name',
       yField: 'value',
       color: '#fe7345',
+      autoFit: true,
       label: {
         position: 'top',
+        offset: 0,
         content: (xValue) => {
           return `${xValue.value}人`
         }
@@ -222,12 +224,12 @@ const ExamDetail: React.FC = () => {
           autoHide: true,
           autoRotate: false,
         },
+        top: true
       },
-      yAxis: {
-        max: chartList?.personalityProportions?.length || 100,
-        min: 0,
-        tickCount: chartList?.personalityProportions?.length + 1,
-      },
+      // yAxis: {
+      //   min: 0,
+      //   tickCount: 7,
+      // },
       meta: {
         value: {
           alias: '人格占比',
@@ -242,21 +244,42 @@ const ExamDetail: React.FC = () => {
   }
   // 性格图表
   const characterList = (node3: HTMLElement) => {
+    // let list = []
+    // let last = []
+    // let num = 0;
+    // let data = {}
+    // if (chartList?.characterProportions) {
+    //   if (chartList?.characterProportions.length > 20) {
+    //     list = chartList?.characterProportions && chartList?.characterProportions.slice(0, 19)
+    //     last = chartList?.characterProportions && chartList?.characterProportions.slice(19, chartList?.characterProportions.length)
+    //     num = last && last.reduce((a: any, b: any) => a + b.value, 0)
+    //     data = {
+    //       name: 'root',
+    //       children: (list && [...list, { name: '其他', value: num }]) || []
+    //     }
+    //   } else {
+    //     data = {
+    //       name: 'root',
+    //       children: chartList?.characterProportions || []
+    //     }
+    //   }
+    // }
     const data = {
       name: 'root',
       children: chartList?.characterProportions || []
     }
     const treemapPlot = new Treemap(node3, {
-      width: 400,
-      height: 300,
       data,
       colorField: 'name',
+      autoFit: true,
+      width: 430,
+      height: 300,
       label: {
         content: (xValue) => {
           return `${xValue.name}-${xValue.value}人`
-        }
+        },
       },
-      tooltip:{
+      tooltip: {
         formatter: (datum: any) => {
           return { name: datum.name, value: datum.value + '人' };
         },
@@ -327,7 +350,7 @@ const ExamDetail: React.FC = () => {
       </div>
       <div className='detatil_visualarea_layout'>
         <div className='detatil_visualarea_header'>
-          <div className='detatil_visualarea_title'>报表</div>
+          <div className='detatil_visualarea_titlebao'>报表</div>
           <div className='detatil_visualarea_right'>
             <span className='detatil_visualarea_text'>部门</span>
             <Select
@@ -361,7 +384,7 @@ const ExamDetail: React.FC = () => {
             <div ref={(el) => visualRef.current[1] = el} />
           </div>
           <div className='detatil_visualarea_title'>
-            <p>性格标签分布</p>
+            <p className='theLabel'>性格标签分布</p>
             <div ref={(el) => visualRef.current[2] = el} />
           </div>
         </div>
