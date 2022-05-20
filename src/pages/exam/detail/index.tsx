@@ -204,6 +204,7 @@ const ExamDetail: React.FC = () => {
   }
   // 人格分布占比
   const personalityList = (node2: HTMLElement) => {
+    const maxNum = Math.max(...chartList?.personalityProportions.map((res: any) => res.value))
     const columnPlot = new Column(node2, {
       width: 400,
       height: 300,
@@ -212,9 +213,9 @@ const ExamDetail: React.FC = () => {
       yField: 'value',
       color: '#fe7345',
       autoFit: true,
+      columnWidthRatio: 0.3,
       label: {
         position: 'top',
-        offset: 0,
         content: (xValue) => {
           return `${xValue.value}人`
         }
@@ -226,16 +227,16 @@ const ExamDetail: React.FC = () => {
         },
         top: true
       },
-      // yAxis: {
-      //   min: 0,
-      //   tickCount: 7,
-      // },
+      yAxis: {
+        min: 0,
+        tickCount: maxNum < 5 ? maxNum + 1 : 5,
+      },
       meta: {
         value: {
           alias: '人格占比',
           formatter: (text: string) => {
             return `${text}人`
-          }
+          },
         },
       },
     });
