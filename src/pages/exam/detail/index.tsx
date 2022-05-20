@@ -213,6 +213,9 @@ const ExamDetail: React.FC = () => {
       color: '#fe7345',
       label: {
         position: 'top',
+        content: (xValue) => {
+          return `${xValue.value}人`
+        }
       },
       xAxis: {
         label: {
@@ -223,16 +226,14 @@ const ExamDetail: React.FC = () => {
       yAxis: {
         max: chartList?.personalityProportions?.length || 100,
         min: 0,
-        tickCount: chartList?.personalityProportions?.length+1,
-        label: {
-          formatter: (text, item, index) => {
-            return `${text} 人`
-          }
-        }
+        tickCount: chartList?.personalityProportions?.length + 1,
       },
       meta: {
         value: {
           alias: '人格占比',
+          formatter: (text: string) => {
+            return `${text}人`
+          }
         },
       },
     });
@@ -254,6 +255,11 @@ const ExamDetail: React.FC = () => {
         content: (xValue) => {
           return `${xValue.name}-${xValue.value}人`
         }
+      },
+      tooltip:{
+        formatter: (datum: any) => {
+          return { name: datum.name, value: datum.value + '人' };
+        },
       }
     });
     // treemapPlot.render();
