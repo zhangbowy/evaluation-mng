@@ -124,7 +124,8 @@
         display: inline-block;
         font-size: 14px;
         text-align: center;
-        div{
+
+        div {
           display: inline-block;
           font-size: 16px;
           font-weight: bold;
@@ -151,19 +152,27 @@
     align-items: center;
     margin-top: 20px;
 
-    .detatil_table_left {
+    .detatil_table_leftWrapper {
       display: flex;
       align-items: center;
+      .detatil_table_left {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
 
-      .detatil_table_name {
-        display: inline-block;
-        width: 50px;
+        .detatil_table_name {
+          display: inline-block;
+          // width: 50px;
+          margin-right: 10px;
+        }
       }
     }
+
 
     .detatil_table_right {
       display: flex;
       justify-content: center;
+
       .detatil_table_right_export {
         border: 1px solid #0b0bff;
         padding: 4px 20px;

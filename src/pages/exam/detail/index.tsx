@@ -23,6 +23,7 @@ const ExamDetail: React.FC = () => {
   const [chartList, setChartList] = useState<any>() // 图表数据
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
   const [searchName, setSearchName] = useState<string>(); // 搜索的name
+  const [searchComplete, setSearchComplete] = useState<any>(); // 搜索的完成情况
   const [nameSearchLoading, setNameSearchLoading] = useState<boolean>(false); // 名字搜索的loading
   const visualRef: any = useRef([])
   const fetchRef = useRef(0);
@@ -109,9 +110,11 @@ const ExamDetail: React.FC = () => {
   const { id } = useParams() as { id: string };
   // 获取表格数据
   const getTableList = (params: any) => {
-    const { name, deptId, curPage = 1, pageSize = 20 } = params
-    const obj = { examid: id, name, deptId, curPage, pageSize };
+    const { name, deptId, status, curPage = 1, pageSize = 20 } = params
+    const selectVal = (status && status.length > 0 && searchComplete!.split(',').map(Number)) || ''
+    const obj = { examid: id, name, status: selectVal, deptId, curPage, pageSize };
     (!obj.name || obj.name == '') && delete obj.name;
+    (!obj.status || obj.status == '') && delete obj.status;
     (!obj.deptId) && delete obj.deptId;
     getExamUsers(obj).then((res) => {
       if (res.code === 1) {
@@ -126,7 +129,7 @@ const ExamDetail: React.FC = () => {
         setChartList(res.data);
       }
     })
-    getTableList({ name: searchName, deptId })
+    getTableList({ name: searchName, deptId, status: searchComplete })
   }, [deptId])
   useEffect(() => {
     if (!id) {
@@ -149,7 +152,7 @@ const ExamDetail: React.FC = () => {
       personalityList(visualRef.current[1]).render()
       characterList(visualRef.current[2]).render()
     }
-  }, [examUsers,chartList])
+  }, [examUsers, chartList])
   // 部门onSerach
   const debounceFetcher = useMemo(() => {
     const loadOptions = async (value: string) => {
@@ -208,6 +211,9 @@ const ExamDetail: React.FC = () => {
       xField: 'name',
       yField: 'value',
       color: '#fe7345',
+      label: {
+        position: 'top',
+      },
       xAxis: {
         label: {
           autoHide: true,
@@ -215,8 +221,14 @@ const ExamDetail: React.FC = () => {
         },
       },
       yAxis: {
-        max: 5,
-        min: 0
+        max: chartList?.personalityProportions?.length || 100,
+        min: 0,
+        tickCount: chartList?.personalityProportions?.length+1,
+        label: {
+          formatter: (text, item, index) => {
+            return `${text} 人`
+          }
+        }
       },
       meta: {
         value: {
@@ -238,6 +250,11 @@ const ExamDetail: React.FC = () => {
       height: 300,
       data,
       colorField: 'name',
+      label: {
+        content: (xValue) => {
+          return `${xValue.name}-${xValue.value}人`
+        }
+      }
     });
     // treemapPlot.render();
     return treemapPlot
@@ -260,12 +277,17 @@ const ExamDetail: React.FC = () => {
   // 搜索
   const onSearchClick = () => {
     setNameSearchLoading(true)
-    getTableList({ name: searchName, deptId })
+    getTableList({ name: searchName, deptId, status: searchComplete })
   }
   // 重置
   const onResetClick = () => {
     setSearchName('')
-    getTableList({})
+    getTableList({ deptId })
+    setSearchComplete(null)
+  }
+  // 选择框的onchange
+  const handleChange = (e: string) => {
+    setSearchComplete(e)
   }
   return (
     <PageContainer>
@@ -317,6 +339,7 @@ const ExamDetail: React.FC = () => {
               onSelect={(value: any) => {
                 setDeptId(value.key);
                 setSearchName('')
+                setSearchComplete(null)
               }}
             />
           </div>
@@ -340,14 +363,23 @@ const ExamDetail: React.FC = () => {
       <div className='detatil_table_layout'>
         <div className='detatil_table_title'>测评详情</div>
         <div className='detatil_table_operation'>
-          <div className='detatil_table_left'>
-            <span className='detatil_table_name'>姓名</span>
-            <Input
-              placeholder="请输入"
-              value={searchName}
-              onChange={onSearch}
-              style={{ width: 280 }}
-            />
+          <div className='detatil_table_leftWrapper'>
+            <div className='detatil_table_left'>
+              <span className='detatil_table_name'>姓名</span>
+              <Input
+                placeholder="请输入"
+                value={searchName}
+                onChange={onSearch}
+                style={{ width: 200 }}
+              />
+            </div>
+            <div className='detatil_table_left'>
+              <span className='detatil_table_name'>完成情况</span>
+              <Select placeholder="请选择" style={{ width: 200 }} value={searchComplete} onChange={handleChange}>
+                <Select.Option value='10'>已完成</Select.Option>
+                <Select.Option value='0, 1, 2, 3'>未完成</Select.Option>
+              </Select>
+            </div>
           </div>
           <div className='detatil_table_right'>
             <Button onClick={onSearchClick} loading={nameSearchLoading} type="primary" >搜索</Button>
