@@ -204,7 +204,7 @@ const ExamDetail: React.FC = () => {
   }
   // 人格分布占比
   const personalityList = (node2: HTMLElement) => {
-    const maxNum = Math.max(...chartList?.personalityProportions.map((res: any) => res.value))
+    const maxNum = chartList?.personalityProportions && Math.max(...chartList?.personalityProportions.map((res: any) => res.value))
     const columnPlot = new Column(node2, {
       width: 400,
       height: 300,
@@ -213,6 +213,7 @@ const ExamDetail: React.FC = () => {
       yField: 'value',
       color: '#fe7345',
       autoFit: true,
+      appendPadding: [20,0,0,0],
       columnWidthRatio: 0.3,
       label: {
         position: 'top',
@@ -229,7 +230,7 @@ const ExamDetail: React.FC = () => {
       },
       yAxis: {
         min: 0,
-        tickCount: maxNum < 5 ? maxNum + 1 : 5,
+        tickCount: maxNum < 5 ? maxNum + 1 : 6,
       },
       meta: {
         value: {
