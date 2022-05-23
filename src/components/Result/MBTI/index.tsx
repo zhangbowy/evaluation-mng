@@ -39,13 +39,15 @@ const MbtiPreview = (props: any) => {
     const isLeftProgress = (start: string, end: string, status: string): any => {
         if (resulyData?.scoreDetail) {
             const isTrue =
-                resulyData?.scoreDetail[start] > resulyData?.scoreDetail[end] ||
-                resulyData?.scoreDetail[start] == resulyData?.scoreDetail[end];
+                resulyData?.scoreDetail[start]?.fullScore >
+                resulyData?.scoreDetail[end]?.fullScore ||
+                resulyData?.scoreDetail[start]?.fullScore ==
+                resulyData?.scoreDetail[end]?.fullScore;
             switch (status) {
                 case 'width':
                     return isTrue
-                        ? `${resulyData?.scoreDetail[start] || 0}%`
-                        : `${resulyData?.scoreDetail[end] || 0}%`;
+                        ? `${resulyData?.scoreDetail[start]?.fullScore || 0}%`
+                        : `${resulyData?.scoreDetail[end]?.fullScore || 0}%`;
                 case 'right':
                     return isTrue ? 'auto' : 0;
             }
@@ -67,7 +69,7 @@ const MbtiPreview = (props: any) => {
                                 <div>的人格类型是</div>
                                 <div>
                                     {resulyData.results[0] &&
-                                    resulyData?.results[0]?.type?.match(/\(.+?\)/g) &&
+                                        resulyData?.results[0]?.type?.match(/\(.+?\)/g) &&
                                         resulyData?.results[0]?.type
                                             ?.match(/\(.+?\)/g)[0]
                                             ?.slice(1, -1)}
@@ -89,13 +91,14 @@ const MbtiPreview = (props: any) => {
                                     <div className={styles.progress_left}>
                                         <div>
                                             {(resulyData?.scoreDetail &&
-                                                Math.round(
-                                                    resulyData?.scoreDetail[res?.startProgress],
-                                                )) ||
+                                                resulyData?.scoreDetail[res?.startProgress]
+                                                    .fullScore) ||
                                                 0}
                                             %
                                         </div>
-                                        <div>{res.startText}</div>
+                                        <div>{resulyData?.scoreDetail &&
+                                            resulyData?.scoreDetail[res.startProgress]
+                                                .resultType}</div>
                                     </div>
                                     <div className={styles.progress_center}>
                                         <div
@@ -119,13 +122,14 @@ const MbtiPreview = (props: any) => {
                                     <div className={styles.progress_right}>
                                         <div>
                                             {(resulyData?.scoreDetail &&
-                                                Math.round(
-                                                    resulyData?.scoreDetail[res.endTextProgress],
-                                                )) ||
+                                                resulyData?.scoreDetail[res.endTextProgress]
+                                                    .fullScore) ||
                                                 0}
                                             %
                                         </div>
-                                        <div>{res.endText}</div>
+                                        <div>{resulyData?.scoreDetail &&
+                                            resulyData?.scoreDetail[res.endTextProgress]
+                                                .resultType}</div>
                                     </div>
                                 </div>
                             ))}
