@@ -2,7 +2,6 @@
   font-family: '思源黑体-正粗';
   font-display: swap;
   src: url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.eot');
-  /* IE9*/
   src: url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.eot?#iefix') format('embedded-opentype'),
     /* IE6-IE8 */
     url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.woff2') format('woff2'),
@@ -11,14 +10,12 @@
     url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.ttf') format('truetype'),
     /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.svg#思源黑体-正粗') format('svg');
-  /* iOS 4.1- */
 }
 
 @font-face {
   font-family: '思源黑体-粗';
   font-display: swap;
   src: url('//at.alicdn.com/t/webfont_bvcx5xud2mb.eot');
-  /* IE9*/
   src: url('//at.alicdn.com/t/webfont_bvcx5xud2mb.eot?#iefix') format('embedded-opentype'),
     /* IE6-IE8 */
     url('//at.alicdn.com/t/webfont_bvcx5xud2mb.woff2') format('woff2'),
@@ -27,14 +24,12 @@
     url('//at.alicdn.com/t/webfont_bvcx5xud2mb.ttf') format('truetype'),
     /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     url('//at.alicdn.com/t/webfont_bvcx5xud2mb.svg#思源黑体-粗') format('svg');
-  /* iOS 4.1- */
 }
 
 @font-face {
   font-family: '思源黑体-常规';
   font-display: swap;
   src: url('//at.alicdn.com/t/webfont_74cveo15ix8.eot');
-  /* IE9*/
   src: url('//at.alicdn.com/t/webfont_74cveo15ix8.eot?#iefix') format('embedded-opentype'),
     /* IE6-IE8 */
     url('//at.alicdn.com/t/webfont_74cveo15ix8.woff2') format('woff2'),
@@ -43,7 +38,6 @@
     url('//at.alicdn.com/t/webfont_74cveo15ix8.ttf') format('truetype'),
     /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     url('//at.alicdn.com/t/webfont_74cveo15ix8.svg#NotoSansHans-DemiLight') format('svg');
-  /* iOS 4.1- */
 }
 
 .personality_layout {
@@ -51,6 +45,7 @@
   height: 100%;
   overflow-y: scroll;
   background-color: #5200db;
+  /* stylelint-disable-next-line function-url-quotes */
   background-image: url(/evaluation-web/imgs/qcp_bg.png);
   position: relative;
   .character_type_layout {
@@ -233,7 +228,7 @@
     .trait {
       width: 345px;
       border-radius: 10px;
-      background-color: #ffffff;
+      background-color: #fff;
       padding: 17px 17.5px;
       margin-top: 36.5px;
       position: relative;
@@ -318,7 +313,7 @@
     .field {
       width: 345px;
       border-radius: 10px;
-      background-color: #ffffff;
+      background-color: #fff;
       padding: 17.5px 12px 7.5px;
       margin-top: 36.5px;
       position: relative;
@@ -398,7 +393,7 @@
               width: 5.68px;
               height: 8.84px;
               border: 1px solid #fff;
-              border-width: 0px 2px 2px 0px;
+              border-width: 0 2px 2px 0;
               transform: rotate(45deg);
               display: block;
             }
@@ -410,7 +405,7 @@
     .careerpath {
       width: 345px;
       border-radius: 10px;
-      background-color: #ffffff;
+      background-color: #fff;
       padding: 17.5px 17px 7.5px;
       margin-top: 36.5px;
       position: relative;

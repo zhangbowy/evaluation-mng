@@ -7,7 +7,9 @@ import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 import { history } from 'umi';
 import styles from './index.less';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import introJs from "intro.js"
+import "intro.js/introjs.css";
 
 const ExamTemplate: React.FC = () => {
   const { corpId } = queryString.parse(location.search);
@@ -37,6 +39,36 @@ const ExamTemplate: React.FC = () => {
       });
     }
   };
+  // useEffect(() => {
+  //   const handleStep = async () => {
+  //     introJs().setOptions({
+  //       nextLabel: '下一步',
+  //       prevLabel: '上一步',
+  //       doneLabel: '立即体验',
+  //       hidePrev:true,
+  //       showBullets:false,
+  //       exitOnOverlayClick:false,
+  //       steps: [{
+  //         element: ".add_people0",
+  //         intro: "Hello step",
+  //         position: 'bottom'
+  //       },
+  //       {
+  //         element: ".add_people1",
+  //         intro: "Hello step",
+  //         position: 'top'
+  //       }
+  //     ]
+  //     }).oncomplete(() => {
+  //       //点击跳过按钮后执行的事件
+  //     }).onexit(() => {
+  //       //点击结束按钮后， 执行的事件
+  //     }).start()
+  //   }
+  //   setTimeout(async () => {
+  //     await handleStep()
+  //   }, 500);
+  // }, [])
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <Drawer
@@ -93,7 +125,7 @@ const ExamTemplate: React.FC = () => {
           },
           content: {
             dataIndex: 'introduction',
-            render: (introduction, entity) => {
+            render: (introduction, entity, index) => {
               return (
                 <div>
                   <div
@@ -142,6 +174,7 @@ const ExamTemplate: React.FC = () => {
                   </div>
                   <Button
                     onClick={() => handleClick(entity)}
+                    className={`add_people${index}`}
                     style={{
                       width: '100%',
                       height: 43,

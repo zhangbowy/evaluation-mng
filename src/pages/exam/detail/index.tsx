@@ -2,7 +2,7 @@ import { PageContainer, PageLoading } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import { useParams, useLocation, useHistory, } from 'umi';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Col, message, Progress, Row, Space, Typography, Breadcrumb, Button, Select, Input, Drawer, Empty, Spin } from 'antd';
+import { Col, message, Progress, Modal, Row, Space, Typography, Breadcrumb, Button, Select, Input, Drawer, Empty, Spin } from 'antd';
 import { ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ExamReport from '../../../components/Result/report';
@@ -25,6 +25,8 @@ const ExamDetail: React.FC = () => {
   const [searchName, setSearchName] = useState<string>(); // 搜索的name
   const [searchComplete, setSearchComplete] = useState<any>(); // 搜索的完成情况
   const [nameSearchLoading, setNameSearchLoading] = useState<boolean>(false); // 名字搜索的loading
+  // const [isModalVisible, setIsModalVisible] = useState(false); // 性格点击弹窗
+  // const isModalRef = useRef()
   const visualRef: any = useRef([])
   const fetchRef = useRef(0);
   const [fetching, setFetching] = useState(false);
@@ -213,7 +215,7 @@ const ExamDetail: React.FC = () => {
       yField: 'value',
       color: '#fe7345',
       autoFit: true,
-      appendPadding: [20,0,0,0],
+      appendPadding: [20, 0, 0, 0],
       columnWidthRatio: 0.3,
       label: {
         position: 'top',
@@ -387,7 +389,7 @@ const ExamDetail: React.FC = () => {
           </div>
           <div className='detatil_visualarea_title'>
             <p className='theLabel'>性格标签分布</p>
-            <div ref={(el) => visualRef.current[2] = el} />
+            <div  ref={(el) => visualRef.current[2] = el} />
           </div>
         </div>
       </div>
@@ -446,6 +448,9 @@ const ExamDetail: React.FC = () => {
       >
         <img className='introduce_img' src={measurement?.introductionImage?.admin} alt="" />
       </Drawer>
+      {/* <Modal footer={null} width={'80%'} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
+        <div ref={isModalRef}>11231</div>
+      </Modal> */}
     </PageContainer>
   );
 };
