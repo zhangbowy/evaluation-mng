@@ -25,8 +25,8 @@ const ExamDetail: React.FC = () => {
   const [searchName, setSearchName] = useState<string>(); // 搜索的name
   const [searchComplete, setSearchComplete] = useState<any>(); // 搜索的完成情况
   const [nameSearchLoading, setNameSearchLoading] = useState<boolean>(false); // 名字搜索的loading
-  // const [isModalVisible, setIsModalVisible] = useState(false); // 性格点击弹窗
-  // const isModalRef = useRef()
+  const [isModalVisible, setIsModalVisible] = useState(false); // 性格点击弹窗
+  const isModalRef: any = useRef()
   const visualRef: any = useRef([])
   const fetchRef = useRef(0);
   const [fetching, setFetching] = useState(false);
@@ -152,7 +152,7 @@ const ExamDetail: React.FC = () => {
       visualRef.current[2].innerHTML = '';
       completionList(visualRef.current[0]).render()
       personalityList(visualRef.current[1]).render()
-      characterList(visualRef.current[2]).render()
+      characterList(visualRef.current[2], 430, 300).render()
     }
   }, [examUsers, chartList])
   // 部门onSerach
@@ -184,6 +184,12 @@ const ExamDetail: React.FC = () => {
 
     return debounce(loadOptions, 500);
   }, [corpId, appId]);
+  useEffect(() => {
+    if (isModalRef.current) {
+      isModalRef.current.innerHTML = '';
+      characterList(isModalRef.current).render()
+    }
+  }, [isModalVisible])
   if (!examUsers) {
     return <PageLoading />;
   }
@@ -247,7 +253,7 @@ const ExamDetail: React.FC = () => {
     return columnPlot
   }
   // 性格图表
-  const characterList = (node3: HTMLElement) => {
+  const characterList = (node3: HTMLElement, width?: number, height?: number) => {
     // let list = []
     // let last = []
     // let num = 0;
@@ -276,8 +282,8 @@ const ExamDetail: React.FC = () => {
       data,
       colorField: 'name',
       autoFit: true,
-      width: 430,
-      height: 300,
+      width,
+      height,
       label: {
         content: (xValue) => {
           return `${xValue.name}-${xValue.value}人`
@@ -389,7 +395,9 @@ const ExamDetail: React.FC = () => {
           </div>
           <div className='detatil_visualarea_title'>
             <p className='theLabel'>性格标签分布</p>
-            <div  ref={(el) => visualRef.current[2] = el} />
+            <div onClick={() => setIsModalVisible(true)}>
+              <div ref={(el) => visualRef.current[2] = el} />
+            </div>
           </div>
         </div>
       </div>
@@ -448,9 +456,11 @@ const ExamDetail: React.FC = () => {
       >
         <img className='introduce_img' src={measurement?.introductionImage?.admin} alt="" />
       </Drawer>
-      {/* <Modal footer={null} width={'80%'} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
-        <div ref={isModalRef}>11231</div>
-      </Modal> */}
+      <Modal footer={null} width={'95%'} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
+        <div style={{padding:'20px 0'}}>
+          <div ref={isModalRef} />
+        </div>
+      </Modal>
     </PageContainer>
   );
 };

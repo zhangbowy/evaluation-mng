@@ -70,8 +70,8 @@ type Measurement = {
     examTitle: string;
     introduction: string;
     examTemplateType: string;
-    introductionImage:{
-        admin:string;
+    introductionImage: {
+        admin: string;
     }
 }
 type ExamUsers = {
@@ -96,6 +96,7 @@ type ExamUser = {
 }
 
 type ExamListItem = {
+    examTemplateType(id: number, examTemplateType: any): void;
     id: number;
     evaluationName: string;
     totalNumber: number;
@@ -179,4 +180,33 @@ type chartDate = {
     userId: string | undefined;
     examId: string;
     deptId?: string;
+}
+
+type stepsType = {
+    intro: string;
+    element?: string | HTMLElement | Element | undefined;
+    position?:
+    | 'top'
+    | 'left'
+    | 'right'
+    | 'bottom'
+    | 'bottom-left-aligned'
+    | 'bottom-middle-aligned'
+    | 'bottom-right-aligned'
+    | 'auto' | undefined;
+    tooltipClass?: string | undefined;
+    highlightClass?: string | undefined;
+    scrollTo?: 'off' | 'tooltip' | 'element' | undefined;
+    disableInteraction?: boolean | undefined;
+    title?: string | undefined;
+    step?: number | undefined;
+}
+
+type shareType = {
+    cid: string;
+    message: {
+        msgtype: string;
+        link: any
+    },
+    userId:string|undefined;
 }

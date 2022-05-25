@@ -6,13 +6,15 @@ import { message, Progress, Switch } from 'antd';
 import { editExam, examList, queryExamUserIds, updateExam } from '@/services/api';
 import { history } from 'umi';
 import dd from 'dingtalk-jsapi';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import queryString from 'query-string';
 import './index.less';
+import { handleStep } from '@/components/Steps';
 
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const { corpId } = queryString.parse(location.search);
+  const [examListData, setExamListData] = useState<any>()
   const handleClick = (id: number, type: string) => {
     history.push(`/exam/${id}?type=${type}`);
   };
@@ -49,13 +51,13 @@ const ExamList: React.FC = () => {
     {
       key: 'detail',
       title: '详情',
-      render: (_dom, entity) => <a onClick={() => handleClick(entity.id, entity.examTemplateType)}>查看详情</a>,
+      render: (_dom, entity, index) => <a className={`lookdetatil${index}`} onClick={() => handleClick(entity.id, entity.examTemplateType)}>查看详情</a>,
     },
     {
       key: 'op',
       title: '操作',
       valueType: 'option',
-      render: (_dom, entity) => [
+      render: (_dom, entity, index) => [
         <Switch
           key="switch"
           checkedChildren="开启"
@@ -69,12 +71,36 @@ const ExamList: React.FC = () => {
           }}
           checked={entity.type}
         />,
-        <a key="edit" onClick={() => handleEdit(entity.id)}>
-          编辑
+        <a key="edit" className={`addpeople${index}`} onClick={() => handleEdit(entity.id)}>
+          添加人员
         </a>,
       ],
     },
   ];
+  useEffect(() => {
+    if (examListData) {
+      const setpsArr: stepsType[] = [{
+        element: ".ant-page-header-heading-title",
+        intro: "用于查看测评完成情况，以及测评数据分析",
+        position: "bottom"
+      }]
+      if (examListData.length > 0) {
+        setpsArr.push({
+          element: ".lookdetatil0",
+          intro: "点击查看测评数据分析",
+          position: "bottom"
+        }, {
+          element: ".addpeople0",
+          intro: "添加新员工进行测评",
+          position: "bottom"
+        })
+      }
+      const timer = setTimeout(async () => {
+        await handleStep(setpsArr)
+      }, 500);
+      () => clearTimeout(timer)
+    }
+  }, [examListData])
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard className="card-head"></ProCard>
@@ -87,6 +113,7 @@ const ExamList: React.FC = () => {
         request={async (params) => {
           const res = await examList({ ...params, curPage: params.current });
           if (res.code === 1) {
+            setExamListData(res.data.resultList)
             return {
               success: true,
               data: res.data.resultList,

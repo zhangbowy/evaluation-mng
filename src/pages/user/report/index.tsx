@@ -6,9 +6,10 @@ import { getJoinExamUsers, queryDept } from '@/services/api';
 import { Empty, Space, Spin } from 'antd';
 import { history, useLocation } from 'umi';
 import debounce from 'lodash/debounce';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
 import './index.less';
+import { handleStep } from '@/components/Steps';
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -17,7 +18,8 @@ const UserReport: React.FC = () => {
   const [deptId, setDeptId] = useState<string>();
   const [deptOptions, setDeptOptions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const locquery:any = useLocation()
+  const [reportList, setReportList] = useState<any>(); // 列表数据
+  const locquery: any = useLocation()
   const fetchRef = useRef(0);
   const debounceDeptFetcher = useMemo(() => {
     const fetchDept = async (value: string) => {
@@ -85,6 +87,26 @@ const UserReport: React.FC = () => {
   //   };
   //   return debounce(fetchUser, 500);
   // }, [appId, corpId]);
+  useEffect(() => {
+    if (reportList) {
+      const setpsArr: stepsType[] = [{
+        element: ".ant-page-header-heading-title",
+        intro: "用于从员工维度查看每个人参与测评的情况，和报告详情",
+        position: "bottom"
+      }]
+      if (reportList.length > 0) {
+        setpsArr.push({
+          element: ".reportBtn0",
+          intro: "点击可查看员工标签和报告详情",
+          position: "bottom"
+        })
+      }
+      const timer = setTimeout(async () => {
+        await handleStep(setpsArr)
+      }, 500);
+      () => clearTimeout(timer)
+    }
+  }, [reportList])
   const columns: ProColumnType<UserReport>[] = [
     {
       key: 'id',
@@ -170,10 +192,10 @@ const UserReport: React.FC = () => {
       search: false,
       key: 'report',
       valueType: 'option',
-      render: (dom, entity) => {
+      render: (dom, entity, index) => {
         return (
           <a
-            className="reportBtn"
+            className={`reportBtn${index}`}
             onClick={() => {
               if (entity.successNum === 0) {
                 return;
@@ -204,6 +226,7 @@ const UserReport: React.FC = () => {
             deptId,
           });
           if (res.code === 1) {
+            setReportList(res.data.resultList)
             return {
               success: true,
               data: res.data.resultList,

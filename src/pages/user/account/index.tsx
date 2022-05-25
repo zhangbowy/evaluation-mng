@@ -3,13 +3,14 @@ import type { ActionType, ProColumnType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProCard from '@ant-design/pro-card';
 import { Button, Empty, message, Space, Spin, Switch } from 'antd';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getUserList, setAuths, queryDept } from '@/services/api';
 import queryString from 'query-string';
 import debounce from 'lodash/debounce';
 import { PlusOutlined } from '@ant-design/icons';
 import dd from 'dingtalk-jsapi';
 import './index.less';
+import { handleStep } from '@/components/Steps';
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -106,9 +107,9 @@ const UserList: React.FC = () => {
           <Space>
             {record.depts?.length > 2
               ? record.depts
-                  .slice(0, 1)
-                  .map((item) => <span key={item.deptId}>{item.name}</span>)
-                  .concat(<span>...</span>)
+                .slice(0, 1)
+                .map((item) => <span key={item.deptId}>{item.name}</span>)
+                .concat(<span>...</span>)
               : record.depts.map((item) => <span key={item.deptId}>{item.name}</span>)}
           </Space>
         );
@@ -128,13 +129,13 @@ const UserList: React.FC = () => {
           onClick={async (checked) => {
             const data = checked
               ? {
-                  addAuths: ['admin'],
-                  userIds: [record.userId],
-                }
+                addAuths: ['admin'],
+                userIds: [record.userId],
+              }
               : {
-                  removeAuths: ['admin'],
-                  userIds: [record.userId],
-                };
+                removeAuths: ['admin'],
+                userIds: [record.userId],
+              };
             const res = await setAuths(data);
             if (res.code === 1) {
               actionRef.current?.reload();
@@ -146,6 +147,17 @@ const UserList: React.FC = () => {
       ],
     },
   ];
+  useEffect(() => {
+    const setsArr: stepsType[] = [{
+      element: ".addpermissions",
+      intro: "添加后，对应人员可以登录趣测评企业管理后台查看数据报表。",
+      position: "bottom"
+    }]
+    const timer = setTimeout(async () => {
+      await handleStep(setsArr)
+    }, 500);
+    () => clearTimeout(timer)
+  }, [])
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <ProCard className="heads"></ProCard>
@@ -163,6 +175,7 @@ const UserList: React.FC = () => {
             key="button"
             icon={<PlusOutlined />}
             type="primary"
+            className='addpermissions'
             onClick={handleClick}
           >
             新建权限

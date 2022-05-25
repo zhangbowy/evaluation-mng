@@ -1,22 +1,25 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
-import { Button, Drawer, message } from 'antd';
-import { createExam, getExamTemplateList } from '@/services/api';
+import { Button, Drawer, message, Modal, Result } from 'antd';
+import { createExam, getExamTemplateList, shareInfo } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
-import { history } from 'umi';
-import styles from './index.less';
+import { handleStep } from '@/components/Steps'
+import { history, useModel } from 'umi';
 import { useEffect, useRef, useState } from 'react';
-import introJs from "intro.js"
-import "intro.js/introjs.css";
+
+import styles from './index.less';
 
 const ExamTemplate: React.FC = () => {
-  const { corpId } = queryString.parse(location.search);
+  const { corpId, appId, clientId } = queryString.parse(location.search);
   const [visible, setVisible] = useState<boolean>(false);
   const [img, setImg] = useState<string>();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [selected, setSelected] = useState<ExamTemplateListItem>();
+  const { initialState } = useModel('@@initialState');
   const handleClick = async (template: ExamTemplateListItem) => {
+    setIsModalVisible(true)
     if (dd.env.platform != 'notInDingTalk') {
       dd.ready(async () => {
         const pickResult = await dd.biz.contact.choose({
@@ -33,42 +36,66 @@ const ExamTemplate: React.FC = () => {
           examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
         });
         if (res.code === 1) {
-          message.success(res.message);
-          history.push('/exam/index');
+          setIsModalVisible(true)
+          // message.success(res.message);
+          // history.push('/exam/index');
         }
       });
     }
   };
-  // useEffect(() => {
-  //   const handleStep = async () => {
-  //     introJs().setOptions({
-  //       nextLabel: '下一步',
-  //       prevLabel: '上一步',
-  //       doneLabel: '立即体验',
-  //       hidePrev:true,
-  //       showBullets:false,
-  //       exitOnOverlayClick:false,
-  //       steps: [{
-  //         element: ".add_people0",
-  //         intro: "Hello step",
-  //         position: 'bottom'
-  //       },
-  //       {
-  //         element: ".add_people1",
-  //         intro: "Hello step",
-  //         position: 'top'
-  //       }
-  //     ]
-  //     }).oncomplete(() => {
-  //       //点击跳过按钮后执行的事件
-  //     }).onexit(() => {
-  //       //点击结束按钮后， 执行的事件
-  //     }).start()
-  //   }
-  //   setTimeout(async () => {
-  //     await handleStep()
-  //   }, 500);
-  // }, [])
+  useEffect(() => {
+    const setsArr: stepsType[] = [{
+      element: ".add_people0",
+      intro: "点击添加人员，选择员工，创建测评",
+      position: "bottom"
+    }]
+    const timer = setTimeout(async () => {
+      await handleStep(setsArr)
+    }, 500);
+    () => clearTimeout(timer)
+  }, [])
+  const footerLayout = () => {
+    const onLookReport = () => {
+      history.push('/exam/index');
+    }
+    const onNoticeClick = async () => {
+      if (dd.env.platform != 'notInDingTalk') {
+        const candidates = await dd.biz.chat.pickConversation({
+          corpId, //企业id,必须是用户所属的企业的corpid
+          isConfirm: true,
+          onFail: (err: any) => {
+            message.error(err);
+          },
+        })
+        if (candidates.cid) {
+          Modal.confirm({
+            title: '确认发送',
+            content: `消息将发送给${candidates.title.substring(0, 3)}
+              ${candidates.title.length > 3 ? '...' : ''}`,
+            okText: '确认', onOk: async () => {
+              const msg = {
+                msgtype: "link",
+                link: {
+                  messageUrl: `http://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}`,
+                  picUrl: "'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'",
+                  title: "趣测评",
+                  text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
+                }
+              }
+              shareInfo({ cid: candidates.cid, message: msg, userId: initialState?.user?.userId })
+            },
+            cancelText: '取消',
+          });
+        }
+      }
+    }
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Button size={'large'} type="primary" onClick={onLookReport}>查看报告</Button>
+        <Button size={'large'} type="primary" onClick={onNoticeClick}>通知测评</Button>
+      </div>
+    )
+  }
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <Drawer
@@ -193,6 +220,13 @@ const ExamTemplate: React.FC = () => {
           },
         }}
       />
+      <Modal width={400} footer={footerLayout()} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
+        <Result
+          status="success"
+          title="创建成功"
+          style={{ padding: 0 }}
+        />
+      </Modal>
     </PageContainer>
   );
 };

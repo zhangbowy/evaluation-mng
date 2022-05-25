@@ -71,10 +71,14 @@ export const queryDept = async (params: any) => {
 export const getChart = async (params: chartDate) => {
     return request<Result<any>>('/api/spf-cc/b/evaluation/management/querySummaryGraphData', { params })
 }
-export const getAllInfo = async (examid: string) =>{
-    return request<Result<Measurement>>('/api/spf-cc/b/evaluation/management/getExamInformation',{ params:{ examid } })
+export const getAllInfo = async (examid: string) => {
+    return request<Result<Measurement>>('/api/spf-cc/b/evaluation/management/getExamInformation', { params: { examid } })
 }
 
-export const measurementExport = async (examId: string) =>{
-    return request<Result<any>>('/api/spf-cc/b/evaluation/management/exportExcel',{ params:{ examId } })
+export const measurementExport = async (examId: string) => {
+    return request<Result<any>>('/api/spf-cc/b/evaluation/management/exportExcel', { params: { examId } })
 }
+export const shareInfo = async (data: shareType) => {
+    return request<Result<any>>('/api/member/dingtalk/message/sendMessage', { data, method: 'POST' })
+}
+
