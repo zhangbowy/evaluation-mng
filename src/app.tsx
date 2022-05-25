@@ -43,15 +43,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (
-        !initialState?.user &&
-        location.pathname !== loginPath &&
-        location.pathname !== callbackPath &&
-        !location.pathname.includes('/403')
-      ) {
-        history.push(loginPath);
-        return;
-      }
+      // if (
+      //   !initialState?.user &&
+      //   location.pathname !== loginPath &&
+      //   location.pathname !== callbackPath &&
+      //   !location.pathname.includes('/403')
+      // ) {
+      //   history.push(loginPath);
+      //   return;
+      // }
       if (initialState?.user && !initialState?.user.auths.includes('admin')) {
         history.replace('/403/99999');
       }

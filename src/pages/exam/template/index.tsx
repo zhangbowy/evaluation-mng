@@ -20,6 +20,7 @@ const ExamTemplate: React.FC = () => {
   const [selected, setSelected] = useState<ExamTemplateListItem>();
   const { initialState } = useModel('@@initialState');
   const handleClick = async (template: ExamTemplateListItem) => {
+    setIsModalVisible(true)
     if (dd.env.platform != 'notInDingTalk') {
       dd.ready(async () => {
         const pickResult = await dd.biz.contact.choose({
@@ -44,49 +45,58 @@ const ExamTemplate: React.FC = () => {
     }
   };
   useEffect(() => {
+    let timer: any;
     if (getExamTemplateArr.length > 0) {
       const setsArr: stepsType[] = [{
         element: ".add_people0",
         intro: "点击添加人员，选择员工，创建测评",
         position: "bottom"
       }]
-      handleStep(setsArr)
+      timer = setTimeout(async () => {
+        await handleStep(setsArr)
+      }, 500);
     }
+    () => clearTimeout(timer)
   }, [getExamTemplateArr])
   const footerLayout = () => {
     const onLookReport = () => {
       history.push('/exam/index');
     }
-    const onNoticeClick = async () => {
+    const onNoticeClick = () => {
+      console.log(corpId, initialState?.user?.userId,'链接数据')
       if (dd.env.platform != 'notInDingTalk') {
-        const candidates = await dd.biz.chat.pickConversation({
+        dd.biz.chat.pickConversation({
           corpId, //企业id,必须是用户所属的企业的corpid
           isConfirm: true,
+          onSuccess: (res: any) => {
+            console.log('成功', 2222)
+            if (res.cid) {
+              Modal.confirm({
+                title: '确认发送',
+                content: `消息将发送给${res.title.substring(0, 3)}
+                  ${res.title.length > 3 ? '...' : ''}`,
+                okText: '确认', onOk: async () => {
+                  const msg = {
+                    msgtype: "link",
+                    link: {
+                      messageUrl: `http://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}`,
+                      picUrl: "'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'",
+                      title: "趣测评",
+                      text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
+                    }
+                  }
+                  shareInfo({ cid: res.cid, message: msg, userId: initialState?.user?.userId })
+                },
+                cancelText: '取消',
+              });
+            }
+          },
           onFail: (err: any) => {
+            console.log('失败', err)
             message.error(err);
           },
         })
-        console.log(candidates,2222)
-        if (candidates.cid) {
-          Modal.confirm({
-            title: '确认发送',
-            content: `消息将发送给${candidates.title.substring(0, 3)}
-              ${candidates.title.length > 3 ? '...' : ''}`,
-            okText: '确认', onOk: async () => {
-              const msg = {
-                msgtype: "link",
-                link: {
-                  messageUrl: `http://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}`,
-                  picUrl: "'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'",
-                  title: "趣测评",
-                  text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
-                }
-              }
-              shareInfo({ cid: candidates.cid, message: msg, userId: initialState?.user?.userId })
-            },
-            cancelText: '取消',
-          });
-        }
+
       }
     }
     return (
