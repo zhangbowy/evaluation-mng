@@ -62,18 +62,15 @@ const ExamTemplate: React.FC = () => {
       history.push('/exam/index');
     }
     const onNoticeClick = async () => {
-      console.log(corpId, appId, clientId, initialState, '数据')
       if (dd.env.platform != 'notInDingTalk') {
         dd.ready(async () => {
           const candidates = await dd.biz.chat.pickConversation({
             corpId, //企业id,必须是用户所属的企业的corpid
             isConfirm: false,
             onFail: (err: any) => {
-              console.log('错误', err)
               message.error(err);
             },
           })
-          console.log('进来了', candidates)
           if (candidates.cid) {
             Modal.confirm({
               title: '确认发送',
@@ -88,7 +85,7 @@ const ExamTemplate: React.FC = () => {
                     text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
                   }
                 }
-                const res = await shareInfo({ cid: candidates.cid, message: msg, userId: initialState?.user?.userId })
+                const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: initialState?.user?.userId })
                 if (res.code == 1) {
                   message.success('发送成功');
                 }

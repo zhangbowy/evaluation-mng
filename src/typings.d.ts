@@ -204,9 +204,6 @@ type stepsType = {
 
 type shareType = {
     cid: string;
-    message: {
-        msgtype: string;
-        link: any
-    },
-    userId:string|undefined;
+    message: any;
+    userId: string | undefined;
 }
