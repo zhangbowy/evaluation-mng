@@ -83,7 +83,7 @@ const ExamTemplate: React.FC = () => {
                   msgtype: "link",
                   link: {
                     messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`,
-                    picUrl: "//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
+                    image: "http://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
                     title: "趣测评",
                     text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
                   }
