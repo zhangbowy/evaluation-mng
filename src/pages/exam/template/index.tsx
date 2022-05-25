@@ -16,6 +16,7 @@ const ExamTemplate: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [img, setImg] = useState<string>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [getExamTemplateArr, setGetExamTemplateArr] = useState([])
   const [selected, setSelected] = useState<ExamTemplateListItem>();
   const { initialState } = useModel('@@initialState');
   const handleClick = async (template: ExamTemplateListItem) => {
@@ -43,16 +44,15 @@ const ExamTemplate: React.FC = () => {
     }
   };
   useEffect(() => {
-    const setsArr: stepsType[] = [{
-      element: ".add_people0",
-      intro: "点击添加人员，选择员工，创建测评",
-      position: "bottom"
-    }]
-    const timer = setTimeout(async () => {
-      await handleStep(setsArr)
-    }, 500);
-    () => clearTimeout(timer)
-  }, [])
+    if (getExamTemplateArr.length > 0) {
+      const setsArr: stepsType[] = [{
+        element: ".add_people0",
+        intro: "点击添加人员，选择员工，创建测评",
+        position: "bottom"
+      }]
+      handleStep(setsArr)
+    }
+  }, [getExamTemplateArr])
   const footerLayout = () => {
     const onLookReport = () => {
       history.push('/exam/index');
@@ -66,6 +66,7 @@ const ExamTemplate: React.FC = () => {
             message.error(err);
           },
         })
+        console.log(candidates,2222)
         if (candidates.cid) {
           Modal.confirm({
             title: '确认发送',
@@ -124,6 +125,7 @@ const ExamTemplate: React.FC = () => {
         request={async () => {
           const res = await getExamTemplateList();
           if (res.code === 1) {
+            setGetExamTemplateArr(res.data)
             return {
               success: true,
               data: res.data,
