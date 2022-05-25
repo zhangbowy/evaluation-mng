@@ -43,15 +43,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      // if (
-      //   !initialState?.user &&
-      //   location.pathname !== loginPath &&
-      //   location.pathname !== callbackPath &&
-      //   !location.pathname.includes('/403')
-      // ) {
-      //   history.push(loginPath);
-      //   return;
-      // }
+      if (
+        !initialState?.user &&
+        location.pathname !== loginPath &&
+        location.pathname !== callbackPath &&
+        !location.pathname.includes('/403')
+      ) {
+        history.push(loginPath);
+        return;
+      }
       if (initialState?.user && !initialState?.user.auths.includes('admin')) {
         history.replace('/403/99999');
       }
@@ -69,7 +69,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
             nonceStr: res.data.nonceStr, // 必填，自定义固定字符串。
             signature: res.data.signature, // 必填，签名
             type: 0, //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
-            jsApiList: ['biz.contact.complexPicker', 'biz.contact.choose'], // 必填，需要使用的jsapi列表，注意：不要带dd。
+            jsApiList: ['biz.contact.complexPicker', 'biz.contact.choose', 'biz.chat.pickConversation'], // 必填，需要使用的jsapi列表，注意：不要带dd。
             onSuccess: () => {
               setInitialState({
                 ...initialState,
