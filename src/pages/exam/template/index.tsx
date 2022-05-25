@@ -77,14 +77,13 @@ const ExamTemplate: React.FC = () => {
           if (candidates.cid) {
             Modal.confirm({
               title: '确认发送',
-              content: `消息将发送给${candidates.title.substring(0, 3)}
-                ${candidates.title.length > 3 ? '...' : ''}`,
+              content: `消息将发送给${candidates.title}`,
               okText: '确认', onOk: async () => {
                 const msg = {
                   msgtype: "link",
                   link: {
-                    messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}`,
-                    image: "'//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'",
+                    messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`,
+                    picUrl: "//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
                     title: "趣测评",
                     text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
                   }
