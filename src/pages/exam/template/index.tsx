@@ -19,7 +19,6 @@ const ExamTemplate: React.FC = () => {
   const [selected, setSelected] = useState<ExamTemplateListItem>();
   const { initialState } = useModel('@@initialState');
   const handleClick = async (template: ExamTemplateListItem) => {
-    setIsModalVisible(true)
     if (dd.env.platform != 'notInDingTalk') {
       dd.ready(async () => {
         const pickResult = await dd.biz.contact.choose({
