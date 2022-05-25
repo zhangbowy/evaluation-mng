@@ -73,7 +73,7 @@ const ExamTemplate: React.FC = () => {
               message.error(err);
             },
           })
-          console.log('进来了',candidates)
+          console.log('进来了', candidates)
           if (candidates.cid) {
             Modal.confirm({
               title: '确认发送',
@@ -83,13 +83,16 @@ const ExamTemplate: React.FC = () => {
                 const msg = {
                   msgtype: "link",
                   link: {
-                    messageUrl: `http://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}`,
-                    picUrl: "'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'",
+                    messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}`,
+                    image: "'//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'",
                     title: "趣测评",
                     text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
                   }
                 }
-                shareInfo({ cid: candidates.cid, message: msg, userId: initialState?.user?.userId })
+                const res = await shareInfo({ cid: candidates.cid, message: msg, userId: initialState?.user?.userId })
+                if (res.code == 1) {
+                  message.success('发送成功');
+                }
               },
               cancelText: '取消',
             });
