@@ -81,4 +81,12 @@ export const measurementExport = async (examId: string) => {
 export const shareInfo = async (data: shareType) => {
     return request<Result<any>>('/api/member/dingtalk/message/sendMessage', { data, method: 'POST' })
 }
+export const isGuide = async (params: any) => {
+    return request<Result<any>>('/api/spf-cc/b/evaluation/library/queryGuide', { params })
+}
+
+export const upDateGuide = async (data: any) => {
+    return request<Result<any>>('/api/spf-cc/b/evaluation/library/updateReadGuide', { data, method: 'POST' })
+}
+
 

@@ -2,12 +2,12 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
 import { Button, Drawer, message, Modal, Result } from 'antd';
-import { createExam, getExamTemplateList, shareInfo } from '@/services/api';
+import { createExam, getExamTemplateList, shareInfo, isGuide, } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
-import { handleStep } from '@/components/Steps'
 import { history, useModel } from 'umi';
 import { useEffect, useRef, useState } from 'react';
+import { getIsGuide } from '@/utils/utils'
 
 import styles from './index.less';
 
@@ -44,19 +44,35 @@ const ExamTemplate: React.FC = () => {
     }
   };
   useEffect(() => {
-    let timer: any;
     if (getExamTemplateArr.length > 0) {
       const setsArr: stepsType[] = [{
         element: ".add_people0",
         intro: "点击添加人员，选择员工，创建测评",
         position: "bottom"
       }]
-      timer = setTimeout(async () => {
-        await handleStep(setsArr)
-      }, 500);
+      getIsGuide(setsArr, 1)
     }
-    () => clearTimeout(timer)
   }, [getExamTemplateArr])
+  // 是否需要引导
+  // const getIsGuide = async () => {
+  //   const params = {
+  //     corpId,
+  //     appId,
+  //     userId: initialState?.user?.userId,
+  //     type: 1
+  //   }
+  //   const res = await isGuide(params);
+  //   if (res.code == 1) {
+  //     if (!res.data) {
+  //       const setsArr: stepsType[] = [{
+  //         element: ".add_people0",
+  //         intro: "点击添加人员，选择员工，创建测评",
+  //         position: "bottom"
+  //       }]
+  //       await handleStep(setsArr,1)
+  //     }
+  //   }
+  // }
   const footerLayout = () => {
     const onLookReport = () => {
       history.push('/exam/index');

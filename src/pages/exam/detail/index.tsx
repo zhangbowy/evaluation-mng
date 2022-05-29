@@ -11,6 +11,7 @@ import { Liquid, Column, Treemap } from '@antv/g2plot';
 import debounce from 'lodash/debounce';
 import queryString from 'query-string';
 import './index.less';
+import { FullscreenOutlined } from '@ant-design/icons';
 
 const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -395,7 +396,8 @@ const ExamDetail: React.FC = () => {
           </div>
           <div className='detatil_visualarea_title'>
             <p className='theLabel'>性格标签分布</p>
-            <div onClick={() => setIsModalVisible(true)}>
+            <div className='characterWrapper'>
+              <FullscreenOutlined className='Fullscreen' onClick={() => setIsModalVisible(true)} />
               <div ref={(el) => visualRef.current[2] = el} />
             </div>
           </div>
@@ -457,7 +459,7 @@ const ExamDetail: React.FC = () => {
         <img className='introduce_img' src={measurement?.introductionImage?.admin} alt="" />
       </Drawer>
       <Modal footer={null} width={'95%'} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
-        <div style={{padding:'20px 0'}}>
+        <div style={{ padding: '20px 0' }}>
           <div ref={isModalRef} />
         </div>
       </Modal>

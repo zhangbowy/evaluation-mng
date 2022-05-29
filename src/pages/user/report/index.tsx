@@ -9,7 +9,7 @@ import debounce from 'lodash/debounce';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import queryString from 'query-string';
 import './index.less';
-import { handleStep } from '@/components/Steps';
+import { getIsGuide } from '@/utils/utils'
 
 const UserReport: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -101,10 +101,7 @@ const UserReport: React.FC = () => {
           position: "bottom"
         })
       }
-      const timer = setTimeout(async () => {
-        await handleStep(setpsArr)
-      }, 500);
-      () => clearTimeout(timer)
+      getIsGuide(setpsArr,3)
     }
   }, [reportList])
   const columns: ProColumnType<UserReport>[] = [

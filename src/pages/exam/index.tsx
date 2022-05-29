@@ -9,7 +9,7 @@ import dd from 'dingtalk-jsapi';
 import { useEffect, useRef, useState } from 'react';
 import queryString from 'query-string';
 import './index.less';
-import { handleStep } from '@/components/Steps';
+import { getIsGuide } from '@/utils/utils'
 
 const ExamList: React.FC = () => {
   const actionRef = useRef<ActionType>();
@@ -82,7 +82,7 @@ const ExamList: React.FC = () => {
       const setpsArr: stepsType[] = [{
         element: ".ant-page-header-heading-title",
         intro: "用于查看测评完成情况，以及测评数据分析",
-        position: "bottom"
+        position: "bottom",
       }]
       if (examListData.length > 0) {
         setpsArr.push({
@@ -95,10 +95,7 @@ const ExamList: React.FC = () => {
           position: "bottom"
         })
       }
-      const timer = setTimeout(async () => {
-        await handleStep(setpsArr)
-      }, 500);
-      () => clearTimeout(timer)
+      getIsGuide(setpsArr, 2)
     }
   }, [examListData])
   return (

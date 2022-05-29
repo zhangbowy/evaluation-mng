@@ -10,7 +10,7 @@ import debounce from 'lodash/debounce';
 import { PlusOutlined } from '@ant-design/icons';
 import dd from 'dingtalk-jsapi';
 import './index.less';
-import { handleStep } from '@/components/Steps';
+import { getIsGuide } from '@/utils/utils'
 
 const UserList: React.FC = () => {
   const { corpId, appId } = queryString.parse(location.search);
@@ -153,10 +153,7 @@ const UserList: React.FC = () => {
       intro: "添加后，对应人员可以登录趣测评企业管理后台查看数据报表。",
       position: "bottom"
     }]
-    const timer = setTimeout(async () => {
-      await handleStep(setsArr)
-    }, 500);
-    () => clearTimeout(timer)
+    getIsGuide(setsArr,4)
   }, [])
   return (
     <PageContainer header={{ breadcrumb: {} }}>
