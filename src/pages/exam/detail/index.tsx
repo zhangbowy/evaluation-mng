@@ -43,24 +43,31 @@ const ExamDetail: React.FC = () => {
 
   const columns: ProColumnType<ExamUser>[] = [
     {
-      key: 'id',
+      // key: 'id',
       title: '序号',
       valueType: 'index',
+      width: 50,
+      fixed: 'left',
     },
     {
       dataIndex: 'name',
       title: '姓名',
+      width: 80,
+      fixed: 'left',
     },
     {
       title: '部门',
       dataIndex: 'deptAggregationDTOS',
+      width: 120,
       render: (dom, entity) => {
-        return <Space>{entity.deptAggregationDTOS.map((item) => item.name)}</Space>;
+        const mo = entity.deptAggregationDTOS.map((item) => item.name)
+        return  <span className='personalityType'>{mo.join(',')}</span>;
       },
     },
     {
       title: '性别',
       dataIndex: 'sex',
+      width: 50,
       valueEnum: {
         0: '未设置',
         1: '男',
@@ -69,22 +76,26 @@ const ExamDetail: React.FC = () => {
     },
     {
       title: '人格类型',
+      width: 100,
       dataIndex: 'resultType',
     },
     {
       title: '性格类型',
+      width: 140,
       dataIndex: 'tags',
       render: (dom, entity) => {
-        return <Space>{entity.tags.map((item: string) => item)}</Space>;
+        return <span className='personalityType'>{entity?.tags?.join(',')}</span>;
       },
     },
 
     {
       title: '测评时间',
+      width: 140,
       dataIndex: 'startTime',
     },
     {
       title: '是否在职',
+      width: 100,
       dataIndex: 'isDimission',
       valueEnum: {
         0: '在职',
@@ -94,7 +105,9 @@ const ExamDetail: React.FC = () => {
     {
       title: '测评报告',
       key: 'report',
+      width: 100,
       valueType: 'option',
+      fixed: 'right',
       render: (dom, entity) => {
         if (entity.status === 10) {
           return (
@@ -442,32 +455,32 @@ const ExamDetail: React.FC = () => {
         <div className='detatil_table_operation'>
           <div className='detatil_table_leftWrapper'>
             <div className='detatil_table_left'>
-              <span className='detatil_table_name'>姓名</span>
+              <span className='detatil_table_name'>姓名:</span>
               <Input
                 placeholder="请输入"
                 value={searchName}
                 onChange={onSearch}
-                style={{ width: 150 }}
+                style={{ width: 180 }}
               />
             </div>
             <div className='detatil_table_left'>
-              <span className='detatil_table_name'>完成情况</span>
-              <Select placeholder="请选择" style={{ width: 150 }} value={searchComplete} onChange={handleChange}>
+              <span className='detatil_table_name'>完成情况:</span>
+              <Select placeholder="请选择" style={{ width: 180 }} value={searchComplete} onChange={handleChange}>
                 <Select.Option value='10'>已完成</Select.Option>
                 <Select.Option value='0, 1, 2, 3'>未完成</Select.Option>
               </Select>
             </div>
             <div className='detatil_table_left'>
-              <span className='detatil_table_name'>人格类型</span>
-              <Select placeholder="请选择" style={{ width: 150 }} value={resultSearch} onSelect={onResultSelect}>
+              <span className='detatil_table_name'>人格类型:</span>
+              <Select placeholder="请选择" style={{ width: 180 }} value={resultSearch} onSelect={onResultSelect}>
                 {
                   chartList?.personalityProportions?.map((res: any) => <Select.Option key={res.name} value={res.name}>{res.name}</Select.Option>)
                 }
               </Select>
             </div>
             <div className='detatil_table_left'>
-              <span className='detatil_table_name'>性格类型</span>
-              <Select placeholder="请选择" style={{ width: 150 }} value={characterSearch} onSelect={onCharacterSelect}>
+              <span className='detatil_table_name'>性格类型:</span>
+              <Select placeholder="请选择" style={{ width: 180 }} value={characterSearch} onSelect={onCharacterSelect}>
                 {
                   chartList?.characterProportions?.map((res: any) => <Select.Option key={res.name} value={res.name}>{res.name}</Select.Option>)
                 }
@@ -487,6 +500,7 @@ const ExamDetail: React.FC = () => {
         columns={columns}
         rowKey="examPaperId"
         dataSource={examUsers?.resultList}
+        scroll={{ x: 900 }}
         pagination={{
           showSizeChanger: true,
           current: examUsers.curPage,

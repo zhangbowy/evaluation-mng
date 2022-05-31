@@ -150,22 +150,24 @@
 
   .detatil_table_operation {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    flex-wrap: wrap;
 
     .detatil_table_leftWrapper {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       .detatil_table_left {
         display: flex;
         align-items: center;
-        margin-right: 10px;
+        margin: 20px 20px 10px 0;
 
         .detatil_table_name {
           display: inline-block;
-          // width: 50px;
+          word-break: normal;
+          width: 60px;
           margin-right: 10px;
         }
       }
@@ -174,7 +176,10 @@
 
     .detatil_table_right {
       display: flex;
-      justify-content: center;
+      // justify-content: center;
+      justify-content: flex-end;
+      width: 100%;
+      margin: 10px 0;
 
       .detatil_table_right_export {
         border: 1px solid #0b0bff;
@@ -195,9 +200,11 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
-.characterWrapper{
+
+.characterWrapper {
   position: relative;
-  .Fullscreen{
+
+  .Fullscreen {
     position: absolute;
     top: 0;
     right: 0;
@@ -207,3 +214,5 @@
     font-size: 25px !important;
   }
 }
+
+.personalityType {}
