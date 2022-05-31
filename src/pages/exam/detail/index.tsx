@@ -27,6 +27,8 @@ const ExamDetail: React.FC = () => {
   const [searchComplete, setSearchComplete] = useState<any>(); // 搜索的完成情况
   const [nameSearchLoading, setNameSearchLoading] = useState<boolean>(false); // 名字搜索的loading
   const [isModalVisible, setIsModalVisible] = useState(false); // 性格点击弹窗
+  const [resultSearch, setResultSearch] = useState<string>(); // 人格搜索
+  const [characterSearch, setCharacterSearch] = useState<string[]>([]); // 性格搜索
   const isModalRef: any = useRef()
   const visualRef: any = useRef([])
   const fetchRef = useRef(0);
@@ -65,6 +67,18 @@ const ExamDetail: React.FC = () => {
         2: '女',
       },
     },
+    {
+      title: '人格类型',
+      dataIndex: 'resultType',
+    },
+    {
+      title: '性格类型',
+      dataIndex: 'tags',
+      render: (dom, entity) => {
+        return <Space>{entity.tags.map((item: string) => item)}</Space>;
+      },
+    },
+
     {
       title: '测评时间',
       dataIndex: 'startTime',
@@ -113,12 +127,15 @@ const ExamDetail: React.FC = () => {
   const { id } = useParams() as { id: string };
   // 获取表格数据
   const getTableList = (params: any) => {
-    const { name, deptId, status, curPage = 1, pageSize = 20 } = params
+    const { name, deptId, status, curPage = 1, pageSize = 20, resultType, tags } = params
     const selectVal = (status && status.length > 0 && searchComplete!.split(',').map(Number)) || ''
-    const obj = { examid: id, name, status: selectVal, deptId, curPage, pageSize };
+    const obj = { examid: id, name, status: selectVal, deptId, curPage, pageSize, resultType, tags };
     (!obj.name || obj.name == '') && delete obj.name;
     (!obj.status || obj.status == '') && delete obj.status;
     (!obj.deptId) && delete obj.deptId;
+    (!obj.resultType || obj.resultType == '') && delete obj.resultType;
+    (!obj.tags || obj.tags.length > 1) && delete obj.tags;
+    console.log(obj)
     getExamUsers(obj).then((res) => {
       if (res.code === 1) {
         setExamUsers(res.data);
@@ -132,7 +149,7 @@ const ExamDetail: React.FC = () => {
         setChartList(res.data);
       }
     })
-    getTableList({ name: searchName, deptId, status: searchComplete })
+    getTableList({ name: searchName, deptId, status: searchComplete, resultType: resultSearch, tags: characterSearch })
   }, [deptId])
   useEffect(() => {
     if (!id) {
@@ -250,6 +267,10 @@ const ExamDetail: React.FC = () => {
         },
       },
     });
+    columnPlot.on('element:click', (ev: any) => {
+      getTableList({ name: searchName, deptId, status: searchComplete, resultType: ev.data.data.name, tags: characterSearch })
+      setResultSearch(ev.data.data.name)
+    })
     // columnPlot.render();
     return columnPlot
   }
@@ -296,6 +317,10 @@ const ExamDetail: React.FC = () => {
         },
       }
     });
+    treemapPlot.on('element:click', (ev: any) => {
+      getTableList({ name: searchName, deptId, status: searchComplete, resultType: resultSearch, tags: [ev.data.data.name] })
+      setCharacterSearch([ev.data.data.name]);
+    })
     // treemapPlot.render();
     return treemapPlot
   }
@@ -317,17 +342,27 @@ const ExamDetail: React.FC = () => {
   // 搜索
   const onSearchClick = () => {
     setNameSearchLoading(true)
-    getTableList({ name: searchName, deptId, status: searchComplete })
+    getTableList({ name: searchName, deptId, status: searchComplete, resultType: resultSearch, tags: characterSearch })
   }
   // 重置
   const onResetClick = () => {
     setSearchName('')
     getTableList({ deptId })
     setSearchComplete(null)
+    setResultSearch(undefined)
+    setCharacterSearch([])
   }
   // 选择框的onchange
   const handleChange = (e: string) => {
     setSearchComplete(e)
+  }
+  // 人格选中时的回调
+  const onResultSelect = (e: string) => {
+    setResultSearch(e)
+  }
+  // 标签选中时的回调
+  const onCharacterSelect = (e: string) => {
+    setCharacterSearch([e])
   }
   return (
     <PageContainer>
@@ -413,14 +448,30 @@ const ExamDetail: React.FC = () => {
                 placeholder="请输入"
                 value={searchName}
                 onChange={onSearch}
-                style={{ width: 200 }}
+                style={{ width: 150 }}
               />
             </div>
             <div className='detatil_table_left'>
               <span className='detatil_table_name'>完成情况</span>
-              <Select placeholder="请选择" style={{ width: 200 }} value={searchComplete} onChange={handleChange}>
+              <Select placeholder="请选择" style={{ width: 150 }} value={searchComplete} onChange={handleChange}>
                 <Select.Option value='10'>已完成</Select.Option>
                 <Select.Option value='0, 1, 2, 3'>未完成</Select.Option>
+              </Select>
+            </div>
+            <div className='detatil_table_left'>
+              <span className='detatil_table_name'>人格类型</span>
+              <Select placeholder="请选择" style={{ width: 150 }} value={resultSearch} onSelect={onResultSelect}>
+                {
+                  chartList?.personalityProportions?.map((res: any) => <Select.Option key={res.name} value={res.name}>{res.name}</Select.Option>)
+                }
+              </Select>
+            </div>
+            <div className='detatil_table_left'>
+              <span className='detatil_table_name'>性格类型</span>
+              <Select placeholder="请选择" style={{ width: 150 }} value={characterSearch} onSelect={onCharacterSelect}>
+                {
+                  chartList?.characterProportions?.map((res: any) => <Select.Option key={res.name} value={res.name}>{res.name}</Select.Option>)
+                }
               </Select>
             </div>
           </div>
@@ -442,7 +493,7 @@ const ExamDetail: React.FC = () => {
           current: examUsers.curPage,
           total: examUsers.totalItem,
           onChange: (pageNo, pageSize) => {
-            getTableList({ name: searchName, deptId, curPage: pageNo, pageSize })
+            getTableList({ name: searchName, deptId, curPage: pageNo, pageSize, status: searchComplete, resultType: resultSearch, tags: characterSearch })
             // history.push(`/exam/${id}?type=${locat.query.type}&current=${pageNo}`)
           }
         }}
