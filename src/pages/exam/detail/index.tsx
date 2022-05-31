@@ -135,7 +135,6 @@ const ExamDetail: React.FC = () => {
     (!obj.deptId) && delete obj.deptId;
     (!obj.resultType || obj.resultType == '') && delete obj.resultType;
     (!obj.tags || obj.tags.length > 1) && delete obj.tags;
-    console.log(obj)
     getExamUsers(obj).then((res) => {
       if (res.code === 1) {
         setExamUsers(res.data);
