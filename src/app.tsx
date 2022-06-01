@@ -50,6 +50,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         !location.pathname.includes('/403')
       ) {
         history.push(loginPath);
+        console.log(loginPath,'loginPath')
         return;
       }
       if (initialState?.user && !initialState?.user.auths.includes('admin')) {
