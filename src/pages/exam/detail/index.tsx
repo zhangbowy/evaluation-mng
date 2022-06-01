@@ -480,6 +480,7 @@ const ExamDetail: React.FC = () => {
                 placeholder="请输入"
                 value={searchName}
                 onChange={onSearch}
+                allowClear
                 style={{ width: 180 }}
               />
             </div>
