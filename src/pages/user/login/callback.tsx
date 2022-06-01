@@ -25,7 +25,6 @@ const Callback: React.FC = () => {
           });
           window.sessionStorage.setItem('QAT', res.data.token);
           history.replace('/');
-          console.log(document.URL,location.pathname,initialState,'callback')
         } else {
           history.replace('/403/99999');
         }

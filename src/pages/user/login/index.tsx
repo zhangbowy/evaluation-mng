@@ -44,7 +44,6 @@ const Login: React.FC = () => {
             });
             window.sessionStorage.setItem('QAT', res.data.token);
             history.push('/exam/template');
-            console.log(document.URL,location.pathname,initialState,'userlogin/')
           }
         } else {
           // 免登失败，提示进入403
