@@ -26,15 +26,14 @@ const NoAuthPage: React.FC = () => {
     const onContactClick = () => {
         if (dd.env.platform != 'notInDingTalk') {
             dd && dd.ready(function () {
-                console.log(pushUrl,1111)
                 dd.biz.util.openSlidePanel({
-                    url: pushUrl,
+                    url: 'http://h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC6CF20C89235615685E126FC7A61DD262ABC6424E93C7ABE643A2B6E9DF6CA662F%26token%3D3fe9733db041ded0cd50ea3d57c72abe%26shareUid%3D4F59C1A0F89C5ED0&dtaction=os',
                     title: '',
                     onSuccess: function (result:any) {
                         console.log(result,'result')
                     },
                     onFail: function (err:any) {
-                        console.log(err,'err')
+                        console.log(err,'err11')
                     }
                 })
             });
