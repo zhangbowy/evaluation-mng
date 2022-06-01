@@ -43,6 +43,7 @@ const Login: React.FC = () => {
               user: res.data.user,
             });
             window.sessionStorage.setItem('QAT', res.data.token);
+            console.log(document.URL,location.pathname,initialState,'userlogin/')
             history.replace('/exam/template');
           }
         } else {
