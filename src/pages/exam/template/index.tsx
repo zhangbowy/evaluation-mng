@@ -47,32 +47,12 @@ const ExamTemplate: React.FC = () => {
     if (getExamTemplateArr.length > 0) {
       const setsArr: stepsType[] = [{
         element: ".add_people0",
-        intro: "点击添加人员，选择员工，创建测评",
+        intro: "第一次创建测评，需要先在此添加人员哦～",
         position: "bottom"
       }]
       getIsGuide(setsArr, 1)
     }
   }, [getExamTemplateArr])
-  // 是否需要引导
-  // const getIsGuide = async () => {
-  //   const params = {
-  //     corpId,
-  //     appId,
-  //     userId: initialState?.user?.userId,
-  //     type: 1
-  //   }
-  //   const res = await isGuide(params);
-  //   if (res.code == 1) {
-  //     if (!res.data) {
-  //       const setsArr: stepsType[] = [{
-  //         element: ".add_people0",
-  //         intro: "点击添加人员，选择员工，创建测评",
-  //         position: "bottom"
-  //       }]
-  //       await handleStep(setsArr,1)
-  //     }
-  //   }
-  // }
   const footerLayout = () => {
     const onLookReport = () => {
       history.push('/exam/index');
@@ -97,8 +77,8 @@ const ExamTemplate: React.FC = () => {
                   link: {
                     messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`,
                     image: "http://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
-                    title: "趣测评",
-                    text: "测试趣测评邀请你来进行PDP和MBTI测试,点击即可进入，快来试试吧!"
+                    title: "您有一份测评待完成",
+                    text: "全抖音1亿用户都在玩的性格测评，赶紧测一测吧！"
                   }
                 }
                 const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: initialState?.user?.userId })
