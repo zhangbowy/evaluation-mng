@@ -18,7 +18,7 @@ const NoAuthPage: React.FC = () => {
         2000006: '钉钉api服务接口错误',
         99999: '您当前没有权限,请联系管理员'
     }
-    const pushUrl: string = 'http://h5.dingtalk.com/org-center/index.html?showmenu=false&dd_share=false&goodsCode=DT_GOODS_881651914535236&fromQrCode=1&channelCode=?fb&sig=b2db31e9cc9b9f090688e2125d16bf898adacade&funnelsource=goodsOfflineQrcode&leadsFrom=401'
+    const pushUrl: string = 'https://h5.dingtalk.com/orgreg/index.html?lwfrom=webAppCenter'
     const params: params = useParams();
     const { code } = params;
     const noPermissionsImg = '//daily-static-file.oss-cn-shanghai.aliyuncs.com/evaluation-web/imgs/nopermissions_img.png';
