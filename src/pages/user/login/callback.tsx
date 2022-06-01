@@ -25,7 +25,6 @@ const Callback: React.FC = () => {
           });
           window.sessionStorage.setItem('QAT', res.data.token);
           window.sessionStorage.setItem('QCP_User', JSON.stringify(res.data.user));
-          console.log('callback',res.data.user)
           history.replace('/');
         } else {
           history.replace('/403/99999');

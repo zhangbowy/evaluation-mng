@@ -44,7 +44,6 @@ const Login: React.FC = () => {
             });
             window.sessionStorage.setItem('QAT', res.data.token);
             window.sessionStorage.setItem('QCP_User', JSON.stringify(res.data.user));
-            console.log('login',res.data.user)
             history.push('/exam/template');
           }
         } else {
