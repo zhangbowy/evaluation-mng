@@ -92,13 +92,15 @@ const UserReport: React.FC = () => {
       const setpsArr: stepsType[] = [{
         element: ".ant-page-header-heading-title",
         intro: "用于从员工维度查看每个人参与测评的情况，和报告详情",
-        position: "bottom"
+        position: "bottom",
+        disableInteraction: true,
       }]
       if (reportList.length > 0) {
         setpsArr.push({
           element: ".reportBtn0",
           intro: "点击可查看员工标签和报告详情",
-          position: "bottom"
+          position: "bottom",
+          disableInteraction: true,
         })
       }
       getIsGuide(setpsArr,3)

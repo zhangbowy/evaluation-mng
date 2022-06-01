@@ -81,18 +81,21 @@ const ExamList: React.FC = () => {
     if (examListData) {
       const setpsArr: stepsType[] = [{
         element: ".ant-page-header-heading-title",
-        intro: "该模块主要用于查看每类测评量表的测试进度和各人员的测试结果",
+        intro: "该模块主要用于查看测评量表的测试进度和各人员的测试结果",
         position: "bottom",
+        disableInteraction: true,
       }]
       if (examListData.length > 0) {
         setpsArr.push({
           element: ".lookdetatil0",
           intro: "点击查看测评数据分析",
-          position: "bottom"
+          position: "bottom",
+          disableInteraction: true,
         }, {
           element: ".addpeople0",
           intro: "如有新人员需要参与测试，可直接在此添加",
-          position: "bottom"
+          position: "bottom",
+          disableInteraction: true,
         })
       }
       getIsGuide(setpsArr, 2)

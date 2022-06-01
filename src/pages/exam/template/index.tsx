@@ -48,7 +48,8 @@ const ExamTemplate: React.FC = () => {
       const setsArr: stepsType[] = [{
         element: ".add_people0",
         intro: "第一次创建测评，需要先在此添加人员哦～",
-        position: "bottom"
+        position: "bottom",
+        disableInteraction: true,
       }]
       getIsGuide(setsArr, 1)
     }

@@ -62,7 +62,7 @@ const ExamDetail: React.FC = () => {
       width: 120,
       render: (dom, entity) => {
         const mo = entity.deptAggregationDTOS.map((item) => item.name)
-        return  <span className='personalityType'>{mo.join(',')}</span>;
+        return <span className='personalityType'>{mo.join(',')}</span>;
       },
     },
     {
@@ -377,6 +377,25 @@ const ExamDetail: React.FC = () => {
   const onCharacterSelect = (e: string) => {
     setCharacterSearch([e])
   }
+  // 清除回调
+  const handelClear = async (num: number) => {
+    // 1完成情况  2人格类型 3性格类型
+    const obj = {
+      name: searchName,
+      deptId,
+      status: num == 1 ? null : searchComplete,
+      resultType: num == 2 ? undefined : resultSearch,
+      tags: num == 3 ? [] : characterSearch
+    }
+    if (num == 1) {
+      setSearchComplete(null)
+    } else if (num == 2) {
+      setResultSearch(undefined)
+    } else if (num == 3) {
+      setCharacterSearch([])
+    }
+    await getTableList(obj)
+  }
   return (
     <PageContainer>
       <ExamReport type={locat?.query?.type} userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
@@ -466,14 +485,14 @@ const ExamDetail: React.FC = () => {
             </div>
             <div className='detatil_table_left'>
               <span className='detatil_table_name'>完成情况:</span>
-              <Select placeholder="请选择" style={{ width: 180 }} value={searchComplete} onChange={handleChange}>
+              <Select onClear={() => handelClear(1)} allowClear placeholder="请选择" style={{ width: 180 }} value={searchComplete} onChange={handleChange}>
                 <Select.Option value='10'>已完成</Select.Option>
                 <Select.Option value='0, 1, 2, 3'>未完成</Select.Option>
               </Select>
             </div>
             <div className='detatil_table_left'>
               <span className='detatil_table_name'>人格类型:</span>
-              <Select placeholder="请选择" style={{ width: 180 }} value={resultSearch} onSelect={onResultSelect}>
+              <Select onClear={() => handelClear(2)} allowClear placeholder="请选择" style={{ width: 180 }} value={resultSearch} onSelect={onResultSelect}>
                 {
                   chartList?.personalityProportions?.map((res: any) => <Select.Option key={res.name} value={res.name}>{res.name}</Select.Option>)
                 }
@@ -481,7 +500,7 @@ const ExamDetail: React.FC = () => {
             </div>
             <div className='detatil_table_left'>
               <span className='detatil_table_name'>性格类型:</span>
-              <Select placeholder="请选择" style={{ width: 180 }} value={characterSearch} onSelect={onCharacterSelect}>
+              <Select onClear={() => handelClear(3)} allowClear placeholder="请选择" style={{ width: 180 }} value={characterSearch} onSelect={onCharacterSelect}>
                 {
                   chartList?.characterProportions?.map((res: any) => <Select.Option key={res.name} value={res.name}>{res.name}</Select.Option>)
                 }
