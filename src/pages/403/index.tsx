@@ -18,7 +18,7 @@ const NoAuthPage: React.FC = () => {
         2000006: '钉钉api服务接口错误',
         99999: '您当前没有权限,请联系管理员'
     }
-    const pushUrl: string = 'https://h5.dingtalk.com/org-center/index.html?showmenu=false&dd_share=false&goodsCode=DT_GOODS_881651914535236&fromQrCode=1&channelCode=?fb&sig=b2db31e9cc9b9f090688e2125d16bf898adacade&funnelsource=goodsOfflineQrcode&leadsFrom=401'
+    const pushUrl: string = '//h5.dingtalk.com/org-center/index.html?showmenu=false&dd_share=false&goodsCode=DT_GOODS_881651914535236&fromQrCode=1&channelCode=?fb&sig=b2db31e9cc9b9f090688e2125d16bf898adacade&funnelsource=goodsOfflineQrcode&leadsFrom=401'
     const params: params = useParams();
     const { code } = params;
     const noPermissionsImg = '//daily-static-file.oss-cn-shanghai.aliyuncs.com/evaluation-web/imgs/nopermissions_img.png';
@@ -27,13 +27,13 @@ const NoAuthPage: React.FC = () => {
         if (dd.env.platform != 'notInDingTalk') {
             dd && dd.ready(function () {
                 dd.biz.util.openSlidePanel({
-                    url: 'http://h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC6CF20C89235615685E126FC7A61DD262ABC6424E93C7ABE643A2B6E9DF6CA662F%26token%3D3fe9733db041ded0cd50ea3d57c72abe%26shareUid%3D4F59C1A0F89C5ED0&dtaction=os',
+                    url: pushUrl,
                     title: '',
                     onSuccess: function (result:any) {
                         console.log(result,'result')
                     },
                     onFail: function (err:any) {
-                        console.log(err,'err11')
+                        console.log(err,'err')
                     }
                 })
             });
