@@ -45,15 +45,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // 如果没有登录，重定向到 login
       const qcp_user = JSON.parse(window.sessionStorage.getItem('QCP_User') || '{}');
       console.log(qcp_user, window.sessionStorage.getItem('QCP_User'))
-      // if (
-      //   !initialState?.user &&
-      //   location.pathname !== loginPath &&
-      //   location.pathname !== callbackPath && 
-      //   !location.pathname.includes('/403')
-      // ) {
-      //   history.push(loginPath);
-      //   return;
-      // }
+      if (
+        !initialState?.user &&
+        location.pathname !== loginPath &&
+        location.pathname !== callbackPath && 
+        !location.pathname.includes('/403')
+      ) {
+        history.push(loginPath);
+        return;
+      }
       if (initialState?.user && !initialState?.user.auths.includes('admin')) {
         history.replace('/403/99999');
       }
