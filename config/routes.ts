@@ -1,5 +1,5 @@
 ﻿export default [
-  { path: '/', redirect: '/exam/template', hideInMenu: true },
+  { path: '/', hideInMenu: true },
   {
     path: '/403/:code',
     name: '无权访问',

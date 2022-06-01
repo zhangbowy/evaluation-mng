@@ -75,7 +75,7 @@ const ExamTemplate: React.FC = () => {
                 const msg = {
                   msgtype: "link",
                   link: {
-                    messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`,
+                    messageUrl: `http://qr.dingtalk.com/page/link?url=${encodeURIComponent(`${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`)}`,
                     image: "http://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
                     title: "您有一份测评待完成",
                     text: "全抖音1亿用户都在玩的性格测评，赶紧测一测吧！"
