@@ -43,7 +43,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      console.log(initialState?.user, !initialState?.user &&
+      const qcp_user = JSON.parse(sessionStorage.getItem('QCP_User') || '{}');
+      console.log(qcp_user, initialState, initialState?.user, !initialState?.user &&
         location.pathname !== loginPath &&
         location.pathname !== callbackPath &&
         !location.pathname.includes('/403'))
