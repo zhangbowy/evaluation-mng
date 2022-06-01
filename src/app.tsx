@@ -32,18 +32,18 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+  const qcp_user = JSON.parse(window.sessionStorage.getItem('QCP_User') || '{}');
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.user?.name,
+      content: qcp_user && qcp_user?.name,
     },
     footerRender: false,
     logo: 'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png',
     onPageChange: async () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      const qcp_user = JSON.parse(window.sessionStorage.getItem('QCP_User') || '{}');
       if (
         !qcp_user.userId &&
         location.pathname !== loginPath &&
@@ -53,7 +53,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
         return;
       }
-      if (initialState?.user && !initialState?.user.auths.includes('admin')) {
+      if (qcp_user && !qcp_user?.auths.includes('admin')) {
         history.replace('/403/99999');
       }
       if (

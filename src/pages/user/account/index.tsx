@@ -169,7 +169,7 @@ const UserList: React.FC = () => {
         params={{ deptId }}
         toolBarRender={() => [
           <Button
-            style={{ display: 'inline-block' }}
+            style={{ display: 'inline-block', marginRight: 36 }}
             key="button"
             icon={<PlusOutlined />}
             type="primary"
