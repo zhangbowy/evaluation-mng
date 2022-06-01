@@ -68,6 +68,7 @@ const ExamTemplate: React.FC = () => {
             },
           })
           if (candidates.cid) {
+            const qcp_user = JSON.parse(window.sessionStorage.getItem('QCP_User') || '{}');
             Modal.confirm({
               title: '确认发送',
               content: `消息将发送给${candidates.title}`,
@@ -81,7 +82,7 @@ const ExamTemplate: React.FC = () => {
                     text: "全抖音1亿用户都在玩的性格测评，赶紧测一测吧！"
                   }
                 }
-                const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: initialState?.user?.userId })
+                const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: initialState?.user?.userId || qcp_user?.userId });
                 if (res.code == 1) {
                   message.success('发送成功');
                 }
