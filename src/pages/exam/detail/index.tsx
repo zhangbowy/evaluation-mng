@@ -46,6 +46,7 @@ const ExamDetail: React.FC = () => {
       // key: 'id',
       title: '序号',
       valueType: 'index',
+      dataIndex: 'index',
       width: 50,
       fixed: 'left',
     },

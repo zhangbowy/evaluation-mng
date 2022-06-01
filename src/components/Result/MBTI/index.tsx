@@ -74,7 +74,7 @@ const MbtiPreview = (props: any) => {
                                             ?.match(/\(.+?\)/g)[0]
                                             ?.slice(1, -1)}
                                 </div>
-                                <div>{resulyData?.results[0].type.slice(0, 4)}</div>
+                                <div>{resulyData?.results[0]?.type.slice(0, 4)}</div>
                                 <div>人群中大约有</div>
                                 <div>{resulyData?.textDesc}%</div>
                                 <div>的人与你一样</div>
