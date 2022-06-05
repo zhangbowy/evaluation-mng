@@ -49,7 +49,6 @@ const ExamTemplate: React.FC = () => {
         element: ".add_people0",
         intro: "第一次创建测评，需要先在此添加人员哦～",
         position: "bottom",
-        disableInteraction: true,
       }]
       getIsGuide(setsArr, 1)
     }
