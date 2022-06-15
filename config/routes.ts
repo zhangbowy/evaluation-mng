@@ -7,6 +7,13 @@
     component: './403',
     hideInMenu: true,
   },
+  {
+    path: '/402',
+    name: '功能预览',
+    layout: false,
+    component: './402',
+    hideInMenu: true,
+  },
   { path: '/exam/template', icon: 'reconciliation', name: '测评库', component: './exam/template' },
   { path: '/exam/index', icon: 'appstore', name: '测评管理', component: './exam' },
   { path: '/exam/:id', hideInMenu: true, name: '测评详情', component: './exam/detail' },
