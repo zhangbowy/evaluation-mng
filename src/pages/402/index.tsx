@@ -4,10 +4,11 @@ import queryString from 'query-string';
 import styles from "./index.less"
 
 const PreviewPage: FC = () => {
-    const { corpId, appId, purchaseToken } = queryString.parse(location.search) as {
+    const { corpId, appId, purchaseToken, clientId } = queryString.parse(location.search) as {
         corpId: string;
         appId: string;
         purchaseToken: string;
+        clientId: string;
     };
 
     const handleSku = () => {
@@ -19,7 +20,7 @@ const PreviewPage: FC = () => {
         }).then((res: any) => {
             const { action } = res;
             if (action === "ok") {
-                window.location.replace('/')
+                window.location.replace(`https://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/`)
             }
         }).catch((err: any) => {
             // 钉钉侧出现了技术异常，比如打开弹窗失败等，出现概率非常低
