@@ -20,7 +20,7 @@ const PreviewPage: FC = () => {
         }).then((res: any) => {
             const { action } = res;
             if (action === "ok") {
-                window.location.replace(`https://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/`)
+                window.location.replace(`https://qzz-eval.forwe.store/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`)
             }
         }).catch((err: any) => {
             // 钉钉侧出现了技术异常，比如打开弹窗失败等，出现概率非常低
