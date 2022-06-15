@@ -12,9 +12,10 @@ const PreviewPage: FC = () => {
     };
 
     const handleSku = () => {
+        const app = appId.slice(2);
         openTryoutSku({
             corpId: corpId,
-            appId: Number(appId),
+            appId: Number(app),
             token: '',
         }).then((res: any) => {
             const { action } = res;
