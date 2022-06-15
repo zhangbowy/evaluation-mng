@@ -1,6 +1,5 @@
 import { openTryoutSku } from 'dingtalk-design-libs';
 import React, { FC, Fragment, useEffect } from 'react';
-import { history } from 'umi';
 import queryString from 'query-string';
 import styles from "./index.less"
 
@@ -20,7 +19,7 @@ const PreviewPage: FC = () => {
         }).then((res: any) => {
             const { action } = res;
             if (action === "ok") {
-                window.location.replace('/user/login')
+                window.location.replace('/')
             }
         }).catch((err: any) => {
             // 钉钉侧出现了技术异常，比如打开弹窗失败等，出现概率非常低
