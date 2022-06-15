@@ -49,6 +49,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         location.pathname !== loginPath &&
         location.pathname !== callbackPath &&
         !location.pathname.includes('/403')
+        &&
+        !location.pathname.includes('/402')
       ) {
         history.push(loginPath);
         return;
