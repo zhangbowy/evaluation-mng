@@ -26,7 +26,6 @@ const NoAuthPage: React.FC = () => {
     const onContactClick = () => {
         if (dd.env.platform != 'notInDingTalk') {
             dd && dd.ready(function () {
-                console.log(pushUrl,1111)
                 dd.biz.util.openSlidePanel({
                     url: pushUrl,
                     title: '',
