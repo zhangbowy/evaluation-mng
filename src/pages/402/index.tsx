@@ -34,7 +34,9 @@ const PreviewPage: FC = () => {
 
     return (
         <Fragment>
-            <img className={styles.preview_img} onClick={handleSku} src="//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png" alt="" />
+            <div className={styles.preview_box}>
+                <img className={styles.preview_img} onClick={handleSku} src="//qzz-static.forwe.store/public-assets/eval-preview-pc%20%402x.png" alt="" />
+            </div>
         </ Fragment>
     )
 }
