@@ -14,7 +14,9 @@ const handleStep = async (steps: stepsType[], type: number) => {
         showBullets: false,
         // showStepNumbers: true,
         exitOnOverlayClick: false,
+        showStepNumbers: false,
         tooltipClass: styles.tooltipClass,
+        disableInteraction: true,
         steps
     }).onexit(async () => {
         await upDateGuide({ type })

@@ -152,7 +152,6 @@ const UserList: React.FC = () => {
       element: ".addpermissions",
       intro: "添加后，对应人员可以登录趣测评企业管理后台查看数据报表。",
       position: "bottom",
-      disableInteraction: true,
     }]
     getIsGuide(setsArr,4)
   }, [])
