@@ -16,10 +16,13 @@ const ExamTemplate: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [img, setImg] = useState<string>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [getExamTemplateArr, setGetExamTemplateArr] = useState([])
+  const [getExamTemplateArr, setGetExamTemplateArr] = useState<ExamTemplateListItem[]>([])
   const [selected, setSelected] = useState<ExamTemplateListItem>();
   const { initialState } = useModel('@@initialState');
   const [isBuyModalVisible, setIsBuyModalVisible] = useState(false);
+  useEffect(() => {
+    getExamTemplate()
+  }, [])
   const handleClick = async (template: ExamTemplateListItem) => {
     if (!template.isBuy) {
       setIsBuyModalVisible(true)
@@ -110,6 +113,13 @@ const ExamTemplate: React.FC = () => {
     // setIsBuyModalVisible(false)
     window.open('http://h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC63FE9AA1FB5D7DFC882653BC130D98DC599D1E334FC2D720DBBD3FB0872C1D1E6%26token%3D6283956d3721d4ba717dd18e362e5a70%26shareUid%3D383B86070279D64685AA4989BCA9F331&dtaction=os')
   }
+  // 获取测评模板
+  const getExamTemplate = async () => {
+    const res = await getExamTemplateList();
+    if (res.code == 1) {
+      setGetExamTemplateArr(res.data)
+    }
+  }
   return (
     <PageContainer header={{ breadcrumb: {} }}>
       <Drawer
@@ -131,7 +141,32 @@ const ExamTemplate: React.FC = () => {
           </div>
         </div>
       </Drawer>
-      <ProList<ExamTemplateListItem>
+      <div className={styles.card_layout}>
+        {
+          getExamTemplateArr?.map((item: ExamTemplateListItem, index: number) => (
+            <div key={item.id} className={styles.card_wrapper} >
+              {!item.isBuy && <div onClick={() => setIsBuyModalVisible(true)} className={styles.obscuration}>点我进行解锁</div>}
+              <div className={styles.card_content} >
+                <div className={styles.card_top} onClick={() => {
+                  setSelected(item);
+                  setImg(JSON.parse(item.introductionImage).admin);
+                  setVisible(true);
+                }}>
+                  <header>{item.title}</header>
+                  <main>
+                    <div>{item.introduction}</div>
+                    <p>作答时间：<span>{item.durationDesc}</span></p>
+                    <p>题目数量：<span>{item.examLibrarySum}</span></p>
+                  </main>
+                </div>
+                <footer onClick={() => handleClick(item)} className={`add_people${index}`}>添加人员</footer>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      {/* <ProList<ExamTemplateListItem>
         pagination={false}
         className="template"
         rowKey="id"
@@ -172,6 +207,7 @@ const ExamTemplate: React.FC = () => {
                 <div>
                   <div
                     onClick={() => {
+
                       setSelected(entity);
                       setImg(JSON.parse(entity.introductionImage).admin);
                       setVisible(true);
@@ -234,7 +270,7 @@ const ExamTemplate: React.FC = () => {
             },
           },
         }}
-      />
+      /> */}
       <Modal width={400} footer={footerLayout()} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
         <Result
           status="success"
