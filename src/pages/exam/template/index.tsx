@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
-import { Button, Drawer, message, Modal, Result } from 'antd';
+import { Button, Drawer, message, Modal, Result, Image } from 'antd';
 import { createExam, getExamTemplateList, shareInfo, isGuide, } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
@@ -19,7 +19,12 @@ const ExamTemplate: React.FC = () => {
   const [getExamTemplateArr, setGetExamTemplateArr] = useState([])
   const [selected, setSelected] = useState<ExamTemplateListItem>();
   const { initialState } = useModel('@@initialState');
+  const [isBuyModalVisible, setIsBuyModalVisible] = useState(false);
   const handleClick = async (template: ExamTemplateListItem) => {
+    if (!template.isBuy) {
+      setIsBuyModalVisible(true)
+      return
+    }
     if (dd.env.platform != 'notInDingTalk') {
       dd.ready(async () => {
         const pickResult = await dd.biz.contact.choose({
@@ -99,6 +104,11 @@ const ExamTemplate: React.FC = () => {
         <Button size={'large'} type="primary" onClick={onNoticeClick}>通知测评</Button>
       </div>
     )
+  }
+  // 没有购买弹窗提示
+  const handleOk = () => {
+    // setIsBuyModalVisible(false)
+    window.open('http://h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC63FE9AA1FB5D7DFC882653BC130D98DC599D1E334FC2D720DBBD3FB0872C1D1E6%26token%3D6283956d3721d4ba717dd18e362e5a70%26shareUid%3D383B86070279D64685AA4989BCA9F331&dtaction=os')
   }
   return (
     <PageContainer header={{ breadcrumb: {} }}>
@@ -231,6 +241,15 @@ const ExamTemplate: React.FC = () => {
           title="创建成功"
           style={{ padding: 0 }}
         />
+      </Modal>
+      <Modal title="温馨提示" okText="点我跳应用市场" visible={isBuyModalVisible} onOk={handleOk} onCancel={() => setIsBuyModalVisible(false)}>
+        <div className={styles.no_buy}>
+          <Image
+            width={200}
+            src="//qzz-static.forwe.store/evaluation-mng/imgs/nanshan_.jpg"
+          />
+          <p>请到应用市场升级版本，或联系客服咨询。</p>
+        </div>
       </Modal>
     </PageContainer>
   );

@@ -107,6 +107,7 @@ type ExamListItem = {
 }
 
 type ExamTemplateListItem = {
+    isBuy: boolean;
     id: number;
     title: string;
     type: string;
