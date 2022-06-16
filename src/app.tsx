@@ -48,15 +48,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         !qcp_user.userId &&
         location.pathname !== loginPath &&
         location.pathname !== callbackPath &&
-        !location.pathname.includes('/403')
+        !location?.pathname?.includes('/403')
         &&
-        !location.pathname.includes('/402')
+        !location?.pathname?.includes('/402')
       ) {
         history.push(loginPath);
         return;
       }
-      if (qcp_user && !qcp_user?.auths.includes('admin')) {
-        history.replace('/403/99999');
+      if (qcp_user && !qcp_user?.auths?.includes('admin')) {
+        history?.replace('/403/99999');
       }
       if (
         location.pathname !== loginPath &&
