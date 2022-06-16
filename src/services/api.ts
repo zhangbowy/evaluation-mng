@@ -1,7 +1,8 @@
 import { request } from 'umi'
 
 export const login = async (data: any) => {
-    return request<Result<LoginResult>>('/api/member/login/qcp/dt', { method: 'POST', data })
+    // return request<Result<LoginResult>>('/api/member/login/qcp/dt', { method: 'POST', data })
+    return request<Result<LoginResult>>('/api/member/login/dt', { method: 'POST', data })
 }
 
 export const authLogin = async (data: { code: string, appId: string, corpId: string }) => {
