@@ -55,7 +55,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
         return;
       }
-      if (qcp_user && !qcp_user?.auths?.includes('admin')) {
+      if (qcp_user && !qcp_user?.auths.includes('admin')) {
         history?.replace('/403/99999');
       }
       if (
