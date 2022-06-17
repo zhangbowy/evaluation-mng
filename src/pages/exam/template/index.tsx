@@ -111,12 +111,8 @@ const ExamTemplate: React.FC = () => {
   // 没有购买弹窗提示
   const handleOk = () => {
     // setIsBuyModalVisible(false)
-    dd.env.platform != 'notInDingTalk' && dd.biz.util.invokeWorkbench({
-      app_url: 'https://h5.dingtalk.com/open-market/share.html?shareGoodsCode=D34E5A30A9AC7FC63FE9AA1FB5D7DFC882653BC130D98DC599D1E334FC2D720DBBD3FB0872C1D1E6&token=6283956d3721d4ba717dd18e362e5a70&shareUid=383B86070279D64685AA4989BCA9F331&dtaction=os',
-      app_info: {
-        app_refresh_if_exist: true,
-        app_active_if_exist: true
-      },
+    dd.env.platform != 'notInDingTalk' && dd.biz.util.openLink({
+      url: 'http://h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC63FE9AA1FB5D7DFC882653BC130D98DC599D1E334FC2D720DBBD3FB0872C1D1E6%26token%3D6283956d3721d4ba717dd18e362e5a70%26shareUid%3D383B86070279D64685AA4989BCA9F331&dtaction=os',
       onSuccess: function (res) {
         // 调用成功时回调
         console.log(res)
