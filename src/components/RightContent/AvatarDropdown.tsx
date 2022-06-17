@@ -5,7 +5,7 @@ import styles from './index.less';
 
 const AvatarDropdown: React.FC = () => {
   const { initialState } = useModel('@@initialState');
-
+  const userInfo = JSON.parse(sessionStorage.getItem('QCP_User') || '{}');
   const loading = (
     <span className={`${styles.action} ${styles.account}`}>
       <Spin
@@ -18,20 +18,24 @@ const AvatarDropdown: React.FC = () => {
     </span>
   );
 
-  if (!initialState) {
-    return loading;
-  }
+  // if (!initialState) {
+  //   return loading;
+  // }
 
-  const { user } = initialState;
+  const { user }:any = initialState;
 
-  if (!user || !user.name) {
+  // if (!user || !user.name) {
+  //   return loading;
+  // }
+
+  if (!user && !userInfo) {
     return loading;
   }
 
   return (
     <span className={`${styles.action} ${styles.account}`}>
-      <Avatar size="small" className={styles.avatar} src={user.avatar} alt="avatar" />
-      <span className={`${styles.name} anticon`}>{user.name}</span>
+      <Avatar size="small" className={styles.avatar} src={user?.avatar || userInfo?.avatar} alt="avatar" />
+      <span className={`${styles.name} anticon`}>{user?.name || userInfo?.name}</span>
     </span>
   );
 };
