@@ -16,7 +16,7 @@ const PreviewPage: FC = () => {
         openTryoutSku({
             corpId: corpId,
             appId: Number(app),
-            token: '',
+            token: purchaseToken,
         }).then((res: any) => {
             const { action } = res;
             if (action === "ok") {
