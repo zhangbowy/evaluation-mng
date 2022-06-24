@@ -155,7 +155,7 @@ const ExamTemplate: React.FC = () => {
         {
           getExamTemplateArr?.map((item: ExamTemplateListItem, index: number) => (
             <div key={item.id} className={styles.card_wrapper} >
-              {!item.isBuy && <div onClick={() => setIsBuyModalVisible(true)} className={styles.obscuration}>点我进行解锁</div>}
+              {!item.isBuy && <div onClick={() => setIsBuyModalVisible(true)} className={styles.obscuration}>点击付费升级进行开通</div>}
               <div className={styles.card_content} >
                 <div className={styles.card_top} onClick={() => {
                   setSelected(item);
