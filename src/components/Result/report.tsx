@@ -6,34 +6,34 @@ import { getExamResult } from '@/services/api';
 type ExamReportPropsType = {
   visible: boolean;
   onVisibleChange: (visible: boolean) => void;
-  userId: string;
-  examId: number;
-  type:string;
+  examPaperId: number;
+  userId:string;
+  type: string;
 };
 const ExamReport: React.FC<ExamReportPropsType> = ({
   visible,
   onVisibleChange,
+  examPaperId,
   userId,
-  examId,
   type,
 }) => {
   const [result, setResult] = useState<ExamResult>();
   useEffect(() => {
-    if (userId && examId) {
-      getExamResult({ userId, examId }).then((res) => {
+    if (userId&&examPaperId) {
+      getExamResult({ examPaperId,userId }).then((res) => {
         if (res.code === 1) {
           setResult({ ...res.data, bankType: type });
         }
       });
     }
-  }, [userId, examId,type])
+  }, [userId,examPaperId, type])
   return (
     <Drawer
       visible={visible}
-      onClose={() => { onVisibleChange(false);}}
+      onClose={() => { onVisibleChange(false); }}
       placement="right"
       title="测评报告详情"
-      width={type=='PDP'?'375px':'410px'}
+      width={type == 'PDP' ? '375px' : '410px'}
     >
       <ReportResult result={result} />
     </Drawer>

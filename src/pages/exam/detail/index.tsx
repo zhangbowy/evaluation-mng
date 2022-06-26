@@ -17,6 +17,7 @@ const ExamDetail: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>();
   const [examId, setExamId] = useState<number>();
+  const [resultExamPaperId, setResultExamPaperId] = useState<number>();
   const [examUsers, setExamUsers] = useState<ExamUsers>(); //  table表格数据
   const [measurement, setMeasurement] = useState<Measurement>(); //测评信息
   const [department, setDepartment] = useState<any>([]); // 部门option
@@ -117,6 +118,7 @@ const ExamDetail: React.FC = () => {
               style={{ float: 'right', marginRight: 20 }}
               onClick={() => {
                 setVisible(true);
+                setResultExamPaperId(entity.examPaperId);
                 setUserId(entity.userId);
                 setExamId(entity.examId);
               }}
@@ -398,7 +400,7 @@ const ExamDetail: React.FC = () => {
   }
   return (
     <PageContainer>
-      <ExamReport type={locat?.query?.type} userId={userId} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <ExamReport type={locat?.query?.type} userId={userId as string} examPaperId={resultExamPaperId as number} visible={visible} onVisibleChange={setVisible} />
       <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item>
           <a href='#/exam/index'>测评管理</a>

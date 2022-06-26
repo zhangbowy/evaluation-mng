@@ -83,6 +83,7 @@ type ExamUsers = {
 }
 
 type ExamUser = {
+    examPaperId: number;
     deptAggregationDTOS: {
         name: string;
     }[],
@@ -136,6 +137,8 @@ type AllExam = {
 }
 
 type Exam = {
+    examTemplateType: string;
+    examPaperId: number;
     examId: number;
     examName: string;
     date: string;

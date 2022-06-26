@@ -13,6 +13,7 @@ const UserDetail: React.FC = () => {
   const { id } = queryString.parse(location.hash.split('?')[1]);
   const [all, setAll] = useState<AllExam>();
   const [visible, setVisible] = useState<boolean>(false);
+  const [resultExamPaperId, setResultExamPaperId] = useState<number>();
   const [examId, setExamId] = useState<number>();
   const [examTemplateType, setExamTemplateType] = useState<string>('');
   useEffect(() => {
@@ -49,6 +50,7 @@ const UserDetail: React.FC = () => {
               setExamId(record.examId);
               setVisible(true);
               setExamTemplateType(record.examTemplateType)
+              setResultExamPaperId(record.examPaperId)
             }}
           >
             查看报告
@@ -59,7 +61,7 @@ const UserDetail: React.FC = () => {
   ];
   return (
     <PageContainer header={{}}>
-      <ExamReport type={examTemplateType} userId={id} examId={examId} visible={visible} onVisibleChange={setVisible} />
+      <ExamReport type={examTemplateType} userId={id} examPaperId={resultExamPaperId as number} visible={visible} onVisibleChange={setVisible} />
       <Breadcrumb style={{ marginBottom: 20 }}>
         <Breadcrumb.Item><a href='#/report'>人才报告</a></Breadcrumb.Item>
         <Breadcrumb.Item>{all.name}</Breadcrumb.Item>
@@ -110,9 +112,9 @@ const UserDetail: React.FC = () => {
             </div>
           </div>
         </Typography>
-        <div style={{ margin: '10px 0',width:'100%', wordBreak: 'break-all' }}>
+        <div style={{ margin: '10px 0', width: '100%', wordBreak: 'break-all' }}>
           {all.userTagVoList.map((item) => (
-            <Tag color="processing" style={{margin:'5px 10px 5px 0'}} key={item.id}>
+            <Tag color="processing" style={{ margin: '5px 10px 5px 0' }} key={item.id}>
               {item.name}
             </Tag>
           ))}
