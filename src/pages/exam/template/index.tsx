@@ -74,13 +74,13 @@ const ExamTemplate: React.FC = () => {
           mentionAllAuthority: 1
         },
       }).then(async res => {
-        console.log(res, '创建成功')
         if (res.errorCode === '0') {
           const result = await createExam({
-            openConversationId: res.detail.openConversationId,
             examTemplateType: template.type,
             examTemplateId: template.id,
             examTitle: template.title,
+            fromSourceType: 1,
+            fromSourceId: res.detail.openConversationId,
             examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
           });
           if (result.code == 1) {
