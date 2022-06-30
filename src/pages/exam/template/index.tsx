@@ -63,7 +63,7 @@ const ExamTemplate: React.FC = () => {
       createGroup({
         context: {
           // coolAppCode: 'COOLAPP-1-101BA56791222107E31B000Q', // 线上
-          coolAppCode: 'COOLAPP-1-101C020053D02132B7CD000B', // 日常
+          coolAppCode: 'COOLAPP-1-101C2C441FFF213340570000', // 日常
           clientId: clientId as string,
           corpId: corpId as string, // 根据对应场景获取 corpId
         },
