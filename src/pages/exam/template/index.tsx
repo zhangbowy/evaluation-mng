@@ -1,13 +1,16 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
-import { Button, Drawer, message, Modal, Result, Image } from 'antd';
+import { Button, Drawer, message, Modal, Result, Image, Divider } from 'antd';
 import { createExam, getExamTemplateList, shareInfo, isGuide, } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 import { history, useModel } from 'umi';
 import { useEffect, useRef, useState } from 'react';
 import { getIsGuide } from '@/utils/utils'
+import 'dingtalk-jsapi/entry/union';
+import { createGroup } from 'dingtalk-jsapi/plugin/coolAppSdk';
+
 
 import styles from './index.less';
 
@@ -23,34 +26,74 @@ const ExamTemplate: React.FC = () => {
   useEffect(() => {
     getExamTemplate()
   }, [])
+  // 添加人员
   const handleClick = async (template: ExamTemplateListItem) => {
     if (!template.isBuy) {
       setIsBuyModalVisible(true)
       return
     }
-    if (dd.env.platform != 'notInDingTalk') {
-      dd.ready(async () => {
-        const pickResult = await dd.biz.contact.choose({
-          multiple: true, //是否多选：true多选 false单选； 默认true
-          corpId,
-        });
-        if (pickResult.length < 1) {
-          return;
-        }
-        const res = await createExam({
-          examTemplateType: template.type,
-          examTemplateId: template.id,
-          examTitle: template.title,
-          examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
-        });
-        if (res.code === 1) {
-          setIsModalVisible(true)
-          // message.success(res.message);
-          // history.push('/exam/index');
-        }
+    dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
+      const pickResult = await dd.biz.contact.choose({
+        multiple: true, //是否多选：true多选 false单选； 默认true
+        corpId,
       });
-    }
+      if (pickResult.length < 1) {
+        return;
+      }
+      const res = await createExam({
+        examTemplateType: template.type,
+        examTemplateId: template.id,
+        examTitle: template.title,
+        examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
+      });
+      if (res.code === 1) {
+        setIsModalVisible(true)
+        // message.success(res.message);
+        // history.push('/exam/index');
+      }
+    });
   };
+  // 建群测评
+  const onColonizationClick = async (template: ExamTemplateListItem) => {
+    dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
+      const pickResult = await dd.biz.contact.choose({
+        multiple: true, //是否多选：true多选 false单选； 默认true
+        corpId,
+      });
+      createGroup({
+        context: {
+          coolAppCode: 'COOLAPP-1-101BA56791222107E31B000Q',
+          clientId: clientId as string,
+          corpId: corpId as string, // 根据对应场景获取 corpId
+        },
+        title: `${template.type}测试酷应用`,
+        memberUserIds: pickResult?.map((item: any) => item.emplId),
+        managementOptions: {
+          validationType: 1,
+          mentionAllAuthority: 1
+        },
+      }).then(async res => {
+        console.log(res, '创建成功')
+        if (res.errorCode === '0') {
+          const result = await createExam({
+            openConversationId: res.detail.openConversationId,
+            examTemplateType: template.type,
+            examTemplateId: template.id,
+            examTitle: template.title,
+            examUserList: pickResult?.map((item: any) => ({ userId: item.emplId })),
+          });
+          if (result.code == 1) {
+            message.success('创建群组成功');
+          }
+          // 建群成功
+        }
+      }).catch(err => {
+        console.log(err, '创建失败')
+        message.success('创建群组失败');
+        // 用户主动退出安装
+      });
+    })
+  }
   useEffect(() => {
     if (getExamTemplateArr.length > 0) {
       const setsArr: stepsType[] = [{
@@ -169,118 +212,16 @@ const ExamTemplate: React.FC = () => {
                     <p>题目数量：<span>{item.examLibrarySum}</span></p>
                   </main>
                 </div>
-                <footer onClick={() => handleClick(item)} className={`add_people${index}`}>添加人员</footer>
+                <footer >
+                  <Button onClick={() => onColonizationClick(item)}>建群测评</Button>
+                  <Divider type="vertical" />
+                  <Button onClick={() => handleClick(item)} className={`add_people${index}`}> 添加人员</Button>
+                </footer>
               </div>
             </div>
           ))
         }
       </div>
-
-      {/* <ProList<ExamTemplateListItem>
-        pagination={false}
-        className="template"
-        rowKey="id"
-        grid={{ gutter: 16, column: 4 }}
-        request={async () => {
-          const res = await getExamTemplateList();
-          if (res.code === 1) {
-            setGetExamTemplateArr(res.data)
-            return {
-              success: true,
-              data: res.data,
-            };
-          }
-          return { success: false };
-        }}
-        metas={{
-          title: {
-            dataIndex: 'title',
-            render: (title, entity) => {
-              return (
-                <div
-                  className={styles.titleHeader}
-                  onClick={() => {
-                    setSelected(entity);
-                    setImg(JSON.parse(entity.introductionImage).admin);
-                    setVisible(true);
-                  }}
-                >
-                  {title}
-                </div>
-              );
-            },
-          },
-          content: {
-            dataIndex: 'introduction',
-            render: (introduction, entity, index) => {
-              return (
-                <div>
-                  <div
-                    onClick={() => {
-
-                      setSelected(entity);
-                      setImg(JSON.parse(entity.introductionImage).admin);
-                      setVisible(true);
-                    }}
-                  >
-                    <div
-                      style={{
-                        color: '#000000',
-                        opacity: '45%',
-                        fontSize: 16,
-                        padding: '20px 20px 0 20px',
-                        wordBreak: 'break-all',
-                        textOverflow: 'ellipsis',
-                        display: '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 4,
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {introduction}
-                    </div>
-                    <div style={{ backgroundColor: '#ffffff' }}>
-                      <div style={{ margin: '10px 20px' }}>
-                        <div>
-                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                            作答时间：
-                          </span>
-                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                            {entity.durationDesc}
-                          </span>
-                        </div>
-                        <div>
-                          <span style={{ color: '#000000', opacity: '45%', fontSize: 14 }}>
-                            题目数量：
-                          </span>
-                          <span style={{ color: '#000000', opacity: '85%', fontSize: 14 }}>
-                            {entity.examLibrarySum}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <Button
-                    onClick={() => handleClick(entity)}
-                    className={`add_people${index}`}
-                    style={{
-                      width: '100%',
-                      height: 43,
-                      backgroundColor: '#E5F2FF',
-                      color: '#1890FF',
-                      borderRadius: '0px 0px 4px 4px',
-                      border: 'none',
-                      fontSize: 16,
-                    }}
-                  >
-                    添加人员
-                  </Button>
-                </div>
-              );
-            },
-          },
-        }}
-      /> */}
       <Modal width={400} footer={footerLayout()} visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
         <Result
           status="success"

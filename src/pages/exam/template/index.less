@@ -170,16 +170,22 @@
       }
 
       footer {
+        display: flex;
         width: 284px;
         height: 43px;
         background: #E5F2FF;
-        line-height: 43px;
-        text-align: center;
-        font-size: 16px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #1890FF;
-        cursor: pointer;
+        justify-content: space-around;
+        align-items: center;
+
+        button {
+          font-size: 16px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          background: #E5F2FF;
+          color: #1890FF;
+          border: none;
+          cursor: pointer;
+        }
       }
     }
   }

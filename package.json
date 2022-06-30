@@ -55,7 +55,7 @@
     "antd": "^4.19.5",
     "classnames": "^2.3.0",
     "dingtalk-design-libs": "^0.0.23",
-    "dingtalk-jsapi": "^2.13.91",
+    "dingtalk-jsapi": "^2.14.2",
     "intro.js": "^5.1.0",
     "intro.js-react": "^0.6.0",
     "lodash": "^4.17.0",

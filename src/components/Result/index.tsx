@@ -106,12 +106,7 @@ const ReportResult: React.FC<{ result: any }> = ({ result }) => {
                 <div className={styles.resultLitterBox}>
                   <div className={styles.contentBox}>
                     <div className={styles.resultRight} >
-                      <img
-                        src={result.results?.[0]?.typeIcon.replace(
-                          'https://qzz-static.forwe.store',
-                          '',
-                        )}
-                      />
+                      <img  src={result.results?.[0]?.typeIcon}/>
                       {result.results?.length > 1 && (
                         <img
                           className={styles.jiahao}
