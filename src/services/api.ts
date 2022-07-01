@@ -89,5 +89,10 @@ export const isGuide = async (params: any) => {
 export const upDateGuide = async (data: any) => {
     return request<Result<any>>('/api/spf-cc/b/evaluation/library/updateReadGuide', { data, method: 'POST' })
 }
-
-
+// 获取会话id
+export const queryConversationUserList = async (openConversationId: string) => {
+    return request<Result<any>>(
+        '/api/spf-cc/cool/evaluation/queryConversationUserList',
+        { data: { openConversationId }, method: 'post' },
+    );
+};

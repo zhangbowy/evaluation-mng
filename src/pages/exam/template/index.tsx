@@ -2,14 +2,14 @@ import { PageContainer } from '@ant-design/pro-layout';
 import ProCard from '@ant-design/pro-card';
 import ProList from '@ant-design/pro-list';
 import { Button, Drawer, message, Modal, Result, Image, Divider } from 'antd';
-import { createExam, getExamTemplateList, shareInfo, isGuide, } from '@/services/api';
+import { createExam, getExamTemplateList, shareInfo, isGuide, queryConversationUserList, } from '@/services/api';
 import dd from 'dingtalk-jsapi';
 import queryString from 'query-string';
 import { history, useModel } from 'umi';
 import { useEffect, useRef, useState } from 'react';
 import { getIsGuide } from '@/utils/utils'
 import 'dingtalk-jsapi/entry/union';
-import { createGroup } from 'dingtalk-jsapi/plugin/coolAppSdk';
+import { createGroup, installCoolAppToGroup } from 'dingtalk-jsapi/plugin/coolAppSdk';
 
 
 import styles from './index.less';
@@ -90,8 +90,40 @@ const ExamTemplate: React.FC = () => {
         }
       }).catch(err => {
         console.log(err, '创建失败')
-        message.success('创建群组失败');
+        message.error('创建群组失败');
         // 用户主动退出安装
+      });
+    })
+  }
+  // 选群测评
+  const onSelectGroupClick = async (template: ExamTemplateListItem) => {
+    dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
+      installCoolAppToGroup({
+        coolAppCode: 'COOLAPP-1-101C2C441FFF213340570000', // 日常
+        clientId: clientId as string,
+        corpId: corpId as string, // 根据对应场景获取 corpId
+      }).then(async res => {
+        if (res.errorCode === '0') {
+          // 安装成功
+          const item = await queryConversationUserList(res.detail.openConversationId)
+          if (item.code == 1) {
+            const result = await createExam({
+              examTemplateType: template.type,
+              examTemplateId: template.id,
+              examTitle: template.title,
+              fromSourceType: 1,
+              fromSourceId: res.detail.openConversationId,
+              examUserList: item.data?.map((item: any) => ({ userId: item })),
+            });
+            if (result.code == 1) {
+              message.success('安装酷应用成功');
+            }
+          }
+        }
+      }).catch(err => {
+        // 用户主动退出安装
+        console.log(err, '安装失败')
+        message.error('安装酷应用失败');
       });
     })
   }
@@ -215,7 +247,9 @@ const ExamTemplate: React.FC = () => {
                 </div>
                 <footer >
                   <Button onClick={() => onColonizationClick(item)}>建群测评</Button>
-                  <Divider type="vertical" />
+                  <Divider style={{margin:0}} type="vertical" />
+                  <Button onClick={() => onSelectGroupClick(item)}>选群测评</Button>
+                  <Divider style={{margin:0}} type="vertical" />
                   <Button onClick={() => handleClick(item)} className={`add_people${index}`}> 添加人员</Button>
                 </footer>
               </div>
