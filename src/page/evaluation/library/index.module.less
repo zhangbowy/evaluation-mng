@@ -1,0 +1,137 @@
+.Library_layout {
+    display: flex;
+    padding: 24px 34px;
+    background-color: var(--white-color);
+    min-height: 100vh;
+    flex-direction: column;
+
+    h1 {
+        font-size: 20px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #464C5B;
+        margin-bottom: 24px;
+    }
+
+    main {
+        display: flex;
+        .Library_card_wrapper {
+            width: 266px;
+            border-radius: 4px;
+            margin-right: 24px;
+            overflow: hidden;
+            border: 1px solid #D7DDE4;
+            box-shadow: 0px 4px 12px 0px #dee3e8;
+            background-color: #FFFFFF;
+            position: relative;
+
+            .Library_isUnlock {
+                width: 104px;
+                height: 32px;
+                background: #E7F1FF;
+                border-radius: 0px 0px 30px 0px;
+                backdrop-filter: blur(10px);
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span {
+                    font-size: 14px;
+                    font-family: OPPOSans-M, OPPOSans;
+                    font-weight: normal;
+                    color: #464C5B;
+                    margin-left: 6px;
+                }
+
+            }
+
+            img {
+                width: 100%;
+                height: 100px;
+                object-fit: cover;
+            }
+
+            p {
+                font-size: 12px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                color: #657180;
+                line-height: 17px;
+                padding: 12px 12px 0;
+                word-break: break-all;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+            }
+
+            .Library_topicInfo {
+                padding: 12px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .Library_topicInfoLeft {
+                    display: flex;
+                    flex-direction: column;
+
+                    label {
+                        font-size: 12px;
+                        font-family: PingFangSC-Regular, PingFang SC;
+                        font-weight: 400;
+                        color: #9EA7B4;
+                        line-height: 17px;
+                        margin-bottom: 7px;
+
+                        span {
+                            font-size: 12px;
+                            font-family: PingFangSC-Regular, PingFang SC;
+                            font-weight: 400;
+                            color: #464C5B;
+                            line-height: 17px;
+                            margin-left: 12px;
+                        }
+                    }
+                }
+
+                .Library_topicInfoRight {}
+            }
+
+            footer {
+                height: 48px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px;
+                background-color: #F5F7F9;
+
+                .Library_footerLeft {
+                    .Library_footerIcon {
+                        font-size: 15px;
+                    }
+
+                    span:nth-child(2) {
+                        font-size: 12px;
+                        font-family: PingFangSC-Regular, PingFang SC;
+                        font-weight: 400;
+                        color: #9EA7B4;
+                        line-height: 17px;
+                        margin: 0 6px;
+                    }
+
+                    span:nth-child(3) {
+                        font-size: 12px;
+                        font-family: PingFangSC-Medium, PingFang SC;
+                        font-weight: 500;
+                        color: #464C5B;
+                        line-height: 17px;
+                    }
+                }
+            }
+        }
+    }
+
+}

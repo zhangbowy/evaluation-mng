@@ -1,0 +1,117 @@
+.management_layout {
+    height: 100%;
+    padding: 24px 34px;
+    background-color: var(--white-color);
+  
+
+    .management_defaultPage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+
+        img {
+            width: 176px;
+            height: 176px;
+        }
+
+        p {
+            font-size: 14px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #464C5B;
+            line-height: 20px;
+            margin: 21px 0 30px;
+        }
+    }
+
+    header {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        h1 {
+            font-size: 20px;
+            font-family: PingFangSC-Medium, PingFang SC;
+            font-weight: 500;
+            color: #464C5B;
+        }
+
+        div {
+
+            .management_radio {
+                label:first-child {
+                    border-radius: 5px 0 0 5px;
+                }
+
+                label:last-child {
+                    border-radius: 0 5px 5px 0;
+                }
+            }
+
+            button {
+                margin-left: 33px;
+            }
+
+        }
+    }
+
+    .create_userInfo {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 12px;
+        }
+
+    }
+
+    .create_option {
+        text-align: right;
+
+        // :global(.ant-divider){
+        //     margin:0 4px;
+        // }
+        button {
+            padding: 0;
+        }
+    }
+}
+
+.create_right {
+    p {
+        font-size: 14px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #464C5B;
+        margin-bottom: 10px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 233px;
+    }
+
+    span {
+        display: block;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #9EA7B4;
+    }
+
+    :global(.ant-progress-line) {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        svg {
+            color: var(--success-color);
+        }
+    }
+}
+
