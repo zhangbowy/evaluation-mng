@@ -19,11 +19,11 @@ const index = () => {
   useEffect(() => {
     getUser()
     getDepartment()
-    let timer:number;
+    let timer: any;
     timer = setTimeout(() => {
       currentStep()
     }, 1000);
-    ()=>{
+    () => {
       clearTimeout(timer)
     }
   }, [])
@@ -49,7 +49,7 @@ const index = () => {
     if (res.code == 1) {
       setUserList(res.data.resultList)
       setTableLoading(false)
-      
+
     }
   }
   // 获取部门

@@ -18,7 +18,7 @@ const PeopleReport = () => {
     getUserReport()
   }, [])
   useEffect(() => {
-    let timer:number;
+    let timer:any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(reportList)

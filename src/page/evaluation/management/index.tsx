@@ -29,7 +29,7 @@ const Management = () => {
     getEvaluationList()
   }, [])
   useEffect(() => {
-    let timer:number;
+    let timer:any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(evaluationList)

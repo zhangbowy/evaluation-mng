@@ -101,7 +101,7 @@ const Menu = (props: IMenuProps) => {
     )
   }
   return (
-    <div className={state ? styles.menu_default_layout : styles.menu_packUp_layout}>
+    <div className={!state ? styles.menu_default_layout : styles.menu_packUp_layout}>
       <div>
         <header>
           <img src={logo} alt="" />

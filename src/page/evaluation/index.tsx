@@ -38,7 +38,7 @@ const EvaluationLayout: FC = () => {
   return (
     <div className={styles.evaluation_layout}>
       <Layout style={{ height: '100%' }}>
-        <Sider width={`${isPackUp ? 240 : 80}px`} className={styles.evaluation_sider}>
+        <Sider width={`${!isPackUp ? 240 : 80}px`} className={styles.evaluation_sider}>
           <MyContext.Provider value={{ state: isPackUp, dispatch: setIsPackUp }}>
             <Menu handelPackUp={() => setIsPackUp(!isPackUp)} />
           </MyContext.Provider>
