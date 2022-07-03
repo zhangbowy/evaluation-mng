@@ -19,7 +19,7 @@ const index = () => {
   useEffect(() => {
     getUser()
     getDepartment()
-    let timer:NodeJS.Timeout
+    let timer:number;
     timer = setTimeout(() => {
       currentStep()
     }, 1000);

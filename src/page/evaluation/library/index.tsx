@@ -26,7 +26,7 @@ const Library = () => {
     getLibraryList()
   }, [])
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: number;
     if (!libraryLoading) {
       timer = setTimeout(() => {
         currentStep(libraryList)
