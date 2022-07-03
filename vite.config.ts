@@ -5,7 +5,7 @@ const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: 'http://gray-eval.sunmeta.top/evaluation-web/static/',
+  base: 'http://gray-eval.sunmeta.top/evaluation-web/static/',
   server: {
     cors: true,
     proxy: {
