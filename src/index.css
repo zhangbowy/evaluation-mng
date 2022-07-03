@@ -163,14 +163,8 @@ textarea:focus {
 	outline: -webkit-focus-ring-color auto 0;
 }
 
-._management_layout_dsjwl_1,
-._peopleReport_layout_1avqe_1,
-._Library_layout_wtqot_1,
-._userAuthority_layout_7yz5h_1,
-._recharge_layout_ek14m_1,
-._detail_layout_c12tg_1,
-._detail_layout_1hk48_1
- {
+
+[class*='_layout']{
 	animation: identifier 1s ease;
 }
 

@@ -1,4 +1,4 @@
-import React, { FC, Fragment, Suspense, useEffect, useState } from 'react'
+import React, { createContext, FC, Fragment, Suspense, useEffect, useState } from 'react'
 import { Layout, message } from 'antd';
 import styles from './index.module.less'
 import Menu from '../../components/menu'
@@ -8,12 +8,14 @@ import Loading from '@/components/loading';
 import { useSearchParams } from 'react-router-dom';
 import { getSign } from '@/api/api';
 import dd from 'dingtalk-jsapi';
+import { MyContext } from '@/utils/hook'
+
 
 const { Sider, Content } = Layout;
 const EvaluationLayout: FC = () => {
-  const navigate = useNavigate()
-  const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
   const [ddConfig, setDdConfig] = useState<boolean>(false)
+  const [isPackUp, setIsPackUp] = useState<boolean>(false)
+
   useEffect(() => {
     ddConfig && (async () => {
       const res = await getSign(window.location.href.split('#')[0]);
@@ -33,26 +35,13 @@ const EvaluationLayout: FC = () => {
       }
     })()
   }, [location.pathname])
-  // 去充值
-  const goRecharge = () => {
-    navigate('/evaluation/recharge')
-  }
   return (
     <div className={styles.evaluation_layout}>
       <Layout style={{ height: '100%' }}>
-        {/* <Sider collapsible width="240" className={styles.evaluation_sider}> */}
-        <Sider width="240" className={styles.evaluation_sider}>
-          <div>
-            <div className={styles.evaluation_sider_title}>
-              <img src={logo} alt="" />
-              <span>趣测评管理后台</span>
-            </div>
-            <Menu />
-          </div>
-          <div className={styles.evaluation_sider_footer} onClick={goRecharge}>
-            <img src={logo} alt="" />
-            <span>点券充值</span>
-          </div>
+        <Sider width={`${isPackUp ? 240 : 80}px`} className={styles.evaluation_sider}>
+          <MyContext.Provider value={{ state: isPackUp, dispatch: setIsPackUp }}>
+            <Menu handelPackUp={() => setIsPackUp(!isPackUp)} />
+          </MyContext.Provider>
         </Sider>
         <Layout>
           <Header />

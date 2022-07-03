@@ -8,7 +8,6 @@ export default defineConfig({
   // base: 'http://gray-eval.sunmeta.top/evaluation-web/static/',
   server: {
     cors: true,
-    port:3000,
     proxy: {
       '/api': {
         target: 'http://daily-eval.sunmeta.top',

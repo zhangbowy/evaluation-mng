@@ -2,7 +2,10 @@
 import React, { lazy } from 'react'
 import { RouteObject, useRoutes } from 'react-router';
 import { Navigate } from 'react-router-dom'
-const Evaluation = lazy(() => import('@/page/evaluation'))
+import Login from '@/page/login';
+import Evaluation from '@/page/evaluation';
+import NeedPay from '@/page/402';
+import NotJurisdiction from '@/page/403';
 const Management = lazy(() => import('@/page/evaluation/management'))
 const PeopleReport = lazy(() => import('@/page/evaluation/peopleReport'))
 const Library = lazy(() => import('@/page/evaluation/library'))
@@ -11,11 +14,8 @@ const NoFind = lazy(() => import('@/page/404'))
 const Recharge = lazy(() => import('@/page/evaluation/recharge'))
 const ManagementDetail = lazy(() => import('@/page/evaluation/management/detail'))
 const PeopleReportDetail = lazy(() => import('@/page/evaluation/peopleReport/detail'))
-const Login = lazy(() => import('@/page/login'));
 const Layout = lazy(() => import('@/components/layout'));
-const NotJurisdiction = lazy(() => import('@/page/403'))
 const ManagementLibrary = lazy(() => import('@/page/evaluation/management/library'));
-
 const routes: RouteObject[] = [
     {
         path: '/evaluation',
@@ -79,6 +79,10 @@ const routes: RouteObject[] = [
     {
         path: '/login',
         element: <Login />,
+    },
+    {
+        path: '/402',
+        element: <NeedPay />,
     },
     {
         path: '/403/:code',

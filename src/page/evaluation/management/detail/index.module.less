@@ -216,20 +216,30 @@
                     background: var(--white-color);
                     border-radius: 4px;
                     padding: 14px 16px;
-
+                    position: relative;
+                    .detail_magnify{
+                        position: absolute;
+                        right: 10px;
+                        cursor: pointer;
+                    }
+                    p{
+                        margin-bottom: 10px;
+                    }
                     .detail_distribution_wrapper {
                         display: flex;
                         flex-flow: row wrap;
-                        max-height: 190px;
+                        max-height: 200px;
                         overflow: hidden;
 
                         .detail_distribution_tag {
-                            font-size: 14px;
-                            font-family: PingFangSC-Regular, PingFang SC;
-                            font-weight: 400;
-                            padding: 2px 5px;
+                            // font-size: 14px;
+                            // font-family: PingFangSC-Regular, PingFang SC;
+                            // font-weight: 400;
+                            // padding: 2px 5px;
                             margin: 0 12px 7px 0;
-                            border-radius: 2px;
+                            cursor: pointer;
+                            // border-radius: 2px;
+                           
                         }
                     }
                 }

@@ -16,8 +16,8 @@ const Login = () => {
   const locationSearch = useLocation().search
   // 跳转
   const handleLogin = (item: ILogin) => {
-    window.sessionStorage.setItem('QCP_TOKEN', item.token);
-    window.sessionStorage.setItem('QCP_USER', JSON.stringify(item.user));
+    window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
+    window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
     navigate('/evaluation/library');
   }
   useEffect(() => {

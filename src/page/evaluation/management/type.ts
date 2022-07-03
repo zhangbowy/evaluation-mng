@@ -80,3 +80,7 @@ export enum IisDimission {
     '在职',
     '离职'
 }
+
+export type ITagsProps= {
+    onTagClick: (name: string) => void;
+}

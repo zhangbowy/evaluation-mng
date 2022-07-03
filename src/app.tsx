@@ -1,6 +1,6 @@
 import React, { createContext, useEffect } from 'react'
 import QzzRouter from './routes'
-import './App.css'
+import './app.css'
 import { useLocation, useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ const App = () => {
   const locationInfo = useLocation();
   const navigate = useNavigate()
   const [search, setSearch] = useSearchParams()
-  const token = sessionStorage.getItem('QCP_TOKEN')
+  const token = sessionStorage.getItem('QCP_B_TOKEN')
   useEffect(() => {
     if (!token) {
       navigate(`/login${locationInfo.search}`, { replace: true })

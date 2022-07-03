@@ -17,7 +17,7 @@ const AddPeople = forwardRef((props, ref) => {
     const corpId = search.get('corpId') || '0';
     const appId = search.get('appId') || '0';
     const clientId = search.get('clientId') || '0';
-    const qcp_user = JSON.parse(window.sessionStorage.getItem('QCP_USER') || '{}');
+    const qcp_b_user = JSON.parse(window.sessionStorage.getItem('QCP_B_USER') || '{}');
     useImperativeHandle(ref, () => ({
         openModal
     }))
@@ -81,7 +81,7 @@ const AddPeople = forwardRef((props, ref) => {
                                     text: "全抖音1亿用户都在玩的性格测评，赶紧测一测吧！"
                                 }
                             }
-                            const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: qcp_user?.userId });
+                            const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: qcp_b_user?.userId });
                             if (res.code == 1) {
                                 message.success('发送成功');
                             }

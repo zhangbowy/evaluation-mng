@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 
 
 const Header = () => {
-  const user = JSON.parse(sessionStorage.getItem('QCP_USER') || '{}');
+  const user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const history = useNavigate()
   // 去充值
   const goRecharge = () =>{

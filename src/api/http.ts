@@ -8,7 +8,7 @@ let instance = axios.create({
     timeout: 50000
 });
 instance.interceptors.request.use((request: any) => {
-    request.headers['QZZ_ACCESS_TOKEN'] = sessionStorage.getItem('QCP_TOKEN');
+    request.headers['QZZ_ACCESS_TOKEN'] = sessionStorage.getItem('QCP_B_TOKEN');
     return request;
 }, function (error) {
     return Promise.reject(error);

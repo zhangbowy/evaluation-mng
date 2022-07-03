@@ -1,5 +1,5 @@
 import { getAllInfo, getChart, getExamUsers, measurementExport, queryDept } from '@/api/api'
-import { Breadcrumb, Button, Empty, Form, Input, Select, Spin, Table } from 'antd'
+import { Breadcrumb, Button, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { useParams } from 'react-router'
@@ -12,25 +12,26 @@ import { LockOutlined } from '@ant-design/icons'
 import LookResult from '@/components/lookResult'
 import LookIntroduce from './lookintroduce'
 import Loading from '@/components/loading'
+import { FullscreenOutlined } from '@ant-design/icons';
+import LookAllTags from './lookAllTags'
 
 const Detail = () => {
   const params = useParams() as { id: string }
-  const [search, setSearch] = useSearchParams()
+  const [search] = useSearchParams()
   const [userId, setUserId] = useState<string>();
   const [measurement, setMeasurement] = useState<IMeasurement>(); //测评信息
   const [department, setDepartment] = useState<IOption[]>([]); // 部门option
   const [chartList, setChartList] = useState<IChartList>() // 图表数据
-  const [fetching, setFetching] = useState(false);// 是否有数据
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
   const [tableList, setTableList] = useState<IResultTable>() // 表格数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [form] = Form.useForm();
   const corpId = search.get('corpId') || '0'
   const appId = search.get('appId') || '0'
-  const fetchRef = useRef(0);
   const visualRef: any = useRef([])
   const lookResultRef: any = useRef();
   const lookIntroduceRef: any = useRef();
+  const lookAllTagsRef: any = useRef()
   // 完成情况select
   const doneCondition: characterProportions[] = [
     {
@@ -41,6 +42,19 @@ const Detail = () => {
       name: '未完成',
       value: '0, 1, 2, 3',
     },
+  ]
+  const tagsColor = [
+    'magenta',
+    'red',
+    'volcano',
+    'orange',
+    'gold',
+    'lime',
+    'green',
+    'cyan',
+    'blue',
+    'geekblue',
+    'purple',
   ]
   useEffect(() => {
     getDetailList()
@@ -85,7 +99,7 @@ const Detail = () => {
   }
   // 获取表格数据
   const getTableList = async (item?: ITableParams) => {
-    const obj = { examid: params.id, curPage: 1, pageSize: 20, ...item, status: item?.status?.split(',').map(Number) }
+    const obj = { examid: params.id, curPage: 1, pageSize: 10, ...item, status: item?.status?.split(',').map(Number) }
     !item?.status && delete obj.status
     const res: IBackResult = await getExamUsers(obj)
     if (res.code === 1) {
@@ -181,6 +195,14 @@ const Detail = () => {
       a.download = res.data.cname
       a.click()
     }
+  }
+  // 查看所有tags
+  const onMagnifyClick = () => {
+    lookAllTagsRef?.current?.openModal(chartList?.characterProportions)
+  }
+  // tag点击
+  const onTagClick = (name: string) => {
+    getTableList({ tags: name })
   }
   const columns: ColumnsType<IResultList> = [
     {
@@ -337,15 +359,14 @@ const Detail = () => {
               </div>
             </div>
             <div className={styles.detail_distribution}>
+              <FullscreenOutlined onClick={onMagnifyClick} className={styles.detail_magnify} />
               <p>性格标签分布</p>
               <div className={styles.detail_distribution_wrapper}>
                 {
                   chartList?.characterProportions.map((item: characterProportions) => {
-                    const num = randomRgbColor()
-                    const color = `rgb(${num},1)`
-                    const bgColor = `rgb(${num},0.2)`
+                    const colorText = tagsColor[Math.floor(Math.random() * tagsColor.length)]
                     return (
-                      <div key={item.name} className={styles.detail_distribution_tag} style={{ color, backgroundColor: bgColor }}>{item.name}  x{item.value}</div>
+                      <Tag className={styles.detail_distribution_tag} onClick={() => onTagClick(item.name)} color={colorText} key={item.name}>{item.name} x{item.value}</Tag>
                     )
                   })
                 }
@@ -376,12 +397,13 @@ const Detail = () => {
           </div>
           <div className={styles.detail_main_table}>
             <Button type="primary" onClick={onDeriveClick}>导出</Button>
-            <Table scroll={{ x: 1500 }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} pagination={false} />
+            <Table scroll={{ x: 1500 }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} />
           </div>
         </main>
       </div>
       <LookResult ref={lookResultRef} />
       <LookIntroduce ref={lookIntroduceRef} />
+      <LookAllTags ref={lookAllTagsRef} onTagClick={onTagClick} />
     </div>
   )
 }

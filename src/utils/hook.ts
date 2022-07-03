@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 
 export const useInput = () => {
     const [inputValue, setInputValue] = useState(''); // 输入框数据
@@ -9,3 +9,16 @@ export const useInput = () => {
     return [inputValue, handleChange]
 }
 
+export const usePackUp = () => {
+    const [isPackUp, setIsPackUp] = useState<boolean>(false)
+
+    const onPackUpClick = (newVal: boolean) => {
+        setIsPackUp(newVal)
+    }
+    return [isPackUp, onPackUpClick]
+}
+interface ContextProps {
+    state: boolean;
+    dispatch:Dispatch<SetStateAction<boolean>>;
+}
+export const MyContext = createContext({} as ContextProps);
