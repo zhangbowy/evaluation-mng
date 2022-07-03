@@ -1,6 +1,6 @@
 import React, { createContext, useEffect } from 'react'
 import QzzRouter from './routes'
-import './app.less'
+import './assets/app.less'
 import { useLocation, useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
