@@ -19,6 +19,8 @@ export const usePackUp = () => {
 }
 interface ContextProps {
     state: boolean;
-    dispatch:Dispatch<SetStateAction<boolean>>;
+    dispatch: Dispatch<SetStateAction<boolean>>;
 }
 export const MyContext = createContext({} as ContextProps);
+
+export const LoginSearchItem = createContext({} as { state: string });

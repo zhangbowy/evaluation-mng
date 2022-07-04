@@ -30,7 +30,7 @@ const Department = () => {
                 }
                 placeholder="请选择"
                 showSearch
-                style={{ width: 240 }} >
+                style={{ width: 230 }} >
                 {
                     departmentList.map((item: IDept) => <Select.Option key={item.deptId} value={item.deptId}>{item.name}</Select.Option>)
                 }

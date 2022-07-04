@@ -18,8 +18,8 @@ const EvaluationLayout: FC = () => {
 
   useEffect(() => {
     console.log(window.location.href,123123)
-    ddConfig && (async () => {
-      const res = await getSign(window.location.href);
+    !ddConfig && (async () => {
+      const res = await getSign(window.location.href.split('#')[0]);
       if (res.code === 1 && dd.env.platform != 'notInDingTalk') {
         dd.config({
           agentId: res.data.agentId, // 必填，微应用ID

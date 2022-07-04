@@ -103,11 +103,11 @@ const PeopleReport = () => {
       <nav>
         <Form form={form} layout="inline">
           <Form.Item name="name" label="姓名">
-            <Input placeholder="请输入" style={{ width: 240 }} />
+            <Input placeholder="请输入" style={{ width: 230 }} />
           </Form.Item>
           {Department()}
           <Form.Item name="isDimission" label="是否在职">
-            <Select placeholder="请选择" style={{ width: 240 }} >
+            <Select placeholder="请选择" style={{ width: 230 }} >
               <Select.Option value="0">在职</Select.Option>
               <Select.Option value="1">离职</Select.Option>
             </Select>

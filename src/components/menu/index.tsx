@@ -73,6 +73,7 @@ const Menu = (props: IMenuProps) => {
   }
   // 收起菜单
   const onPackUpClick = () => {
+    setIsRotate(false)
     dispatch(!state)
   }
   // 一级节点
