@@ -18,11 +18,10 @@ const Login = () => {
   const handleLogin = (item: ILogin) => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
-    navigate('/evaluation/library');
+    navigate(`/evaluation/library${locationSearch}`);
   }
 
   useEffect(() => {
-    console.log(location.href)
     if (authCode) {
       (async () => {
         if (!appId || !corpId) {

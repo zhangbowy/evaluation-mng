@@ -15,7 +15,7 @@ instance.interceptors.request.use((request: any) => {
 });
 instance.interceptors.response.use((response: any) => {
     if (response.data.code != 1) {
-        Modal.confirm({
+        Modal.warning({
             title: '温馨提示',
             content: response.data.message,
             okText: '确认',

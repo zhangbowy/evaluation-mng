@@ -17,8 +17,9 @@ const EvaluationLayout: FC = () => {
   const [isPackUp, setIsPackUp] = useState<boolean>(false)
 
   useEffect(() => {
+    console.log(window.location.href,123123)
     ddConfig && (async () => {
-      const res = await getSign(window.location.href.split('#')[0]);
+      const res = await getSign(window.location.href);
       if (res.code === 1 && dd.env.platform != 'notInDingTalk') {
         dd.config({
           agentId: res.data.agentId, // 必填，微应用ID
@@ -29,8 +30,12 @@ const EvaluationLayout: FC = () => {
           type: 0, //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
           jsApiList: ['biz.contact.complexPicker', 'biz.contact.choose', 'biz.chat.pickConversation', 'biz.util.openSlidePanel'], // 必填，需要使用的jsapi列表，注意：不要带dd。
           onSuccess: () => {
+            console.log('注册成功')
             setDdConfig(true)
           },
+          onFail: (err: Error) => {
+            console.log(err,'注册失败')
+          }
         });
       }
     })()

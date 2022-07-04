@@ -10,11 +10,9 @@ const App = () => {
   const [search, setSearch] = useSearchParams()
   const token = sessionStorage.getItem('QCP_B_TOKEN')
   useEffect(() => {
-    console.log(location.href,'当前地址')
     if (!token) {
       navigate(`/login${locationInfo.search}`, { replace: true })
     } else {
-      console.log('重定向')
       setSearch(locationInfo.search)
     }
   }, [locationInfo.pathname])

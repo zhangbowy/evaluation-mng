@@ -11,8 +11,8 @@ export default defineConfig({
     cors: true,
     proxy: {
       '/api': {
-        target: 'http://daily-eval.sunmeta.top',
-        // target:'http://gray-eval.sunmeta.top',
+        // target: 'http://daily-eval.sunmeta.top',
+        target:'http://gray-eval.sunmeta.top',
         // target:'http://qzz-eval.forwe.store',
         changeOrigin: true,
       }

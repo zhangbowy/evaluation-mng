@@ -60,7 +60,7 @@ const Menu = (props: IMenuProps) => {
   }
   // 下拉菜单
   const handleClick = (item: IMenuItem) => {
-    if (!state) {
+    if (state) {
       const path: string = (item.children as IMenuItem[])[0].path
       navigate(path)
     } else {
