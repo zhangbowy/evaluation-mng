@@ -6,7 +6,7 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'http://gray-eval.sunmeta.top/evaluation-mng/static/',
+  base: 'http://gray-eval.sunmeta.top/',
   server: {
     cors: true,
     proxy: {
@@ -22,7 +22,8 @@ export default defineConfig({
     // 配置路径别名
     alias: {
       '@': resolve(__dirname, './src')//设置别名
-    }
+    },
+    extensions: [".js", ".json", ".ts", ".tsx"],
   },
   css: {
     preprocessorOptions: {
@@ -33,12 +34,6 @@ export default defineConfig({
         },
       },
     }
-  },
-  build: {
-    commonjsOptions: {
-      ignoreTryCatch: false,
-    },
-    target: "es2015",
   },
   plugins: [
     react(),
