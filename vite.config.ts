@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import vitePluginImp from 'vite-plugin-imp'
+import reactRefresh from '@vitejs/plugin-react-refresh' // 热更新
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -33,8 +34,15 @@ export default defineConfig({
       },
     }
   },
+  build: {
+    commonjsOptions: {
+      ignoreTryCatch: false,
+    },
+    target: "es2015",
+  },
   plugins: [
     react(),
+    reactRefresh(),
     vitePluginImp({
       libList: [
         {
