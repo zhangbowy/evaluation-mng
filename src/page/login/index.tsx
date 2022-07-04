@@ -20,7 +20,9 @@ const Login = () => {
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
     navigate('/evaluation/library');
   }
+
   useEffect(() => {
+    console.log(location.href)
     if (authCode) {
       (async () => {
         if (!appId || !corpId) {
@@ -48,7 +50,7 @@ const Login = () => {
           // 未授权登录需要先授权登录
           window.location.replace(
             `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(
-              `${location.origin}/#/login${locationSearch}`,
+              `${location.origin}/admin/#/login${locationSearch}`,
             )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
           );
         } else {
