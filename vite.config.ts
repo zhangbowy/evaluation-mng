@@ -6,7 +6,7 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: 'http://gray-eval.sunmeta.top/evaluation-mng/static/',
+  base: 'http://gray-eval.sunmeta.top/evaluation-mng/static/',
   server: {
     cors: true,
     proxy: {
