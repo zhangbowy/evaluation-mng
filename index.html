@@ -10,7 +10,13 @@
 
 <body>
   <div id="root"></div>
+  <script>
+    console.log('请求资源之前')
+  </script>
   <script type="module" src="./src/index.tsx"></script>
+  <script>
+    console.log('请求资源之后')
+  </script>
   <script src="//qzz-static.forwe.store/public-assets/eruda.js"></script>
   <script>
     eruda.init();

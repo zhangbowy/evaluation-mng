@@ -6,7 +6,7 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: 'http://gray-eval.sunmeta.top/evaluation-mng/static/',
+  base: 'http://gray-eval.sunmeta.top/evaluation-mng/static/',
   server: {
     cors: true,
     proxy: {
@@ -20,9 +20,10 @@ export default defineConfig({
   },
   resolve: {
     // 配置路径别名
-    alias: {
-      '@': resolve(__dirname, './src'),
-    },
+    alias: [{
+      find: "@",
+      replacement: resolve(__dirname, "src")
+    }],
   },
   css: {
     preprocessorOptions: {
