@@ -20,10 +20,9 @@ export default defineConfig({
   },
   resolve: {
     // 配置路径别名
-    alias: [{
-      find: "@",
-      replacement: resolve(__dirname, "src")
-    }],
+    alias: {
+      '@': resolve(__dirname, './src')//设置别名
+    }
   },
   css: {
     preprocessorOptions: {
