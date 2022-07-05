@@ -12,21 +12,19 @@ const App = () => {
   const [search, setSearch] = useSearchParams()
   const { state } = useContext(LoginSearchItem)
   const token = sessionStorage.getItem('QCP_B_TOKEN')
+  const searchParams = location.href.split('?')[1]
   useEffect(() => {
-    console.log(location, 'location1111111111111111')
-    if (location.search) {
-      if (!token) {
-        navigate(`/login${state}`, { replace: true })
-      } else {
-        setSearch(state)
-      }
+    console.log(searchParams, 'location1111111111111111')
+    if (!token) {
+      navigate(`/login?${searchParams}`, { replace: true })
+    } else {
+      setSearch(searchParams)
     }
   }, [locationInfo.pathname])
-  console.log('location.href22222222222222222', location.href)
 
   return (
     <div className="app">
-      <LoginSearchItem.Provider value={{ state: location.search }}>
+      <LoginSearchItem.Provider value={{ state: searchParams }}>
         <QzzRouter />
       </LoginSearchItem.Provider>
     </div>
