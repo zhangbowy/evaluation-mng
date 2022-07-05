@@ -50,7 +50,7 @@ const EvaluationLayout: FC = () => {
         });
       }
     })()
-  }, [location.pathname])
+  }, [])
   // 获取所有点券
   const getAllCoupons = useCallback(async () => {
     const params = {
