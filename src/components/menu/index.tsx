@@ -126,10 +126,10 @@ const Menu = (props: IMenuProps) => {
         </main>
       </div>
       <footer >
-        <div className={styles.menu_recharge} onClick={goRecharge}>
+        {/* <div className={styles.menu_recharge} onClick={goRecharge}>
           <img src={logo} alt="" />
           <span>点券充值</span>
-        </div>
+        </div> */}
         <Divider />
         <MenuFoldOutlined onClick={onPackUpClick} className={styles.packUp} />
       </footer>
