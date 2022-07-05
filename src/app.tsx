@@ -22,6 +22,7 @@ const App = () => {
       }
     }
   }, [locationInfo.pathname])
+  console.log('location.href22222222222222222', location.href)
 
   return (
     <div className="app">
