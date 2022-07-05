@@ -35,9 +35,9 @@ const AddPeople = forwardRef((props, ref) => {
             setIsModalVisible(false)
             setSuccessVisible(true)
         }
-        console.log(location.href)
-        const { state } = useContext(CountContext)
-        console.log(state, 'state')
+        console.log(location.href, corpId, appId)
+        // const { state } = useContext(CountContext)
+        // console.log(state, 'state')
         const obj = {
             tpf: 1,
             appId,
@@ -63,7 +63,7 @@ const AddPeople = forwardRef((props, ref) => {
                             console.log(data, '成功了')
                             Modal.confirm({
                                 title: '温馨提示',
-                                content: `本次测评预计最多消耗${(curExamTemplate?.examCouponCommodityDetail?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
+                                content: `本次测评预计最多消耗${(curExamTemplate?.examCouponCommodityDetail?.originalPointPrice || 0) * data.length}点券，当前可用点券：1000`,
                                 okText: '确认',
                                 cancelText: '取消',
                                 onOk: async () => {
