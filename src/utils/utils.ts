@@ -35,6 +35,7 @@ export const randomRgbColor = () => { //随机生成RGB颜色
 }
 // 钉钉选人
 const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'add') => {
+    console.log('选人进来了',item);
     const { state } = useContext(CountContext)
     dd.env.platform !== 'notInDingTalk' && dd.biz.customContact.multipleChoose({
         title: '请选择', //标题

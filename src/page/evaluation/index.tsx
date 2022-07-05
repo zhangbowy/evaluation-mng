@@ -23,7 +23,6 @@ const EvaluationLayout: FC = () => {
     getAllCoupons()
   }, [])
   useEffect(() => {
-    console.log(window.location.href, 123123)
     !ddConfig && (async () => {
       const res = await getSign(window.location.href.split('#')[0]);
       if (res.code === 1 && dd.env.platform != 'notInDingTalk') {
