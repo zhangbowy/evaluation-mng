@@ -15,6 +15,7 @@ const index = () => {
   const corpId = search.get('corpId') || '0';
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [departmentList, setDepartmentList] = useState<IDept[]>([]);
+  const [totalNum, setTotalNum] = useState<number>(0);
   const [form] = Form.useForm();
   useEffect(() => {
     getUser()
@@ -27,7 +28,16 @@ const index = () => {
       clearTimeout(timer)
     }
   }, [])
-
+  // 分页配置
+  const paginationObj = {
+    showQuickJumper: true,
+    defaultCurrent: 1,
+    defaultPageSize: 10,
+    total: totalNum,
+    onChange: (page: number) => {
+      getUser({ currentPage: page, ...form.getFieldsValue() })
+    }
+  }
   // 引导步骤
   const currentStep = () => {
     const setsArr: StepsType[] = [{
@@ -38,18 +48,21 @@ const index = () => {
     getIsGuide(setsArr, 4)
   }
   // 获取用户列表
-  const getUser = async (obj?: { deptId?: number, fuzzyName?: string }) => {
+  const getUser = async (obj?: { deptId?: number, fuzzyName?: string, currentPage?: number }) => {
     const params: IUserParams = {
       corpId,
       appId,
       authPoint: 'admin',
+      pageSize: 10,
+      curPage: obj?.currentPage || 1,
       ...obj
     }
     const res = await getUserList(params)
     if (res.code == 1) {
+      console.log(res)
       setUserList(res.data.resultList)
       setTableLoading(false)
-
+      setTotalNum(res.data.totalItem)
     }
   }
   // 获取部门
@@ -151,7 +164,7 @@ const index = () => {
       <Divider />
       <main>
         <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
-        <Table loading={tableLoading} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} scroll={{ y: 270 }} columns={columns} rowKey={(res) => res.userId} dataSource={userList} />;
+        <Table loading={tableLoading} pagination={paginationObj} scroll={{ y: 270 }} columns={columns} rowKey={(res) => res.userId} dataSource={userList} />;
       </main>
     </div>
   )

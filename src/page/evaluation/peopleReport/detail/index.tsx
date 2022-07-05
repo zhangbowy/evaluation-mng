@@ -1,4 +1,4 @@
-import { getAllExam } from '@/api/api';
+import { getAllExam, UnLockReport } from '@/api/api';
 import { Breadcrumb, Button, Divider, Progress } from 'antd';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
@@ -6,11 +6,13 @@ import styles from './index.module.less';
 import { IReportDetail, IUserTagVoList, IEvaluationVoList } from '../type';
 import LookResult from '@/components/lookResult'
 import Loading from '@/components/loading'
+import { LockOutlined } from '@ant-design/icons'
 
 const Detail = () => {
   const { userId } = useParams()
   const [reportDetailList, setReportDetailList] = useState<IReportDetail>()
   const [detailLoading, setDetailLoading] = useState(true)
+  const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
   const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
   const lookResultRef: any = useRef()
   useEffect(() => {
@@ -30,10 +32,44 @@ const Detail = () => {
     backdropFilter: 'blur(0px)'
   }
   // 是否已完成
-  const isDone = (status: number) => status == 10
-  // 查看详情
-  const onDetailClick = (item: IEvaluationVoList) => {
-    lookResultRef.current.onOpenDrawer(item)
+  const isDone = (status: number) => {
+    const arr = [5, 10]
+    return arr.includes(status)
+  }
+
+  // 返回按钮
+  const backText = (item: IEvaluationVoList, index: number) => {
+    // 查看详情
+    const onDetailClick = (item: IEvaluationVoList) => {
+      console.log(item)
+      lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
+    }
+    // 解锁查看
+    const onUnlockClick = async () => {
+      unlockLoading[index] = true
+      setUnlockLoading(unlockLoading)
+      await getUserReport()
+      const params = {
+        userId: userId!,
+        templateType: item?.examTemplateType as string,
+        operationType: '1'
+      }
+      const res = await UnLockReport(params)
+      if (res.code == 1) {
+        getUserReport()
+      } else {
+        unlockLoading[index] = false
+        getUserReport()
+      }
+    }
+    switch (item.answerStatus) {
+      case 10:
+        return <Button type="link" onClick={() => onDetailClick(item)}>查看详情</Button>
+      case 5:
+        return <Button loading={unlockLoading[index]} icon={<LockOutlined />} type="link" onClick={onUnlockClick}>{unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
+      default:
+        return <Button disabled>测评进行中…</Button>
+    }
   }
   if (detailLoading) {
     return <Loading />
@@ -64,7 +100,7 @@ const Detail = () => {
         </div>
         <div className={styles.detail_card_wrapper}>
           {
-            reportDetailList?.evaluationVoList.map(item => (
+            reportDetailList?.evaluationVoList.map((item, index) => (
               <ul key={item.examId} style={isDone(item.answerStatus) ? {} : isReportStyle}>
                 <li>
                   <img src={logo} alt="" />
@@ -76,10 +112,7 @@ const Detail = () => {
                     </section>
                   </article>
                 </li>
-                <Button onClick={() => onDetailClick(item)}
-                 type={isDone(item.answerStatus) ? 'link' : 'text'} disabled={!isDone(item.answerStatus)}>
-                  {isDone(item.answerStatus) ? '查看详情' : '测评进行中…'}
-                  </Button>
+                {backText(item, index)}
               </ul>
             ))
           }

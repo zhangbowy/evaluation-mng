@@ -13,7 +13,6 @@ const PeopleReport = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [reportList, setReportList] = useState<IReportList[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const navigator = useNavigate()
   const [form] = Form.useForm();
   useEffect(() => {
@@ -22,11 +21,10 @@ const PeopleReport = () => {
   // 分页配置
   const paginationObj = {
     showQuickJumper: true,
-    defaultPageSize: 100,
+    defaultPageSize: 10,
     total: totalNum,
     onChange: (page: number) => {
-      setCurrentPage(page)
-      getUserReport(form.getFieldsValue())
+      getUserReport({ curPage: page, ...form.getFieldsValue() })
     }
   }
   useEffect(() => {
@@ -70,7 +68,7 @@ const PeopleReport = () => {
     const res = await getJoinExamUsers({
       ...item,
       pageSize: 10,
-      curPage: currentPage
+      curPage: item?.curPage || 1
     });
     if (res.code === 1) {
       setReportList(res.data.resultList)

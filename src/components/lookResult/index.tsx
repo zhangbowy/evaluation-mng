@@ -19,7 +19,7 @@ const LookResult = forwardRef((props, ref) => {
         setVisible(false)
     }
     // 打开
-    const onOpenDrawer = async (record: IResultList) => {
+    const onOpenDrawer = async (record: { examPaperId: string, userId: string }) => {
         setVisible(true)
         const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.userId })
         if (res.code === 1) {

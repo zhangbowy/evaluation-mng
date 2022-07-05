@@ -23,9 +23,18 @@ const Management = () => {
   const [radioValue, setRadioValue] = useState<number>(); // 筛选
   const [evaluationList, setEvaluationList] = useState<DataType[]>([]);//  列表数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
+  const [totalNum, setTotalNum] = useState<number>(0);
   const [search] = useSearchParams();
   const corpId = search.get('corpId') || '0'
   const appId = search.get('appId') || '0'
+  const paginationObj = {
+    showQuickJumper: true,
+    defaultPageSize: 10,
+    total: totalNum,
+    onChange: (page: number) => {
+      getEvaluationList({ curPage: page, isFinish: radioValue })
+    }
+  }
   useEffect(() => {
     getEvaluationList()
   }, [])
@@ -73,19 +82,19 @@ const Management = () => {
       pageSize: params?.pageSize || 10,
       isFinish: params?.isFinish
     }
-    console.log(obj.isFinish)
     obj.isFinish == -1 && delete obj.isFinish
     const res = await getExamList(obj)
     if (res.code == 1) {
       setEvaluationList(res.data.resultList)
       setTableLoading(false)
+      setTotalNum(res.data.totalItem)
     }
   }
   // 创建测评
   const createEvaluation = () => {
     navigator('/evaluation/management/library')
   }
-
+  
   const columns: ColumnsType<DataType> = [
     {
       dataIndex: 'createName',
@@ -200,7 +209,7 @@ const Management = () => {
                 </Button>
               </div>
             </header>
-            <Table loading={tableLoading} rowKey={(row) => row.id} showHeader={false} columns={columns} scroll={{ y: 450 }} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} dataSource={evaluationList}></Table>
+            <Table loading={tableLoading} rowKey={(row) => row.id} showHeader={false} columns={columns} scroll={{ y: 450 }} pagination={paginationObj} dataSource={evaluationList}></Table>
           </Fragment>
           :
           <div className={styles.management_defaultPage}>

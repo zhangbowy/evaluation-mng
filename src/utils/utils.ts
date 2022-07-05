@@ -35,29 +35,36 @@ export const randomRgbColor = () => { //随机生成RGB颜色
 }
 // 钉钉选人
 const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'add') => {
-    console.log('选人进来了',item);
+    console.log('选人进来了', item);
     const { state } = useContext(CountContext)
-    dd.env.platform !== 'notInDingTalk' && dd.biz.customContact.multipleChoose({
-        title: '请选择', //标题
-        users: item.usersList,//一组员工工号
-        corpId: item.corpId,//企业 ID，
-        isShowCompanyName: true,   //true|false，默认为 false
-        selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
-        max: 10, //人数限制
-        onSuccess: async (data: Multiple[]) => {
-            type == 'add' ?
-                Modal.confirm({
-                    title: '温馨提示',
-                    content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
-                    okText: '确认',
-                    cancelText: '取消',
-                    onOk() {
-                        item.successFn(data)
-                    },
-                }) : item.successFn(data)
-        },
-        onFail: function (err: Error) { }
-    });
+    dd.env.platform !== 'notInDingTalk' &&
+        dd.ready(() => {
+            dd.biz.customContact.multipleChoose({
+                title: '请选择', //标题
+                users: item.usersList,//一组员工工号
+                corpId: item.corpId,//企业 ID，
+                isShowCompanyName: true,   //true|false，默认为 false
+                selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
+                max: 10, //人数限制
+                onSuccess: (data: Multiple[]) => {
+                    console.log(data, '成功了')
+                    type == 'add' ?
+                        Modal.confirm({
+                            title: '温馨提示',
+                            content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
+                            okText: '确认',
+                            cancelText: '取消',
+                            onOk() {
+                                item.successFn(data)
+                            },
+                        }) : item.successFn(data)
+                },
+                onFail: function (err: Error) {
+                    console.log(err, '失败了啊')
+                }
+            });
+        })
+
 }
 // 添加人员
 export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update') => {
@@ -72,6 +79,7 @@ export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update'
     if (res.code == 1) {
         if (type == 'add') {
             const createFn = async (data: Multiple[]) => {
+                console.log('进来了哦11111111')
                 const list = {
                     examTemplateType: item.examTemplateType as string,
                     examTemplateId: item.examTemplateId as number,
