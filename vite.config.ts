@@ -4,9 +4,11 @@ import vitePluginImp from 'vite-plugin-imp'
 import reactRefresh from '@vitejs/plugin-react-refresh' // 热更新
 import { resolve } from 'path';
 
+//daily-qzz-static.forwe.store/evaluation-mng/static/     日常
+//qzz-static.forwe.store/evaluation-mng/static/    线上、预发
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '//qzz-static.forwe.store/evaluation-mng/static/',
+  base: '//daily-qzz-static.forwe.store/evaluation-mng/static/',
   server: {
     cors: true,
     proxy: {
