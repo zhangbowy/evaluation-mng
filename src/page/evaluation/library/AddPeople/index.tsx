@@ -1,11 +1,11 @@
 import { Button, Input, message, Modal, Result } from 'antd'
-import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment, useContext } from 'react';
 import styles from './index.module.less'
-import { ddAddPeople } from '@/utils/utils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
-import { shareInfo } from '@/api/api';
+import { createExam, getAllPeople, shareInfo } from '@/api/api';
+import { CountContext } from '@/utils/hook';
 
 const AddPeople = forwardRef((props, ref) => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false) // 是否显示弹窗
@@ -46,7 +46,72 @@ const AddPeople = forwardRef((props, ref) => {
             originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
             examTitle: inputValue,
         }
-        ddAddPeople(params, 'add')
+        ddAddPeople(params)
+    }
+    // 钉钉选人
+    const ddSelectPeople = (item: IDDSelectPeopleParams) => {
+        console.log('进来了', item)
+        const { state } = useContext(CountContext)
+        dd.env.platform !== 'notInDingTalk' &&
+            dd.ready(() => {
+                dd.biz.customContact.multipleChoose({
+                    title: '请选择', //标题
+                    users: item.usersList,//一组员工工号
+                    corpId: item.corpId,//企业 ID，
+                    isShowCompanyName: true,   //true|false，默认为 false
+                    selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
+                    max: 10, //人数限制
+                    onSuccess: (data: Multiple[]) => {
+                        console.log(data, '成功了')
+                        Modal.confirm({
+                            title: '温馨提示',
+                            content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
+                            okText: '确认',
+                            cancelText: '取消',
+                            onOk() {
+                                item.successFn(data)
+                            },
+                        })
+                    },
+                    onFail: function (err: Error) {
+                        console.log(err, '失败了啊')
+                    }
+                });
+            })
+    }
+    // 添加
+    const ddAddPeople = async (item: IAddPeopleParams) => {
+        const obj = {
+            tpf: 1,
+            appId: item.appId,
+            corpId: item.corpId,
+            curPage: 1,
+            pageSize: 1000
+        }
+        const res = await getAllPeople(obj)
+        if (res.code == 1) {
+            const createFn = async (data: Multiple[]) => {
+                const list = {
+                    examTemplateType: item.examTemplateType as string,
+                    examTemplateId: item.examTemplateId as number,
+                    examTitle: item.examTitle as string,
+                    examUserList: data.map((list: Multiple) => ({ userId: list.emplId }))
+                }
+                const result = await createExam(list)
+                if (result.code === 1) {
+                    item.successFn()
+                } else {
+                    item.failFn()
+                }
+            }
+            const ddParams = {
+                corpId: item.corpId,
+                usersList: res.data.resultList.map((user: IUser) => user.userId),
+                successFn: createFn,
+                originalPointPrice: item.originalPointPrice
+            }
+            ddSelectPeople(ddParams)
+        }
     }
     // 打开
     const openModal = (item: IExamTemplateList) => {

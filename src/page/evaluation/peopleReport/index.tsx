@@ -77,12 +77,12 @@ const PeopleReport = () => {
     }
   }
   const columns: ColumnsType<IReportList> = [
-    { title: '序号', key: "index", width: 120, fixed: 'left', render: (text, record, index) => `${index + 1}` },
-    { title: '姓名', dataIndex: "name", width: 140, fixed: 'left', },
+    { title: '序号', key: "index", width: 80, fixed: 'left', render: (text, record, index) => `${index + 1}` },
+    { title: '姓名', dataIndex: "name", width: 100, fixed: 'left', },
     {
-      title: '部门', dataIndex: 'deptAggregationDTOS', width: 300, render: (text: IDeptAggregationDTOS[]) => <div>{text.map(res => res.name).join(',')}</div>
+      title: '部门', dataIndex: 'deptAggregationDTOS', width: 270, render: (text: IDeptAggregationDTOS[]) => <div>{text.map(res => res.name).join(',')}</div>
     },
-    { title: '性别', dataIndex: 'sex', width: 120, render: (text: ISex) => ISex[text] || '-' },
+    { title: '性别', dataIndex: 'sex', width: 80, render: (text: ISex) => ISex[text] || '-' },
     {
       title: '测评完成率',
       dataIndex: 'completion',
@@ -98,7 +98,7 @@ const PeopleReport = () => {
     {
       title: '测评',
       fixed: 'right',
-      width: 170,
+      width: 150,
       dataIndex: 'option',
       render: (text, record, index) => {
         const onReportClick = () => {

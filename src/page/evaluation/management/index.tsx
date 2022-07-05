@@ -32,6 +32,7 @@ const Management = () => {
     defaultPageSize: 10,
     total: totalNum,
     onChange: (page: number) => {
+
       getEvaluationList({ curPage: page, isFinish: radioValue })
     }
   }
@@ -76,6 +77,7 @@ const Management = () => {
   };
   // 列表
   const getEvaluationList = async (params?: IExamListParams) => {
+    setTableLoading(true)
     //isFinish 0 完成 已完成
     const obj: IExamListParams = {
       curPage: params?.curPage || 1,
@@ -94,7 +96,7 @@ const Management = () => {
   const createEvaluation = () => {
     navigator('/evaluation/management/library')
   }
-  
+
   const columns: ColumnsType<DataType> = [
     {
       dataIndex: 'createName',
