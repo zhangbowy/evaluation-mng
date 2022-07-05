@@ -23,7 +23,7 @@ const AddPeople = forwardRef((props, ref) => {
         openModal
     }))
     // 下一步
-    const handleOk = () => {
+    const handleOk = async () => {
         // 成功回调
         const successFn = () => {
             setIsSuccess(true);
@@ -35,18 +35,67 @@ const AddPeople = forwardRef((props, ref) => {
             setIsModalVisible(false)
             setSuccessVisible(true)
         }
-        console.log(search.get('corpId'), corpId, search.get('appId'), appId)
-        const params: IAddPeopleParams = {
+        console.log(location.href)
+        const { state } = useContext(CountContext)
+        console.log(state, 'state')
+        const obj = {
+            tpf: 1,
             appId,
             corpId,
-            successFn,
-            failFn,
-            examTemplateType: curExamTemplate?.type,
-            examTemplateId: curExamTemplate?.id,
-            originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
-            examTitle: inputValue,
+            curPage: 1,
+            pageSize: 1000
         }
-        ddAddPeople(params)
+        console.log(obj, 'obj')
+        const res = await getAllPeople(obj)
+        console.log(res, 'res')
+        if (res.code == 1) {
+            dd.env.platform !== 'notInDingTalk' &&
+                dd.ready(() => {
+                    console.log('多选人')
+                    dd.biz.customContact.multipleChoose({
+                        title: '请选择', //标题
+                        users: res.data.resultList.map((user: IUser) => user.userId),//一组员工工号
+                        corpId,//企业 ID，
+                        isShowCompanyName: true,   //true|false，默认为 false
+                        selectedUsers: [], //默认选中的人，注意:已选中不可以取消
+                        max: 10, //人数限制
+                        onSuccess: (data: Multiple[]) => {
+                            console.log(data, '成功了')
+                            Modal.confirm({
+                                title: '温馨提示',
+                                content: `本次测评预计最多消耗${(curExamTemplate?.examCouponCommodityDetail?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
+                                okText: '确认',
+                                cancelText: '取消',
+                                onOk: async () => {
+                                    console.log('球球了')
+                                    const list = {
+                                        examTemplateType: curExamTemplate?.type as string,
+                                        examTemplateId: curExamTemplate?.id as number,
+                                        examTitle: inputValue as string,
+                                        examUserList: data.map((list: Multiple) => ({ userId: list.emplId }))
+                                    }
+                                    const result = await createExam(list)
+                                },
+                            })
+                        },
+                        onFail: function (err: Error) {
+                            console.log(err, '失败了啊')
+                        }
+                    });
+                })
+        }
+
+        // const params: IAddPeopleParams = {
+        //     appId,
+        //     corpId,
+        //     successFn,
+        //     failFn,
+        //     examTemplateType: curExamTemplate?.type,
+        //     examTemplateId: curExamTemplate?.id,
+        //     originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
+        //     examTitle: inputValue,
+        // }
+        // ddAddPeople(params)
     }
     // 钉钉选人
     const ddSelectPeople = (item: IDDSelectPeopleParams) => {
