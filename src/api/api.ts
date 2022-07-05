@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, ICreteExamParams } from './type';
+import { IGetAllPeopleParams, IUnLockParams, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -24,9 +24,6 @@ export const getUserList = async (params: any) => {
 
 export const setAuths = async (data: { addAuths?: string[], removeAuths?: string[], userIds: string[] }) => {
     return request('/api/member/auth/setAuthPoint', { data, method: 'POST' })
-}
-export const getExamList = async (params?: any) => {
-    return request('/api/spf-cc/b/evaluation/management/getExamInformationList', { params })
 }
 
 export const editExam = async (data: any) => {
@@ -94,4 +91,28 @@ export const queryExamUserIds = async (examId: number) => {
 export const createExam = async (data: ICreteExamParams) => {
     return request('/api/spf-cc/b/evaluation/library/createExam', { data, method: 'POST' })
 }
+// 获取点券数量
+export const getPointAsset = async (params: IPointAssetParams) => {
+    return request('/api/trade/b/point/getPointAsset', { params })
+}
 
+// 获取充值记录
+export const getRechargeFlow = async (params: IRechargeFlow) => {
+    return request('/api/trade/b/point/queryRechargeFlow', { params })
+}
+// 获取消耗记录
+export const getConsumeFlow = async (params: IConsumeFlow) => {
+    return request('/api/trade/b/point/queryConsumeFlow', { params })
+}
+// 获取充值链接
+export const getRechargeUrl = async (params: IRechargeUrl) => {
+    return request('/api/member/c/trade/skuPage', { params })
+}
+// 获取测评列表
+export const getExamList = async (params?: IExamListParams) => {
+    return request('/api/spf-cc/b/evaluation/management/getExamInformationList', { params })
+}
+// 解锁查看
+export const UnLockReport = async (data: IUnLockParams) => {
+    return request('/api/spf-cc//b/evaluation/management/unlockItem', { data, method: 'POST' })
+}

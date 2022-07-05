@@ -18,6 +18,8 @@
             width: 24px;
             height: 24px;
             border-radius: 5px;
+            background-color: #2B85FF;
+            padding: 3px;
         }
 
         span {
@@ -54,7 +56,10 @@
                 display: inline-block;
             }
 
-            .menu_icon {}
+            .menu_icon {
+                width: 16px;
+                height: 16px;
+            }
 
             .menu_down {
                 position: absolute;
@@ -83,6 +88,17 @@
             border-radius: 4px;
             color: #2B85FF;
             transition: all .5s;
+
+            .menu_icon {
+                width: 16px;
+                height: 16px;
+                overflow: hidden;
+
+                .menu_icon_color {
+                    transform: translateX(16px);
+                    filter: drop-shadow(#2B85FF -16px 0px 0px);
+                }
+            }
         }
     }
 
@@ -104,7 +120,8 @@
                 width: 20px;
                 height: 20px;
                 border-radius: 5px;
-                line-height: 40px;
+                background-color: #2B85FF;
+                padding: 3px;
             }
 
             span {
@@ -144,6 +161,8 @@
             width: 24px;
             height: 24px;
             border-radius: 5px;
+            background-color: #2B85FF;
+            padding: 3px;
         }
 
         span {
@@ -160,6 +179,7 @@
             display: flex;
             justify-content: center;
             flex-direction: column;
+            align-items: center;
             font-size: 14px;
             cursor: pointer;
             position: relative;
@@ -171,11 +191,12 @@
             }
 
             .menu_title {
-                margin-top: 10px;
+                margin-top: 7px;
                 display: inline-block;
                 font-size: 12px;
                 white-space: nowrap;
             }
+
             .menu_down {
                 display: none;
             }
@@ -199,6 +220,17 @@
             border-radius: 4px;
             color: #2B85FF;
             transition: all .5s;
+
+            .menu_icon {
+                width: 16px;
+                height: 16px;
+                overflow: hidden;
+
+                .menu_icon_color {
+                    transform: translateX(16px);
+                    filter: drop-shadow(#2B85FF -16px 0px 0px);
+                }
+            }
         }
     }
 
@@ -222,7 +254,8 @@
                 width: 20px;
                 height: 20px;
                 border-radius: 5px;
-                line-height: 40px;
+                background-color: #2B85FF;
+                padding: 3px;
             }
 
             span {

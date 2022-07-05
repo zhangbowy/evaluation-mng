@@ -15,6 +15,7 @@
 
     main {
         display: flex;
+
         .Library_card_wrapper {
             width: 266px;
             border-radius: 4px;
@@ -23,29 +24,19 @@
             border: 1px solid #D7DDE4;
             box-shadow: 0px 4px 12px 0px #dee3e8;
             background-color: #FFFFFF;
+            overflow: hidden;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
-            .Library_isUnlock {
-                width: 104px;
-                height: 32px;
-                background: #E7F1FF;
-                border-radius: 0px 0px 30px 0px;
-                backdrop-filter: blur(10px);
+            .Library_card_mantle {
                 position: absolute;
-                top: 0;
                 left: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                span {
-                    font-size: 14px;
-                    font-family: OPPOSans-M, OPPOSans;
-                    font-weight: normal;
-                    color: #464C5B;
-                    margin-left: 6px;
-                }
-
+                height: 100px;
+                width: 100%;
+                background-color: #000000;
+                opacity: 0.5;
             }
 
             img {
@@ -97,37 +88,60 @@
                     }
                 }
 
-                .Library_topicInfoRight {}
+                img {
+                    width: 84px;
+                    height: 80px;
+                }
+
+                .Library_topicInfoRight {
+                    .Library_card_toolBorder {
+                        width: 28px;
+                        height: 28px;
+                        background: #FFFFFF;
+                        border-radius: 4px;
+                        border: 1px solid #D7DDE4;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        transition: all 0.5s ease;
+
+                        svg {
+                            fill: #657180;
+                        }
+
+                        &:hover {
+                            border: 1px solid #2B85FF;
+
+                            svg {
+                                fill: #2B85FF;
+                            }
+                        }
+                    }
+                }
             }
 
             footer {
-                height: 48px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 12px;
+                padding: 10px 12px;
                 background-color: #F5F7F9;
 
                 .Library_footerLeft {
+                    display: flex;
+                    align-items: center;
+
                     .Library_footerIcon {
-                        font-size: 15px;
+                        width: 15px;
+                        height: 15px;
                     }
+
 
                     span:nth-child(2) {
                         font-size: 12px;
-                        font-family: PingFangSC-Regular, PingFang SC;
                         font-weight: 400;
-                        color: #9EA7B4;
-                        line-height: 17px;
-                        margin: 0 6px;
-                    }
-
-                    span:nth-child(3) {
-                        font-size: 12px;
-                        font-family: PingFangSC-Medium, PingFang SC;
-                        font-weight: 500;
-                        color: #464C5B;
-                        line-height: 17px;
+                        margin-left: 5px;
                     }
                 }
             }

@@ -1,4 +1,4 @@
-import { getAllInfo, getChart, getExamUsers, measurementExport, queryDept } from '@/api/api'
+import { getAllInfo, getChart, getExamUsers, measurementExport, queryDept, UnLockReport } from '@/api/api'
 import { Breadcrumb, Button, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
@@ -14,6 +14,7 @@ import LookIntroduce from './lookintroduce'
 import Loading from '@/components/loading'
 import { FullscreenOutlined } from '@ant-design/icons';
 import LookAllTags from './lookAllTags'
+import console from 'console'
 
 const Detail = () => {
   const params = useParams() as { id: string }
@@ -25,6 +26,7 @@ const Detail = () => {
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
   const [tableList, setTableList] = useState<IResultTable>() // 表格数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);
+  const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
   const [form] = Form.useForm();
   const corpId = search.get('corpId') || '0'
   const appId = search.get('appId') || '0'
@@ -62,13 +64,13 @@ const Detail = () => {
     getAppraisalInfo()
   }, [])
   useEffect(() => {
-    if (visualRef?.current && visualRef?.current?.length > 0) {
+    if (visualRef?.current?.length > 0) {
       visualRef.current[0].innerHTML = '';
       visualRef.current[1].innerHTML = '';
-      completionList(visualRef.current[0]).render()
-      personalityList(visualRef.current[1]).render()
+      completionList()
+      personalityList()
     }
-  }, [chartList])
+  }, [tableList])
   // 获取列表
   const getDetailList = async (from?: IFromName) => {
     // 获取图表数据
@@ -108,8 +110,8 @@ const Detail = () => {
     }
   }
   // 测评完成率
-  const completionList = (node1: HTMLElement) => {
-    const liquidPlot = new Liquid(node1, {
+  const completionList = () => {
+    const liquidPlot = new Liquid(visualRef.current[0], {
       percent: (Number(chartList?.finishDegree) || 0) / 100,
       height: 120,
       width: 120,
@@ -133,13 +135,13 @@ const Detail = () => {
         length: 192,
       },
     });
-    return liquidPlot
+    liquidPlot.render()
   }
   // 人格占比图
-  const personalityList = (node2: HTMLElement) => {
-    const piePlot = new Pie(node2, {
+  const personalityList = () => {
+    const piePlot = new Pie(visualRef.current[1], {
       height: 110,
-      width: 200,
+      width: 300,
       data: chartList?.personalityProportions || [],
       angleField: 'value',
       colorField: 'name',
@@ -149,10 +151,12 @@ const Detail = () => {
         lineWidth: 7,
       },
       label: false,
-      tooltip: false,
       meta: {
         value: {
-          formatter: (v: any) => `${(v / (chartList?.personalityProportions?.length || 0) || 0) * 100}%`,
+          formatter: (v: any) => {
+            return `${v||0}人`
+            // return `${((chartList?.personalityProportions?.length || 0) / v) * 100}%`
+          },
         },
       },
       statistic: {
@@ -167,7 +171,10 @@ const Detail = () => {
         },
       },
     })
-    return piePlot
+    piePlot.on('element:click', (ev: any) => {
+      getTableList({ resultType: ev.data.data.name })
+    })
+    piePlot.render()
   }
   // 下拉筛选
   const backFilterEle = (arr: characterProportions[] = [], type?: number) => {
@@ -232,7 +239,7 @@ const Detail = () => {
       title: '性别',
       width: 70,
       dataIndex: 'sex',
-      render: (text: number) => ISex[text]
+      render: (text: number) => ISex[text] || '-'
     },
     {
       title: '人格类型',
@@ -272,10 +279,26 @@ const Detail = () => {
       dataIndex: 'status',
       fixed: 'right',
       width: 220,
-      render: (text: number, record) => {
+      render: (text: number, record, index: number) => {
+        // 查看报告
         const onLookResult = () => {
           const cur = lookResultRef as any;
           cur.current.onOpenDrawer(record)
+        }
+        // 解锁查看
+        const onUnlockClick = async () => {
+          unlockLoading[index] = true
+          setUnlockLoading(unlockLoading)
+          await getTableList()
+          const params = {
+            userId: record.userId,
+            templateType: measurement?.examTemplateType as string,
+            operationType: '1'
+          }
+          const res = await UnLockReport(params)
+          if (res.code == 1) {
+            getTableList()
+          }
         }
         const getText = (key: number) => {
           switch (key) {
@@ -283,10 +306,10 @@ const Detail = () => {
               return <Button type='text' disabled>未参加测评</Button>
             case 1 | 2 | 3:
               return <Button type='text' disabled>测评中</Button>
-            case 4:
-              return <Button type="link">点券不足，充值后解锁查看</Button>
+            // case 4:
+            //   return <Button type="link">点券不足，充值后解锁查看</Button>
             case 5:
-              return <Button icon={<LockOutlined />} type="link">解锁查看</Button>
+              return <Button loading={unlockLoading[index]} icon={<LockOutlined />} onClick={onUnlockClick} type="link">{unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
             case 10:
               return <Button type="link" onClick={onLookResult}>查看报告</Button>
             default:
@@ -311,7 +334,7 @@ const Detail = () => {
       <div className={styles.detail_wrapper}>
         <nav>
           <div className={styles.detail_titleCard}>
-            <img src={"https://img2.baidu.com/it/u=3684117954,695988885&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1656176400&t=5667b2e2f36e2ac46fca03f78d08bc16"} alt="" />
+            <img src={measurement?.planImage} alt="" />
             <div className={styles.detail_right}>
               <div className={styles.detail_top}>
                 <div className={styles.detail_title}>

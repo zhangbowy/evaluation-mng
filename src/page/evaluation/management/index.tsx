@@ -9,17 +9,18 @@ import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { ddAddPeople, getIsGuide } from '@/utils/utils'
 import Loading from '@/components/loading';
+import { IOptions, IExamListParams } from './type'
 
 const Management = () => {
   const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
   const defaultImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_nodata.png'
-  const options = [
-    { label: '全部', value: '[]' },
-    { label: '未完成', value: '[0, 1, 2, 3]' },
-    { label: '已完成', value: '[10]' },
+  const options: IOptions[] = [
+    { label: '全部', value: -1 },
+    { label: '未完成', value: 0 },
+    { label: '已完成', value: 1 },
   ];
   const navigator = useNavigate()
-  const [radioValue, setRadioValue] = useState('[]'); // 筛选
+  const [radioValue, setRadioValue] = useState<number>(); // 筛选
   const [evaluationList, setEvaluationList] = useState<DataType[]>([]);//  列表数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
   const [search] = useSearchParams();
@@ -29,7 +30,7 @@ const Management = () => {
     getEvaluationList()
   }, [])
   useEffect(() => {
-    let timer:any;
+    let timer: any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(evaluationList)
@@ -62,42 +63,29 @@ const Management = () => {
   // 筛选
   const onRadioChange = ({ target: { value } }: RadioChangeEvent) => {
     setRadioValue(value);
+    getEvaluationList({ isFinish: value })
   };
   // 列表
-  const getEvaluationList = async (curPage: number = 1) => {
-    const params = { curPage, pageSize: 20 }
-    const res = await getExamList(params)
-    if (res?.code == 1) {
+  const getEvaluationList = async (params?: IExamListParams) => {
+    //isFinish 0 完成 已完成
+    const obj: IExamListParams = {
+      curPage: params?.curPage || 1,
+      pageSize: params?.pageSize || 10,
+      isFinish: params?.isFinish
+    }
+    console.log(obj.isFinish)
+    obj.isFinish == -1 && delete obj.isFinish
+    const res = await getExamList(obj)
+    if (res.code == 1) {
       setEvaluationList(res.data.resultList)
       setTableLoading(false)
-    }
-  }
-  // 开关
-  const handleSwitch = async (checked: boolean, id: number) => {
-    const res = await editExam({ type: checked, examId: id });
-    if (res.code === 1) {
-      message.success('修改成功');
-      getEvaluationList();
     }
   }
   // 创建测评
   const createEvaluation = () => {
     navigator('/evaluation/management/library')
   }
-  // 添加人员
-  const onAddPeopleClick = async (item: DataType) => {
-    const params = {
-      id: item.id,
-      appId,
-      corpId,
-      successFn: () => {
-        message.success('修改成功');
-        getEvaluationList();
-      },
-      failFn:()=>{}
-    }
-    ddAddPeople(params,'update')
-  }
+
   const columns: ColumnsType<DataType> = [
     {
       dataIndex: 'createName',
@@ -157,8 +145,31 @@ const Management = () => {
       dataIndex: 'option',
       fixed: 'right',
       render: (text: string, record: DataType, index: number) => {
+        // 开关
+        const handleSwitch = async (checked: boolean, id: number) => {
+          const res = await editExam({ type: checked, examId: id });
+          if (res.code === 1) {
+            message.success('修改成功');
+            getEvaluationList();
+          }
+        }
+        // 查看详情
         const onLookDetail = () => {
           navigator(`/evaluation/management/detail/${record.id}`)
+        }
+        // 添加人员
+        const onAddPeopleClick = async (item: DataType) => {
+          const params = {
+            id: item.id,
+            appId,
+            corpId,
+            successFn: () => {
+              message.success('修改成功');
+              getEvaluationList();
+            },
+            failFn: () => { }
+          }
+          ddAddPeople(params, 'update')
         }
         return (
           <div className={styles.create_option}>
@@ -183,7 +194,7 @@ const Management = () => {
             <header>
               <h1 id='appraisal_Management'>测评管理</h1>
               <div>
-                <Radio.Group className={styles.management_radio} options={options} onChange={onRadioChange} value={radioValue} optionType="button" />
+                <Radio.Group defaultValue={-1} className={styles.management_radio} options={options} onChange={onRadioChange} value={radioValue} optionType="button" />
                 <Button type="primary" onClick={createEvaluation} icon={<PlusCircleOutlined />} size="large">
                   创建测评
                 </Button>

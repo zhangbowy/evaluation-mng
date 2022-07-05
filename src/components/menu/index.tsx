@@ -13,36 +13,37 @@ const Menu = (props: IMenuProps) => {
     {
       id: 0,
       name: '测评管理',
-      icon: 'icon-zhuye',
+      icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_evaluation.svg',
       path: '/evaluation/management'
     },
     {
       id: 1,
       name: '人才报告',
-      icon: 'icon-zhuye',
+      icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_people.svg',
       path: '/evaluation/peopleReport'
     },
     {
       id: 2,
       name: '测评库',
-      icon: 'icon-zhuye',
+      icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
       path: '/evaluation/library'
     },
     {
       id: 3,
       name: '权限管理',
-      icon: 'icon-zhuye',
+      icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
       path: '/evaluation/userAuthority',
       children: [
         {
           id: 4,
           name: '账户管理',
           path: '/evaluation/userAuthority/account',
+          icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
         }
       ]
     }
   ]
-  const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
+  const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
   const navigate = useNavigate()
   const { state, dispatch } = useContext(MyContext)
   const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
@@ -80,8 +81,9 @@ const Menu = (props: IMenuProps) => {
   const oneElement = (item: IMenuItem) => {
     return (
       <div onClick={() => oneElementClick(item)} className={`${styles.menu_level}  ${isHighLight(item) && styles.menu_level_active}`} >
-        {/* <i className={`iconfont ${res.icon}`}></i> */}
-        <AppstoreAddOutlined className={styles.menu_icon} />
+        <div className={styles.menu_icon}>
+          <img src={item.icon} className={styles.menu_icon_color} />
+        </div>
         <span className={styles.menu_title}>{item.name}</span>
       </div>
     )
@@ -91,7 +93,9 @@ const Menu = (props: IMenuProps) => {
     return (
       <div className={styles.menu_twoWrapper} style={{ overflow: isRotate ? 'visible' : 'hidden' }}>
         <div className={`${styles.menu_level}`} onClick={() => handleClick(item)}>
-          <AppstoreAddOutlined className={styles.menu_icon} />
+          <div className={styles.menu_icon}>
+            <img src={item.icon} className={styles.menu_icon_color} />
+          </div>
           <span className={styles.menu_title}>{item.name}</span>
           <DownOutlined className={styles.menu_down} style={downStyle} />
         </div>

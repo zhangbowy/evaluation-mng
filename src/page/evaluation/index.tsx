@@ -1,4 +1,4 @@
-import React, { createContext, FC, Fragment, Suspense, useEffect, useState } from 'react'
+import React, { createContext, FC, Fragment, Suspense, useCallback, useEffect, useState } from 'react'
 import { Layout, message } from 'antd';
 import styles from './index.module.less'
 import Menu from '../../components/menu'
@@ -6,18 +6,24 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import Header from '../../components/header'
 import Loading from '@/components/loading';
 import { useSearchParams } from 'react-router-dom';
-import { getSign } from '@/api/api';
+import { getPointAsset, getSign } from '@/api/api';
 import dd from 'dingtalk-jsapi';
-import { MyContext } from '@/utils/hook'
+import { MyContext, CountContext } from '@/utils/hook'
 
 
 const { Sider, Content } = Layout;
 const EvaluationLayout: FC = () => {
   const [ddConfig, setDdConfig] = useState<boolean>(false)
   const [isPackUp, setIsPackUp] = useState<boolean>(false)
-
+  const [couponsNum, setCouponsNum] = useState<number>(0)
+  const [search] = useSearchParams()
+  const corpId = search.get('corpId') || '0'
+  const appId = search.get('appId') || '0'
   useEffect(() => {
-    console.log(window.location.href,123123)
+    getAllCoupons()
+  }, [])
+  useEffect(() => {
+    console.log(window.location.href, 123123)
     !ddConfig && (async () => {
       const res = await getSign(window.location.href.split('#')[0]);
       if (res.code === 1 && dd.env.platform != 'notInDingTalk') {
@@ -28,18 +34,36 @@ const EvaluationLayout: FC = () => {
           nonceStr: res.data.nonceStr, // 必填，自定义固定字符串。
           signature: res.data.signature, // 必填，签名
           type: 0, //选填。0表示微应用的jsapi,1表示服务窗的jsapi；不填默认为0。该参数从dingtalk.js的0.8.3版本开始支持
-          jsApiList: ['biz.contact.complexPicker', 'biz.contact.choose', 'biz.chat.pickConversation', 'biz.util.openSlidePanel'], // 必填，需要使用的jsapi列表，注意：不要带dd。
+          jsApiList: [
+            'biz.contact.complexPicker',
+            'biz.contact.choose',
+            'biz.chat.pickConversation',
+            'biz.util.openSlidePanel',
+            'biz.customContact.multipleChoose'
+          ], // 必填，需要使用的jsapi列表，注意：不要带dd。
           onSuccess: () => {
             console.log('注册成功')
             setDdConfig(true)
           },
           onFail: (err: Error) => {
-            console.log(err,'注册失败')
+            console.log(err, '注册失败')
           }
         });
       }
     })()
   }, [location.pathname])
+  // 获取所有点券
+  const getAllCoupons = useCallback(async () => {
+    const params = {
+      tpf: 1,
+      appId,
+      corpId
+    }
+    const res = await getPointAsset(params)
+    if (res.code == 1) {
+      setCouponsNum(res.data.amount)
+    }
+  }, [])
   return (
     <div className={styles.evaluation_layout}>
       <Layout style={{ height: '100%' }}>
@@ -49,12 +73,14 @@ const EvaluationLayout: FC = () => {
           </MyContext.Provider>
         </Sider>
         <Layout>
-          <Header />
-          <Content className={styles.evaluation_content}>
-            <Suspense fallback={<Loading />}>
-              <Outlet />
-            </Suspense>
-          </Content>
+          <CountContext.Provider value={{ state: couponsNum, dispatch: getAllCoupons }}>
+            <Header />
+            <Content className={styles.evaluation_content}>
+              <Suspense fallback={<Loading />}>
+                <Outlet />
+              </Suspense>
+            </Content>
+          </CountContext.Provider>
         </Layout>
       </Layout>
     </div>

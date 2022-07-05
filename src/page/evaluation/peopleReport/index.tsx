@@ -12,13 +12,25 @@ import { getIsGuide } from '@/utils/utils'
 const PeopleReport = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [reportList, setReportList] = useState<IReportList[]>([]);
+  const [totalNum, setTotalNum] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const navigator = useNavigate()
   const [form] = Form.useForm();
   useEffect(() => {
     getUserReport()
   }, [])
+  // 分页配置
+  const paginationObj = {
+    showQuickJumper: true,
+    defaultPageSize: 100,
+    total: totalNum,
+    onChange: (page: number) => {
+      setCurrentPage(page)
+      getUserReport(form.getFieldsValue())
+    }
+  }
   useEffect(() => {
-    let timer:any;
+    let timer: any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(reportList)
@@ -58,11 +70,12 @@ const PeopleReport = () => {
     const res = await getJoinExamUsers({
       ...item,
       pageSize: 10,
-      curPage: 1
+      curPage: currentPage
     });
     if (res.code === 1) {
       setReportList(res.data.resultList)
       setTableLoading(false)
+      setTotalNum(res.data.totalItem)
     }
   }
   const columns: ColumnsType<IReportList> = [
@@ -71,7 +84,7 @@ const PeopleReport = () => {
     {
       title: '部门', dataIndex: 'deptAggregationDTOS', width: 300, render: (text: IDeptAggregationDTOS[]) => <div>{text.map(res => res.name).join(',')}</div>
     },
-    { title: '性别', dataIndex: 'sex', width: 120, render: (text: ISex) => ISex[text] },
+    { title: '性别', dataIndex: 'sex', width: 120, render: (text: ISex) => ISex[text] || '-' },
     {
       title: '测评完成率',
       dataIndex: 'completion',
@@ -86,6 +99,7 @@ const PeopleReport = () => {
     },
     {
       title: '测评',
+      fixed: 'right',
       dataIndex: 'option',
       render: (text, record, index) => {
         const onReportClick = () => {
@@ -120,7 +134,7 @@ const PeopleReport = () => {
       </nav>
       <Divider />
       <main>
-        <Table loading={tableLoading} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} scroll={{ y: 320 }} columns={columns} rowKey={(res) => res.userId} dataSource={reportList} />;
+        <Table loading={tableLoading} pagination={paginationObj} scroll={{ y: 320 }} columns={columns} rowKey={(res) => res.userId} dataSource={reportList} />;
       </main>
     </div>
   )

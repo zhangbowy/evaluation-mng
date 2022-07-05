@@ -2,7 +2,7 @@ import { Button, Input, message, Modal, Result } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment } from 'react';
 import styles from './index.module.less'
 import { ddAddPeople } from '@/utils/utils';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
 import { shareInfo } from '@/api/api';
@@ -14,6 +14,7 @@ const AddPeople = forwardRef((props, ref) => {
     const [isSuccess, setIsSuccess] = useState<boolean>(false) // 是否成功
     const [inputValue, setInputValue] = useState<string>()
     const [search] = useSearchParams()
+    const navigator = useNavigate()
     const corpId = search.get('corpId') || '0';
     const appId = search.get('appId') || '0';
     const clientId = search.get('clientId') || '0';
@@ -41,6 +42,7 @@ const AddPeople = forwardRef((props, ref) => {
             failFn,
             examTemplateType: curExamTemplate?.type,
             examTemplateId: curExamTemplate?.id,
+            originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
             examTitle: inputValue,
         }
         ddAddPeople(params, 'add')
@@ -53,7 +55,7 @@ const AddPeople = forwardRef((props, ref) => {
     }
     // 去充值
     const goRecharge = () => {
-
+        navigator('/evaluation/recharge')
     }
     // 通知测评
     const onInformClick = () => {

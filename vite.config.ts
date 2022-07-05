@@ -6,13 +6,13 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '//qzz-static.forwe.store/evaluation-mng/static/',
+  // base: '//qzz-static.forwe.store/evaluation-mng/static/',
   server: {
     cors: true,
     proxy: {
       '/api': {
-        // target: 'http://daily-eval.sunmeta.top',
-        target:'http://gray-eval.sunmeta.top',
+        target: 'http://daily-eval.sunmeta.top',
+        // target:'http://gray-eval.sunmeta.top',
         // target:'http://qzz-eval.forwe.store',
         changeOrigin: true,
       }

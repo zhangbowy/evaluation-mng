@@ -81,6 +81,15 @@ export enum IisDimission {
     '离职'
 }
 
-export type ITagsProps= {
+export type ITagsProps = {
     onTagClick: (name: string) => void;
+}
+export type IOptions = {
+    label: string;
+    value: number
+}
+export type IExamListParams={
+    curPage?: number;
+    pageSize?: number;
+    isFinish?:number
 }

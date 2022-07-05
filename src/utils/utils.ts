@@ -2,6 +2,8 @@ import { createExam, getAllPeople, isGuide, queryExamUserIds, updateExam } from 
 import { handleStep } from "@/components/Steps";
 import { Modal } from "antd";
 import dd from "dingtalk-jsapi";
+import { CountContext } from './hook'
+import { useContext } from "react";
 
 export const isTrue = (text: any) => {
     return text === 'true' || text == 1
@@ -33,6 +35,7 @@ export const randomRgbColor = () => { //随机生成RGB颜色
 }
 // 钉钉选人
 const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'add') => {
+    const { state } = useContext(CountContext)
     dd.env.platform !== 'notInDingTalk' && dd.biz.customContact.multipleChoose({
         title: '请选择', //标题
         users: item.usersList,//一组员工工号
@@ -44,7 +47,7 @@ const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'a
             type == 'add' ?
                 Modal.confirm({
                     title: '温馨提示',
-                    content: '本次测评预计最多消耗100点券，当前可用点券：1000',
+                    content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
                     okText: '确认',
                     cancelText: '取消',
                     onOk() {
@@ -77,14 +80,15 @@ export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update'
                 const result = await createExam(list)
                 if (result.code === 1) {
                     item.successFn()
-                }else{
+                } else {
                     item.failFn()
                 }
             }
             const ddParams = {
                 corpId: item.corpId,
                 usersList: res.data.resultList.map((user: IUser) => user.userId),
-                successFn: createFn
+                successFn: createFn,
+                originalPointPrice: item.originalPointPrice
             }
             ddSelectPeople(ddParams)
 

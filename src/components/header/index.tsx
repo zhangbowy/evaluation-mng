@@ -1,21 +1,25 @@
 import { Button } from 'antd';
-import React, { useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import styles from './index.module.less';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { getPointAsset } from '@/api/api'
+import { CountContext } from '@/utils/hook';
 
 
-const Header = () => {
+const Header = memo(() => {
   const user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const history = useNavigate()
+  const { state } = useContext(CountContext)
+
   // 去充值
-  const goRecharge = () =>{
+  const goRecharge = () => {
     history('/evaluation/recharge')
   }
   return (
     <div className={styles.header_layout}>
       <div className={styles.header_left}>
         <label>可用点券</label>
-        <label>10000</label>
+        <label>{state}</label>
         <Button type='primary' onClick={goRecharge}>去充值</Button>
       </div>
       <div className={styles.header_right}>
@@ -25,6 +29,6 @@ const Header = () => {
       </div>
     </div>
   )
-}
+})
 
 export default Header

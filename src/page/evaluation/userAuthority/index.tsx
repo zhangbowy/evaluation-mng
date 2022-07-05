@@ -64,7 +64,7 @@ const index = () => {
     // getUser(value)
   }
   // 搜索
-  const onSeachClick = () => {
+  const onSearchClick = () => {
     getUser(form.getFieldsValue())
   }
   // 重置
@@ -145,7 +145,7 @@ const index = () => {
         </Form>
         <div className={styles.nav_right}>
           <Button onClick={onResetClick}>重置</Button>
-          <Button type="primary" onClick={onSeachClick}>搜索</Button>
+          <Button type="primary" onClick={onSearchClick}>搜索</Button>
         </div>
       </nav>
       <Divider />

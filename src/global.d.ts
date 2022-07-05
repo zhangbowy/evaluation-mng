@@ -53,6 +53,7 @@ interface IMeasurement {
         }
     }
     introduction: string;
+    planImage:string;
 }
 
 interface IBackResult {
@@ -93,12 +94,14 @@ interface IAddPeopleParams {
     examTemplateId?: number;
     examTitle?: string;
     examUserList?: { userId: string }[]
+    originalPointPrice?:number;
 }
 interface IDDSelectPeopleParams {
     usersList: string[];
     selectedUsers?: string[];
     corpId: string;
     successFn: (data: Multiple[]) => void;
+    originalPointPrice?:number;
 }
 interface Multiple {
     name: string;

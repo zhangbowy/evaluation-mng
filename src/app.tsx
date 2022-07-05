@@ -11,11 +11,12 @@ const App = () => {
   const [search, setSearch] = useSearchParams()
   const { state } = useContext(LoginSearchItem)
   const token = sessionStorage.getItem('QCP_B_TOKEN')
+  console.log(state, '页面之前')
   useEffect(() => {
     if (!token) {
       navigate(`/login${state}`, { replace: true })
     } else {
-      console.log(state,1111111111111)
+      console.log(state, '进来了的state')
       setSearch(state)
     }
   }, [locationInfo.pathname])

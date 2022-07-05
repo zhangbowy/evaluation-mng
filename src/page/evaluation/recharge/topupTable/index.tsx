@@ -1,38 +1,63 @@
 import { Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getRechargeFlow } from '@/api/api'
+import { useSearchParams } from 'react-router-dom';
+import { IConsumeFlowParams } from '../type';
 
 const TopUpTable = () => {
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [topUpTableList, setTopUpTableList] = useState()
+    const [search] = useSearchParams()
+    const appId = search.get('appId') || '0'
+    const corpId = search.get('corpId') || '0'
+    useEffect(() => {
+        getTopUpTableList()
+    }, [])
     // 获取表格数据
-    const getTopUpTableList = () => {
-
+    const getTopUpTableList = async () => {
+        const params = {
+            curPage: 1,
+            pageSize: 10,
+            tpf: 1,
+            appId,
+            corpId
+        }
+        const res = await getRechargeFlow(params)
+        if (res.code == 1) {
+            setTopUpTableList(res.data.resultList)
+            setTableLoading(false)
+        }
     }
     const rechargeColumns: ColumnsType<DataType> = [
         {
             title: '订单编号',
-            dataIndex: 'createName',
+            dataIndex: 'bizOrderId',
         },
         {
             title: '类型',
             dataIndex: 'consumeNumber',
+            render: (text: string) => '钉钉'
         },
         {
             title: '充值金额（元）',
-            dataIndex: 'finishNumber',
+            dataIndex: 'amount',
+            render: (text: number = 0) => text / 100
         },
         {
             title: '新增点券（点券）',
-            dataIndex: 'excludingTime',
+            dataIndex: 'pointAssetAmount',
         },
         {
             title: '交易时间',
-            dataIndex: 'testCreator',
+            dataIndex: 'payDate',
         },
         {
             title: '操作人',
-            dataIndex: 'testCreator',
+            dataIndex: 'operator',
+            render: (text: IConsumeFlowParams) => {
+                return text?.name || '-'
+            }
         }
     ]
     return (
