@@ -1,11 +1,11 @@
 import { Button, Input, message, Modal, Result } from 'antd'
-import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment, useContext } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment } from 'react';
 import styles from './index.module.less'
+import { ddAddPeople } from '@/utils/utils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
-import { createExam, getAllPeople, shareInfo } from '@/api/api';
-import { CountContext } from '@/utils/hook';
+import { shareInfo } from '@/api/api';
 
 const AddPeople = forwardRef((props, ref) => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false) // 是否显示弹窗
@@ -23,7 +23,7 @@ const AddPeople = forwardRef((props, ref) => {
         openModal
     }))
     // 下一步
-    const handleOk = async () => {
+    const handleOk = () => {
         // 成功回调
         const successFn = () => {
             setIsSuccess(true);
@@ -35,132 +35,17 @@ const AddPeople = forwardRef((props, ref) => {
             setIsModalVisible(false)
             setSuccessVisible(true)
         }
-        console.log(location.href, corpId, appId)
-        // const { state } = useContext(CountContext)
-        // console.log(state, 'state')
-        const obj = {
-            tpf: 1,
+        const params: IAddPeopleParams = {
             appId,
             corpId,
-            curPage: 1,
-            pageSize: 1000
+            successFn,
+            failFn,
+            examTemplateType: curExamTemplate?.type,
+            examTemplateId: curExamTemplate?.id,
+            originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
+            examTitle: inputValue,
         }
-        console.log(obj, 'obj')
-        const res = await getAllPeople(obj)
-        console.log(res, 'res')
-        if (res.code == 1) {
-            dd.env.platform !== 'notInDingTalk' &&
-                dd.ready(() => {
-                    console.log('多选人')
-                    dd.biz.customContact.multipleChoose({
-                        title: '请选择', //标题
-                        users: res.data.resultList.map((user: IUser) => user.userId),//一组员工工号
-                        corpId,//企业 ID，
-                        isShowCompanyName: true,   //true|false，默认为 false
-                        selectedUsers: [], //默认选中的人，注意:已选中不可以取消
-                        max: 10, //人数限制
-                        onSuccess: (data: Multiple[]) => {
-                            console.log(data, '成功了')
-                            Modal.confirm({
-                                title: '温馨提示',
-                                content: `本次测评预计最多消耗${(curExamTemplate?.examCouponCommodityDetail?.originalPointPrice || 0) * data.length}点券，当前可用点券：1000`,
-                                okText: '确认',
-                                cancelText: '取消',
-                                onOk: async () => {
-                                    console.log('球球了')
-                                    const list = {
-                                        examTemplateType: curExamTemplate?.type as string,
-                                        examTemplateId: curExamTemplate?.id as number,
-                                        examTitle: inputValue as string,
-                                        examUserList: data.map((list: Multiple) => ({ userId: list.emplId }))
-                                    }
-                                    const result = await createExam(list)
-                                },
-                            })
-                        },
-                        onFail: function (err: Error) {
-                            console.log(err, '失败了啊')
-                        }
-                    });
-                })
-        }
-
-        // const params: IAddPeopleParams = {
-        //     appId,
-        //     corpId,
-        //     successFn,
-        //     failFn,
-        //     examTemplateType: curExamTemplate?.type,
-        //     examTemplateId: curExamTemplate?.id,
-        //     originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
-        //     examTitle: inputValue,
-        // }
-        // ddAddPeople(params)
-    }
-    // 钉钉选人
-    const ddSelectPeople = (item: IDDSelectPeopleParams) => {
-        console.log('进来了', item)
-        const { state } = useContext(CountContext)
-        dd.env.platform !== 'notInDingTalk' &&
-            dd.ready(() => {
-                dd.biz.customContact.multipleChoose({
-                    title: '请选择', //标题
-                    users: item.usersList,//一组员工工号
-                    corpId: item.corpId,//企业 ID，
-                    isShowCompanyName: true,   //true|false，默认为 false
-                    selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
-                    max: 10, //人数限制
-                    onSuccess: (data: Multiple[]) => {
-                        console.log(data, '成功了')
-                        Modal.confirm({
-                            title: '温馨提示',
-                            content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
-                            okText: '确认',
-                            cancelText: '取消',
-                            onOk() {
-                                item.successFn(data)
-                            },
-                        })
-                    },
-                    onFail: function (err: Error) {
-                        console.log(err, '失败了啊')
-                    }
-                });
-            })
-    }
-    // 添加
-    const ddAddPeople = async (item: IAddPeopleParams) => {
-        const obj = {
-            tpf: 1,
-            appId: item.appId,
-            corpId: item.corpId,
-            curPage: 1,
-            pageSize: 1000
-        }
-        const res = await getAllPeople(obj)
-        if (res.code == 1) {
-            const createFn = async (data: Multiple[]) => {
-                const list = {
-                    examTemplateType: item.examTemplateType as string,
-                    examTemplateId: item.examTemplateId as number,
-                    examTitle: item.examTitle as string,
-                    examUserList: data.map((list: Multiple) => ({ userId: list.emplId }))
-                }
-                const result = await createExam(list)
-                if (result.code === 1) {
-                    item.successFn()
-                } else {
-                    item.failFn()
-                }
-            }
-            const ddParams = {
-                corpId: item.corpId,
-                usersList: res.data.resultList.map((user: IUser) => user.userId),
-                successFn: createFn,
-                originalPointPrice: item.originalPointPrice
-            }
-            ddSelectPeople(ddParams)
-        }
+        ddAddPeople(params, 'add')
     }
     // 打开
     const openModal = (item: IExamTemplateList) => {

@@ -12,7 +12,6 @@ const App = () => {
   const [search, setSearch] = useSearchParams()
   const { state } = useContext(LoginSearchItem)
   const token = sessionStorage.getItem('QCP_B_TOKEN')
-  console.log(state)
   useEffect(() => {
     if (!token) {
       navigate(`/login${state}`, { replace: true })
@@ -20,6 +19,7 @@ const App = () => {
       setSearch(state)
     }
   }, [locationInfo.pathname])
+  console.log(state,'state1111111111111111')
   return (
     <div className="app">
       <LoginSearchItem.Provider value={{ state: location.search }}>

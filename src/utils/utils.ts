@@ -36,7 +36,7 @@ export const randomRgbColor = () => { //随机生成RGB颜色
 // 钉钉选人
 const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'add') => {
     console.log('选人进来了', item);
-    const { state } = useContext(CountContext)
+    // const { state } = useContext(CountContext)
     dd.env.platform !== 'notInDingTalk' &&
         dd.ready(() => {
             dd.biz.customContact.multipleChoose({
@@ -51,7 +51,7 @@ const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'a
                     type == 'add' ?
                         Modal.confirm({
                             title: '温馨提示',
-                            content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${state}`,
+                            content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：1000`,
                             okText: '确认',
                             cancelText: '取消',
                             onOk() {
