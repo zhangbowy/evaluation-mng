@@ -13,7 +13,7 @@ const App = () => {
   const { state } = useContext(LoginSearchItem)
   const token = sessionStorage.getItem('QCP_B_TOKEN')
   useEffect(() => {
-    console.log(location.search, 'location.search1111111111111111')
+    console.log(location, 'location1111111111111111')
     if (location.search) {
       if (!token) {
         navigate(`/login${state}`, { replace: true })
