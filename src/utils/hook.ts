@@ -24,6 +24,6 @@ interface ContextProps {
 // 是否收起的context
 export const MyContext = createContext({} as ContextProps);
 // 传递链接上的appid corpId
-export const LoginSearchItem = createContext({ state: '' } as { state: string });
+export const LoginSearchItem = createContext({ state: '?corpId=ding2811bf88b5d295e7bc961a6cb783455b&appId=1_110140&clientId=suitepqbrfai3pgrncwli' } as { state: string });
 // 传递可用点券
 export const CountContext = createContext({} as { state: number, dispatch: () => void });

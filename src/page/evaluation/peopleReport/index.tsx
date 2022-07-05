@@ -100,6 +100,7 @@ const PeopleReport = () => {
     {
       title: '测评',
       fixed: 'right',
+      width: 170,
       dataIndex: 'option',
       render: (text, record, index) => {
         const onReportClick = () => {

@@ -20,7 +20,6 @@ const Login = () => {
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
     navigate(`/evaluation/library${locationSearch}`);
   }
-
   useEffect(() => {
     if (authCode) {
       (async () => {

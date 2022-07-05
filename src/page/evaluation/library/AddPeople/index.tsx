@@ -35,6 +35,7 @@ const AddPeople = forwardRef((props, ref) => {
             setIsModalVisible(false)
             setSuccessVisible(true)
         }
+        console.log(search.get('corpId'), corpId, search.get('appId'), appId)
         const params: IAddPeopleParams = {
             appId,
             corpId,

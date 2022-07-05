@@ -114,5 +114,5 @@ export const getExamList = async (params?: IExamListParams) => {
 }
 // 解锁查看
 export const UnLockReport = async (data: IUnLockParams) => {
-    return request('/api/spf-cc//b/evaluation/management/unlockItem', { data, method: 'POST' })
+    return request('/api/spf-cc/b/evaluation/management/unlockItem', { data, method: 'POST' })
 }

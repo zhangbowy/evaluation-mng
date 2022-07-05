@@ -76,7 +76,10 @@ const Detail = () => {
                     </section>
                   </article>
                 </li>
-                <Button onClick={() => onDetailClick(item)} type={isDone(item.answerStatus) ? 'link' : 'text'} disabled={!isDone(item.answerStatus)}>{isDone(item.answerStatus) ? '查看详情' : '测评进行中…'}</Button>
+                <Button onClick={() => onDetailClick(item)}
+                 type={isDone(item.answerStatus) ? 'link' : 'text'} disabled={!isDone(item.answerStatus)}>
+                  {isDone(item.answerStatus) ? '查看详情' : '测评进行中…'}
+                  </Button>
               </ul>
             ))
           }
