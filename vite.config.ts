@@ -6,7 +6,7 @@ import { resolve } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: '//qzz-static.forwe.store/evaluation-mng/static/',
+  base: '//qzz-static.forwe.store/evaluation-mng/static/',
   server: {
     cors: true,
     proxy: {
