@@ -11,9 +11,11 @@ export interface IExamTemplateList {
     planImage:string;
     examTemplateCommodityDetail: {
         originalPointPrice: number;
+        pointPrice:number;
     };
     examCouponCommodityDetail: {
         originalPointPrice: number;
+        pointPrice:number;
     }
 }
 export interface IAddPeopleRef {

@@ -117,9 +117,9 @@ const Library = () => {
               <footer>
                 <div className={styles.Library_footerLeft}>
                   <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
-                  <span>{item.isBuy ? `${item.examCouponCommodityDetail.originalPointPrice}点券/人` : '待解锁'}</span>
+                  <span>{item.isBuy ? `${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
                 </div>
-                <Button type="primary" className={`addPeople${index}`} onClick={() => handleClick(item)} style={item.isBuy ? addPeopleStyle : {}} >{item.isBuy ? '添加人员' : `${item.examTemplateCommodityDetail.originalPointPrice}点券解锁`}</Button>
+                <Button type="primary" className={`addPeople${index}`} onClick={() => handleClick(item)} style={item.isBuy ? addPeopleStyle : {}} >{item.isBuy ? '添加人员' : `${item.examTemplateCommodityDetail.pointPrice}点券解锁`}</Button>
               </footer>
             </div>
           ))

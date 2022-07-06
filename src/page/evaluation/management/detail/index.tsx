@@ -17,7 +17,6 @@ import LookAllTags from './lookAllTags'
 
 const Detail = () => {
   const params = useParams() as { id: string }
-  const [userId, setUserId] = useState<string>();
   const [measurement, setMeasurement] = useState<IMeasurement>(); //测评信息
   const [department, setDepartment] = useState<IOption[]>([]); // 部门option
   const [chartList, setChartList] = useState<IChartList>() // 图表数据
@@ -82,7 +81,7 @@ const Detail = () => {
   // 获取列表
   const getDetailList = async (from?: IFromName) => {
     // 获取图表数据
-    const item = await getChart({ tpf: 1, appId, corpId, userId, examId: params.id || '0', deptId })
+    const item = await getChart({ tpf: 1, appId, corpId, examId: params.id || '0', deptId: from?.deptId })
     if (item.code === 1) {
       setChartList(item.data);
     }
@@ -105,11 +104,10 @@ const Detail = () => {
   // 选中部门
   const onSelectChange = (value: string) => {
     setDeptId(value)
-    getDetailList(form.getFieldsValue())
+    getDetailList({ ...form.getFieldsValue(), deptId: value })
   }
   // 获取表格数据
   const getTableList = async (item?: ITableParams) => {
-    setTableLoading(true)
     const obj = { examid: params.id, curPage: item?.curPage || 1, pageSize: item?.pageSize || 10, ...item, status: item?.status?.split(',').map(Number) }
     !item?.status && delete obj.status
     const res: IBackResult = await getExamUsers(obj)
@@ -308,7 +306,7 @@ const Detail = () => {
           }
           const res = await UnLockReport(params)
           if (res.code == 1) {
-            getTableList()
+            getDetailList()
           }
         }
         const getText = (key: number) => {
@@ -367,7 +365,7 @@ const Detail = () => {
               filterOption={(input, option) =>
                 (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
               }
-              placeholder="请选择"
+              placeholder="请选择部门"
               showSearch
               style={{ width: 240 }} >
               {
@@ -417,10 +415,10 @@ const Detail = () => {
                   <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(doneCondition, 1)}</Select>
                 </Form.Item>
                 <Form.Item label="性格类型" name="tags">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
+                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
                 </Form.Item>
                 <Form.Item label="人格类型" name="resultType">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
+                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
                 </Form.Item>
               </Form>
             </div>

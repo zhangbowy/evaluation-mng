@@ -43,19 +43,20 @@ const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'a
                 isShowCompanyName: true,   //true|false，默认为 false
                 selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
                 disabledUsers: item.selectedUsers || [],//不能选的人
-                max: 10, //人数限制
+                max: 1000, //人数限制
                 onSuccess: (data: Multiple[]) => {
-                    console.log(data, '成功了')
-                    type == 'add' ?
-                        Modal.confirm({
-                            title: '温馨提示',
-                            content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
-                            okText: '确认',
-                            cancelText: '取消',
-                            onOk() {
-                                item.successFn(data)
-                            },
-                        }) : item.successFn(data)
+                    if (data.length > 0) {
+                        type == 'add' ?
+                            Modal.confirm({
+                                title: '温馨提示',
+                                content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
+                                okText: '确认',
+                                cancelText: '取消',
+                                onOk() {
+                                    item.successFn(data)
+                                },
+                            }) : item.successFn(data)
+                    }
                 },
                 onFail: function (err: Error) {
                     console.log(err, '失败了啊')

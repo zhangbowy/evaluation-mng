@@ -43,6 +43,7 @@ export interface IFromName {
     status?: string;
     tags?: string;
     resultType?: string;
+    deptId?:string;
 }
 export interface ITableParams extends IFromName {
     curPage?: number;

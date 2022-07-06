@@ -18,7 +18,7 @@ interface chartDate {
     tpf: 1,
     appId: string;
     corpId: string;
-    userId: string | undefined;
+    userId?: string | undefined;
     examId: string;
     deptId?: string;
 }
