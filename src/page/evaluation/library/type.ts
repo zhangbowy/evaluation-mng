@@ -10,12 +10,10 @@ export interface IExamTemplateList {
     includeText:string;
     planImage:string;
     examTemplateCommodityDetail: {
-        originalPointPrice: number;
-        pointPrice:number;
+        pointPrice: number;
     };
     examCouponCommodityDetail: {
-        originalPointPrice: number;
-        pointPrice:number;
+        pointPrice: number;
     }
 }
 export interface IAddPeopleRef {

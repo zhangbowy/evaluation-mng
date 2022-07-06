@@ -41,7 +41,7 @@ const AddPeople = forwardRef((props, ref) => {
             failFn,
             examTemplateType: curExamTemplate?.type,
             examTemplateId: curExamTemplate?.id,
-            originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice, // 每人消耗点券
+            pointPrice: curExamTemplate?.examCouponCommodityDetail?.pointPrice, // 每人消耗点券
             examTitle: inputValue, // 标题
             availableBalance: state
         }

@@ -96,7 +96,7 @@ interface IAddPeopleParams {
     examTemplateId?: number;
     examTitle?: string;
     examUserList?: { userId: string }[]
-    originalPointPrice?: number;
+    pointPrice?: number;
     availableBalance: number;
 }
 interface IDDSelectPeopleParams {
@@ -104,7 +104,7 @@ interface IDDSelectPeopleParams {
     selectedUsers?: string[];
     corpId: string;
     successFn: (data: Multiple[]) => void;
-    originalPointPrice?: number;
+    pointPrice?: number;
     availableBalance?:number
 }
 interface Multiple {

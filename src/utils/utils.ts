@@ -49,7 +49,7 @@ const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'a
                         type == 'add' ?
                             Modal.confirm({
                                 title: '温馨提示',
-                                content: `本次测评预计最多消耗${(item?.originalPointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
+                                content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
                                 okText: '确认',
                                 cancelText: '取消',
                                 onOk() {
@@ -96,7 +96,7 @@ export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update'
                 corpId: item.corpId,
                 usersList: res.data.resultList.map((user: IUser) => user.userId),
                 successFn: createFn,
-                originalPointPrice: item.originalPointPrice,
+                pointPrice: item.pointPrice,
                 availableBalance: item.availableBalance
             }
             ddSelectPeople(ddParams)
@@ -118,7 +118,7 @@ export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update'
                     usersList: res.data.resultList.map((user: IUser) => user.userId),
                     successFn: updateFn,
                     selectedUsers: result.data,
-                    originalPointPrice: item.originalPointPrice,
+                    pointPrice: item.pointPrice,
                     availableBalance: item.availableBalance
                 }
                 ddSelectPeople(ddParams)

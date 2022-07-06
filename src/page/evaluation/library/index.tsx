@@ -66,7 +66,7 @@ const Library = () => {
     } else {
       Modal.confirm({
         title: '确定要解锁吗',
-        content: `解锁【${item.title}】需要消耗${item.examTemplateCommodityDetail.originalPointPrice}点券`,
+        content: `解锁【${item.title}】需要消耗${item.examTemplateCommodityDetail.pointPrice}点券`,
         okText: "确定",
         cancelText: '取消',
         onOk: async (close) => {
@@ -119,7 +119,11 @@ const Library = () => {
                   <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
                   <span>{item.isBuy ? `${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
                 </div>
-                <Button type="primary" className={`addPeople${index}`} onClick={() => handleClick(item)} style={item.isBuy ? addPeopleStyle : {}} >{item.isBuy ? '添加人员' : `${item.examTemplateCommodityDetail.pointPrice}点券解锁`}</Button>
+                <Button type="primary" className={`addPeople${index}`}
+                  onClick={() => handleClick(item)}
+                  style={item.isBuy ? addPeopleStyle : {}} >
+                  {item.isBuy ? '添加人员' : `${item.examTemplateCommodityDetail.pointPrice}点券解锁`}
+                </Button>
               </footer>
             </div>
           ))

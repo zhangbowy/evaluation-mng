@@ -184,7 +184,7 @@ const Management = () => {
             },
             failFn: () => { },
             availableBalance: state,
-            originalPointPrice: item?.paperPrice
+            pointPrice: item?.paperPrice
           }
           ddAddPeople(params, 'update')
         }
