@@ -9,8 +9,8 @@ import { getAllUrlParam } from '@/utils/utils'
 
 const ConsumeTable = () => {
     const options = [
-        { label: '测评消耗', value: 'unlock_exam_template' },
-        { label: '量表解锁', value: 'unlock_exam_result' },
+        { label: '测评消耗', value: 'unlock_exam_result' },
+        { label: '量表解锁', value: 'unlock_exam_template ' },
     ];
     const [radioValue, setRadioValue] = useState<string>(options[0].value)
     const [tableLoading, setTableLoading] = useState<boolean>(true);
@@ -101,7 +101,7 @@ const ConsumeTable = () => {
     return (
         <div className={styles.consumeTable_layout}>
             <Radio.Group className={styles.consumeTable_radio} options={options} onChange={radioChange} value={radioValue} optionType="button" />
-            <Table loading={tableLoading} rowKey={(row) => row.id} columns={radioValue == 'unlock_exam_template' ? consumeColumns : unlockColumns} scroll={{ y: 450 }} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} dataSource={ConsumeTableList}></Table>
+            <Table loading={tableLoading} rowKey={(row) => row.id} columns={radioValue == 'unlock_exam_result' ? consumeColumns : unlockColumns} scroll={{ y: 450 }} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} dataSource={ConsumeTableList}></Table>
         </div>
     )
 }

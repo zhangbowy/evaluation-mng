@@ -81,7 +81,9 @@ const Detail = () => {
       <Divider />
       <div className={styles.detail_content}>
         <div className={styles.detail_header}>
-          <img src={reportDetailList?.avatar} alt="" />
+          {
+            reportDetailList?.avatar ? <img src={reportDetailList?.avatar} alt="" />:<div>{reportDetailList?.name.slice(0,1)}</div>
+          }
           <h2>{`${reportDetailList?.name}-${reportDetailList?.deptList[0].name}`}</h2>
         </div>
         <ul className={styles.detail_tags}>

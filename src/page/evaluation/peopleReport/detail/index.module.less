@@ -1,10 +1,12 @@
 .detail_layout {
     background-color: var(--white-color);
     min-height: 100vh;
-    .detail_nav{
-        padding: 25px 32px 0 ;
+
+    .detail_nav {
+        padding: 25px 32px 0;
         font-size: 20px;
     }
+
     .detail_content {
         padding: 0 32px 32px;
 
@@ -12,12 +14,22 @@
             margin-bottom: 24px;
             display: flex;
 
-            img {
+            img,
+            div {
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
                 vertical-align: middle;
                 margin-right: 21px;
+            }
+
+            div {
+                background-color: var(--primary-color);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color:var(--white-color);
+                font-size: 14px;
             }
 
             h2 {
