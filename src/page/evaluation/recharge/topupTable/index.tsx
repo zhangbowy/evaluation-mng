@@ -48,7 +48,7 @@ const TopUpTable = () => {
         {
             title: '类型',
             dataIndex: 'consumeNumber',
-            render: (text: string) => '钉钉'
+            render: (text: string) => '钉钉充值'
         },
         {
             title: '充值金额（元）',
@@ -63,13 +63,13 @@ const TopUpTable = () => {
             title: '交易时间',
             dataIndex: 'payDate',
         },
-        {
-            title: '操作人',
-            dataIndex: 'operator',
-            render: (text: IConsumeFlowParams) => {
-                return text?.name || '-'
-            }
-        }
+        // {
+        //     title: '操作人',
+        //     dataIndex: 'operator',
+        //     render: (text: IConsumeFlowParams) => {
+        //         return text?.name || '-'
+        //     }
+        // }
     ]
     return (
         <div>

@@ -104,7 +104,7 @@ const ConsumeTable = () => {
         },
         {
             title: '操作人',
-            dataIndex: 'testCreator',
+            dataIndex: 'buyer',
             render: (text: IConsumeFlowParams) => {
                 return text?.name || '-'
             }

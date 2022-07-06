@@ -168,6 +168,17 @@ const Detail = () => {
           },
         },
       },
+      legend: {
+        offsetX: -50,
+        itemValue: {
+          formatter: (text, item) => {
+            return ``;
+          },
+          style: {
+            fontSize: 12
+          },
+        },
+      },
       statistic: {
         title: false,
         content: {
@@ -289,7 +300,7 @@ const Detail = () => {
       fixed: 'right',
       width: 220,
       render: (text: number, record, index: number) => {
-        
+
         // 查看报告
         const onLookResult = () => {
           console.log(record)
@@ -305,7 +316,7 @@ const Detail = () => {
             userId: record.userId,
             templateType: measurement?.examTemplateType as string,
             operationType: '1',
-            examId:record.examId
+            examId: record.examId
           }
           const res = await UnLockReport(params)
           if (res.code == 1) {

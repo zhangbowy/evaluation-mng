@@ -1,4 +1,4 @@
-import { Button, Tabs } from 'antd'
+import { Button, Modal, Tabs } from 'antd'
 import React, { memo, useContext, useEffect } from 'react'
 import styles from './index.module.less'
 import TopUpTable from './topupTable';
@@ -15,7 +15,7 @@ const Recharge = memo(() => {
   const coupon01 = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_coupon01.png'
   const coupon02 = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_coupon02.png'
   const { corpId, appId } = getAllUrlParam()
-  const { state } = useContext(CountContext)
+  const { state, dispatch } = useContext(CountContext)
   const tabArr: TabsArr[] = [
     {
       title: '点券消耗记录',
@@ -35,10 +35,19 @@ const Recharge = memo(() => {
       appId,
       outSkuId: 'DT_GOODS_881656505125058'
     }
+
     const res = await getRechargeUrl(params)
     if (res.code == 1) {
       const url = JSON.parse(res.data || '{}')?.result
-      console.log(url)
+      Modal.warning({
+        title: '温馨提示',
+        content: '请确保充值后，点击确定按钮，刷新点券，完成支付，否则无法充值成功',
+        okText: '确认',
+        onOk: (cancel) => {
+          cancel()
+          dispatch()
+        }
+      })
       dd.env.platform != 'notInDingTalk' &&
         dd.ready(() => {
           dd.biz.util.openSlidePanel({
