@@ -40,9 +40,7 @@ const Login = () => {
     console.log(corpId, appId, clientId, authCode, 'corpId, appId, clientId, authCode ')
     dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
       const result = await dd.runtime.permission.requestAuthCode({ corpId });
-      console.log(result, 'result')
       const res = await login({ code: result.code, corpId, appId });
-      console.log(res, 'res')
       if (res.code === 1) {
         if (!res.data.authLogin) {
           // 未授权登录需要先授权登录
@@ -52,8 +50,10 @@ const Login = () => {
             )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
           );
         } else {
+          window.sessionStorage.setItem('QCP_B_TOKEN', res.data.token);
+          window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(res.data.user));
           // 已经授权则免登进入系统
-          res.data.user.auths.includes('admin') ? handleLogin(res.data) : navigate(`/403/99999`);
+          res.data.user.auths.includes('admin') ? navigate(`/evaluation/library`) : navigate(`/403/99999`);
         }
       } else {
         // 免登失败，提示进入403
