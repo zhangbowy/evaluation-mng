@@ -150,7 +150,7 @@ const Detail = () => {
   const personalityList = () => {
     const piePlot = new Pie(visualRef.current[1], {
       height: 110,
-      width: 300,
+      width: 330,
       data: chartList?.personalityProportions || [],
       angleField: 'value',
       colorField: 'name',
