@@ -1,11 +1,12 @@
 import { Button, Input, message, Modal, Result } from 'antd'
-import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment, useContext } from 'react';
 import styles from './index.module.less'
 import { ddAddPeople, getAllUrlParam } from '@/utils/utils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
 import { shareInfo } from '@/api/api';
+import { CountContext } from '@/utils/hook';
 
 const AddPeople = forwardRef((props, ref) => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false) // 是否显示弹窗
@@ -13,9 +14,9 @@ const AddPeople = forwardRef((props, ref) => {
     const [successVisible, setSuccessVisible] = useState<boolean>(false) // 是否显示成功弹窗
     const [isSuccess, setIsSuccess] = useState<boolean>(false) // 是否成功
     const [inputValue, setInputValue] = useState<string>()
-    const [search] = useSearchParams()
+    const { state } = useContext(CountContext)
     const navigator = useNavigate()
-    const { corpId, appId,clientId } = getAllUrlParam()
+    const { corpId, appId, clientId } = getAllUrlParam()
     const qcp_b_user = JSON.parse(window.sessionStorage.getItem('QCP_B_USER') || '{}');
     useImperativeHandle(ref, () => ({
         openModal
@@ -40,8 +41,9 @@ const AddPeople = forwardRef((props, ref) => {
             failFn,
             examTemplateType: curExamTemplate?.type,
             examTemplateId: curExamTemplate?.id,
-            originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice,
-            examTitle: inputValue,
+            originalPointPrice: curExamTemplate?.examCouponCommodityDetail?.originalPointPrice, // 每人消耗点券
+            examTitle: inputValue, // 标题
+            availableBalance: state
         }
         ddAddPeople(params, 'add')
     }

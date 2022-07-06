@@ -4,21 +4,31 @@ import { ColumnsType } from 'antd/lib/table'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styles from './index.module.less'
-import { IConsumeFlowParams, IConsumeTableList } from '../type'
+import { IConsumeFlowParams, IConsumeTableList, IConsumeTableParams } from '../type'
 import { getAllUrlParam } from '@/utils/utils'
 
 const ConsumeTable = () => {
     const options = [
         { label: '测评消耗', value: 'unlock_exam_result' },
-        { label: '量表解锁', value: 'unlock_exam_template ' },
+        { label: '量表解锁', value: 'unlock_exam_template' },
     ];
     const [radioValue, setRadioValue] = useState<string>(options[0].value)
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [ConsumeTableList, setConsumeTableList] = useState<IConsumeTableList[]>()
+    const [totalNum, setTotalNum] = useState<number>(0);
     const { corpId, appId } = getAllUrlParam()
     useEffect(() => {
         getConsumeTableList()
     }, [])
+    // 分页配置
+    const paginationObj = {
+        showQuickJumper: true,
+        defaultPageSize: 10,
+        total: totalNum,
+        onChange: (page: number) => {
+            getConsumeTableList({ curPage: page, flowType: radioValue })
+        }
+    }
     // radio的change
     const radioChange = ({ target: { value } }: RadioChangeEvent) => {
         setRadioValue(value)
@@ -27,20 +37,22 @@ const ConsumeTable = () => {
         getConsumeTableList({ flowType: value })
     }
     // 获取表格数据
-    const getConsumeTableList = async (item?: { flowType: string }) => {
+    const getConsumeTableList = async (item?: IConsumeTableParams) => {
+        setTableLoading(true)
         const params = {
-            curPage: 1,
-            pageSize: 10,
+            curPage: item?.curPage || 1,
+            pageSize: item?.pageSize || 10,
             tpf: 1,
             appId,
             corpId,
             bizType: 'eval',
-            flowType: item?.flowType || 'unlock_exam_template'
+            flowType: item?.flowType || 'unlock_exam_result'
         }
         const res = await getConsumeFlow(params)
         if (res.code == 1) {
             setConsumeTableList(res.data.resultList)
             setTableLoading(false)
+            setTotalNum(res.data.totalItem)
         }
     }
     const consumeColumns: ColumnsType<IConsumeTableList> = [
@@ -101,7 +113,7 @@ const ConsumeTable = () => {
     return (
         <div className={styles.consumeTable_layout}>
             <Radio.Group className={styles.consumeTable_radio} options={options} onChange={radioChange} value={radioValue} optionType="button" />
-            <Table loading={tableLoading} rowKey={(row) => row.id} columns={radioValue == 'unlock_exam_result' ? consumeColumns : unlockColumns} scroll={{ y: 450 }} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} dataSource={ConsumeTableList}></Table>
+            <Table pagination={paginationObj} loading={tableLoading} rowKey={(row) => row.id} columns={radioValue == 'unlock_exam_result' ? consumeColumns : unlockColumns} scroll={{ y: 450 }} dataSource={ConsumeTableList}></Table>
         </div>
     )
 }

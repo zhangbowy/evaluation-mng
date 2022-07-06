@@ -14,6 +14,7 @@ const index = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [departmentList, setDepartmentList] = useState<IDept[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(1)
   const [form] = Form.useForm();
   useEffect(() => {
     getUser()
@@ -31,6 +32,7 @@ const index = () => {
     showQuickJumper: true,
     defaultCurrent: 1,
     defaultPageSize: 10,
+    current: current,
     total: totalNum,
     onChange: (page: number) => {
       getUser({ currentPage: page, ...form.getFieldsValue() })
@@ -58,10 +60,10 @@ const index = () => {
     }
     const res = await getUserList(params)
     if (res.code == 1) {
-      console.log(res)
       setUserList(res.data.resultList)
       setTableLoading(false)
       setTotalNum(res.data.totalItem)
+      setCurrent(res.data.curPage)
     }
   }
   // 获取部门

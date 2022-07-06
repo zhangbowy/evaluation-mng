@@ -25,6 +25,8 @@ const Detail = () => {
   const [tableList, setTableList] = useState<IResultTable>() // 表格数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
+  const [totalNum, setTotalNum] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(1);
   const [form] = Form.useForm();
   const { corpId, appId } = getAllUrlParam()
   const visualRef: any = useRef([])
@@ -60,6 +62,15 @@ const Detail = () => {
     getDepartment()
     getAppraisalInfo()
   }, [])
+  const paginationObj = {
+    showQuickJumper: true,
+    defaultPageSize: 10,
+    total: totalNum,
+    current: current,
+    onChange: (page: number) => {
+      getTableList({ curPage: page, ...form.getFieldsValue() })
+    }
+  }
   useEffect(() => {
     if (visualRef?.current?.length > 0) {
       visualRef.current[0].innerHTML = '';
@@ -98,12 +109,15 @@ const Detail = () => {
   }
   // 获取表格数据
   const getTableList = async (item?: ITableParams) => {
-    const obj = { examid: params.id, curPage: 1, pageSize: 10, ...item, status: item?.status?.split(',').map(Number) }
+    setTableLoading(true)
+    const obj = { examid: params.id, curPage: item?.curPage || 1, pageSize: item?.pageSize || 10, ...item, status: item?.status?.split(',').map(Number) }
     !item?.status && delete obj.status
     const res: IBackResult = await getExamUsers(obj)
     if (res.code === 1) {
       setTableList(res.data)
       setTableLoading(false)
+      setTotalNum(res.data.totalItem)
+      setCurrent(res.data.curPage)
     }
   }
   // 测评完成率
@@ -151,7 +165,7 @@ const Detail = () => {
       meta: {
         value: {
           formatter: (v: any) => {
-            return `${v||0}人`
+            return `${v || 0}人`
             // return `${((chartList?.personalityProportions?.length || 0) / v) * 100}%`
           },
         },
@@ -417,7 +431,7 @@ const Detail = () => {
           </div>
           <div className={styles.detail_main_table}>
             <Button type="primary" onClick={onDeriveClick}>导出</Button>
-            <Table scroll={{ x: 1500 }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} />
+            <Table pagination={paginationObj} scroll={{ x: 1500 }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
           </div>
         </main>
       </div>

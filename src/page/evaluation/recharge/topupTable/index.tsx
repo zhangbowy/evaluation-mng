@@ -3,20 +3,31 @@ import { ColumnsType } from 'antd/lib/table';
 import React, { useEffect, useState } from 'react'
 import { getRechargeFlow } from '@/api/api'
 import { useSearchParams } from 'react-router-dom';
-import { IConsumeFlowParams } from '../type';
+import { IConsumeFlowParams, IConsumeTableParams } from '../type';
 import { getAllUrlParam } from '@/utils/utils';
 
 const TopUpTable = () => {
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [topUpTableList, setTopUpTableList] = useState()
+    const [totalNum, setTotalNum] = useState<number>(0);
     const { corpId, appId } = getAllUrlParam()
     useEffect(() => {
         getTopUpTableList()
     }, [])
+    // 分页配置
+    const paginationObj = {
+        showQuickJumper: true,
+        defaultPageSize: 10,
+        total: totalNum,
+        onChange: (page: number) => {
+            getTopUpTableList({ curPage: page })
+        }
+    }
     // 获取表格数据
-    const getTopUpTableList = async () => {
+    const getTopUpTableList = async (item?: IConsumeTableParams) => {
+        setTableLoading(true)
         const params = {
-            curPage: 1,
+            curPage: item?.curPage || 1,
             pageSize: 10,
             tpf: 1,
             appId,
@@ -26,6 +37,7 @@ const TopUpTable = () => {
         if (res.code == 1) {
             setTopUpTableList(res.data.resultList)
             setTableLoading(false)
+            setTotalNum(res.data.totalItem)
         }
     }
     const rechargeColumns: ColumnsType<DataType> = [
@@ -61,7 +73,7 @@ const TopUpTable = () => {
     ]
     return (
         <div>
-            <Table loading={tableLoading} rowKey={(row) => row.id} columns={rechargeColumns} scroll={{ y: 450 }} pagination={{ showQuickJumper: true, defaultPageSize: 10 }} dataSource={topUpTableList}></Table>
+            <Table loading={tableLoading} rowKey={(row) => row.id} columns={rechargeColumns} scroll={{ y: 450 }} pagination={paginationObj} dataSource={topUpTableList}></Table>
         </div>
     )
 }

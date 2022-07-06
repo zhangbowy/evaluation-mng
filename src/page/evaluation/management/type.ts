@@ -91,5 +91,5 @@ export type IOptions = {
 export type IExamListParams={
     curPage?: number;
     pageSize?: number;
-    isFinish?:number
+    isFinishType?:number
 }

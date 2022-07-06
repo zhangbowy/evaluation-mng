@@ -1,6 +1,7 @@
 .detail_layout {
     background-color: var(--white-color);
     min-height: 100vh;
+    overflow-y: scroll;
 
     .detail_nav {
         padding: 25px 32px 0;
@@ -13,9 +14,10 @@
         .detail_header {
             margin-bottom: 24px;
             display: flex;
+            align-items: center;
 
             img,
-            div {
+            .detail_gender {
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
@@ -23,12 +25,12 @@
                 margin-right: 21px;
             }
 
-            div {
+            .detail_gender {
                 background-color: var(--primary-color);
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                color:var(--white-color);
+                color: var(--white-color);
                 font-size: 14px;
             }
 
@@ -38,6 +40,37 @@
                 font-weight: 500;
                 color: #464C5B;
                 margin: 0;
+            }
+
+            div[class^="_detail_gender"] {
+                border-radius: 4px;
+                width: 33px;
+                height: 33px;
+                margin-left: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                span {
+                    font-size: 22px;
+                }
+            }
+
+            .detail_gender_1 {
+                background: #DFF1FB;
+
+                span {
+                    font-size: 22px;
+                    color: #47BFFF;
+                }
+            }
+
+            .detail_gender_2 {
+                background: #FFECFA;
+
+                span {
+                    color: #ED70E3;
+                }
             }
         }
 

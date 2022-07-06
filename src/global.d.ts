@@ -33,7 +33,8 @@ interface DataType {
     templateId: number;
     totalNumber: number;
     type: boolean;
-    logoImage:string;
+    logoImage: string;
+    paperPrice:number;
 }
 interface IBack {
     code: number;
@@ -54,7 +55,7 @@ interface IMeasurement {
         }
     }
     introduction: string;
-    planImage:string;
+    planImage: string;
 }
 
 interface IBackResult {
@@ -95,14 +96,16 @@ interface IAddPeopleParams {
     examTemplateId?: number;
     examTitle?: string;
     examUserList?: { userId: string }[]
-    originalPointPrice?:number;
+    originalPointPrice?: number;
+    availableBalance: number;
 }
 interface IDDSelectPeopleParams {
     usersList: string[];
     selectedUsers?: string[];
     corpId: string;
     successFn: (data: Multiple[]) => void;
-    originalPointPrice?:number;
+    originalPointPrice?: number;
+    availableBalance?:number
 }
 interface Multiple {
     name: string;

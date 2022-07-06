@@ -1,12 +1,12 @@
 import { getAllExam, UnLockReport } from '@/api/api';
-import { Breadcrumb, Button, Divider, Progress } from 'antd';
+import { Breadcrumb, Button, Divider, Progress, Tooltip } from 'antd';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import styles from './index.module.less';
-import { IReportDetail, IUserTagVoList, IEvaluationVoList } from '../type';
+import { IReportDetail, IUserTagVoList, ISex, IEvaluationVoList } from '../type';
 import LookResult from '@/components/lookResult'
 import Loading from '@/components/loading'
-import { LockOutlined } from '@ant-design/icons'
+import { LockOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons'
 
 const Detail = () => {
   const { userId } = useParams()
@@ -66,7 +66,7 @@ const Detail = () => {
       case 5:
         return <Button loading={unlockLoading[index]} icon={<LockOutlined />} type="link" onClick={onUnlockClick}>{unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
       default:
-        return <Button disabled>测评进行中…</Button>
+        return <Button type='text' disabled>测评进行中…</Button>
     }
   }
   if (detailLoading) {
@@ -82,9 +82,14 @@ const Detail = () => {
       <div className={styles.detail_content}>
         <div className={styles.detail_header}>
           {
-            reportDetailList?.avatar ? <img src={reportDetailList?.avatar} alt="" />:<div>{reportDetailList?.name.slice(0,1)}</div>
+            reportDetailList?.avatar ? <img src={reportDetailList?.avatar} alt="" /> : <div className={styles.detail_notAvatar}>{reportDetailList?.name.slice(0, 1)}</div>
           }
           <h2>{`${reportDetailList?.name}-${reportDetailList?.deptList[0].name}`}</h2>
+          <Tooltip placement="top" title={`性别：${ISex[reportDetailList!.sex]}`}>
+            <div className={reportDetailList?.sex == 1 ? styles.detail_gender_1 : styles.detail_gender_2}>
+              {reportDetailList?.sex == 1 ? <ManOutlined /> : <WomanOutlined />}
+            </div>
+          </Tooltip>
         </div>
         <ul className={styles.detail_tags}>
           {reportDetailList?.userTagVoList.map((tag: IUserTagVoList) => (
@@ -96,7 +101,11 @@ const Detail = () => {
             <li>完成测评：{reportDetailList?.successNum}个</li>
             <li>剩余测评：{reportDetailList?.remainingNum}个</li>
           </ul>
-          <ul><Progress percent={reportDetailList?.finishValue} size="small" /></ul>
+          <ul>
+            <Tooltip placement="top" title={`完成测评：${reportDetailList?.successNum}个  剩余测评：${reportDetailList?.remainingNum}个`}>
+              <Progress percent={reportDetailList?.finishValue} size="small" />
+            </Tooltip>
+          </ul>
         </div>
         <div className={styles.detail_card_wrapper}>
           {

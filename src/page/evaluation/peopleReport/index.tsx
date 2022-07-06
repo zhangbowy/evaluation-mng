@@ -13,6 +13,7 @@ const PeopleReport = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [reportList, setReportList] = useState<IReportList[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(1)
   const navigator = useNavigate()
   const [form] = Form.useForm();
   useEffect(() => {
@@ -23,6 +24,7 @@ const PeopleReport = () => {
     showQuickJumper: true,
     defaultPageSize: 10,
     total: totalNum,
+    current: current,
     onChange: (page: number) => {
       getUserReport({ curPage: page, ...form.getFieldsValue() })
     }
@@ -72,6 +74,7 @@ const PeopleReport = () => {
       curPage: item?.curPage || 1
     });
     if (res.code === 1) {
+      setCurrent(res.data.curPage)
       setReportList(res.data.resultList)
       setTableLoading(false)
       setTotalNum(res.data.totalItem)

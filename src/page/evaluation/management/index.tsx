@@ -1,6 +1,6 @@
-import { Button, Radio, RadioChangeEvent, Table, Progress, Switch, Divider, message, Tooltip, Modal } from 'antd';
+import { Button, Radio, RadioChangeEvent, Table, Progress, Switch, Divider, message, Tooltip, Modal, ConfigProvider } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import styles from './index.module.less'
 import { ColumnsType } from 'antd/lib/table';
 import { getExamList, editExam, getAllPeople, queryExamUserIds, updateExam } from '@/api/api'
@@ -10,28 +10,33 @@ import { useSearchParams } from 'react-router-dom';
 import { ddAddPeople, getIsGuide, getAllUrlParam } from '@/utils/utils'
 import Loading from '@/components/loading';
 import { IOptions, IExamListParams } from './type'
+import { CountContext } from '@/utils/hook';
 
 const Management = () => {
-  const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
   const defaultImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_nodata.png'
+  const notDoneImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_nodone.png'
+  const DoneImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_done.png'
   const options: IOptions[] = [
     { label: '全部', value: -1 },
     { label: '未完成', value: 0 },
     { label: '已完成', value: 1 },
   ];
   const navigator = useNavigate()
-  const [radioValue, setRadioValue] = useState<number>(); // 筛选
+  const [radioValue, setRadioValue] = useState<number>(-1); // 筛选
   const [evaluationList, setEvaluationList] = useState<DataType[]>([]);//  列表数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
   const [totalNum, setTotalNum] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(1)
+  const { state } = useContext(CountContext)
   const { corpId, appId } = getAllUrlParam()
   const paginationObj = {
     showQuickJumper: true,
     defaultPageSize: 10,
+    defaultCurrent: 1,
+    current: current,
     total: totalNum,
     onChange: (page: number) => {
-
-      getEvaluationList({ curPage: page, isFinish: radioValue })
+      getEvaluationList({ curPage: page, isFinishType: radioValue })
     }
   }
   useEffect(() => {
@@ -71,23 +76,24 @@ const Management = () => {
   // 筛选
   const onRadioChange = ({ target: { value } }: RadioChangeEvent) => {
     setRadioValue(value);
-    getEvaluationList({ isFinish: value })
+    getEvaluationList({ isFinishType: value })
   };
   // 列表
   const getEvaluationList = async (params?: IExamListParams) => {
     setTableLoading(true)
-    //isFinish 0 完成 已完成
+    //isFinishType 0 完成 已完成
     const obj: IExamListParams = {
       curPage: params?.curPage || 1,
       pageSize: params?.pageSize || 10,
-      isFinish: params?.isFinish
+      isFinishType: params?.isFinishType
     }
-    obj.isFinish == -1 && delete obj.isFinish
+    obj.isFinishType == -1 && delete obj.isFinishType
     const res = await getExamList(obj)
     if (res.code == 1) {
       setEvaluationList(res.data.resultList)
       setTableLoading(false)
       setTotalNum(res.data.totalItem)
+      setCurrent(res.data.curPage)
     }
   }
   // 创建测评
@@ -108,7 +114,7 @@ const Management = () => {
               <Tooltip placement="top" title={record.evaluationName}>
                 <p>{record.evaluationName}</p>
               </Tooltip>
-              <span>创建人:{record.createName || 'null'}    {record.created}</span>
+              <span>创建人:{record.createName || '暂无'}    {record.created}</span>
             </div>
           </div>
         )
@@ -176,7 +182,9 @@ const Management = () => {
               message.success('修改成功');
               getEvaluationList();
             },
-            failFn: () => { }
+            failFn: () => { },
+            availableBalance: state,
+            originalPointPrice: item?.paperPrice
           }
           ddAddPeople(params, 'update')
         }
@@ -192,34 +200,33 @@ const Management = () => {
       }
     }
   ]
-  if (tableLoading) {
-    return <Loading />
-  }
+  const customizeRenderEmpty = () => {
+    const img = radioValue == -1 ? defaultImg : radioValue == 0 ? notDoneImg : DoneImg
+    const text = radioValue == -1 ? '暂无测评，点击右上方按钮去创建试试吧' : radioValue == 0 ? '很棒，全部人员都已完成测评咯' : '抱歉，暂无完成的测评，快去一键通知他们吧'
+    return (
+      <div className={styles.management_defaultPage}>
+        <img src={img} alt="" />
+        <p>{text}</p>
+      </div>
+    )
+  };
+  // if (tableLoading) {
+  //   return <Loading />
+  // }
   return (
     <div className={styles.management_layout}>
-      {
-        !tableLoading && (evaluationList.length > 0 ?
-          <Fragment>
-            <header>
-              <h1 id='appraisal_Management'>测评管理</h1>
-              <div>
-                <Radio.Group defaultValue={-1} className={styles.management_radio} options={options} onChange={onRadioChange} value={radioValue} optionType="button" />
-                <Button type="primary" onClick={createEvaluation} icon={<PlusCircleOutlined />} size="large">
-                  创建测评
-                </Button>
-              </div>
-            </header>
-            <Table loading={tableLoading} rowKey={(row) => row.id} showHeader={false} columns={columns} scroll={{ y: 450 }} pagination={paginationObj} dataSource={evaluationList}></Table>
-          </Fragment>
-          :
-          <div className={styles.management_defaultPage}>
-            <img src={defaultImg} alt="" />
-            <p>暂无测评，点击下方按钮去创建试试吧</p>
-            <Button type="primary" onClick={createEvaluation} icon={<PlusCircleOutlined />} size="large">
-              创建测评
-            </Button>
-          </div>)
-      }
+      <header>
+        <h1 id='appraisal_Management'>测评管理</h1>
+        <div>
+          <Radio.Group defaultValue={-1} className={styles.management_radio} options={options} onChange={onRadioChange} value={radioValue} optionType="button" />
+          <Button type="primary" onClick={createEvaluation} icon={<PlusCircleOutlined />} size="large">
+            创建测评
+          </Button>
+        </div>
+      </header>
+      <ConfigProvider renderEmpty={customizeRenderEmpty}>
+        <Table loading={tableLoading} rowKey={(row) => row.id} showHeader={false} columns={columns} scroll={{ y: 450 }} pagination={paginationObj} dataSource={evaluationList}></Table>
+      </ConfigProvider>
     </div>
   )
 }
