@@ -289,8 +289,10 @@ const Detail = () => {
       fixed: 'right',
       width: 220,
       render: (text: number, record, index: number) => {
+        
         // 查看报告
         const onLookResult = () => {
+          console.log(record)
           const cur = lookResultRef as any;
           cur.current.onOpenDrawer(record)
         }
@@ -302,7 +304,8 @@ const Detail = () => {
           const params = {
             userId: record.userId,
             templateType: measurement?.examTemplateType as string,
-            operationType: '1'
+            operationType: '1',
+            examId:record.examId
           }
           const res = await UnLockReport(params)
           if (res.code == 1) {

@@ -53,4 +53,5 @@ export type IUnLockParams = {
     userId: string;
     templateType: string;
     operationType: string;
+    examId?:number;
 }

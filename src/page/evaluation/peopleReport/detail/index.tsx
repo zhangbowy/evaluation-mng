@@ -50,7 +50,8 @@ const Detail = () => {
       const params = {
         userId: userId!,
         templateType: item?.examTemplateType as string,
-        operationType: '1'
+        operationType: '1',
+        examId:item.examId
       }
       const res = await UnLockReport(params)
       if (res.code == 1) {

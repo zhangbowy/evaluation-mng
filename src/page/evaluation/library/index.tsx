@@ -73,7 +73,7 @@ const Library = () => {
           const params = {
             userId: qcp_user.userId,
             templateType: item?.type,
-            operationType: '0'
+            operationType: '0',
           }
           const res = await UnLockReport(params)
           if (res.code == 1) {
