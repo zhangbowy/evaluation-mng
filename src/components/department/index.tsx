@@ -1,4 +1,5 @@
 import { queryDept } from "@/api/api";
+import { getAllUrlParam } from "@/utils/utils";
 import { Form, Select } from "antd"
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -7,9 +8,7 @@ import { useSearchParams } from "react-router-dom";
 
 const Department = () => {
     const [departmentList, setDepartmentList] = useState<IDept[]>([]);
-    const [search] = useSearchParams()
-    const corpId = search.get('corpId') || '0'
-    const appId = search.get('appId') || '0'
+    const { corpId, appId } = getAllUrlParam()
 
     useEffect(() => {
         getDepartment()

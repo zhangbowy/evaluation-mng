@@ -37,6 +37,8 @@ export type IEvaluationVoList = {
     examName: string;
     examPaperId: number;
     examTemplateType: string;
+    logoImage:string;
+    includeText:string;
 }
 export type IUserTagVoList = {
     id: number;
@@ -51,4 +53,5 @@ export interface IReportDetail {
     sex: ISex;
     successNum: number;
     userTagVoList: IUserTagVoList[];
+    avatar:string;
 }

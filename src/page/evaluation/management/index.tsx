@@ -7,7 +7,7 @@ import { getExamList, editExam, getAllPeople, queryExamUserIds, updateExam } fro
 import * as dd from 'dingtalk-jsapi';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
-import { ddAddPeople, getIsGuide } from '@/utils/utils'
+import { ddAddPeople, getIsGuide, getAllUrlParam } from '@/utils/utils'
 import Loading from '@/components/loading';
 import { IOptions, IExamListParams } from './type'
 
@@ -24,9 +24,7 @@ const Management = () => {
   const [evaluationList, setEvaluationList] = useState<DataType[]>([]);//  列表数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
   const [totalNum, setTotalNum] = useState<number>(0);
-  const [search] = useSearchParams();
-  const corpId = search.get('corpId') || '0'
-  const appId = search.get('appId') || '0'
+  const { corpId, appId } = getAllUrlParam()
   const paginationObj = {
     showQuickJumper: true,
     defaultPageSize: 10,
@@ -105,7 +103,7 @@ const Management = () => {
       render: (text: string, record: DataType) => {
         return (
           <div className={styles.create_userInfo}>
-            <img src={logo} alt="" />
+            <img src={record.logoImage} alt="" />
             <div className={styles.create_right}>
               <Tooltip placement="top" title={record.evaluationName}>
                 <p>{record.evaluationName}</p>

@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Empty, Form, Input, Select, Spin, Table, Tag } from
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { useParams } from 'react-router'
-import { debounce, randomRgbaColor, randomRgbColor } from '@/utils/utils'
+import { debounce, getAllUrlParam, randomRgbaColor, randomRgbColor } from '@/utils/utils'
 import { Liquid, Pie } from '@antv/g2plot';
 import { useSearchParams } from 'react-router-dom'
 import { IOption, IChartList, characterProportions, ITableParams, IResultTable, ISex, IisDimission, IFromName, IDepartment, IResultList } from '../type'
@@ -14,11 +14,9 @@ import LookIntroduce from './lookintroduce'
 import Loading from '@/components/loading'
 import { FullscreenOutlined } from '@ant-design/icons';
 import LookAllTags from './lookAllTags'
-import console from 'console'
 
 const Detail = () => {
   const params = useParams() as { id: string }
-  const [search] = useSearchParams()
   const [userId, setUserId] = useState<string>();
   const [measurement, setMeasurement] = useState<IMeasurement>(); //测评信息
   const [department, setDepartment] = useState<IOption[]>([]); // 部门option
@@ -28,8 +26,7 @@ const Detail = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
   const [form] = Form.useForm();
-  const corpId = search.get('corpId') || '0'
-  const appId = search.get('appId') || '0'
+  const { corpId, appId } = getAllUrlParam()
   const visualRef: any = useRef([])
   const lookResultRef: any = useRef();
   const lookIntroduceRef: any = useRef();

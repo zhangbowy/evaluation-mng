@@ -13,7 +13,6 @@ const Detail = () => {
   const [reportDetailList, setReportDetailList] = useState<IReportDetail>()
   const [detailLoading, setDetailLoading] = useState(true)
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
-  const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
   const lookResultRef: any = useRef()
   useEffect(() => {
     getUserReport()
@@ -41,7 +40,6 @@ const Detail = () => {
   const backText = (item: IEvaluationVoList, index: number) => {
     // 查看详情
     const onDetailClick = (item: IEvaluationVoList) => {
-      console.log(item)
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
     // 解锁查看
@@ -83,7 +81,7 @@ const Detail = () => {
       <Divider />
       <div className={styles.detail_content}>
         <div className={styles.detail_header}>
-          <img src={logo} alt="" />
+          <img src={reportDetailList?.avatar} alt="" />
           <h2>{`${reportDetailList?.name}-${reportDetailList?.deptList[0].name}`}</h2>
         </div>
         <ul className={styles.detail_tags}>
@@ -103,11 +101,11 @@ const Detail = () => {
             reportDetailList?.evaluationVoList.map((item, index) => (
               <ul key={item.examId} style={isDone(item.answerStatus) ? {} : isReportStyle}>
                 <li>
-                  <img src={logo} alt="" />
+                  <img src={item.logoImage} alt="" />
                   <article>
                     <h1>{item.examName}</h1>
                     <section>
-                      <span>报告包含：性格取向分析图谱、特质分析、适合行业岗位、工作风格、工作潜力、职业发展规划等。</span>
+                      <span>{item.includeText}</span>
                       <span>{item.date}</span>
                     </section>
                   </article>

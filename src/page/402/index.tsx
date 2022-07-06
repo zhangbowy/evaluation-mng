@@ -1,12 +1,12 @@
+import { getAllUrlParam } from '@/utils/utils';
 import { openTryoutSku } from 'dingtalk-design-libs';
 import React, { FC, Fragment, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from "./index.module.less"
 
 const PreviewPage: FC = () => {
+    const { corpId, appId } = getAllUrlParam()
     const [search] = useSearchParams();
-    const corpId = search.get('corpId') || '0';
-    const appId = search.get('appId') || '0';
     const purchaseToken = search.get('purchaseToken') || '0';
 
     const handleSku = () => {

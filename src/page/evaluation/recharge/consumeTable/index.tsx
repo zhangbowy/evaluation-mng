@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styles from './index.module.less'
 import { IConsumeFlowParams, IConsumeTableList } from '../type'
+import { getAllUrlParam } from '@/utils/utils'
 
 const ConsumeTable = () => {
     const options = [
@@ -14,9 +15,7 @@ const ConsumeTable = () => {
     const [radioValue, setRadioValue] = useState<string>(options[0].value)
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [ConsumeTableList, setConsumeTableList] = useState<IConsumeTableList[]>()
-    const [search] = useSearchParams()
-    const appId = search.get('appId') || '0'
-    const corpId = search.get('corpId') || '0'
+    const { corpId, appId } = getAllUrlParam()
     useEffect(() => {
         getConsumeTableList()
     }, [])
@@ -42,7 +41,6 @@ const ConsumeTable = () => {
         if (res.code == 1) {
             setConsumeTableList(res.data.resultList)
             setTableLoading(false)
-            console.log('res.data', res.data)
         }
     }
     const consumeColumns: ColumnsType<IConsumeTableList> = [

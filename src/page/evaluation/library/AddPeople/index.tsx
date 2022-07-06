@@ -1,7 +1,7 @@
 import { Button, Input, message, Modal, Result } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment } from 'react';
 import styles from './index.module.less'
-import { ddAddPeople } from '@/utils/utils';
+import { ddAddPeople, getAllUrlParam } from '@/utils/utils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
@@ -15,9 +15,7 @@ const AddPeople = forwardRef((props, ref) => {
     const [inputValue, setInputValue] = useState<string>()
     const [search] = useSearchParams()
     const navigator = useNavigate()
-    const corpId = search.get('corpId') || '0';
-    const appId = search.get('appId') || '0';
-    const clientId = search.get('clientId') || '0';
+    const { corpId, appId,clientId } = getAllUrlParam()
     const qcp_b_user = JSON.parse(window.sessionStorage.getItem('QCP_B_USER') || '{}');
     useImperativeHandle(ref, () => ({
         openModal

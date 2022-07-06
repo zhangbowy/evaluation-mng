@@ -8,14 +8,13 @@ import { CountContext } from '@/utils/hook';
 import { useSearchParams } from 'react-router-dom';
 import { getRechargeUrl } from '@/api/api';
 import dd from 'dingtalk-jsapi';
+import { getAllUrlParam } from '@/utils/utils';
 
 const { TabPane } = Tabs;
 const Recharge = memo(() => {
   const coupon01 = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_coupon01.png'
   const coupon02 = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_coupon02.png'
-  const [search] = useSearchParams()
-  const appId = search.get('appId') || '0'
-  const corpId = search.get('corpId') || '0'
+  const { corpId, appId } = getAllUrlParam()
   const { state } = useContext(CountContext)
   const tabArr: TabsArr[] = [
     {
@@ -28,10 +27,7 @@ const Recharge = memo(() => {
       content: <TopUpTable />
     }
   ]
-  // tab切换
-  const onTabChange = (key: string) => {
-    console.log(key);
-  }
+ 
   const onRechargeClick = async () => {
     const params = {
       tpf: 1,
@@ -75,7 +71,7 @@ const Recharge = memo(() => {
         <img src={coupon02} alt="" />
       </aside>
       <main>
-        <Tabs defaultActiveKey={tabArr[0].key} onChange={onTabChange}>
+        <Tabs defaultActiveKey={tabArr[0].key}>
           {
             tabArr.map((item: TabsArr) => (
               <TabPane tab={item.title} key={item.key}>{item.content}</TabPane>

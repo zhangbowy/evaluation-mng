@@ -33,6 +33,7 @@ interface DataType {
     templateId: number;
     totalNumber: number;
     type: boolean;
+    logoImage:string;
 }
 interface IBack {
     code: number;

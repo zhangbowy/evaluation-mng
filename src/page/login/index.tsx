@@ -1,5 +1,6 @@
 import { authLogin, login } from '@/api/api'
 import Loading from '@/components/loading'
+import { getAllUrlParam } from '@/utils/utils'
 import { Button, message } from 'antd'
 import dd from 'dingtalk-jsapi'
 import React, { useEffect } from 'react'
@@ -7,18 +8,13 @@ import { useLocation, useNavigate } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
 const Login = () => {
-  const [search] = useSearchParams()
-  const corpId = search.get('corpId')
-  const appId = search.get('appId')
-  const clientId = search.get('clientId')
-  const authCode = search.get('authCode')
+  const { corpId, appId, clientId, authCode } = getAllUrlParam()
   const navigate = useNavigate()
-  const locationSearch = useLocation().search
   // 跳转
   const handleLogin = (item: ILogin) => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
-    navigate(`/evaluation/library${locationSearch}`);
+    navigate(`/evaluation/library`);
   }
   useEffect(() => {
     if (authCode) {
@@ -48,7 +44,7 @@ const Login = () => {
           // 未授权登录需要先授权登录
           window.location.replace(
             `https://login.dingtalk.com/oauth2/auth?redirect_uri=${encodeURIComponent(
-              `${location.origin}/admin/#/login${locationSearch}`,
+              `${location.origin}/admin/${location.search}#/login`,
             )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
           );
         } else {
@@ -62,7 +58,7 @@ const Login = () => {
     });
   }, [])
   return (
-      <Loading>登录中...</Loading>
+    <Loading>登录中...</Loading>
   )
 }
 

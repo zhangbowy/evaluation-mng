@@ -9,6 +9,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getPointAsset, getSign } from '@/api/api';
 import dd from 'dingtalk-jsapi';
 import { MyContext, CountContext } from '@/utils/hook'
+import { getAllUrlParam } from '@/utils/utils';
 
 
 const { Sider, Content } = Layout;
@@ -16,9 +17,7 @@ const EvaluationLayout: FC = () => {
   const [ddConfig, setDdConfig] = useState<boolean>(false)
   const [isPackUp, setIsPackUp] = useState<boolean>(false)
   const [couponsNum, setCouponsNum] = useState<number>(0)
-  const [search] = useSearchParams()
-  const corpId = search.get('corpId') || '0'
-  const appId = search.get('appId') || '0'
+  const { corpId, appId } = getAllUrlParam()
   useEffect(() => {
     getAllCoupons()
   }, [])
@@ -41,7 +40,6 @@ const EvaluationLayout: FC = () => {
             'biz.customContact.multipleChoose'
           ], // 必填，需要使用的jsapi列表，注意：不要带dd。
           onSuccess: () => {
-            console.log('注册成功')
             setDdConfig(true)
           },
           onFail: (err: Error) => {

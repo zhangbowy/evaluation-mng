@@ -65,6 +65,7 @@ const PeopleReport = () => {
   }
   // 报告列表
   const getUserReport = async (item?: IReportParams) => {
+    setTableLoading(true)
     const res = await getJoinExamUsers({
       ...item,
       pageSize: 10,

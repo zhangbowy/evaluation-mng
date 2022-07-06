@@ -6,13 +6,11 @@ import { useSearchParams } from 'react-router-dom'
 import { IUserParams, IColumns } from './type'
 import { ColumnsType } from 'antd/lib/table'
 import dd from 'dingtalk-jsapi'
-import { getIsGuide } from '@/utils/utils'
+import { getIsGuide, getAllUrlParam } from '@/utils/utils'
 
 const index = () => {
   const [userList, setUserList] = useState<IColumns[]>([]);
-  const [search, setSearch] = useSearchParams();
-  const appId = search.get('appId') || '0';
-  const corpId = search.get('corpId') || '0';
+  const { corpId, appId } = getAllUrlParam()
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [departmentList, setDepartmentList] = useState<IDept[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
@@ -49,6 +47,7 @@ const index = () => {
   }
   // 获取用户列表
   const getUser = async (obj?: { deptId?: number, fuzzyName?: string, currentPage?: number }) => {
+    setTableLoading(true)
     const params: IUserParams = {
       corpId,
       appId,

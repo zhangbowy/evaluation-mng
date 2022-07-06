@@ -4,13 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { getRechargeFlow } from '@/api/api'
 import { useSearchParams } from 'react-router-dom';
 import { IConsumeFlowParams } from '../type';
+import { getAllUrlParam } from '@/utils/utils';
 
 const TopUpTable = () => {
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [topUpTableList, setTopUpTableList] = useState()
-    const [search] = useSearchParams()
-    const appId = search.get('appId') || '0'
-    const corpId = search.get('corpId') || '0'
+    const { corpId, appId } = getAllUrlParam()
     useEffect(() => {
         getTopUpTableList()
     }, [])
