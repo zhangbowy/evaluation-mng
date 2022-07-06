@@ -17,6 +17,7 @@ const Login = () => {
     navigate(`/evaluation/library`);
   }
   useEffect(() => {
+    console.log(authCode,'authCode')
     if (authCode) {
       (async () => {
         if (!appId || !corpId) {
@@ -29,6 +30,7 @@ const Login = () => {
           corpId: corpId!,
         }
         const res = await authLogin(obj)
+        console.log(res,'登录是否有权限')
         if (res.code == 1) {
           handleLogin(res.data)
         } else {
@@ -39,6 +41,8 @@ const Login = () => {
     dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
       const result = await dd.runtime.permission.requestAuthCode({ corpId });
       const res = await login({ code: result.code, corpId, appId });
+      console.log(result, '钉钉授权', res, 'login登录')
+      console.log(corpId, appId, clientId, authCode, 'corpId, appId, clientId, authCode')
       if (res.code === 1) {
         if (!res.data.authLogin) {
           // 未授权登录需要先授权登录

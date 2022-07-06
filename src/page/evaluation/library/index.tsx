@@ -20,6 +20,7 @@ const Library = () => {
   const { dispatch } = useContext(CountContext)
   const addPeopleRef = useRef<IAddPeopleRef | null>(null)
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
+  const { state } = useContext(CountContext)
   const addPeopleStyle = {
     backgroundColor: '#FFFFFF',
     borderRadius: '4px',
@@ -61,6 +62,7 @@ const Library = () => {
   }
   // 解锁、添加人员
   const handleClick = (item: IExamTemplateList) => {
+    console.log(state,'剩余点券')
     if (item.isBuy) {
       addPeopleRef.current?.openModal(item)
     } else {

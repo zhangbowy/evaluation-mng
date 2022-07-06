@@ -45,6 +45,7 @@ const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'a
                 corpId: item.corpId,//企业 ID，
                 isShowCompanyName: true,   //true|false，默认为 false
                 selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
+                disabledUsers: item.selectedUsers || [],//不能选的人
                 max: 10, //人数限制
                 onSuccess: (data: Multiple[]) => {
                     console.log(data, '成功了')
