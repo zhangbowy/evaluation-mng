@@ -24,6 +24,7 @@ const Detail = () => {
   const [tableList, setTableList] = useState<IResultTable>() // 表格数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
+  const [unlockFail, setUnlockFail] = useState<boolean[]>([])
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1);
   const [form] = Form.useForm();
@@ -32,6 +33,7 @@ const Detail = () => {
   const lookResultRef: any = useRef();
   const lookIntroduceRef: any = useRef();
   const lookAllTagsRef: any = useRef()
+
   // 完成情况select
   const doneCondition: characterProportions[] = [
     {
@@ -300,10 +302,8 @@ const Detail = () => {
       fixed: 'right',
       width: 220,
       render: (text: number, record, index: number) => {
-
         // 查看报告
         const onLookResult = () => {
-          console.log(record)
           const cur = lookResultRef as any;
           cur.current.onOpenDrawer(record)
         }
@@ -321,6 +321,9 @@ const Detail = () => {
           const res = await UnLockReport(params)
           if (res.code == 1) {
             getDetailList()
+          } else if (res.code == 4001067) {
+            unlockFail[index] = true
+            getDetailList()
           }
         }
         const getText = (key: number) => {
@@ -332,14 +335,14 @@ const Detail = () => {
             // case 4:
             //   return <Button type="link">点券不足，充值后解锁查看</Button>
             case 5:
-              return <Button loading={unlockLoading[index]} icon={<LockOutlined />} onClick={onUnlockClick} type="link">{unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
+              return <Button loading={unlockLoading[index] && !unlockFail[index]} icon={!unlockFail[index] && <LockOutlined />}
+                onClick={onUnlockClick} type="link">{unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
             case 10:
               return <Button type="link" onClick={onLookResult}>查看报告</Button>
             default:
               break;
           }
         }
-        console.log(text, 111)
         return (getText(text))
       }
     },

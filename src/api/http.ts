@@ -16,7 +16,7 @@ instance.interceptors.response.use((response: any) => {
     if (response.data.code != 1) {
         Modal.warning({
             title: '温馨提示',
-            content: response.data.message,
+            content: response.data.message || '网络错误',
             okText: '确认',
             onOk() {
                 console.log('确认');
