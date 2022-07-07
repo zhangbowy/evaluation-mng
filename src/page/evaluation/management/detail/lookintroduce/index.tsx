@@ -16,7 +16,7 @@ const LookIntroduce = forwardRef((props, ref) => {
     // 打开
     const onOpenDrawerClick = (item: IMeasurement) => {
         setVisible(true)
-        setIntroduceImg(item.introductionImage.mobile.detail)
+        setIntroduceImg(item.introductionImage.admin)
     }
     return (
         <Drawer title="详情介绍" placement="right" onClose={onDrawerClose} visible={visible}>

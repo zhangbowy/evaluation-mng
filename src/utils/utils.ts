@@ -78,7 +78,6 @@ export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update'
     if (res.code == 1) {
         if (type == 'add') {
             const createFn = async (data: Multiple[]) => {
-                console.log('进来了哦11111111')
                 const list = {
                     examTemplateType: item.examTemplateType as string,
                     examTemplateId: item.examTemplateId as number,

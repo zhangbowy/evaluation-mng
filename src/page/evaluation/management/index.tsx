@@ -27,7 +27,7 @@ const Management = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
-  const { state } = useContext(CountContext)
+  const { state,dispatch } = useContext(CountContext)
   const { corpId, appId } = getAllUrlParam()
   const paginationObj = {
     showQuickJumper: true,
@@ -181,6 +181,7 @@ const Management = () => {
             successFn: () => {
               message.success('修改成功');
               getEvaluationList();
+              dispatch()
             },
             failFn: () => { },
             availableBalance: state,

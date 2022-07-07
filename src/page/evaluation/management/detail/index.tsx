@@ -327,7 +327,7 @@ const Detail = () => {
           switch (key) {
             case 0:
               return <Button type='text' disabled>未参加测评</Button>
-            case 1 | 2 | 3:
+            case 1 || 2 || 3:
               return <Button type='text' disabled>测评中</Button>
             // case 4:
             //   return <Button type="link">点券不足，充值后解锁查看</Button>
@@ -339,6 +339,7 @@ const Detail = () => {
               break;
           }
         }
+        console.log(text, 111)
         return (getText(text))
       }
     },

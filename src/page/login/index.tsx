@@ -17,7 +17,6 @@ const Login = () => {
     navigate(`/evaluation/library`);
   }
   useEffect(() => {
-    console.log(authCode, 'authCode')
     if (authCode) {
       (async () => {
         if (!appId || !corpId) {

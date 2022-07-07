@@ -14,7 +14,7 @@ const AddPeople = forwardRef((props, ref) => {
     const [successVisible, setSuccessVisible] = useState<boolean>(false) // 是否显示成功弹窗
     const [isSuccess, setIsSuccess] = useState<boolean>(false) // 是否成功
     const [inputValue, setInputValue] = useState<string>()
-    const { state } = useContext(CountContext)
+    const { state, dispatch } = useContext(CountContext)
     const navigator = useNavigate()
     const { corpId, appId, clientId } = getAllUrlParam()
     const qcp_b_user = JSON.parse(window.sessionStorage.getItem('QCP_B_USER') || '{}');
@@ -28,6 +28,7 @@ const AddPeople = forwardRef((props, ref) => {
             setIsSuccess(true);
             setIsModalVisible(false)
             setSuccessVisible(true)
+            dispatch()
         }
         const failFn = () => {
             setIsSuccess(false);
