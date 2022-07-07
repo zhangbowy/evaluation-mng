@@ -12,8 +12,9 @@ const Detail = () => {
   const { userId } = useParams()
   const [reportDetailList, setReportDetailList] = useState<IReportDetail>()
   const [detailLoading, setDetailLoading] = useState(true)
-  const [unlockLoading, setUnlockLoading] = useState<boolean[]>([])
   const lookResultRef: any = useRef()
+  const unlockFailRef: any = useRef([])
+  const unlockLoadingRef: any = useRef([])
   useEffect(() => {
     getUserReport()
   }, [])
@@ -44,20 +45,19 @@ const Detail = () => {
     }
     // 解锁查看
     const onUnlockClick = async () => {
-      unlockLoading[index] = true
-      setUnlockLoading(unlockLoading)
+      unlockLoadingRef.current[index] = true
       await getUserReport()
       const params = {
         userId: userId!,
         templateType: item?.examTemplateType as string,
         operationType: '1',
-        examId:item.examId
+        examId: item.examId
       }
       const res = await UnLockReport(params)
       if (res.code == 1) {
         getUserReport()
       } else {
-        unlockLoading[index] = false
+        unlockFailRef.current[index] = true
         getUserReport()
       }
     }
@@ -65,7 +65,9 @@ const Detail = () => {
       case 10:
         return <Button type="link" onClick={() => onDetailClick(item)}>查看详情</Button>
       case 5:
-        return <Button loading={unlockLoading[index]} icon={<LockOutlined />} type="link" onClick={onUnlockClick}>{unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
+        return <Button loading={unlockLoadingRef.current[index] && !unlockFailRef.current[index]} icon={!unlockFailRef.current[index] && <LockOutlined />}
+          onClick={onUnlockClick} type="link">
+          {unlockFailRef.current[index] ? '点券不足，充值后解锁查看' : unlockLoadingRef.current[index] ? `解锁中` : '解锁查看'}</Button>
       default:
         return <Button type='text' disabled>测评进行中…</Button>
     }
@@ -83,7 +85,9 @@ const Detail = () => {
       <div className={styles.detail_content}>
         <div className={styles.detail_header}>
           {
-            reportDetailList?.avatar ? <img src={reportDetailList?.avatar} alt="" /> : <div className={styles.detail_notAvatar}>{reportDetailList?.name.slice(0, 1)}</div>
+            reportDetailList?.avatar ?
+              <img src={reportDetailList?.avatar} alt="" /> :
+              <div className={styles.detail_notAvatar}>{reportDetailList?.name.slice(0, 1)}</div>
           }
           <h2>{`${reportDetailList?.name}-${reportDetailList?.deptList[0].name}`}</h2>
           <Tooltip placement="top" title={`性别：${ISex[reportDetailList!.sex]}`}>
