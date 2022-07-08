@@ -87,6 +87,7 @@ const AddPeople = forwardRef((props, ref) => {
                             const res = await shareInfo({ cid: candidates.cid, message: JSON.stringify(msg), userId: qcp_b_user?.userId });
                             if (res.code == 1) {
                                 message.success('发送成功');
+                                setSuccessVisible(false)
                             }
                         },
                         cancelText: '取消',

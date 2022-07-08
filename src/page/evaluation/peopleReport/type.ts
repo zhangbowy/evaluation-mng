@@ -26,21 +26,20 @@ export enum IisDimission {
     '在职',
     '离职'
 }
-type IDeptList = {
+interface IDeptList {
     name: string;
-
 }
-export type IEvaluationVoList = {
+export interface IEvaluationVoList {
     answerStatus: number;
     date: string;
     examId: number;
     examName: string;
     examPaperId: number;
     examTemplateType: string;
-    logoImage:string;
-    includeText:string;
+    logoImage: string;
+    includeText: string;
 }
-export type IUserTagVoList = {
+export interface IUserTagVoList {
     id: number;
     name: string;
 }
@@ -53,5 +52,5 @@ export interface IReportDetail {
     sex: ISex;
     successNum: number;
     userTagVoList: IUserTagVoList[];
-    avatar:string;
+    avatar: string;
 }

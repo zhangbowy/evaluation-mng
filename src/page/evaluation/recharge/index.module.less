@@ -2,7 +2,9 @@
     width: 100%;
     height: 100%;
     padding: 24px 34px;
-    overflow-y:scroll ;
+    overflow-y: scroll;
+    background-color: var(--white-color);
+
     header {
         font-size: 20px;
         font-family: PingFangSC-Medium, PingFang SC;
@@ -37,11 +39,10 @@
 
                 p {
                     font-size: 40px;
-                    font-family: DIN-Bold, DIN;
                     font-weight: bold;
                     color: var(--white-color);
                     letter-spacing: 1px;
-                    margin-bottom: 0;
+                    margin-bottom: 7px;
                 }
 
                 small {
@@ -70,6 +71,15 @@
         img {
             width: 333px;
             height: 100%;
+        }
+    }
+
+    main {
+        :global {
+            .ant-radio-button-checked {
+                background-color: #E7F1FF;
+                border-radius: 4px 0px 0px 4px;
+            }
         }
     }
 }

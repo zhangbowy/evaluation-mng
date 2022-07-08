@@ -130,7 +130,7 @@ const Detail = () => {
         border: 2,
         style: {
           stroke: '#F1F7FF',
-          strokeOpacity: 0.5
+          // strokeOpacity: 0.9
         },
         distance: 4,
       },
@@ -172,14 +172,23 @@ const Detail = () => {
       },
       legend: {
         offsetX: -50,
-        itemValue: {
+        itemName: {
           formatter: (text, item) => {
-            return ``;
+            console.log('text', item)
+            return text;
           },
-          style: {
-            fontSize: 12
-          },
+          style: ()=>{
+            
+          }
         },
+        // itemValue: {
+        //   formatter: (text, item) => {
+        //     return ``;
+        //   },
+        //   style: {
+        //     fontSize: 12
+        //   },
+        // },
       },
       statistic: {
         title: false,
@@ -445,7 +454,7 @@ const Detail = () => {
           </div>
           <div className={styles.detail_main_table}>
             <Button type="primary" onClick={onDeriveClick}>导出</Button>
-            <Table pagination={paginationObj} scroll={{ x: 1500 }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
+            <Table pagination={paginationObj} scroll={{ x: 1500, }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
           </div>
         </main>
       </div>

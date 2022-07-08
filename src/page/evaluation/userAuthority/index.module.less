@@ -1,6 +1,8 @@
 .userAuthority_layout {
     background-color: var(--white-color);
-    padding: 24px 34px;
+    padding: 24px 34px 0;
+    overflow: auto;
+    height: 100%;
 
     h1 {
         font-size: 20px;
@@ -26,12 +28,23 @@
     }
 
     main {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
+        width: 100%;
+        // display: flex;
+        // flex-direction: column;
+        // align-items: flex-end;
 
         &>button {
             margin-bottom: 16px;
+        }
+        :global {
+            .ant-pagination  {
+                position: sticky;
+                bottom: 0;
+                margin: 0;
+                padding: 20px;
+                z-index: 2;
+                background-color: #fff;
+            }
         }
     }
 }

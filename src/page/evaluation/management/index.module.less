@@ -1,8 +1,9 @@
 .management_layout {
     height: 100%;
-    padding: 24px 34px;
+    padding: 24px 34px 0;
     background-color: var(--white-color);
     overflow: auto;
+    position: relative;
 
     .management_defaultPage {
         display: flex;
@@ -43,6 +44,12 @@
         div {
 
             .management_radio {
+                :global {
+                    .ant-radio-button-wrapper-checked {
+                        background-color: #E7F1FF;
+                    }
+                }
+
                 label:first-child {
                     border-radius: 5px 0 0 5px;
                 }
@@ -82,12 +89,25 @@
             padding: 0;
         }
     }
+
+    main {
+        :global {
+            .ant-pagination  {
+                position: sticky;
+                bottom: 0;
+                margin: 0;
+                padding: 20px;
+                z-index: 2;
+                background-color: #fff;
+            }
+        }
+
+    }
 }
 
 .create_right {
     p {
         font-size: 14px;
-        font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: #464C5B;
         margin-bottom: 10px;
@@ -100,19 +120,22 @@
     span {
         display: block;
         font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
         color: #9EA7B4;
     }
 
-    :global(.ant-progress-line) {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
+    :global {
+        .ant-progress-text {
+            color: #464C5B;
+        }
 
-        svg {
-            color: var(--success-color);
+        .ant-progress-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            svg {
+                color: var(--success-color);
+            }
         }
     }
 }
-

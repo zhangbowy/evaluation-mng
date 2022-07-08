@@ -165,7 +165,10 @@ const index = () => {
       <Divider />
       <main>
         <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
-        <Table loading={tableLoading} pagination={paginationObj} scroll={{ y: 270 }} columns={columns} rowKey={(res) => res.userId} dataSource={userList} />
+        <Table loading={tableLoading}
+          pagination={paginationObj}
+          columns={columns}
+          rowKey={(res) => res.userId} dataSource={userList} />
       </main>
     </div>
   )

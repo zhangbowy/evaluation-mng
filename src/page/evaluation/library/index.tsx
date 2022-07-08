@@ -107,7 +107,7 @@ const Library = () => {
                 </div>
                 {!item.isBuy && <img src={notUnlockedImg} alt="" />}
                 <div className={styles.Library_topicInfoRight}>
-                  <Tooltip placement="top" title={'实例报告 '}>
+                  <Tooltip placement="top" title={'示例报告 '}>
                     <div className={styles.Library_card_toolBorder}>
                       <ExceptionOutlined />
                     </div>

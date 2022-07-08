@@ -1,12 +1,11 @@
-import { type } from "os";
 
-export type TabsArr = {
+export interface TabsArr {
     title: string;
     key: string;
     content: JSX.Element;
 }
 
-export type IConsumeFlowParams = {
+export interface IConsumeFlowParams {
     userId: string;
     name: string;
     avatar: string;
@@ -20,7 +19,7 @@ export interface IConsumeTableList {
     operator: IConsumeFlowParams | null;
 }
 
-export type IPaging = {
+export interface IPaging {
     pageSize?: number;
     curPage?: number;
 }

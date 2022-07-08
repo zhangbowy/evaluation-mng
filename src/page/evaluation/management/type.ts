@@ -1,8 +1,8 @@
-export type IOption = {
+export interface IOption {
     deptId: number;
     name: string;
 }
-export type characterProportions = {
+export interface characterProportions {
     name: string;
     value: number | string;
 }
@@ -43,7 +43,7 @@ export interface IFromName {
     status?: string;
     tags?: string;
     resultType?: string;
-    deptId?:string;
+    deptId?: string;
 }
 export interface ITableParams extends IFromName {
     curPage?: number;
@@ -82,15 +82,15 @@ export enum IisDimission {
     '离职'
 }
 
-export type ITagsProps = {
+export interface ITagsProps {
     onTagClick: (name: string) => void;
 }
-export type IOptions = {
+export interface IOptions {
     label: string;
     value: number
 }
-export type IExamListParams={
+export interface IExamListParams {
     curPage?: number;
     pageSize?: number;
-    isFinishType?:number
+    isFinishType?: number
 }

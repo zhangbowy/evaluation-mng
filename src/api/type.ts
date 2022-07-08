@@ -1,33 +1,32 @@
-import { type } from "os";
 
-export type IGetAllPeopleParams = {
+export interface IGetAllPeopleParams {
     tpf: number;
     appId: string;
     corpId: string;
     curPage: number;
     pageSize: number;
 }
-export type ICreteExamParams = {
+export interface ICreteExamParams {
     examTemplateType: string;
     examTemplateId: number;
     examTitle: string;
     examUserList: { userId: string }[],
 }
 
-export type IPointAssetParams = {
+export interface IPointAssetParams {
     tpf: number;
     appId: string;
     corpId: string;
 }
 
-export type IRechargeFlow = {
+export interface IRechargeFlow {
     curPage: number;
     pageSize: number;
     tpf: number;
     appId: string;
     corpId: string;
 }
-export type IConsumeFlow = {
+export interface IConsumeFlow {
     curPage: number;
     pageSize: number;
     tpf: number;
@@ -37,21 +36,21 @@ export type IConsumeFlow = {
     flowType: string;
 }
 
-export type IRechargeUrl = {
+export interface IRechargeUrl {
     tpf: number;
     appId: string;
     corpId: string
     outSkuId: string;
 }
-export type IExamListParams = {
+export interface IExamListParams {
     curPage?: number;
     pageSize?: number;
     isFinish?: number
 }
 
-export type IUnLockParams = {
+export interface IUnLockParams {
     userId: string;
     templateType: string;
     operationType: string;
-    examId?:number;
+    examId?: number;
 }

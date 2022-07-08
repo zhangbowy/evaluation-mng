@@ -27,7 +27,7 @@ const Management = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
-  const { state,dispatch } = useContext(CountContext)
+  const { state, dispatch } = useContext(CountContext)
   const { corpId, appId } = getAllUrlParam()
   const paginationObj = {
     showQuickJumper: true,
@@ -159,6 +159,7 @@ const Management = () => {
     {
       dataIndex: 'option',
       fixed: 'right',
+      width: 200,
       render: (text: string, record: DataType, index: number) => {
         // 开关
         const handleSwitch = async (checked: boolean, id: number) => {
@@ -225,9 +226,16 @@ const Management = () => {
           </Button>
         </div>
       </header>
-      <ConfigProvider renderEmpty={customizeRenderEmpty}>
-        <Table loading={tableLoading} rowKey={(row) => row.id} showHeader={false} columns={columns} scroll={{ y: 450 }} pagination={paginationObj} dataSource={evaluationList}></Table>
-      </ConfigProvider>
+      <main>
+        <ConfigProvider renderEmpty={customizeRenderEmpty}>
+          <Table loading={tableLoading} rowKey={(row) => row.id}
+            showHeader={false} columns={columns}
+            scroll={{ x: 1100 ,}}
+            pagination={paginationObj}
+            dataSource={evaluationList}>
+          </Table>
+        </ConfigProvider>
+      </main>
     </div>
   )
 }

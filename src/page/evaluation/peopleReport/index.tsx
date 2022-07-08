@@ -137,7 +137,10 @@ const PeopleReport = () => {
       </nav>
       <Divider />
       <main>
-        <Table loading={tableLoading} pagination={paginationObj} scroll={{ y: 320 }} columns={columns} rowKey={(res) => res.userId} dataSource={reportList} />;
+        <Table loading={tableLoading}
+          pagination={paginationObj}
+          columns={columns}
+          rowKey={(res) => res.userId} dataSource={reportList} />
       </main>
     </div>
   )
