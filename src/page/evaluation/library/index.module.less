@@ -29,9 +29,11 @@
             flex-direction: column;
             justify-content: space-between;
             transition: all .5s ease;
-            &:hover{
+
+            &:hover {
                 box-shadow: 0px 4px 12px 0px #dee3e8;
             }
+
             .Library_card_mantle {
                 position: absolute;
                 left: 0;
@@ -146,8 +148,59 @@
                         margin-left: 5px;
                     }
                 }
+
+                .Library_select_group {
+                    background-color: rgb(255, 255, 255);
+                    border-radius: 4px;
+                    border: 1px solid rgb(43, 133, 255);
+                    color: var(--primary-color);
+                    padding: 5px;
+                    padding-right: 18px;
+                    display: flex;
+                    align-items: center;
+                    font-size: 14px;
+                    position: relative;
+
+                    span:nth-child(2) {
+                        position: absolute;
+                        right: 4px;
+                        top: 16px;
+                        font-size: 10px;
+                        transition: all .1s ease;
+                    }
+                }
             }
         }
     }
 
 }
+
+.Library_tooltipList {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        font-size: 12px;
+        font-weight: 400;
+        color: #464C5B;
+        outline: none;
+        margin-bottom: 8px;
+
+        &:hover {
+            background-color: #E3E8EE;
+            border-radius: 4px;
+            border: none;
+        }
+    }
+
+}
+
+// :global {
+//     .ant-tooltip-inner {
+//         border: 1px solid red;
+//     }
+
+//     .ant-tooltip-arrow {
+//         display: none;
+//     }
+// }

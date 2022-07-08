@@ -43,6 +43,7 @@ const Menu = (props: IMenuProps) => {
       ]
     }
   ]
+  const couponsIcon = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_coupons.svg'
   const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
   const navigate = useNavigate()
   const { state, dispatch } = useContext(MyContext)
@@ -127,7 +128,9 @@ const Menu = (props: IMenuProps) => {
       </div>
       <footer >
         <div className={styles.menu_recharge} onClick={goRecharge}>
-          <img src={logo} alt="" />
+          <div className={styles.footer_couponsIcon}>
+            <img src={couponsIcon} />
+          </div>
           <span>点券充值</span>
         </div>
         <Divider />

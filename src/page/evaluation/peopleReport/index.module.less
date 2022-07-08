@@ -20,7 +20,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-
+        :global{
+            .ant-form-item{
+                margin-bottom: 10px;
+            }
+        }
         .nav_right {
             display: flex;
             align-items: center;
@@ -48,6 +52,14 @@
                 padding: 20px;
                 z-index: 2;
                 background-color: #fff;
+            }
+            .ant-table-tbody > tr > td{
+                color: #647180;
+            }
+            .ant-table-tbody > tr > td{
+                button{
+                    padding-left: 0;
+                }
             }
         }
 

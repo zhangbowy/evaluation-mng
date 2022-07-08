@@ -1,12 +1,12 @@
 import { getExamTemplateList, UnLockReport } from '@/api/api';
-import { Button, message, Modal, Tooltip } from 'antd';
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Button, message, Modal, Select, Tooltip } from 'antd';
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { IExamTemplateList, IAddPeopleRef } from './type'
 import AddPeople from './AddPeople';
 import {
-  ExceptionOutlined,
-  HomeOutlined
+  DownOutlined,
+  FileProtectOutlined,
 } from '@ant-design/icons';
 import Loading from '@/components/loading';
 import { getIsGuide } from '@/utils/utils';
@@ -17,6 +17,7 @@ const Library = () => {
   const notUnlockedImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_notunlocked.png'
   const [libraryList, setLibraryList] = useState<IExamTemplateList[]>([]);
   const [libraryLoading, setLibraryLoading] = useState<boolean>(true);
+  const [isSelectShow, setIsSelectShow] = useState<boolean>(false);
   const { dispatch } = useContext(CountContext)
   const addPeopleRef = useRef<IAddPeopleRef | null>(null)
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
@@ -24,7 +25,13 @@ const Library = () => {
     backgroundColor: '#FFFFFF',
     borderRadius: '4px',
     border: '1px solid #2B85FF',
-    color: 'var(--primary-color)'
+    color: 'var(--primary-color)',
+    padding: '6px',
+    lineHeight: '0px',
+  }
+
+  const downStyle = {
+    transform: `translateY(-50%) rotate(${isSelectShow ? '180deg' : '0deg'})`
   }
   useEffect(() => {
     getLibraryList()
@@ -59,32 +66,44 @@ const Library = () => {
       setLibraryLoading(false)
     }
   }
-  // 解锁、添加人员
-  const handleClick = (item: IExamTemplateList) => {
-    if (item.isBuy) {
-      addPeopleRef.current?.openModal(item)
-    } else {
-      Modal.confirm({
-        title: '确定要解锁吗',
-        content: `解锁【${item.title}】需要消耗${item.examTemplateCommodityDetail.pointPrice}点券`,
-        okText: "确定",
-        cancelText: '取消',
-        onOk: async (close) => {
-          const params = {
-            userId: qcp_user.userId,
-            templateType: item?.type,
-            operationType: '0',
-          }
-          const res = await UnLockReport(params)
-          if (res.code == 1) {
-            message.success('解锁成功');
-            dispatch()
-            getLibraryList()
-            close()
-          }
+  //解锁
+  const handleUnlock = (item: IExamTemplateList) => {
+    Modal.confirm({
+      title: '确定要解锁吗',
+      content: `解锁【${item.title}】需要消耗${item.examTemplateCommodityDetail.pointPrice}点券`,
+      okText: "确定",
+      cancelText: '取消',
+      onOk: async (close) => {
+        const params = {
+          userId: qcp_user.userId,
+          templateType: item?.type,
+          operationType: '0',
         }
-      });
-    }
+        const res = await UnLockReport(params)
+        if (res.code == 1) {
+          message.success('解锁成功');
+          dispatch()
+          getLibraryList()
+          close()
+        }
+      }
+    });
+  }
+  // 添加人员
+  const handleClick = (item: IExamTemplateList) => {
+    addPeopleRef.current?.openModal(item)
+  }
+  const tooltip = (item: IExamTemplateList) => {
+    return (
+      <div className={styles.Library_tooltipList}>
+        <Button>选群测评</Button>
+        <Button>建群测评</Button>
+      </div>
+    )
+  }
+  // 显示隐藏的回调
+  const onVisibleChange = (visible: boolean) => {
+    setIsSelectShow(visible)
   }
   if (libraryLoading) {
     return <Loading />
@@ -109,7 +128,7 @@ const Library = () => {
                 <div className={styles.Library_topicInfoRight}>
                   <Tooltip placement="top" title={'示例报告 '}>
                     <div className={styles.Library_card_toolBorder}>
-                      <ExceptionOutlined />
+                      <FileProtectOutlined />
                     </div>
                   </Tooltip>
                 </div>
@@ -119,11 +138,26 @@ const Library = () => {
                   <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
                   <span>{item.isBuy ? `${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
                 </div>
-                <Button type="primary" className={`addPeople${index}`}
-                  onClick={() => handleClick(item)}
-                  style={item.isBuy ? addPeopleStyle : {}} >
-                  {item.isBuy ? '添加人员' : `${item.examTemplateCommodityDetail.pointPrice}点券解锁`}
-                </Button>
+                {
+                  item.isBuy ?
+                    <Fragment>
+                      <Tooltip overlayClassName={styles.tooltip} color={'#fff'}  placement="bottom" onVisibleChange={onVisibleChange} title={() => tooltip(item)}>
+                        <div className={styles.Library_select_group}>
+                          <span>酷测评</span>
+                          <DownOutlined className={styles.menu_down} style={downStyle} />
+                        </div>
+                      </Tooltip>
+                      <Button type="primary" className={`addPeople${index}`}
+                        onClick={() => handleClick(item)}
+                        style={item.isBuy ? addPeopleStyle : {}} >
+                        添加人员
+                      </Button>
+                    </Fragment>
+                    :
+                    <Button type="primary" onClick={() => handleUnlock(item)}>
+                      {`${item.examTemplateCommodityDetail.pointPrice}点券解锁`}
+                    </Button>
+                }
               </footer>
             </div>
           ))

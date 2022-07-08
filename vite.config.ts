@@ -8,7 +8,7 @@ import { resolve } from 'path';
 //qzz-static.forwe.store/evaluation-mng/static/    线上、预发
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '//daily-qzz-static.forwe.store/evaluation-mng/static/',
+  // base: '//daily-qzz-static.forwe.store/evaluation-mng/static/',
   server: {
     cors: true,
     proxy: {
