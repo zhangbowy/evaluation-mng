@@ -96,7 +96,7 @@ const Library = () => {
       createGroup({
         context: {
           // coolAppCode: 'COOLAPP-1-101BA56791222107E31B000Q', // 线上
-          coolAppCode: import.meta.env.VITE_COOLAPPCODE||'0', // 日常
+          coolAppCode: import.meta.env.VITE_COOLAPPCODE || '0', // 日常
           clientId: clientId as string,
           corpId: corpId as string, // 根据对应场景获取 corpId
         },
@@ -146,47 +146,27 @@ const Library = () => {
   }
   // 建群测评
   const onSelectGroupClick = async (item: IExamTemplateList) => {
-    console.log(process.env.VITE_COOLAPPCODE, 'process.env')
-    const handleSelectGroup = async (data: Multiple[]) => {
-      const res = await installCoolAppToGroup({
-        coolAppCode: import.meta.env.VITE_COOLAPPCODE||'0', // 日常
-        clientId: clientId as string,
-        corpId: corpId as string, // 根据对应场景获取 corpId
-      })
-      if (res.errorCode === '0') {
-        const item = await queryConversationUserList(res.detail.openConversationId)
-        if (item.code == 1) {
-          const result = await createExam({
-            examTemplateType: item.type,
-            examTemplateId: item.id,
-            examTitle: item.title,
-            fromSourceType: 1,
-            fromSourceId: res.detail.openConversationId,
-            examUserList: data?.map((item: any) => ({ userId: item })),
-          });
-          if (result.code == 1) {
-            message.success('安装酷应用成功');
-          }
+    const res = await installCoolAppToGroup({
+      coolAppCode: import.meta.env.VITE_COOLAPPCODE || '0', // 日常
+      clientId: clientId as string,
+      corpId: corpId as string, // 根据对应场景获取 corpId
+    })
+    if (res.errorCode === '0') {
+      const data = await queryConversationUserList(res.detail.openConversationId)
+      if (data.code == 1) {
+        const result = await createExam({
+          examTemplateType: item.type,
+          examTemplateId: item.id,
+          examTitle: item.title,
+          fromSourceType: 1,
+          fromSourceId: res.detail.openConversationId,
+          examUserList: data?.map((item: any) => ({ userId: item })),
+        });
+        if (result.code == 1) {
+          message.success('安装酷应用成功');
         }
       }
     }
-    const obj = {
-      tpf: 1,
-      appId,
-      corpId,
-      curPage: 1,
-      pageSize: 1000
-    }
-    const res = await getAllPeople(obj)
-    if (res.code == 1) {
-      const params = {
-        corpId,
-        usersList: res.data.resultList.map((user: IUser) => user.userId),
-        successFn: handleSelectGroup,
-      }
-      ddSelectPeople(params, 'update')
-    }
-
   }
   // 是否显示选择框
   const tooltip = (item: IExamTemplateList) => {
