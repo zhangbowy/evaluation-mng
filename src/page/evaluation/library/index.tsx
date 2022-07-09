@@ -91,13 +91,12 @@ const Library = () => {
   }
   // 建群测评
   const onColonizationClick = async (item: IExamTemplateList) => {
-    console.log(import.meta.env.VITE_COOLAPPCODE,'import.meta.env.VITE_COOLAPPCODE')
     // 选人成功回调
     const handelCreateGroup = (data: Multiple[]) => {
       createGroup({
         context: {
           // coolAppCode: 'COOLAPP-1-101BA56791222107E31B000Q', // 线上
-          coolAppCode: import.meta.env.VITE_COOLAPPCODE, // 日常
+          coolAppCode: import.meta.env.VITE_COOLAPPCODE||'0', // 日常
           clientId: clientId as string,
           corpId: corpId as string, // 根据对应场景获取 corpId
         },
@@ -147,10 +146,10 @@ const Library = () => {
   }
   // 建群测评
   const onSelectGroupClick = async (item: IExamTemplateList) => {
-    console.log(process.env.VITE_COOLAPPCODE,'process.env')
+    console.log(process.env.VITE_COOLAPPCODE, 'process.env')
     const handleSelectGroup = async (data: Multiple[]) => {
       const res = await installCoolAppToGroup({
-        coolAppCode: process.env.VITE_COOLAPPCODE as string, // 日常
+        coolAppCode: import.meta.env.VITE_COOLAPPCODE||'0', // 日常
         clientId: clientId as string,
         corpId: corpId as string, // 根据对应场景获取 corpId
       })

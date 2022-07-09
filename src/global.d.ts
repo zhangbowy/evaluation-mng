@@ -34,7 +34,7 @@ interface DataType {
     totalNumber: number;
     type: boolean;
     logoImage: string;
-    paperPrice:number;
+    paperPrice: number;
 }
 interface IBack {
     code: number;
@@ -105,7 +105,7 @@ interface IDDSelectPeopleParams {
     corpId: string;
     successFn: (data: Multiple[]) => void;
     pointPrice?: number;
-    availableBalance?:number
+    availableBalance?: number
 }
 interface Multiple {
     name: string;
@@ -135,4 +135,11 @@ interface StepsType {
     disableInteraction?: boolean | undefined;
     title?: string | undefined;
     step?: number | undefined;
+}
+
+// 环境变量变量声明
+interface ImportMetaEnv {
+    readonly VITE_PROJECT_ENV: string
+    readonly VITE_BASE_URL: string;
+    readonly VITE_COOLAPPCODE:string;
 }
