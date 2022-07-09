@@ -11,6 +11,8 @@ export interface ICreteExamParams {
     examTemplateId: number;
     examTitle: string;
     examUserList: { userId: string }[],
+    fromSourceType?:number;
+    fromSourceId?:number;
 }
 
 export interface IPointAssetParams {

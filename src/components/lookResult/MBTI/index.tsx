@@ -1,7 +1,10 @@
 import styles from './index.module.less'
-import { Fragment } from 'react';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Fragment, useState } from 'react';
+
 const MbtiPreview = (props: any) => {
     const { resulyData } = props;
+    const [isOpen, setIsOpen] = useState(false); // 是否展开
     const charactertype = [
         {
             startText: '外向',
@@ -54,15 +57,31 @@ const MbtiPreview = (props: any) => {
             }
         }
     };
+    // 是否展开
+    const handleIsOpen = () => {
+        const arr =
+            resulyData?.htmlDesc?.celebrity?.length > 5
+                ? resulyData?.htmlDesc?.celebrity?.slice(0, 5)
+                : resulyData?.htmlDesc?.celebrity;
+        return isOpen ? resulyData?.htmlDesc?.celebrity : arr;
+    };
+    // 是否展开
+    const onOpenClick = () => {
+        setIsOpen(!isOpen);
+    };
     return (
         <div className={styles.personality_layout} >
             <div className={styles.character_type_layout} >
                 <div className={styles.character_type_wrapper}>
-                    <img
-                        src={resulyData?.user?.avatar}
-                        alt=""
-                        className={styles.character_headportrait}
-                    />
+                    {
+                        resulyData?.user?.avatar ?
+                            <img
+                                src={resulyData?.user?.avatar}
+                                alt=""
+                                className={styles.character_headportrait}
+                            /> :
+                            <div className={styles.character_headportrait}>{resulyData?.user?.name.slice(0, 1)}</div>
+                    }
                     <div className={styles.character_type_main}>
                         <div className={styles.character_type_content}>
                             <div className={styles.character_type_left}>
@@ -144,6 +163,41 @@ const MbtiPreview = (props: any) => {
                 </div>
             </div>
             <div className={styles.personality_main} id="personality">
+                <div className={styles.personality_bgCard}>
+                    <header className={styles.personality_bgCard_title}>
+                        <li>历史上与你相关的名人</li>
+                        <li />
+                    </header>
+                    <ul className={styles.personality_bgCard_content}>
+                        {handleIsOpen()?.map((res: any, index: number) => (
+                            <li key={index}>
+                                <div className={styles.serial_number}>{index + 1}</div>
+                                <div className={styles.personality_bgCard_info}>
+                                    <div className={styles.personality_bgCard_info_name}>
+                                        {res?.name}
+                                        <span>{res?.date}</span>
+                                    </div>
+                                    <p>{res?.position}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    {resulyData?.htmlDesc?.celebrity?.length > 5 && (
+                        <footer>
+                            {!isOpen ? (
+                                <div onClick={onOpenClick}>
+                                    展开
+                                    <DownOutlined />
+                                </div>
+                            ) : (
+                                <div onClick={onOpenClick}>
+                                    收起
+                                    <UpOutlined />
+                                </div>
+                            )}
+                        </footer>
+                    )}
+                </div>
                 <div className={styles.trait} data-list="你的特质是">
                     <div className={styles.trait_feature_list}>
                         {resulyData?.htmlDesc?.feature?.map(

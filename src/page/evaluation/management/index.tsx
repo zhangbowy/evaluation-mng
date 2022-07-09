@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ddAddPeople, getIsGuide, getAllUrlParam } from '@/utils/utils'
 import Loading from '@/components/loading';
 import { IOptions, IExamListParams } from './type'
-import { CountContext } from '@/utils/hook';
+import { CountContext } from '@/utils/context';
 
 const Management = () => {
   const defaultImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_nodata.png'

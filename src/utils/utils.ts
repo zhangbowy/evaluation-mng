@@ -31,9 +31,10 @@ export const randomRgbColor = () => { //随机生成RGB颜色
     var b = Math.floor(Math.random() * 256); //随机生成256以内b值
     return `${r},${g},${b}`; //返回rgb(r,g,b)格式颜色
 }
+
+type CurrentType = 'add' | 'update'
 // 钉钉选人
-const ddSelectPeople = (item: IDDSelectPeopleParams, type: 'add' | 'update' = 'add') => {
-    console.log('选人进来了', item);
+export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 'add') => {
     dd.env.platform !== 'notInDingTalk' &&
         dd.ready(() => {
             dd.biz.customContact.multipleChoose({

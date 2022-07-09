@@ -3,7 +3,7 @@ import React, { memo, useContext, useEffect, useState } from 'react'
 import styles from './index.module.less';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getPointAsset } from '@/api/api'
-import { CountContext } from '@/utils/hook';
+import { CountContext } from '@/utils/context';
 
 
 const Header = memo(() => {

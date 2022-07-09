@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
 import { shareInfo } from '@/api/api';
-import { CountContext } from '@/utils/hook';
+import { CountContext } from '@/utils/context';
 
 const AddPeople = forwardRef((props, ref) => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false) // 是否显示弹窗

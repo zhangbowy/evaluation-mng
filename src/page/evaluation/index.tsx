@@ -8,7 +8,7 @@ import Loading from '@/components/loading';
 import { useSearchParams } from 'react-router-dom';
 import { getPointAsset, getSign } from '@/api/api';
 import dd from 'dingtalk-jsapi';
-import { MyContext, CountContext } from '@/utils/hook'
+import { MyContext, CountContext } from '@/utils/context'
 import { getAllUrlParam } from '@/utils/utils';
 
 

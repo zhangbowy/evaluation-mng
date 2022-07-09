@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 export const useInput = () => {
     const [inputValue, setInputValue] = useState(''); // 输入框数据
@@ -17,11 +17,3 @@ export const usePackUp = () => {
     }
     return [isPackUp, onPackUpClick]
 }
-interface ContextProps {
-    state: boolean;
-    dispatch: Dispatch<SetStateAction<boolean>>;
-}
-// 是否收起的context
-export const MyContext = createContext({} as ContextProps);
-// 传递可用点券
-export const CountContext = createContext({} as { state: number, dispatch: () => void });

@@ -174,7 +174,6 @@ const Detail = () => {
         offsetX: -50,
         itemName: {
           formatter: (text, item) => {
-            console.log('text', item)
             return text;
           },
           style: ()=>{

@@ -116,3 +116,7 @@ export const getExamList = async (params?: IExamListParams) => {
 export const UnLockReport = async (data: IUnLockParams) => {
     return request('/api/spf-cc/b/evaluation/management/unlockItem', { data, method: 'POST' })
 }
+// 获取会话id
+export const queryConversationUserList = async (openConversationId: string) => {
+    return request('/api/spf-cc/cool/evaluation/queryConversationUserList', { data: { openConversationId }, method: 'post' });
+};

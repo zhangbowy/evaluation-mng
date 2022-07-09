@@ -69,6 +69,10 @@
         top: -2%;
         transform: translateX(-50%);
         position: absolute;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        line-height: 40px;
+        text-align: center;
       }
 
       .character_type_main {
@@ -219,11 +223,125 @@
 
   .personality_main {
     height: 100%;
-    padding: 15px;
+    padding: 0 15px 15px;
     margin-bottom: 65px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-top: 30px;
+
+    .personality_bgCard {
+      border-radius: 10px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 40px;
+      animation: all 1s ease;
+
+      .personality_bgCard_title {
+        display: flex;
+        align-items: flex-start;
+        margin-top: -18px;
+
+        li:nth-child(1) {
+          padding: 10px;
+          color: #fff;
+          background-color: #131313;
+          text-align: center;
+          border-left: 5px solid #f51387;
+          font-size: 18px;
+          font-weight: 550;
+        }
+
+        li:nth-child(2) {
+          width: 0;
+          height: 0;
+          border-bottom: 17.5px solid #fff;
+          border-right: 15px solid transparent;
+          filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+        }
+      }
+
+      .personality_bgCard_content {
+        margin: 10px auto 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        li {
+          background-color: #f8f4ff;
+          border-radius: 7px;
+          padding: 9px 10px;
+          display: flex;
+          margin: 0 auto 8px;
+
+          .serial_number {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #a36fff 0%, #4f00db 100%);
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+          }
+
+          .personality_bgCard_info {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 250px;
+
+            .personality_bgCard_info_name {
+              display: flex;
+              align-items: center;
+              margin-bottom: 7px;
+              font-size: 14px;
+              font-family: '思源黑体-常规';
+              font-weight: 500;
+              color: #01084d;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              max-width: 300px;
+
+              span:nth-child(1) {
+                font-size: 12px;
+                font-weight: 400;
+                color: #9a9ba9;
+                margin-left: 7px;
+              }
+            }
+
+            p {
+              font-size: 12px;
+              font-weight: 400;
+              color: #545668;
+              margin-bottom: 0;
+              line-height: 18px;
+              white-space: wrap;
+              word-break: break-all;
+            }
+          }
+        }
+      }
+
+      footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 400;
+        color: #2b85ff;
+        line-height: 20px;
+        margin-bottom: 8px;
+        cursor: pointer;
+
+        svg {
+          margin-left: 8px;
+        }
+      }
+    }
 
     .trait {
       border-radius: 10px;

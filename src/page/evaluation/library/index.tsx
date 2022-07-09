@@ -1,16 +1,19 @@
-import { getExamTemplateList, UnLockReport } from '@/api/api';
+import { createExam, getAllPeople, getExamTemplateList, queryConversationUserList, UnLockReport } from '@/api/api';
 import { Button, message, Modal, Select, Tooltip } from 'antd';
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { IExamTemplateList, IAddPeopleRef } from './type'
 import AddPeople from './AddPeople';
+import { createGroup, installCoolAppToGroup } from 'dingtalk-jsapi/plugin/coolAppSdk';
 import {
   DownOutlined,
   FileProtectOutlined,
 } from '@ant-design/icons';
 import Loading from '@/components/loading';
-import { getIsGuide } from '@/utils/utils';
-import { CountContext } from '@/utils/hook'
+import { getAllUrlParam, getIsGuide } from '@/utils/utils';
+import { CountContext } from '@/utils/context'
+import { ddSelectPeople } from '@/utils/utils'
+import process from 'process';
 
 const Library = () => {
   const libraryImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_coupons.png'
@@ -19,16 +22,9 @@ const Library = () => {
   const [libraryLoading, setLibraryLoading] = useState<boolean>(true);
   const [isSelectShow, setIsSelectShow] = useState<boolean>(false);
   const { dispatch } = useContext(CountContext)
+  const { corpId, appId, clientId } = getAllUrlParam()
   const addPeopleRef = useRef<IAddPeopleRef | null>(null)
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
-  const addPeopleStyle = {
-    backgroundColor: '#FFFFFF',
-    borderRadius: '4px',
-    border: '1px solid #2B85FF',
-    color: 'var(--primary-color)',
-    padding: '6px',
-    lineHeight: '0px',
-  }
 
   const downStyle = {
     transform: `translateY(-50%) rotate(${isSelectShow ? '180deg' : '0deg'})`
@@ -93,11 +89,112 @@ const Library = () => {
   const handleClick = (item: IExamTemplateList) => {
     addPeopleRef.current?.openModal(item)
   }
+  // 建群测评
+  const onColonizationClick = async (item: IExamTemplateList) => {
+    console.log(import.meta.env.VITE_COOLAPPCODE,'import.meta.env.VITE_COOLAPPCODE')
+    // 选人成功回调
+    const handelCreateGroup = (data: Multiple[]) => {
+      createGroup({
+        context: {
+          // coolAppCode: 'COOLAPP-1-101BA56791222107E31B000Q', // 线上
+          coolAppCode: import.meta.env.VITE_COOLAPPCODE, // 日常
+          clientId: clientId as string,
+          corpId: corpId as string, // 根据对应场景获取 corpId
+        },
+        title: `${item.type}测试酷应用`,
+        memberUserIds: data?.map((item: any) => item.emplId),
+        managementOptions: {
+          validationType: 1,
+          mentionAllAuthority: 1
+        },
+      }).then(async res => {
+        if (res.errorCode === '0') {
+          const result = await createExam({
+            examTemplateType: item.type,
+            examTemplateId: item.id,
+            examTitle: item.title,
+            fromSourceType: 1,
+            fromSourceId: res.detail.openConversationId,
+            examUserList: data?.map((item: any) => ({ userId: item.emplId })),
+          });
+          if (result.code == 1) {
+            message.success('创建群组成功');
+          }
+          // 建群成功
+        }
+      }).catch(err => {
+        console.log(err, '创建失败')
+        message.error('创建群组失败');
+        // 用户主动退出安装
+      });
+    }
+    const obj = {
+      tpf: 1,
+      appId,
+      corpId,
+      curPage: 1,
+      pageSize: 1000
+    }
+    const res = await getAllPeople(obj)
+    if (res.code == 1) {
+      const params = {
+        corpId,
+        usersList: res.data.resultList.map((user: IUser) => user.userId),
+        successFn: handelCreateGroup,
+      }
+      ddSelectPeople(params, 'update')
+    }
+  }
+  // 建群测评
+  const onSelectGroupClick = async (item: IExamTemplateList) => {
+    console.log(process.env.VITE_COOLAPPCODE,'process.env')
+    const handleSelectGroup = async (data: Multiple[]) => {
+      const res = await installCoolAppToGroup({
+        coolAppCode: process.env.VITE_COOLAPPCODE as string, // 日常
+        clientId: clientId as string,
+        corpId: corpId as string, // 根据对应场景获取 corpId
+      })
+      if (res.errorCode === '0') {
+        const item = await queryConversationUserList(res.detail.openConversationId)
+        if (item.code == 1) {
+          const result = await createExam({
+            examTemplateType: item.type,
+            examTemplateId: item.id,
+            examTitle: item.title,
+            fromSourceType: 1,
+            fromSourceId: res.detail.openConversationId,
+            examUserList: data?.map((item: any) => ({ userId: item })),
+          });
+          if (result.code == 1) {
+            message.success('安装酷应用成功');
+          }
+        }
+      }
+    }
+    const obj = {
+      tpf: 1,
+      appId,
+      corpId,
+      curPage: 1,
+      pageSize: 1000
+    }
+    const res = await getAllPeople(obj)
+    if (res.code == 1) {
+      const params = {
+        corpId,
+        usersList: res.data.resultList.map((user: IUser) => user.userId),
+        successFn: handleSelectGroup,
+      }
+      ddSelectPeople(params, 'update')
+    }
+
+  }
+  // 是否显示选择框
   const tooltip = (item: IExamTemplateList) => {
     return (
       <div className={styles.Library_tooltipList}>
-        <Button>选群测评</Button>
-        <Button>建群测评</Button>
+        <Button onClick={() => onSelectGroupClick(item)}>选群测评</Button>
+        <Button onClick={() => onColonizationClick(item)}>建群测评</Button>
       </div>
     )
   }
@@ -141,15 +238,14 @@ const Library = () => {
                 {
                   item.isBuy ?
                     <Fragment>
-                      <Tooltip overlayClassName={styles.tooltip} color={'#fff'}  placement="bottom" onVisibleChange={onVisibleChange} title={() => tooltip(item)}>
+                      <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={onVisibleChange} title={() => tooltip(item)}>
                         <div className={styles.Library_select_group}>
                           <span>酷测评</span>
                           <DownOutlined className={styles.menu_down} style={downStyle} />
                         </div>
                       </Tooltip>
-                      <Button type="primary" className={`addPeople${index}`}
-                        onClick={() => handleClick(item)}
-                        style={item.isBuy ? addPeopleStyle : {}} >
+                      <Button type="primary" className={`addPeople${index} ${styles.Library_appPeople}`}
+                        onClick={() => handleClick(item)} >
                         添加人员
                       </Button>
                     </Fragment>

@@ -28,7 +28,7 @@ const LookResult = forwardRef((props, ref) => {
         }
     }
     return (
-        <Drawer title="测评报告" placement="right" onClose={onDrawerClose} visible={visible}>
+        <Drawer title="测评报告" width="400" placement="right" onClose={onDrawerClose} visible={visible}>
             {
                 loading ? <Loading /> : (resultList?.examTemplateType == 'PDP' ? <PDP resultList={resultList} /> : <MBTI resulyData={resultList} />)
             }
