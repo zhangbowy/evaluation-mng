@@ -45,9 +45,12 @@ const Library = () => {
   }, [libraryLoading])
   // 引导步骤
   const currentStep = (arr: IExamTemplateList[]) => {
+    if (arr.length < 1) return
+    const addIndex = arr.findIndex(res => res.isBuy)
+    if (addIndex == -1) return
     if (arr.length > 0) {
       const setsArr: StepsType[] = [{
-        element: ".addPeople0",
+        element: `.addIndex${addIndex}`,
         intro: "第一次创建测评，需要先在此添加人员哦～",
         position: "bottom",
       }]

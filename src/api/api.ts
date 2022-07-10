@@ -95,7 +95,6 @@ export const createExam = async (data: ICreteExamParams) => {
 export const getPointAsset = async (params: IPointAssetParams) => {
     return request('/api/trade/b/point/getPointAsset', { params })
 }
-
 // 获取充值记录
 export const getRechargeFlow = async (params: IRechargeFlow) => {
     return request('/api/trade/b/point/queryRechargeFlow', { params })
