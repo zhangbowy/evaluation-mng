@@ -36,7 +36,7 @@ const Menu = (props: IMenuProps) => {
       children: [
         {
           id: 4,
-          name: '账户管理',
+          name: '账号管理',
           path: '/evaluation/userAuthority/account',
           icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
         }
