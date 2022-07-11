@@ -38,7 +38,7 @@ const routes: RouteObject[] = [
                         element: <ManagementDetail />
                     },
                     {
-                        path: 'library',
+                        path: 'library/:type',
                         element: <ManagementLibrary />
                     }
                 ]

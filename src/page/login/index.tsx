@@ -14,7 +14,7 @@ const Login = () => {
   const handleLogin = (item: ILogin) => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
-    navigate(`/evaluation/library`);
+    navigate(`/evaluation/management`);
   }
   useEffect(() => {
     if (authCode) {
@@ -52,7 +52,7 @@ const Login = () => {
           window.sessionStorage.setItem('QCP_B_TOKEN', res.data.token);
           window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(res.data.user));
           // 已经授权则免登进入系统
-          res.data.user.auths.includes('admin') ? navigate(`/evaluation/library`) : navigate(`/403/99999`);
+          res.data.user.auths.includes('admin') ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
         }
       } else {
         // 免登失败，提示进入403

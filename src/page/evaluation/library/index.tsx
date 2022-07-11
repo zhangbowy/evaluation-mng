@@ -15,20 +15,17 @@ import { CountContext } from '@/utils/context'
 import { ddSelectPeople } from '@/utils/utils'
 import process from 'process';
 
-const Library = () => {
+const Library = (props: { type?: number }) => {
   const libraryImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_coupons.png'
   const notUnlockedImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_notunlocked.png'
   const [libraryList, setLibraryList] = useState<IExamTemplateList[]>([]);
   const [libraryLoading, setLibraryLoading] = useState<boolean>(true);
-  const [isSelectShow, setIsSelectShow] = useState<boolean>(false);
+  const [isSelectShow, setIsSelectShow] = useState<boolean[]>([]);
   const { dispatch } = useContext(CountContext)
   const { corpId, appId, clientId } = getAllUrlParam()
   const addPeopleRef = useRef<IAddPeopleRef | null>(null)
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
 
-  const downStyle = {
-    transform: `translateY(-50%) rotate(${isSelectShow ? '180deg' : '0deg'})`
-  }
   useEffect(() => {
     getLibraryList()
   }, [])
@@ -181,15 +178,16 @@ const Library = () => {
     )
   }
   // 显示隐藏的回调
-  const onVisibleChange = (visible: boolean) => {
-    setIsSelectShow(visible)
+  const onVisibleChange = (visible: boolean, index: number) => {
+    isSelectShow[index] = visible
+    setIsSelectShow([...isSelectShow])
   }
   if (libraryLoading) {
     return <Loading />
   }
   return (
     <div className={styles.Library_layout}>
-      <h1>测评库</h1>
+      {!props.type && <h1>测评库</h1>}
       <main>
         {
           libraryList.map((item: IExamTemplateList, index: number) => (
@@ -220,10 +218,10 @@ const Library = () => {
                 {
                   item.isBuy ?
                     <div className={styles.Library_btn_right}>
-                      <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={onVisibleChange} title={() => tooltip(item)}>
+                      <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={(visible) => onVisibleChange(visible, index)} title={() => tooltip(item)}>
                         <div className={styles.Library_select_group}>
                           <span>酷测评</span>
-                          <DownOutlined className={styles.menu_down} style={downStyle} />
+                          <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${isSelectShow[index] ? '180deg' : '0deg'})` }} />
                         </div>
                       </Tooltip>
                       <Button type="primary" className={`addPeople${index} ${styles.Library_appPeople}`}

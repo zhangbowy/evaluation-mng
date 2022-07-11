@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IUnLockParams, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
+import { IGetAllPeopleParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -13,10 +13,7 @@ export const getExamTemplateList = async () => {
     return request('/api/spf-cc/b/evaluation/library/getExamTemplateList', {})
 }
 
-export const getExamUsers = async (params: any) => {
-    return request(
-        '/api/spf-cc/b/evaluation/management/getExamUsers', { params })
-}
+
 
 export const getUserList = async (params: any) => {
     return request('/api/member/auth/authPoint/list', { params })
@@ -119,3 +116,7 @@ export const UnLockReport = async (data: IUnLockParams) => {
 export const queryConversationUserList = async (openConversationId: string) => {
     return request('/api/spf-cc/cool/evaluation/queryConversationUserList', { data: { openConversationId }, method: 'post' });
 };
+// 获取测评详情数据
+export const getExamUsers = async (data: IExamUsers) => {
+    return request('/api/spf-cc/b/evaluation/management/getExamUsers', { data, method: 'POST' })
+}

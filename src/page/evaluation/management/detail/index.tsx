@@ -110,8 +110,15 @@ const Detail = () => {
   }
   // 获取表格数据
   const getTableList = async (item?: ITableParams) => {
-    const obj = { examid: params.id, curPage: item?.curPage || 1, pageSize: item?.pageSize || 10, ...item, status: item?.status?.split(',').map(Number) }
+    const obj = {
+      examid: params.id,
+      curPage: item?.curPage || 1,
+      pageSize: item?.pageSize || 10,
+      ...item,
+      status: item?.status?.split(',').map(Number)
+    }
     !item?.status && delete obj.status
+    console.log(obj)
     const res: IBackResult = await getExamUsers(obj)
     if (res.code === 1) {
       setTableList(res.data)
@@ -176,8 +183,8 @@ const Detail = () => {
           formatter: (text, item) => {
             return text;
           },
-          style: ()=>{
-            
+          style: () => {
+
           }
         },
         // itemValue: {

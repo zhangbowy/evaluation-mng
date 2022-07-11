@@ -50,7 +50,8 @@ const EvaluationLayout: FC = () => {
     })()
   }, [])
   // 获取所有点券
-  const getAllCoupons = useCallback(async () => {
+  const getAllCoupons = async () => {
+    console.log(1123)
     const params = {
       tpf: 1,
       appId,
@@ -60,7 +61,7 @@ const EvaluationLayout: FC = () => {
     if (res.code == 1) {
       setCouponsNum(res.data.amount)
     }
-  }, [])
+  }
   return (
     <div className={styles.evaluation_layout}>
       <Layout style={{ height: '100%' }}>

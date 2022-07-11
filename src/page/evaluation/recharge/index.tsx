@@ -53,11 +53,6 @@ const Recharge = memo(() => {
           dd.biz.util.openSlidePanel({
             url, //打开侧边栏的url
             title: '支付', //侧边栏顶部标题
-            onSuccess: function () {
-              /*
-                   调用biz.navigation.quit接口进入onSuccess, result为调用biz.navigation.quit传入的数值
-               */
-            },
             onFail: function (err: Error) {
               console.log(err, '关闭弹窗')
             }

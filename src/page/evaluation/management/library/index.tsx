@@ -10,7 +10,7 @@ const index = () => {
                 <Breadcrumb.Item href="#/evaluation/management">测评管理</Breadcrumb.Item>
                 <Breadcrumb.Item>测评库</Breadcrumb.Item>
             </Breadcrumb>
-            <Library />
+            <Library type={1} />
         </div>
     )
 }

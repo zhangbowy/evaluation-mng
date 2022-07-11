@@ -11,8 +11,8 @@ export interface ICreteExamParams {
     examTemplateId: number;
     examTitle: string;
     examUserList: { userId: string }[],
-    fromSourceType?:number;
-    fromSourceId?:number;
+    fromSourceType?: number;
+    fromSourceId?: number;
 }
 
 export interface IPointAssetParams {
@@ -55,4 +55,13 @@ export interface IUnLockParams {
     templateType: string;
     operationType: string;
     examId?: number;
+}
+
+export interface IExamUsers {
+    curPage?: number;
+    pageSize?: number;
+    name?: string;
+    resultType?: string;
+    status?: number[] | string;
+    tags?: string;
 }
