@@ -6,9 +6,9 @@
     "dev": "vite",
     "build": "tsc && vite build --mode daily",
     "preview": "vite preview",
-    "build-daily": "tsc && vite build --mode daily",
-    "build-gray": "tsc && vite build --mode gray",
-    "build-prod": "tsc && vite build --mode prod"
+    "build:daily": "tsc && vite build --mode daily",
+    "build:gray": "tsc && vite build --mode gray",
+    "build:prod": "tsc && vite build --mode prod"
   },
   "dependencies": {
     "@antv/g2plot": "^2.4.20",
