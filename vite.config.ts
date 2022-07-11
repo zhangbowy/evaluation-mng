@@ -36,7 +36,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         less: {
           javascriptEnabled: true,
           modifyVars: {
-            '@primary-color': '#4377FE',//设置antd主题色
+            '@primary-color': '#2B85FF',//设置antd主题色
           },
         },
       }

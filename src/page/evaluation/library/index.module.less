@@ -150,41 +150,52 @@
                     }
                 }
 
-                .Library_appPeople {
-                    background-color: #FFFFFF;
-                    border-radius: 4px;
-                    border: 1px solid #2B85FF;
-                    color: var(--primary-color);
-                    padding: 6px;
-                    line-height: 0px;
-                    &:hover{
-                        background-color: #E7F1FF;
+                .Library_btn_right {
+                    display: flex;
+                    align-items: center;
+                    .Library_appPeople {
+                        background-color: #FFFFFF;
+                        border-radius: 4px;
+                        border: 1px solid #2B85FF;
+                        color: var(--primary-color);
+                        padding: 0px 7px;
+                        font-size: 12px;
+                        line-height: 28px;
+                        height: 28px;
+                        margin-left: 8px;
+
+                        &:hover {
+                            background-color: #E7F1FF;
+                        }
+                    }
+
+                    .Library_select_group {
+                        background-color: rgb(255, 255, 255);
+                        border-radius: 4px;
+                        border: 1px solid rgb(43, 133, 255);
+                        color: var(--primary-color);
+                        padding: 5px 9px;
+                        padding-right: 18px;
+                        display: flex;
+                        align-items: center;
+                        font-size: 12px;
+                        position: relative;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #E7F1FF;
+                        }
+
+                        span:nth-child(2) {
+                            position: absolute;
+                            right: 4px;
+                            top: 12px;
+                            font-size: 10px;
+                            transition: all .1s ease;
+                        }
                     }
                 }
 
-                .Library_select_group {
-                    background-color: rgb(255, 255, 255);
-                    border-radius: 4px;
-                    border: 1px solid rgb(43, 133, 255);
-                    color: var(--primary-color);
-                    padding: 5px 7px;
-                    padding-right: 18px;
-                    display: flex;
-                    align-items: center;
-                    font-size: 14px;
-                    position: relative;
-                    cursor: pointer;
-                    &:hover{
-                        background-color: #E7F1FF;
-                    }
-                    span:nth-child(2) {
-                        position: absolute;
-                        right: 4px;
-                        top: 16px;
-                        font-size: 10px;
-                        transition: all .1s ease;
-                    }
-                }
             }
         }
     }
@@ -194,7 +205,7 @@
 .Library_tooltipList {
     display: flex;
     flex-direction: column;
-   
+
 
     button {
         font-size: 12px;

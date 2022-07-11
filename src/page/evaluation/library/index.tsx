@@ -205,21 +205,21 @@ const Library = () => {
                 </div>
                 {!item.isBuy && <img src={notUnlockedImg} alt="" />}
                 <div className={styles.Library_topicInfoRight}>
-                  <Tooltip placement="top" title={'示例报告 '}>
+                  {/* <Tooltip placement="top" title={'示例报告 '}>
                     <div className={styles.Library_card_toolBorder}>
                       <FileProtectOutlined />
                     </div>
-                  </Tooltip>
+                  </Tooltip> */}
                 </div>
               </div>
               <footer>
                 <div className={styles.Library_footerLeft}>
                   <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
-                  <span>{item.isBuy ? `${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
+                  <span>{item.isBuy ? ` ${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
                 </div>
                 {
                   item.isBuy ?
-                    <Fragment>
+                    <div className={styles.Library_btn_right}>
                       <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={onVisibleChange} title={() => tooltip(item)}>
                         <div className={styles.Library_select_group}>
                           <span>酷测评</span>
@@ -230,7 +230,7 @@ const Library = () => {
                         onClick={() => handleClick(item)} >
                         添加人员
                       </Button>
-                    </Fragment>
+                    </div>
                     :
                     <Button type="primary" onClick={() => handleUnlock(item)}>
                       {`${item.examTemplateCommodityDetail.pointPrice}点券解锁`}
