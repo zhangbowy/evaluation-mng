@@ -98,7 +98,7 @@ const Management = () => {
   }
   // 创建测评
   const createEvaluation = () => {
-    navigator('/evaluation/management/library')
+    navigator('/evaluation/management/library/1')
   }
 
   const columns: ColumnsType<DataType> = [
