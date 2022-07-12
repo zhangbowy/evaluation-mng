@@ -12,9 +12,9 @@ const Detail = () => {
   const { userId } = useParams()
   const [reportDetailList, setReportDetailList] = useState<IReportDetail>()
   const [detailLoading, setDetailLoading] = useState(true)
+  const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
+  const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const lookResultRef: any = useRef()
-  const unlockFailRef: any = useRef([])
-  const unlockLoadingRef: any = useRef([])
   useEffect(() => {
     getUserReport()
   }, [])
@@ -45,8 +45,8 @@ const Detail = () => {
     }
     // 解锁查看
     const onUnlockClick = async () => {
-      unlockLoadingRef.current[index] = true
-      await getUserReport()
+      unlockLoading[index] = true
+      setUnlockLoading([...unlockLoading])
       const params = {
         userId: userId!,
         templateType: item?.examTemplateType as string,
@@ -57,17 +57,17 @@ const Detail = () => {
       if (res.code == 1) {
         getUserReport()
       } else {
-        unlockFailRef.current[index] = true
-        getUserReport()
+        unlockFail[index] = true
+        setUnlockFail([...unlockFail])
       }
     }
     switch (item.answerStatus) {
       case 10:
         return <Button type="link" onClick={() => onDetailClick(item)}>查看详情</Button>
       case 5:
-        return <Button loading={unlockLoadingRef.current[index] && !unlockFailRef.current[index]} icon={!unlockFailRef.current[index] && <LockOutlined />}
+        return <Button loading={unlockLoading[index] && !unlockFail[index]} icon={!unlockFail[index] && <LockOutlined />}
           onClick={onUnlockClick} type="link">
-          {unlockFailRef.current[index] ? '点券不足，充值后解锁查看' : unlockLoadingRef.current[index] ? `解锁中` : '解锁查看'}</Button>
+          {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
       default:
         return <Button type='text' disabled>测评进行中…</Button>
     }

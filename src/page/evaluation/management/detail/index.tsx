@@ -23,16 +23,17 @@ const Detail = () => {
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
   const [tableList, setTableList] = useState<IResultTable>() // 表格数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);
+  const [exportLoading, setExportLoading] = useState<boolean>(false) // 导出loading
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1);
+  const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
+  const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const [form] = Form.useForm();
   const { corpId, appId } = getAllUrlParam()
   const visualRef: any = useRef([])
   const lookResultRef: any = useRef();
   const lookIntroduceRef: any = useRef();
   const lookAllTagsRef: any = useRef()
-  const unlockFailRef: any = useRef([])
-  const unlockLoadingRef: any = useRef([])
 
   // 完成情况select
   const doneCondition: characterProportions[] = [
@@ -83,7 +84,7 @@ const Detail = () => {
   // 获取列表
   const getDetailList = async (from?: IFromName) => {
     // 获取图表数据
-    const item = await getChart({ tpf: 1, appId, corpId, examId: params.id || '0', deptId: from?.deptId })
+    const item = await getChart({ tpf: 1, appId, corpId, examId: params.id || '0', deptId: from?.deptId || deptId })
     if (item.code === 1) {
       setChartList(item.data);
     }
@@ -118,7 +119,6 @@ const Detail = () => {
       status: item?.status?.split(',').map(Number)
     }
     !item?.status && delete obj.status
-    console.log(obj)
     const res: IBackResult = await getExamUsers(obj)
     if (res.code === 1) {
       setTableList(res.data)
@@ -232,12 +232,14 @@ const Detail = () => {
   }
   // 导出
   const onDeriveClick = async () => {
+    setExportLoading(true)
     const res = await measurementExport(params.id)
     if (res.code == 1) {
       let a = document.createElement('a')
       a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
       a.download = res.data.cname
       a.click()
+      setExportLoading(false)
     }
   }
   // 查看所有tags
@@ -324,8 +326,8 @@ const Detail = () => {
         }
         // 解锁查看
         const onUnlockClick = async () => {
-          unlockLoadingRef.current[index] = true
-          await getTableList()
+          unlockLoading[index] = true
+          setUnlockLoading([...unlockLoading])
           const params = {
             userId: record.userId,
             templateType: measurement?.examTemplateType as string,
@@ -336,8 +338,8 @@ const Detail = () => {
           if (res.code == 1) {
             getDetailList()
           } else {
-            unlockFailRef.current[index] = true
-            getDetailList()
+            unlockFail[index] = true
+            setUnlockFail([...unlockFail])
           }
         }
         const getText = (key: number) => {
@@ -347,9 +349,9 @@ const Detail = () => {
             case 1 || 2 || 3:
               return <Button type='text' disabled>测评中</Button>
             case 5:
-              return <Button loading={unlockLoadingRef.current[index] && !unlockFailRef.current[index]} icon={!unlockFailRef.current[index] && <LockOutlined />}
+              return <Button loading={unlockLoading[index] && !unlockFail[index]} icon={!unlockFail[index] && <LockOutlined />}
                 onClick={onUnlockClick} type="link">
-                {unlockFailRef.current[index] ? '点券不足，充值后解锁查看' : unlockLoadingRef.current[index] ? `解锁中` : '解锁查看'}</Button>
+                {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
             case 10:
               return <Button type="link" onClick={onLookResult}>查看报告</Button>
             default:
@@ -459,7 +461,7 @@ const Detail = () => {
             </div>
           </div>
           <div className={styles.detail_main_table}>
-            <Button type="primary" onClick={onDeriveClick}>导出</Button>
+            <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
             <Table pagination={paginationObj} scroll={{ x: 1500, }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
           </div>
         </main>

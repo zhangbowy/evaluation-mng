@@ -51,7 +51,6 @@ const EvaluationLayout: FC = () => {
   }, [])
   // 获取所有点券
   const getAllCoupons = async () => {
-    console.log(1123)
     const params = {
       tpf: 1,
       appId,

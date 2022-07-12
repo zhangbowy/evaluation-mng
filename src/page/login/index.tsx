@@ -36,7 +36,6 @@ const Login = () => {
         }
       })()
     }
-    console.log(corpId, appId, clientId, authCode, 'corpId, appId, clientId, authCode ')
     dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
       const result = await dd.runtime.permission.requestAuthCode({ corpId });
       const res = await login({ code: result.code, corpId, appId });

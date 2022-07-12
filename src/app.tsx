@@ -10,7 +10,7 @@ const App = () => {
   const token = sessionStorage.getItem('QCP_B_TOKEN')
 
   useEffect(() => {
-    if (!token) {
+    if (!token && locationInfo.pathname !== '/402') {
       navigate(`/login`, { replace: true })
     }
   }, [locationInfo.pathname])
