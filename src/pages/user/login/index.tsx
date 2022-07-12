@@ -19,10 +19,11 @@ const Login: React.FC = () => {
       message.error('缺少企业id');
       return;
     }
+    console.log(corpId && appId && clientId, 'console.log(corpId && appId && clientId)')
     if (corpId && appId && clientId) {
       dd.ready(async () => {
         const result = await dd.runtime.permission.requestAuthCode({ corpId });
-
+        console.log(result, 'result')
         const res = await login({ code: result.code, corpId, appId });
         if (res.code === 1) {
           if (!res.data.authLogin) {
