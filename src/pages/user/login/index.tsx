@@ -26,7 +26,16 @@ const Login: React.FC = () => {
     if (corpId && appId && clientId) {
       try {
         dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
-          const result = await dd.runtime.permission.requestAuthCode({ corpId })
+          console.log('dd.ready进来了')
+          const result = await dd.runtime.permission.requestAuthCode({
+            corpId,
+            onSuccess: async (res: any) => {
+              console.log(res, '免登授权码res')
+            },
+            onFail: function (err: any) {
+              console.log(err, '免登授权码err')
+            }
+          })
           console.log(result, 'result')
           const res = await login({ code: result.code, corpId, appId });
           console.log(res, 'res')
