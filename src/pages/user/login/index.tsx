@@ -21,9 +21,12 @@ const Login: React.FC = () => {
     }
     console.log(corpId, appId, clientId, 'console.log(corpId && appId && clientId)')
     console.log(location.href, 'location.href')
+    console.log(dd.env.platform)
+    console.log(dd.env.platform != 'notInDingTalk')
     if (corpId && appId && clientId) {
-      dd.ready(() => {
-        dd.runtime.permission.requestAuthCode({ corpId }).then(async result => {
+      try {
+        dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
+          const result = await dd.runtime.permission.requestAuthCode({ corpId })
           console.log(result, 'result')
           const res = await login({ code: result.code, corpId, appId });
           console.log(res, 'res')
@@ -40,7 +43,7 @@ const Login: React.FC = () => {
                 )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
               );
             } else {
-            console.log('已授权123123123' )
+              console.log('已授权123123123')
               // 已经授权则免登进入系统
               setInitialState({
                 ...initialState,
@@ -54,10 +57,10 @@ const Login: React.FC = () => {
             // 免登失败，提示进入403
             history.push(`/403/${res.code}`);
           }
-        }).catch(err => {
-          console.log(err, 'dd.runtime.permission.requestAuthCode')
-        })
-      });
+        });
+      } catch (e) {
+        console.log(e, '错误了')
+      }
     }
   }, [corpId, appId, clientId]);
   return <PageLoading tips="登录中" />;

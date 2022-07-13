@@ -12,7 +12,7 @@ const Callback: React.FC = () => {
   };
   const { initialState, setInitialState } = useModel('@@initialState');
   useEffect(() => {
-    console.log(corpId && appId && authCode,'corpId && appId && authCode,callback')
+    console.log(corpId , appId , authCode,'corpId && appId && authCode,callback')
     if (corpId && appId && authCode) {
       authLogin({
         code: authCode,
