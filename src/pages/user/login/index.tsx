@@ -24,7 +24,9 @@ const Login: React.FC = () => {
     if (corpId && appId && clientId) {
       dd.ready(() => {
         dd.runtime.permission.requestAuthCode({ corpId }).then(async result => {
+          console.log(result, 'result')
           const res = await login({ code: result.code, corpId, appId });
+          console.log(res, 'res')
           if (res.code === 1) {
             if (!res.data.authLogin) {
               if (!clientId) {
@@ -38,6 +40,7 @@ const Login: React.FC = () => {
                 )}&response_type=code&client_id=${clientId}&scope=openid&prompt=consent`,
               );
             } else {
+            console.log('已授权123123123' )
               // 已经授权则免登进入系统
               setInitialState({
                 ...initialState,
