@@ -1,0 +1,586 @@
+@font-face {
+  font-family: '思源黑体-正粗';
+  font-display: swap;
+  src: url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.eot');
+  src: url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.woff2') format('woff2'),
+    url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.woff') format('woff'),
+    /* chrome、firefox */
+    url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/webfont_hw2pc0yvsrt.svg#思源黑体-正粗') format('svg');
+}
+
+@font-face {
+  font-family: '思源黑体-粗';
+  font-display: swap;
+  src: url('//at.alicdn.com/t/webfont_bvcx5xud2mb.eot');
+  src: url('//at.alicdn.com/t/webfont_bvcx5xud2mb.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('//at.alicdn.com/t/webfont_bvcx5xud2mb.woff2') format('woff2'),
+    url('//at.alicdn.com/t/webfont_bvcx5xud2mb.woff') format('woff'),
+    /* chrome、firefox */
+    url('//at.alicdn.com/t/webfont_bvcx5xud2mb.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/webfont_bvcx5xud2mb.svg#思源黑体-粗') format('svg');
+}
+
+@font-face {
+  font-family: '思源黑体-常规';
+  font-display: swap;
+  src: url('//at.alicdn.com/t/webfont_74cveo15ix8.eot');
+  src: url('//at.alicdn.com/t/webfont_74cveo15ix8.eot?#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('//at.alicdn.com/t/webfont_74cveo15ix8.woff2') format('woff2'),
+    url('//at.alicdn.com/t/webfont_74cveo15ix8.woff') format('woff'),
+    /* chrome、firefox */
+    url('//at.alicdn.com/t/webfont_74cveo15ix8.ttf') format('truetype'),
+    /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('//at.alicdn.com/t/webfont_74cveo15ix8.svg#NotoSansHans-DemiLight') format('svg');
+}
+
+.personality_layout {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: #5200db;
+  background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/qcp_bg.png);
+  position: relative;
+
+  .character_type_layout {
+    background-color: #5200db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px 0;
+
+    .character_type_wrapper {
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 7.5px;
+      position: relative;
+
+      .character_headportrait {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        left: 50%;
+        top: -2%;
+        transform: translateX(-50%);
+        position: absolute;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        line-height: 40px;
+        text-align: center;
+      }
+
+      .character_type_main {
+        border-radius: 5px;
+        border: 1px solid rgba(84, 84, 84, 0.5);
+        display: flex;
+        flex-direction: column;
+        background-image: url('//qzz-static.forwe.store/evaluation-web/imgs/pcc_mbti_bj.png');
+
+        .character_type_content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-left: 14px;
+          padding-top: 17.5px;
+          position: relative;
+
+          .character_type_left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 2;
+
+            div:nth-child(1),
+            div:nth-child(2) {
+              color: #01084d;
+              font-size: 14px;
+              font-family: '思源黑体-常规';
+              font-weight: 500;
+            }
+
+            div:nth-child(3) {
+              color: #f51387;
+              font-size: 27px;
+              font-family: '思源黑体-正粗';
+              font-weight: bold;
+            }
+
+            div:nth-child(4) {
+              color: #f51387;
+              font-size: 27px;
+              font-family: '思源黑体-正粗';
+              font-weight: bold;
+              border-top: 3px solid #f51387;
+              opacity: 0.3;
+            }
+
+            div:nth-child(5),
+            div:nth-child(7) {
+              color: #01084d;
+              font-size: 14px;
+              font-family: '思源黑体-常规';
+              opacity: 0.8;
+              font-weight: 500;
+            }
+
+            div:nth-child(6) {
+              color: #01084d;
+              font-size: 24px;
+              font-family: '思源黑体-粗';
+              font-weight: bold;
+            }
+          }
+
+          .character_type_rightImg {
+            width: 200px;
+            height: 199.5px;
+            position: absolute;
+            right: 0;
+            z-index: 1;
+          }
+        }
+
+        .progress_layout {
+          width: 100%;
+          padding: 0 14px;
+          margin-top: 20px;
+
+          .progress_wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 11px;
+
+            .progress_left,
+            .progress_right {
+              div:nth-child(1) {
+                font-family: '思源黑体-粗';
+                font-weight: bold;
+                color: #01084d;
+                font-size: 14px;
+              }
+
+              div:nth-child(2) {
+                color: rgba(1, 8, 77, 0.7);
+                font-family: '思源黑体-常规';
+                font-weight: 500;
+                font-size: 14px;
+                text-align: center;
+              }
+            }
+
+            .progress_center {
+              width: 140px;
+              height: 13.5px;
+              border-radius: 6.75px;
+              background-color: #ede1ed;
+              position: relative;
+
+              .progress_center_curprogress {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 13.5px;
+                border-radius: 6.75px;
+                transition: width 2s ease;
+              }
+            }
+          }
+        }
+
+        .trait_character_list {
+          width: 100%;
+          margin: 16.5px 0;
+          padding: 0 12px;
+          display: flex;
+          //   justify-content: space-between;
+          flex-wrap: wrap;
+
+          span {
+            font-size: 14px;
+            color: #f51387;
+            padding: 2px 8px;
+            background-color: #ffebf5;
+            font-family: '思源黑体-常规';
+            border-radius: 25.25px;
+            display: block;
+            margin: 0 5px 10px;
+          }
+
+          span:last-child {
+            margin-right: auto;
+          }
+        }
+      }
+    }
+  }
+
+  .personality_main {
+    height: 100%;
+    padding: 0 15px 15px;
+    margin-bottom: 65px;
+    margin-top: 30px;
+
+    .personality_bgCard {
+      border-radius: 10px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 40px;
+      animation: all 1s ease;
+
+      .personality_bgCard_title {
+        display: flex;
+        align-items: flex-start;
+        margin-top: -18px;
+
+        li:nth-child(1) {
+          padding: 10px;
+          color: #fff;
+          background-color: #131313;
+          text-align: center;
+          border-left: 5px solid #f51387;
+          font-size: 18px;
+          font-weight: 550;
+        }
+
+        li:nth-child(2) {
+          width: 0;
+          height: 0;
+          border-bottom: 17.5px solid #fff;
+          border-right: 15px solid transparent;
+          filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+        }
+      }
+
+      .personality_bgCard_content {
+        margin: 10px auto 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        li {
+          background-color: #f8f4ff;
+          border-radius: 7px;
+          padding: 9px 10px;
+          display: flex;
+          margin: 0 auto 8px;
+
+          .serial_number {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #a36fff 0%, #4f00db 100%);
+            border-radius: 50%;
+            margin-right: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+          }
+
+          .personality_bgCard_info {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 250px;
+
+            .personality_bgCard_info_name {
+              display: flex;
+              align-items: center;
+              margin-bottom: 7px;
+              font-size: 14px;
+              font-family: '思源黑体-常规';
+              font-weight: 500;
+              color: #01084d;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              max-width: 300px;
+
+              span:nth-child(1) {
+                font-size: 12px;
+                font-weight: 400;
+                color: #9a9ba9;
+                margin-left: 7px;
+              }
+            }
+
+            p {
+              font-size: 12px;
+              font-weight: 400;
+              color: #545668;
+              margin-bottom: 0;
+              line-height: 18px;
+              white-space: wrap;
+              word-break: break-all;
+            }
+          }
+        }
+      }
+
+      footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 400;
+        color: #2b85ff;
+        line-height: 20px;
+        margin-bottom: 8px;
+        cursor: pointer;
+
+        svg {
+          margin-left: 8px;
+        }
+      }
+    }
+
+    .trait {
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 17px 17.5px;
+      margin-top: 36.5px;
+      position: relative;
+
+      &::before {
+        content: attr(data-list);
+        position: absolute;
+        top: -18.3px;
+        left: 0;
+        width: 130px;
+        height: 36.5px;
+        color: #fff;
+        background-color: #131313;
+        text-align: center;
+        line-height: 36.5px;
+        border-left: 5px solid #f51387;
+        font-size: 18px;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 130.5px;
+        top: -17.5px;
+        width: 0;
+        height: 0;
+        border-bottom: 17.5px solid #fff;
+        border-right: 15px solid transparent;
+      }
+
+      .trait_feature_list {
+        &::before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: 130.1px;
+          top: -18.5px;
+          border-bottom: 19px solid #000;
+          border-right: 16px solid transparent;
+        }
+
+        &:nth-child(1) {
+          margin-top: 19px;
+        }
+
+        .trait_feature_listwrapper {
+          width: 100%;
+          background-color: #f8f4ff;
+          padding: 9px 7px;
+          display: flex;
+          margin-bottom: 7.5px;
+          border-radius: 7.5px;
+
+          span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            color: #fff;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-image: linear-gradient(to bottom, #a36fff, #4f00db);
+          }
+
+          div {
+            width: 200px;
+            color: #01084d;
+            font-size: 14px;
+            word-break: break-all;
+            line-height: 22px;
+            font-family: '思源黑体-常规';
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    .field {
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 17.5px 12px 7.5px;
+      margin-top: 36.5px;
+      position: relative;
+
+      &::before {
+        content: attr(data-list);
+        position: absolute;
+        top: -18.3px;
+        left: 0;
+        padding: 0 23.5px 0 16.5px;
+        height: 36.5px;
+        color: #fff;
+        background-color: #131313;
+        text-align: center;
+        line-height: 36.5px;
+        border-left: 5px solid #f51387;
+        font-size: 18px;
+        font-weight: 550;
+      }
+
+      .field_feature_list {
+        display: flex;
+        flex-flow: row wrap;
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: 170px;
+          top: -19px;
+          border-bottom: 19px solid #000;
+          border-right: 16px solid transparent;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 171px;
+          top: -18px;
+          width: 0;
+          height: 0;
+          border-bottom: 17.5px solid #fff;
+          border-right: 15px solid transparent;
+        }
+
+        &:nth-child(1) {
+          margin-top: 19px;
+        }
+
+        .field_contentmain {
+          padding: 9px 10px;
+          background-color: #f8f4ff;
+          border-radius: 18px;
+          font-size: 14px;
+          color: #01084d;
+          font-family: '思源黑体-常规';
+          font-weight: 500;
+          display: flex;
+          // align-items: center;
+          margin: 0 5px 12px;
+
+          span:nth-child(1) {
+            width: 14.63px;
+            height: 14.63px;
+            background-image: linear-gradient(to bottom, #a36fff, #4f00db);
+            border-radius: 3px;
+            display: inline-block;
+            margin-right: 6px;
+            margin-top: 4px;
+            position: relative;
+
+            &::before {
+              content: '';
+              position: absolute;
+              top: 2px;
+              left: 4.5px;
+              width: 5.68px;
+              height: 8.84px;
+              border: 1px solid #fff;
+              border-width: 0 2px 2px 0;
+              transform: rotate(45deg);
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .careerpath {
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 17.5px 17px 7.5px;
+      margin-top: 36.5px;
+      position: relative;
+
+      &::before {
+        content: attr(data-list);
+        position: absolute;
+        top: -18.3px;
+        left: 0;
+        padding: 0 23.5px 0 16.5px;
+        height: 36.5px;
+        color: #fff;
+        background-color: #131313;
+        text-align: center;
+        line-height: 36.5px;
+        border-left: 5px solid #f51387;
+        font-size: 18px;
+        font-weight: 550;
+      }
+
+      .field_feature_list {
+        &:nth-child(1) {
+          margin-top: 19px;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: 207px;
+          top: -19px;
+          border-bottom: 19px solid #000;
+          border-right: 16px solid transparent;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 207px;
+          top: -18px;
+          width: 0;
+          height: 0;
+          border-bottom: 17.5px solid #fff;
+          border-right: 15px solid transparent;
+        }
+      }
+    }
+  }
+}
+
+.field_feature_copywriter {
+  color: #44475d;
+  font-size: 14px;
+  line-height: 25px;
+
+  h3 {
+    margin-top: 12px;
+    font-weight: 550;
+    margin-bottom: 2px;
+  }
+
+}

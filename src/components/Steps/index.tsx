@@ -1,9 +1,9 @@
 import introJs from "intro.js"
 import "intro.js/introjs.css";
-import styles from './index.less'
-import { upDateGuide } from '@/services/api'
+import styles from './index.module.less'
+import { upDateGuide } from '@/api/api'
 
-const handleStep = async (steps: stepsType[], type: number) => {
+const handleStep = async (steps: StepsType[], type: number) => {
     introJs().setOptions({
         nextLabel: '下一步',
         prevLabel: '上一步',
