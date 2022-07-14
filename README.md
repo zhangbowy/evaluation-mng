@@ -3,7 +3,11 @@
 UI组件库：Antd + less
 Ajax：Axios
 
-├── README.md
+
+
+
+
+```shell
 ├── dist
 ├── api
 │   ├── api  接口
@@ -55,3 +59,16 @@ Ajax：Axios
 ├── package.json
 ├── tsconfig.json  ts配置文件
 └── vite.config.js   vite配置文件
+```
+
+
+打包项目
+npm run build:daily  日常打包
+npm run build:gray   预发打包
+npm run build:prod   线上打包
+
+
+项目启动
+
+npm i 
+npm run dev
