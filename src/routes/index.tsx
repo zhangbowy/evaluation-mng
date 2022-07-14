@@ -6,14 +6,15 @@ import Login from '@/page/login';
 import Evaluation from '@/page/evaluation';
 import NeedPay from '@/page/402';
 import NotJurisdiction from '@/page/403';
-const Management = lazy(() => import('@/page/evaluation/management'))
-const PeopleReport = lazy(() => import('@/page/evaluation/peopleReport'))
-const Library = lazy(() => import('@/page/evaluation/library'))
-const UserAuthority = lazy(() => import('@/page/evaluation/userAuthority'))
-const NoFind = lazy(() => import('@/page/404'))
-const Recharge = lazy(() => import('@/page/evaluation/recharge'))
-const ManagementDetail = lazy(() => import('@/page/evaluation/management/detail'))
-const PeopleReportDetail = lazy(() => import('@/page/evaluation/peopleReport/detail'))
+const Management = lazy(() => import('@/page/evaluation/management'));
+const PdfDetail  = lazy(() => import('@/page/evaluation/pdf'));
+const PeopleReport = lazy(() => import('@/page/evaluation/peopleReport'));
+const Library = lazy(() => import('@/page/evaluation/library'));
+const UserAuthority = lazy(() => import('@/page/evaluation/userAuthority'));
+const NoFind = lazy(() => import('@/page/404'));
+const Recharge = lazy(() => import('@/page/evaluation/recharge'));
+const ManagementDetail = lazy(() => import('@/page/evaluation/management/detail'));
+const PeopleReportDetail = lazy(() => import('@/page/evaluation/peopleReport/detail'));
 const Layout = lazy(() => import('@/components/layout'));
 const ManagementLibrary = lazy(() => import('@/page/evaluation/management/library'));
 const routes: RouteObject[] = [
@@ -73,7 +74,17 @@ const routes: RouteObject[] = [
                         element: <UserAuthority />
                     }
                 ]
-            }
+            },
+            {
+                path: 'pdf',
+                element: <Layout />,
+                children: [
+                    {
+                        index: true,
+                        element: <PdfDetail />
+                    }
+                ]
+            },
         ]
     },
     {
