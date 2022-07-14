@@ -5,7 +5,8 @@
 /.pnp
 .pnp.js
 /dist
-
+/.umi
+/.vscode
 # testing
 /coverage
 
