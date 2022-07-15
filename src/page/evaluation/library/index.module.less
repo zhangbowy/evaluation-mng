@@ -3,6 +3,7 @@
     padding: 24px 34px;
     background-color: var(--white-color);
     min-height: 100vh;
+    height: 100%;
     flex-direction: column;
     overflow: auto;
 
@@ -147,12 +148,14 @@
                         font-size: 12px;
                         font-weight: 400;
                         margin-left: 5px;
+                        white-space: nowrap;
                     }
                 }
 
                 .Library_btn_right {
                     display: flex;
                     align-items: center;
+
                     .Library_appPeople {
                         background-color: #FFFFFF;
                         border-radius: 4px;
@@ -181,11 +184,12 @@
                         font-size: 12px;
                         position: relative;
                         cursor: pointer;
+                        white-space: nowrap;
 
                         &:hover {
                             background-color: #E7F1FF;
                         }
-                        
+
                         span:nth-child(2) {
                             position: absolute;
                             right: 4px;
