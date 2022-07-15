@@ -33,7 +33,7 @@ const Recharge = memo(() => {
       tpf: 1,
       corpId,
       appId,
-      outSkuId: 'DT_GOODS_881656505125058'
+      outSkuId: import.meta.env.VITE_COMMODITY_CODE || '0'
     }
 
     const res = await getRechargeUrl(params)
