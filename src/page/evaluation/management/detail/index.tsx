@@ -6,7 +6,7 @@ import { useParams } from 'react-router'
 import { debounce, getAllUrlParam, randomRgbaColor, randomRgbColor } from '@/utils/utils'
 import { Liquid, Pie } from '@antv/g2plot';
 import { useSearchParams } from 'react-router-dom'
-import { IOption, IChartList, characterProportions, ITableParams, IResultTable, ISex, IisDimission, IFromName, IDepartment, IResultList } from '../type'
+import { IOption, IChartList, characterProportions, IEvaluation, ITableParams, IResultTable, ISex, IisDimission, IFromName, IDepartment, IResultList } from '../type'
 import { ColumnsType } from 'antd/lib/table'
 import { LockOutlined } from '@ant-design/icons'
 import LookResult from '@/components/lookResult'
@@ -383,7 +383,7 @@ const Detail = () => {
               <div className={styles.detail_top}>
                 <div className={styles.detail_title}>
                   <p>{measurement?.examTitle}</p>
-                  <span>{measurement?.examTemplateType}</span>
+                  <span>{IEvaluation[measurement!.examTemplateType]}</span>
                 </div>
                 <Button type="link" onClick={onLookIntroduceClick}>查看介绍</Button>
               </div>

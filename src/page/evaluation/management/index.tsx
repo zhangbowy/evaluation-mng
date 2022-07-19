@@ -220,7 +220,7 @@ const Management = () => {
   return (
     <div className={styles.management_layout}>
       <header>
-        <h1 id='appraisal_Management'>测评管理</h1>
+        <h1 id='appraisal_Management'>盘点测评</h1>
         <div>
           <Radio.Group defaultValue={-1} className={styles.management_radio} options={options} onChange={onRadioChange} value={radioValue} optionType="button" />
           <Button type="primary" onClick={createEvaluation} icon={<PlusCircleOutlined />} >
