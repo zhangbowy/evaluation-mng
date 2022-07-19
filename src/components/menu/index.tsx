@@ -12,7 +12,7 @@ const Menu = (props: IMenuProps) => {
   const menuList: IMenuItem[] = [
     {
       id: 0,
-      name: '测评管理',
+      name: '盘点测评',
       icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_evaluation.svg',
       path: '/evaluation/management'
     },

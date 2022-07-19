@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
+import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -119,4 +119,7 @@ export const queryConversationUserList = async (openConversationId: string) => {
 // 获取测评详情数据
 export const getExamUsers = async (data: IExamUsers) => {
     return request('/api/spf-cc/b/evaluation/management/getExamUsers', { data, method: 'POST' })
+}
+export const getBResult = async (params: IBResultParams) => {
+    return request('/api/spf-cc/b/evaluation/management/getExamUsers', { params })
 }

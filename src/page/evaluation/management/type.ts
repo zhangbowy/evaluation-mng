@@ -52,6 +52,13 @@ export interface ITableParams extends IFromName {
 
 
 export interface IResult {
+    htmlDescList: {
+        matching: string;
+        character: string;
+        features: string;
+        decision: string;
+        [key: string]:string
+    }[];
     examTemplateType: string;
     polygon: string;
     results: {

@@ -2,6 +2,7 @@ export interface IReportParams {
     name?: string;
     deptId?: number;
     curPage?: number;
+    pageSize?: number;
 }
 export interface IReportList {
     totalNum: number;

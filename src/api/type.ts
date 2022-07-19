@@ -65,3 +65,8 @@ export interface IExamUsers {
     status?: number[] | string;
     tags?: string;
 }
+
+export interface IBResultParams {
+    examPaperId: string;
+    userId: string;
+}

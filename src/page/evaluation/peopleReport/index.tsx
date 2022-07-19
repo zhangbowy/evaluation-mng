@@ -14,6 +14,7 @@ const PeopleReport = () => {
   const [reportList, setReportList] = useState<IReportList[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const navigator = useNavigate()
   const [form] = Form.useForm();
   useEffect(() => {
@@ -25,8 +26,8 @@ const PeopleReport = () => {
     defaultPageSize: 10,
     total: totalNum,
     current: current,
-    onChange: (page: number) => {
-      getUserReport({ curPage: page, ...form.getFieldsValue() })
+    onChange: (page: number, pageSize: number) => {
+      getUserReport({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
   }
   useEffect(() => {
@@ -70,13 +71,14 @@ const PeopleReport = () => {
     setTableLoading(true)
     const res = await getJoinExamUsers({
       ...item,
-      pageSize: 10,
+      pageSize: item?.pageSize || pageSize,
       curPage: item?.curPage || 1
     });
     if (res.code === 1) {
       setCurrent(res.data.curPage)
       setReportList(res.data.resultList)
       setTableLoading(false)
+      setPageSize(res.data.pageSize)
       setTotalNum(res.data.totalItem)
     }
   }

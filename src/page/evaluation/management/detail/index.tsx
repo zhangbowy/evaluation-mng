@@ -26,6 +26,7 @@ const Detail = () => {
   const [exportLoading, setExportLoading] = useState<boolean>(false) // 导出loading
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const [form] = Form.useForm();
@@ -69,8 +70,8 @@ const Detail = () => {
     defaultPageSize: 10,
     total: totalNum,
     current: current,
-    onChange: (page: number) => {
-      getTableList({ curPage: page, ...form.getFieldsValue() })
+    onChange: (page: number, pageSize: number) => {
+      getTableList({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
   }
   useEffect(() => {
@@ -114,7 +115,7 @@ const Detail = () => {
     const obj = {
       examid: params.id,
       curPage: item?.curPage || 1,
-      pageSize: item?.pageSize || 10,
+      pageSize: item?.pageSize || pageSize,
       ...item,
       status: item?.status?.split(',').map(Number)
     }
@@ -123,6 +124,7 @@ const Detail = () => {
     if (res.code === 1) {
       setTableList(res.data)
       setTableLoading(false)
+      setPageSize(res.data.pageSize)
       setTotalNum(res.data.totalItem)
       setCurrent(res.data.curPage)
     }
