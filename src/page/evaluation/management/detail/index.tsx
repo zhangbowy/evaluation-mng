@@ -371,7 +371,7 @@ const Detail = () => {
     <div className={styles.detail_layout}>
       <header>
         <Breadcrumb separator=">" className={styles.detail_nav}>
-          <Breadcrumb.Item href="#/evaluation/management">测评管理</Breadcrumb.Item>
+          <Breadcrumb.Item href="#/evaluation/management">盘点测评</Breadcrumb.Item>
           <Breadcrumb.Item>测评详情</Breadcrumb.Item>
         </Breadcrumb>
       </header>

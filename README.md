@@ -30,7 +30,7 @@ Ajax：Axios  <br />
 |   ├── evaluation  主页
 |   |   ├── library  测评库
 |   |   |   └── AddPeople 添加人员
-|   |   ├── management  测评管理
+|   |   ├── management  盘点管理
 |   |   |   ├── detail  查看详情
 |   |   |   └── library 创建测评
 |   |   ├── peopleReport  人才报告
