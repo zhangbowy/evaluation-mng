@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList } from './type';
+import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList  } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -127,4 +127,7 @@ export const addRecruitmentExam = async (data: IRecruitmentExam) => {
 // 查询招聘测评列表
 export const queryRecruitmentExamList = async (data: IRecruitmentExamList) => {
     return request('/api/spf-cc/b/evaluation/recruitment/queryRecruitmentExamList', { data, method: 'POST' })
+}
+export const getBResult = async (params: IBResultParams) => {
+    return request('/api/spf-cc/b/evaluation/management/getExamUsers', { params })
 }

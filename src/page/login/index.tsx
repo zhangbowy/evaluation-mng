@@ -1,11 +1,10 @@
 import { authLogin, login } from '@/api/api'
 import Loading from '@/components/loading'
 import { getAllUrlParam } from '@/utils/utils'
-import { Button, message } from 'antd'
+import { message } from 'antd'
 import dd from 'dingtalk-jsapi'
 import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 const Login = () => {
   const { corpId, appId, clientId, authCode } = getAllUrlParam()

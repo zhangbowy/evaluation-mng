@@ -47,7 +47,7 @@ interface IMeasurement {
     finishValue: string;
     examTitle: string;
     introduction: string;
-    examTemplateType: string;
+    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI';
     introductionImage: {
         admin: string;
         mobile: {
@@ -141,5 +141,5 @@ interface StepsType {
 interface ImportMetaEnv {
     readonly VITE_PROJECT_ENV: string
     readonly VITE_BASE_URL: string;
-    readonly VITE_COOLAPPCODE:string;
+    readonly VITE_COOLAPPCODE: string;
 }

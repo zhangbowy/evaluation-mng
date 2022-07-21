@@ -6,7 +6,7 @@ import { useParams } from 'react-router'
 import { debounce, getAllUrlParam, randomRgbaColor, randomRgbColor } from '@/utils/utils'
 import { Liquid, Pie } from '@antv/g2plot';
 import { useSearchParams } from 'react-router-dom'
-import { IOption, IChartList, characterProportions, ITableParams, IResultTable, ISex, IisDimission, IFromName, IDepartment, IResultList } from '../type'
+import { IOption, IChartList, characterProportions, IEvaluation, ITableParams, IResultTable, ISex, IisDimission, IFromName, IDepartment, IResultList } from '../type'
 import { ColumnsType } from 'antd/lib/table'
 import { LockOutlined } from '@ant-design/icons'
 import LookResult from '@/components/lookResult'
@@ -26,6 +26,7 @@ const Detail = () => {
   const [exportLoading, setExportLoading] = useState<boolean>(false) // 导出loading
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const [form] = Form.useForm();
@@ -69,8 +70,8 @@ const Detail = () => {
     defaultPageSize: 10,
     total: totalNum,
     current: current,
-    onChange: (page: number) => {
-      getTableList({ curPage: page, ...form.getFieldsValue() })
+    onChange: (page: number, pageSize: number) => {
+      getTableList({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
   }
   useEffect(() => {
@@ -114,7 +115,7 @@ const Detail = () => {
     const obj = {
       examid: params.id,
       curPage: item?.curPage || 1,
-      pageSize: item?.pageSize || 10,
+      pageSize: item?.pageSize || pageSize,
       ...item,
       status: item?.status?.split(',').map(Number)
     }
@@ -123,6 +124,7 @@ const Detail = () => {
     if (res.code === 1) {
       setTableList(res.data)
       setTableLoading(false)
+      setPageSize(res.data.pageSize)
       setTotalNum(res.data.totalItem)
       setCurrent(res.data.curPage)
     }
@@ -369,7 +371,7 @@ const Detail = () => {
     <div className={styles.detail_layout}>
       <header>
         <Breadcrumb separator=">" className={styles.detail_nav}>
-          <Breadcrumb.Item href="#/evaluation/management">测评管理</Breadcrumb.Item>
+          <Breadcrumb.Item href="#/evaluation/management">盘点测评</Breadcrumb.Item>
           <Breadcrumb.Item>测评详情</Breadcrumb.Item>
         </Breadcrumb>
       </header>
@@ -381,7 +383,7 @@ const Detail = () => {
               <div className={styles.detail_top}>
                 <div className={styles.detail_title}>
                   <p>{measurement?.examTitle}</p>
-                  <span>{measurement?.examTemplateType}</span>
+                  <span>{IEvaluation[measurement!.examTemplateType]}</span>
                 </div>
                 <Button type="link" onClick={onLookIntroduceClick}>查看介绍</Button>
               </div>

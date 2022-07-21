@@ -9,6 +9,13 @@ export interface IUserParams {
 }
 
 
+export interface IUserObj {
+    curPage?: number;
+    pageSize?: number;
+    fuzzyName?: string | undefined;
+    deptId?: number | undefined;
+}
+
 
 export interface IColumns {
     auths: string[];

@@ -10,6 +10,7 @@ const TopUpTable = () => {
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [topUpTableList, setTopUpTableList] = useState()
     const [totalNum, setTotalNum] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(10) // 多少条
     const { corpId, appId } = getAllUrlParam()
     useEffect(() => {
         getTopUpTableList()
@@ -19,8 +20,8 @@ const TopUpTable = () => {
         showQuickJumper: true,
         defaultPageSize: 10,
         total: totalNum,
-        onChange: (page: number) => {
-            getTopUpTableList({ curPage: page })
+        onChange: (page: number, pageSize: number) => {
+            getTopUpTableList({ curPage: page, pageSize })
         }
     }
     // 获取表格数据
@@ -28,7 +29,7 @@ const TopUpTable = () => {
         setTableLoading(true)
         const params = {
             curPage: item?.curPage || 1,
-            pageSize: 10,
+            pageSize: item?.pageSize || pageSize,
             tpf: 1,
             appId,
             corpId
@@ -38,6 +39,7 @@ const TopUpTable = () => {
             setTopUpTableList(res.data.resultList)
             setTableLoading(false)
             setTotalNum(res.data.totalItem)
+            setPageSize(res.data.pageSize)
         }
     }
     const rechargeColumns: ColumnsType<DataType> = [

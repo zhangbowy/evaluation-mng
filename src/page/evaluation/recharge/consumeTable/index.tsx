@@ -16,6 +16,7 @@ const ConsumeTable = () => {
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [ConsumeTableList, setConsumeTableList] = useState<IConsumeTableList[]>()
     const [totalNum, setTotalNum] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(10) // 多少条
     const { corpId, appId } = getAllUrlParam()
     useEffect(() => {
         getConsumeTableList()
@@ -25,8 +26,8 @@ const ConsumeTable = () => {
         showQuickJumper: true,
         defaultPageSize: 10,
         total: totalNum,
-        onChange: (page: number) => {
-            getConsumeTableList({ curPage: page, flowType: radioValue })
+        onChange: (page: number, pageSize: number) => {
+            getConsumeTableList({ curPage: page, pageSize, flowType: radioValue })
         }
     }
     // radio的change
@@ -41,7 +42,7 @@ const ConsumeTable = () => {
         setTableLoading(true)
         const params = {
             curPage: item?.curPage || 1,
-            pageSize: item?.pageSize || 10,
+            pageSize: item?.pageSize || pageSize,
             tpf: 1,
             appId,
             corpId,
@@ -53,6 +54,7 @@ const ConsumeTable = () => {
             setConsumeTableList(res.data.resultList)
             setTableLoading(false)
             setTotalNum(res.data.totalItem)
+            setPageSize(res.data.pageSize)
         }
     }
     const consumeColumns: ColumnsType<IConsumeTableList> = [

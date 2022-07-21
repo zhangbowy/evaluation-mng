@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
 import { getUserList, queryDept, setAuths } from '@/api/api'
 import { useSearchParams } from 'react-router-dom'
-import { IUserParams, IColumns } from './type'
+import { IUserParams, IColumns, IUserObj } from './type'
 import { ColumnsType } from 'antd/lib/table'
 import dd from 'dingtalk-jsapi'
 import { getIsGuide, getAllUrlParam } from '@/utils/utils'
@@ -15,6 +15,7 @@ const index = () => {
   const [departmentList, setDepartmentList] = useState<IDept[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [form] = Form.useForm();
   useEffect(() => {
     getUser()
@@ -32,10 +33,10 @@ const index = () => {
     showQuickJumper: true,
     defaultCurrent: 1,
     defaultPageSize: 10,
-    current: current,
+    current,
     total: totalNum,
-    onChange: (page: number) => {
-      getUser({ currentPage: page, ...form.getFieldsValue() })
+    onChange: (page: number, pageSize: number) => {
+      getUser({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
   }
   // 引导步骤
@@ -48,14 +49,14 @@ const index = () => {
     getIsGuide(setsArr, 4)
   }
   // 获取用户列表
-  const getUser = async (obj?: { deptId?: number, fuzzyName?: string, currentPage?: number }) => {
+  const getUser = async (obj?: IUserObj) => {
     setTableLoading(true)
     const params: IUserParams = {
       corpId,
       appId,
       authPoint: 'admin',
-      pageSize: 10,
-      curPage: obj?.currentPage || 1,
+      pageSize: obj?.pageSize || pageSize,
+      curPage: obj?.curPage || 1,
       ...obj
     }
     const res = await getUserList(params)
@@ -64,6 +65,7 @@ const index = () => {
       setTableLoading(false)
       setTotalNum(res.data.totalItem)
       setCurrent(res.data.curPage)
+      setPageSize(res.data.pageSize)
     }
   }
   // 获取部门
@@ -118,7 +120,7 @@ const index = () => {
           const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
           const res = await setAuths(data);
           if (res.code === 1) {
-            getUser()
+            getUser({ curPage: current })
             message.success('操作成功');
           }
         }

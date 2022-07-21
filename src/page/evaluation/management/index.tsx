@@ -25,8 +25,9 @@ const Management = () => {
   const [radioValue, setRadioValue] = useState<number>(-1); // 筛选
   const [evaluationList, setEvaluationList] = useState<DataType[]>([]);//  列表数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);// tableLoading
-  const [totalNum, setTotalNum] = useState<number>(0);
-  const [current, setCurrent] = useState<number>(1)
+  const [totalNum, setTotalNum] = useState<number>(0); // 总数
+  const [current, setCurrent] = useState<number>(1)  // 当前页
+  const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const { state, dispatch } = useContext(CountContext)
   const { corpId, appId } = getAllUrlParam()
   const paginationObj = {
@@ -35,8 +36,8 @@ const Management = () => {
     defaultCurrent: 1,
     current: current,
     total: totalNum,
-    onChange: (page: number) => {
-      getEvaluationList({ curPage: page, isFinishType: radioValue })
+    onChange: (page: number, pageSize: number) => {
+      getEvaluationList({ curPage: page, pageSize, isFinishType: radioValue })
     }
   }
   useEffect(() => {
@@ -84,7 +85,7 @@ const Management = () => {
     //isFinishType 0 完成 已完成
     const obj: IExamListParams = {
       curPage: params?.curPage || 1,
-      pageSize: params?.pageSize || 10,
+      pageSize: params?.pageSize || pageSize,
       isFinishType: params?.isFinishType
     }
     obj.isFinishType == -1 && delete obj.isFinishType
@@ -92,6 +93,7 @@ const Management = () => {
     if (res.code == 1) {
       setEvaluationList(res.data.resultList)
       setTableLoading(false)
+      setPageSize(res.data.pageSize)
       setTotalNum(res.data.totalItem)
       setCurrent(res.data.curPage)
     }
@@ -166,7 +168,7 @@ const Management = () => {
           const res = await editExam({ type: checked, examId: id });
           if (res.code === 1) {
             message.success('修改成功');
-            getEvaluationList();
+            getEvaluationList({curPage:current});
           }
         }
         // 查看详情
@@ -218,7 +220,7 @@ const Management = () => {
   return (
     <div className={styles.management_layout}>
       <header>
-        <h1 id='appraisal_Management'>测评管理</h1>
+        <h1 id='appraisal_Management'>盘点测评</h1>
         <div>
           <Radio.Group defaultValue={-1} className={styles.management_radio} options={options} onChange={onRadioChange} value={radioValue} optionType="button" />
           <Button type="primary" onClick={createEvaluation} icon={<PlusCircleOutlined />} >
@@ -230,7 +232,7 @@ const Management = () => {
         <ConfigProvider renderEmpty={customizeRenderEmpty}>
           <Table loading={tableLoading} rowKey={(row) => row.id}
             showHeader={false} columns={columns}
-            scroll={{ x: 1100 ,}}
+            scroll={{ x: 1100, }}
             pagination={paginationObj}
             dataSource={evaluationList}>
           </Table>

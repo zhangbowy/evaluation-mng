@@ -52,6 +52,13 @@ export interface ITableParams extends IFromName {
 
 
 export interface IResult {
+    htmlDescList: {
+        matching: string;
+        character: string;
+        features: string;
+        decision: string;
+        [key: string]: string
+    }[];
     examTemplateType: string;
     polygon: string;
     results: {
@@ -82,6 +89,12 @@ export enum IisDimission {
     '离职'
 }
 
+export enum IEvaluation {
+    MBTI = 'MBTI',
+    PDP = 'PDP',
+    CA = '职业锚',
+    CPI = '魅力指数',
+}
 export interface ITagsProps {
     onTagClick: (name: string) => void;
 }

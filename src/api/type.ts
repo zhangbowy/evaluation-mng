@@ -81,3 +81,7 @@ export interface IRecruitmentExamList {
     pageSize: number,
     curPage: number
 }
+export interface IBResultParams {
+    examPaperId: string;
+    userId: string;
+}
