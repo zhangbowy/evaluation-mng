@@ -65,3 +65,19 @@ export interface IExamUsers {
     status?: number[] | string;
     tags?: string;
 }
+
+export interface IRecruitmentExam {
+    name: string,
+    job: string,
+    phone?: string,
+    email?: string,
+    templateType: string
+}
+
+export interface IRecruitmentExamList {
+    candidateName?: string,
+    job?: string,
+    examStatus?: number,
+    pageSize: number,
+    curPage: number
+}

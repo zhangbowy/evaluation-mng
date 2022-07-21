@@ -11,6 +11,12 @@ type IMenuProps = {
 const Menu = (props: IMenuProps) => {
   const menuList: IMenuItem[] = [
     {
+      id: 5,
+      name: '招聘测评',
+      icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_people.svg',
+      path: '/evaluation/recruitEvaluation',
+    },
+    {
       id: 0,
       name: '测评管理',
       icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_evaluation.svg',
