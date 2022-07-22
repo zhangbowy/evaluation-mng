@@ -8,7 +8,7 @@ import { addRecruitmentExam } from '@/api/api';
 const LaunchEvaluation = () => {
   const [form] = Form.useForm();
   const [stamps, setStamps] = useState<number>(0);
-  const [stampsId, setStampsId] = useState<number>();
+  const [stampsId, setStampsId] = useState<string>();
   const navigate = useNavigate();
 
   const goBackList = () => {
@@ -17,7 +17,6 @@ const LaunchEvaluation = () => {
 
   const onSubmit = () => {
     form.validateFields().then(values => {
-      console.log(values);
       if (!stampsId) {
         message.warning('请选择量表！');
         return;
@@ -39,9 +38,9 @@ const LaunchEvaluation = () => {
     });
   };
 
-  const setStampsNum = (num: number, id: number) => {
+  const setStampsNum = (num: number, type: string) => {
     setStamps(num);
-    setStampsId(id);
+    setStampsId(type);
   };
 
   return <div className={styles.launch_evaluation_layout}>

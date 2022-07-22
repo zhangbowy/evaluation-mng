@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { message } from 'antd';
 import { CheckOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { Modal } from 'antd';
-import { scaleType, IExamTemplateList, propsType } from './type';
+import { IExamTemplateList, propsType } from './type';
 import styles from './index.module.less';
 import { getExamTemplateList, UnLockReport } from '@/api/api';
+import { CountContext } from '@/utils/context'
 
 const cx = classNames.bind(styles);
 const { confirm } = Modal;
 const Scale = ({ setStampsNum }: propsType) => {
   const [data, setData] = useState<IExamTemplateList[]>([]);
   const [selectScale, setSelectScale] = useState<number>();
+  const { dispatch } = useContext(CountContext);
 
-  const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
-  const navigate = useNavigate();
+  const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const onSelectScale = (index: number) => {
     setSelectScale(data[index].id);
-    setStampsNum && setStampsNum(100, data[index].id)
+    setStampsNum && setStampsNum(data[index].examCouponCommodityDetail.pointPrice, data[index].type)
   };
 
   const getExamTemplate = () => {
@@ -58,7 +58,7 @@ const Scale = ({ setStampsNum }: propsType) => {
           </div>
         </div>
       </div>,
-      onOk() {
+      onOk: (close) => {
         // 调用解锁
         const params = {
           userId: qcp_user.userId,
@@ -69,13 +69,10 @@ const Scale = ({ setStampsNum }: propsType) => {
           if (res.code == 1) {
             message.success('解锁成功');
             getExamTemplate();
-          } else {
-            message.error(res.message);
+            dispatch();
+            close();
           }
         })
-      },
-      onCancel() {
-        console.log('Cancel');
       },
     });
   };

@@ -6,7 +6,7 @@ export interface scaleType {
 }
 
 export interface propsType {
-  setStampsNum: (num: number, stampsId: number) => void
+  setStampsNum: (num: number, type: string) => void
 }
 
 export interface IExamTemplateList {

@@ -81,6 +81,15 @@ export interface IRecruitmentExamList {
     pageSize: number,
     curPage: number
 }
+export interface IUpdateRecruitment {
+    isOpen: number,
+    rId: number
+}
+export interface IUserExamResult {
+    userId: string,
+    examPaperId: string,
+    major?: boolean
+}
 export interface IBResultParams {
     examPaperId: string;
     userId: string;

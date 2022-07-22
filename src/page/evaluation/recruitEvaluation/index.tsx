@@ -19,14 +19,16 @@ import {
   ExclamationCircleOutlined,
   CopyOutlined,
   DownOutlined,
-  CheckOutlined
+  CheckOutlined,
+  LockOutlined
 } from '@ant-design/icons';
 import styles from './index.module.less';
 import { ColumnsType } from 'antd/lib/table'
 import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
-import LookResult from '@/components/lookResult'
-import { queryRecruitmentExamList } from '@/api/api';
+import LookResult from './components/lookResult'
+import { queryRecruitmentExamList, updateRecruitment, UnLockReport } from '@/api/api';
+import moment from 'moment';
 
 const recruitStatusList:RecruitStatus[] = [
   {
@@ -42,56 +44,6 @@ const recruitStatusList:RecruitStatus[] = [
     value: 10
   }
 ];
-const dataList:IColumns[] = [
-  {
-    id: 1,
-    tpf: 2,
-    appId: 3,
-    corpId: 4,
-    name: '刘寒冰',
-    job: '职位',
-    phone: '1511111111',
-    email: '151@qq.com',
-    examPaperId: 22,
-    examTemplateType: 'CA',
-    shortLink: 'wwwwddddaaa',
-    examStatus: '10',
-    isOpen: true,
-    created: '2022-05-05'
-  },
-  {
-    id: 2,
-    tpf: 2,
-    appId: 3,
-    corpId: 4,
-    name: '刘寒冰',
-    job: '职位',
-    phone: '1511111111',
-    email: '151@qq.com',
-    examPaperId: 22,
-    examTemplateType: 'CA',
-    shortLink: 'wwwwddddaaa',
-    examStatus: '0',
-    isOpen: true,
-    created: '2022-05-05'
-  },
-  {
-    id: 3,
-    tpf: 2,
-    appId: 3,
-    corpId: 4,
-    name: '刘寒冰',
-    job: '职位',
-    phone: '1511111111',
-    email: '151@qq.com',
-    examPaperId: 22,
-    examTemplateType: 'CA',
-    shortLink: 'wwwwddddaaa',
-    examStatus: '1',
-    isOpen: true,
-    created: '2022-05-05'
-  },
-];
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 const RecruitEvaluation = () => {
@@ -99,24 +51,37 @@ const RecruitEvaluation = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(false);
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
-  const [candidateList, setCandidateList] = useState<IColumns[]>(dataList);
+  const [tableSize, setTableSize] = useState<number>(10);
+  const [candidateList, setCandidateList] = useState<IColumns[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [modalLink, setModalLink] = useState<string>('');
+  const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
+  const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const history = useNavigate();
   const lookResultRef: any = useRef();
 
   const getListData = (pageNo: number, pageSize: number = 10) => {
     const values = form.getFieldsValue();
     const formData: paramsType = {
-      ...values,
       pageSize,
-      curPage: pageNo
+      curPage: pageNo,
+      examStatus: values.examStatus
+    }
+    if (values.candidateName) {
+      formData.candidateName = values.candidateName;
+    }
+    if (values.job) {
+      formData.job = values.job;
     }
     setTableLoading(true);
     queryRecruitmentExamList(formData).then((res: IBack) => {
       const { code, data } = res;
       setTableLoading(false);
       if (code === 1) {
+        // const data1 = data.resultList.map((v: any) => ({
+        //   ...v,
+        //   examStatus: 10
+        // }))
         setCandidateList(data.resultList);
         setTotalNum(data.totalItem);
       } else {
@@ -142,7 +107,6 @@ const RecruitEvaluation = () => {
   };
 
   const copyText = (text: string) => {
-    console.log(text, 'text');
     if (copy(text)) {
       message.success('复制成功!');
     } else {
@@ -151,36 +115,39 @@ const RecruitEvaluation = () => {
   };
 
   const showReport = (record: IColumns) => {
-    lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: '11' })
-    // history(`/evaluation/peopleReport/detail/${record.id}`)
+    lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
 
   const columns: ColumnsType<IColumns> = [
     {
       title: '候选人',
-      dataIndex: 'name'
+      dataIndex: 'name',
+      width: 150
     },
     {
       title: '应聘岗位',
-      dataIndex: 'job'
+      dataIndex: 'job',
+      width: 150
     },
     {
       title: '测评状态',
       dataIndex: 'examStatus',
+      width: 150,
       render: (text: number) =>
       <span
         className={cx({
           'status_base': true,
           'status_answer': text == 0,
           'status_start': text == 1,
-          'status_finish': text == 10
+          'status_finish': text == 10 || text == 5
         })} >
-        {rectuitMap[text]}
+        {text == 5 ? '已完成' : rectuitMap[text]}
       </span>
     },
     {
       title: '测评链接',
       dataIndex: 'shortLink',
+      width: 250,
       render: (text: string) => <div>
         <span>{text}</span>
         <span
@@ -194,25 +161,66 @@ const RecruitEvaluation = () => {
     {
       title: '手机号',
       dataIndex: 'phone',
+      width: 150,
       render: text => text ? text : '-'
     },
     {
       title: '邮箱',
       dataIndex: 'email',
+      width: 150,
       render: text => text ? text : '-'
     },
     {
       title: '创建时间',
-      dataIndex: 'created'
+      dataIndex: 'created',
+      width: 200,
+      render: text => text ? moment(text).format('YYYY-MM-DD hh:mm:ss') : '-'
     },
     {
       title: '操作',
       key: 'options',
-      width: 150,
-      render: record => {
+      width: 200,
+      render: (record, text, index) => {
         const { examStatus } = record;
-        if (examStatus == 10) {
-          return <span className={styles.showReport} onClick={() => showReport(record)}>查看报告</span>
+        if (examStatus == 10 || examStatus == 5) {
+          // 解锁查看
+          const onUnlockClick = async () => {
+            unlockLoading[index] = true
+            setUnlockLoading([...unlockLoading])
+            const params = {
+              userId: record.phone,
+              templateType: record?.examTemplateType as string,
+              operationType: '1',
+              examId: record.examPaperId
+            }
+            const res = await UnLockReport(params)
+            if (res.code == 1) {
+              getListData(current);
+            } else {
+              unlockFail[index] = true
+              setUnlockFail([...unlockFail])
+            }
+          }
+          const getText = (key: number) => {
+            switch (key) {
+              case 5:
+                return <Button className={styles.columns_btn_lock} loading={unlockLoading[index] && !unlockFail[index]} icon={!unlockFail[index] && <LockOutlined />}
+                  onClick={onUnlockClick} type="link">
+                  {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
+              case 10:
+                return <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
+              default:
+                break;
+            }
+          }
+          return <>
+            {
+              getText(examStatus)
+            }
+            {/* <span className={styles.showReport} onClick={() => showReport(record)}>查看报告</span> */}
+            <Divider type="vertical" />
+            <span className={styles.showReport}>下载</span>
+          </>
         } else {
           const onOpenClick = (checked: boolean) => {
             if (!checked) {
@@ -220,8 +228,29 @@ const RecruitEvaluation = () => {
                 title: '确定关闭测评吗?',
                 icon: <ExclamationCircleOutlined />,
                 content: '关闭后，该人员将无法继续评测',
-                onOk() {},
-                onCancel() {},
+                onOk() {
+                  updateRecruitment({
+                    isOpen: checked ? 1 : 0,
+                    rId: record.id
+                  }).then((res: IBack) => {
+                    const { code } = res;
+                    if (code === 1) {
+                      message.success('操作成功！');
+                      getListData(current);
+                    }
+                  })
+                },
+              })
+            } else {
+              updateRecruitment({
+                isOpen: checked ? 1 : 0,
+                rId: record.id
+              }).then((res: IBack) => {
+                const { code } = res;
+                if (code === 1) {
+                  message.success('操作成功！');
+                  getListData(current);
+                }
               })
             }
           };
@@ -230,7 +259,7 @@ const RecruitEvaluation = () => {
             checkedChildren="开"
             unCheckedChildren="关"
             onClick={(checked) => onOpenClick(checked)}
-            checked={record.isOpen}
+            checked={record.isOpen === 1}
           />
         }
       }
@@ -238,8 +267,15 @@ const RecruitEvaluation = () => {
   ];
 
   const changePagination = (page: number, pageSize: number) => {
+    if (pageSize !== tableSize) {
+      setCurrent(1);
+      setTableSize(pageSize);
+      getListData(1, pageSize);
+      return;
+    }
     setCurrent(page);
-    getListData(page);
+    setTableSize(pageSize);
+    getListData(page, pageSize);
   }
 
   const closeModal = () => {
@@ -253,23 +289,9 @@ const RecruitEvaluation = () => {
       setModalLink(RECRUIT_MODAL_FLAG);
       sessionStorage.removeItem('RECRUIT_MODAL_FLAG');
     }
-    getListData(current);
+    getListData(current, tableSize);
   }, []);
 
-  // 分页配置
-  const paginationObj = {
-    showQuickJumper: true,
-    defaultCurrent: 1,
-    defaultPageSize: 10,
-    current: current,
-    total: totalNum,
-    showTotal: (total: number) => `共 ${total} 条数据`,
-    onChange: (page: number) => {
-      setCurrent(page);
-      // 请求列表数据
-      // getUser({ currentPage: page, ...form.getFieldsValue() })
-    }
-  }
   return <div className={styles.recruitEvaluation_layout}>
     <div className={styles.recruitEvaluation_content}>
       <h1>招聘测评</h1>
@@ -284,6 +306,7 @@ const RecruitEvaluation = () => {
           <Form.Item name="examStatus" label="测评状态">
             <Select
               optionFilterProp="children"
+              allowClear
               filterOption={(input, option) =>
                 (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
               }
@@ -331,18 +354,22 @@ const RecruitEvaluation = () => {
         />
       </main>
     </div>
-    <footer>
-      <div className={styles.footer_line} />
-      <Pagination
-      showQuickJumper={true}
-      defaultCurrent={1}
-      defaultPageSize={10}
-      current={current}
-      total={totalNum}
-      showTotal={(total: number) => `共 ${total} 条数据`}
-      onChange={changePagination}
-      />
-    </footer>
+    {
+      candidateList.length && <footer>
+        <div className={styles.footer_line} />
+        <Pagination
+        showQuickJumper={true}
+        defaultCurrent={1}
+        defaultPageSize={10}
+        current={current}
+        total={totalNum}
+        showTotal={(total: number) => `共 ${total} 条数据`}
+        onChange={changePagination}
+        pageSizeOptions={[10, 20, 50, 100]}
+        showSizeChanger
+        />
+      </footer>
+    }
     <ModalLink
       visible={visible}
       copyText={copyText}
