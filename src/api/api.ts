@@ -2,7 +2,7 @@ import request from './http';
 import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
 
 export const login = async (data: any) => {
-    return request('/api/member/login/qcp/dt', { method: 'POST', data })
+    return request('/api/member/login/dt', { method: 'POST', data })
 }
 
 export const authLogin = async (data: { code: string, appId: string, corpId: string }) => {
@@ -12,7 +12,6 @@ export const authLogin = async (data: { code: string, appId: string, corpId: str
 export const getExamTemplateList = async () => {
     return request('/api/spf-cc/b/evaluation/library/getExamTemplateList', {})
 }
-
 
 
 export const getUserList = async (params: any) => {

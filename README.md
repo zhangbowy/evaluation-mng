@@ -64,6 +64,10 @@ npm run build:gray   预发打包  <br />
 npm run build:prod   线上打包  <br />
 
 
+
+
 项目启动<br />
+sessionStorage QCP_B_TOKEN <br />
+sessionStorage QCP_B_USER<br />
 npm i   <br />
 npm run dev  <br />
