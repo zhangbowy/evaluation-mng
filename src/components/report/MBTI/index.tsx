@@ -139,8 +139,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </div>
                 <div className="user-info">
                     <p className="title">{resultDetail?.user?.name}</p>
-                    <p className="sub-title">{resultDetail?.user && Gender[resultDetail?.user?.gender]}/年龄/学历</p>
-                    <p className="sub-title">{resultDetail?.createTime}</p>
+                    <p className="sub-title">{resultDetail?.user && Gender[resultDetail?.user?.gender]}</p>
+                    <p className="sub-title">{resultDetail?.created}</p>
                 </div>
                 <div className="cover-bottom">
                     鑫蜂维网络科技有限公司 版权所有
@@ -570,6 +570,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <div className="line ability-color-8"></div>
                             <div className="line ability-color-9"></div>
                         </div>
+                        <div className="left-arrow">
+                            <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_up.png?x-oss-process=image/resize,m_fill,w_21,h_41" />
+                            <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_down.png?x-oss-process=image/resize,m_fill,w_21,h_41" />
+                        </div>
                     </div>
                 </div>
                 <div className="tag-sort">
@@ -882,7 +886,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <p>4、个人优劣势分析</p>
                     </div>
                     <div className="classify-image m-b-25">
-                        <img src="https://daily-static-file.oss-cn-shanghai.aliyuncs.com/public-assets/qcp-pdf-superiority.png?x-oss-process=image/resize,m_fill,w_90,h_31" />
+                        <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_superiority.png?x-oss-process=image/resize,m_fill,w_90,h_31" />
                         <div className="line"></div>
                     </div>
                     <p className="abstract">
@@ -896,7 +900,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         }
                     </div>
                     <div className="classify-image m-b-25">
-                        <img src="https://daily-static-file.oss-cn-shanghai.aliyuncs.com/public-assets/qcp-pdf-inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31" />
+                        <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31" />
                         <div className="line"></div>
                     </div>
                     <p className="abstract">
@@ -935,7 +939,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <div 
                         className="detail"
                         dangerouslySetInnerHTML={{
-                            __html: resultDetail?.htmlDesc?.personality?.position,
+                            __html: `你的岗位特质：作为${resultDetail?.resultType}型人，职业满足意味着你做的这些工作：</br>${resultDetail?.htmlDesc?.personality?.position}`,
                         }}
                     >
                     </div>
@@ -1031,7 +1035,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             }
                         </div>
                         <div className="right">
-
+                            <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_warn.png?x-oss-process=image/resize,m_fill,w_91,h_91" alt="警告" />
                         </div>
                     </div>
                 </div>
