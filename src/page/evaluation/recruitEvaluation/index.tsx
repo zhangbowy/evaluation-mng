@@ -25,9 +25,14 @@ import { ColumnsType } from 'antd/lib/table'
 import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
-import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem } from '@/api/api';
+// import PdfDetailMBTI from '@/components/report/MBTI';
+import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult } from '@/api/api';
 import moment from 'moment';
 import { debounce } from '@/utils/utils';
+// import { abilityList, TagSort } from '@/components/report/MBTI/type';
+import { sortBy } from '@antv/util';
+// import { useCallbackState } from '@/utils/hook';
+
 
 const recruitStatusList:RecruitStatus[] = [
   {
@@ -56,8 +61,11 @@ const RecruitEvaluation = () => {
   const [modalLink, setModalLink] = useState<string>('');
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
+  const [downLoading, setDownLoading] = useState<number>(); // 下载的loading
+  // const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
+  const pdfDetail: any = useRef();
 
   const getListData = (pageNo: number, pageSize: number = 10) => {
     const values = form.getFieldsValue();
@@ -77,11 +85,11 @@ const RecruitEvaluation = () => {
       const { code, data } = res;
       setTableLoading(false);
       if (code === 1) {
-        const data1 = data.resultList.map((v: any) => ({
-          ...v,
-          examStatus: 10
-        }))
-        setCandidateList(data1);
+        // const data1 = data.resultList.map((v: any) => ({
+        //   ...v,
+        //   examStatus: 10
+        // }))
+        setCandidateList(data.resultList);
         setTotalNum(data.totalItem);
       } else {
         setCandidateList([]);
@@ -114,12 +122,53 @@ const RecruitEvaluation = () => {
   };
 
   const showReport = (record: IColumns) => {
-    if (record.examTemplateType === 'MBTI') {
+    if (record.templateType === 'MBTI') {
       history(`/evaluation/management/detail/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
       return;
     }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
+
+  // const onDownLoad = async (record: IColumns) => {
+  //   setDownLoading(record.examPaperId);
+  //   const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
+  //   if (res.code === 1) {
+  //       const newData = {...res.data};
+  //       if (res.data.results) {
+  //           const { htmlDesc } = newData;
+  //           const newDimensional = {};
+  //           htmlDesc?.dimensional.forEach((item: any) => {
+  //               Object.assign(newDimensional, {
+  //                   [item.tag]: item,
+  //               });
+  //           });
+  //           const newList = abilityList.map((item: any) => {
+  //               if (htmlDesc?.ability) {
+  //                   return {
+  //                       ...item,
+  //                       sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+  //                   }
+  //               }
+  //           });
+  //           sortBy(newList, function (item:any) { return item.sort });
+
+  //           Object.assign(newData, {
+  //               resultType: res.data.results[0].type,
+  //               examTemplateArr: res.data.results[0].type.split(''),
+  //               htmlDesc: {
+  //                   ...htmlDesc,
+  //                   dimensional: newDimensional,
+  //                   abilityList: newList,
+  //               }
+  //           })
+  //       }
+  //       setResultDetial(newData, () => {
+  //         pdfDetail.current.exportPDF(() => {
+  //           setDownLoading(0);
+  //         });
+  //       });
+  //   }
+  // }
 
   const columns: ColumnsType<IColumns> = [
     {
@@ -216,9 +265,15 @@ const RecruitEvaluation = () => {
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
                   {
-                    record.examTemplateType === 'MBTI' && <>
+                    record.templateType === 'MBTI' && <>
                       <Divider type="vertical" />
-                      <span className={styles.showReport}>下载</span>
+                      <Button
+                        className={styles.columns_btn_lock}
+                        type='link'
+                        loading={downLoading === record.examPaperId}
+                      >
+                        下载
+                      </Button>
                     </>
                   }
                 </>
@@ -388,6 +443,18 @@ const RecruitEvaluation = () => {
       closeModal={closeModal}
     />
     <LookResult ref={lookResultRef} isRecruit={true} />
+    {/* <PdfDetailMBTI
+      ref={pdfDetail}
+      resultDetail={resultDetial}
+      childStyle={{
+        'width': '1120px',
+        'boxSizing': 'border-box',
+        'position': 'fixed',
+        'top': '0pt',
+        'left': '-9999pt',
+        'zIndex': '-9999'
+      }}
+    /> */}
   </div>
 };
 
