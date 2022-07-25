@@ -89,7 +89,7 @@ const Detail = () => {
               <img src={reportDetailList?.avatar} alt="" /> :
               <div className={styles.detail_notAvatar}>{reportDetailList?.name?.slice(0, 1)}</div>
           }
-          <h2>{`${reportDetailList?.name}-${reportDetailList?.deptList[0]?.name}`}</h2>
+          <h2>{`${reportDetailList?.name}-${reportDetailList?.deptList[0]?.name || ''}`}</h2>
           <Tooltip placement="top" title={`性别：${ISex[reportDetailList!.sex]}`}>
             <div className={reportDetailList?.sex == 1 ? styles.detail_gender_1 : styles.detail_gender_2}>
               {reportDetailList?.sex == 1 ? <ManOutlined /> : <WomanOutlined />}
