@@ -17,6 +17,7 @@ const ManagementDetail = lazy(() => import('@/page/evaluation/management/detail'
 const PeopleReportDetail = lazy(() => import('@/page/evaluation/peopleReport/detail'));
 const Layout = lazy(() => import('@/components/layout'));
 const ManagementLibrary = lazy(() => import('@/page/evaluation/management/library'));
+const LookReport = lazy(() => import('@/page/evaluation/management/detail/lookReport'));
 const routes: RouteObject[] = [
     {
         path: '/evaluation',
@@ -36,7 +37,11 @@ const routes: RouteObject[] = [
                     },
                     {
                         path: 'detail/:id',
-                        element: <ManagementDetail />
+                        element: <ManagementDetail />,
+                    },
+                    {
+                        path: 'detail/:id/lookReport/:people',
+                        element: <LookReport />
                     },
                     {
                         path: 'library/:type',

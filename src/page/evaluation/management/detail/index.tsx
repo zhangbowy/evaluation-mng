@@ -2,7 +2,7 @@ import { getAllInfo, getChart, getExamUsers, measurementExport, queryDept, UnLoc
 import { Breadcrumb, Button, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { debounce, getAllUrlParam, randomRgbaColor, randomRgbColor } from '@/utils/utils'
 import { Liquid, Pie } from '@antv/g2plot';
 import { useSearchParams } from 'react-router-dom'
@@ -16,6 +16,7 @@ import { FullscreenOutlined } from '@ant-design/icons';
 import LookAllTags from './lookAllTags'
 
 const Detail = () => {
+  const navigator = useNavigate()
   const params = useParams() as { id: string }
   const [measurement, setMeasurement] = useState<IMeasurement>(); //测评信息
   const [department, setDepartment] = useState<IOption[]>([]); // 部门option
@@ -321,6 +322,10 @@ const Detail = () => {
       render: (text: number, record, index: number) => {
         // 查看报告
         const onLookResult = () => {
+          if (measurement?.examTemplateType === 'MBTI') {
+            navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}`);
+            return;
+          }
           const cur = lookResultRef as any;
           cur.current.onOpenDrawer(record)
         }
