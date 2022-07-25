@@ -25,13 +25,13 @@ import { ColumnsType } from 'antd/lib/table'
 import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
-// import PdfDetailMBTI from '@/components/report/MBTI';
+import PdfDetailMBTI from '@/components/report/MBTI';
 import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult } from '@/api/api';
 import moment from 'moment';
 import { debounce } from '@/utils/utils';
-// import { abilityList, TagSort } from '@/components/report/MBTI/type';
+import { abilityList, TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
-// import { useCallbackState } from '@/utils/hook';
+import { useCallbackState } from '@/utils/hook';
 
 
 const recruitStatusList:RecruitStatus[] = [
@@ -62,7 +62,7 @@ const RecruitEvaluation = () => {
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const [downLoading, setDownLoading] = useState<number>(); // 下载的loading
-  // const [resultDetial, setResultDetial] = useCallbackState({});
+  const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
   const pdfDetail: any = useRef();
@@ -123,52 +123,52 @@ const RecruitEvaluation = () => {
 
   const showReport = (record: IColumns) => {
     if (record.templateType === 'MBTI') {
-      history(`/evaluation/management/detail/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
+      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
       return;
     }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
 
-  // const onDownLoad = async (record: IColumns) => {
-  //   setDownLoading(record.examPaperId);
-  //   const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
-  //   if (res.code === 1) {
-  //       const newData = {...res.data};
-  //       if (res.data.results) {
-  //           const { htmlDesc } = newData;
-  //           const newDimensional = {};
-  //           htmlDesc?.dimensional.forEach((item: any) => {
-  //               Object.assign(newDimensional, {
-  //                   [item.tag]: item,
-  //               });
-  //           });
-  //           const newList = abilityList.map((item: any) => {
-  //               if (htmlDesc?.ability) {
-  //                   return {
-  //                       ...item,
-  //                       sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
-  //                   }
-  //               }
-  //           });
-  //           sortBy(newList, function (item:any) { return item.sort });
+  const onDownLoad = async (record: IColumns) => {
+    setDownLoading(record.examPaperId);
+    const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
+    if (res.code === 1) {
+        const newData = {...res.data};
+        if (res.data.results) {
+            const { htmlDesc } = newData;
+            const newDimensional = {};
+            htmlDesc?.dimensional.forEach((item: any) => {
+                Object.assign(newDimensional, {
+                    [item.tag]: item,
+                });
+            });
+            const newList = abilityList.map((item: any) => {
+                if (htmlDesc?.ability) {
+                    return {
+                        ...item,
+                        sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                    }
+                }
+            });
+            sortBy(newList, function (item:any) { return item.sort });
 
-  //           Object.assign(newData, {
-  //               resultType: res.data.results[0].type,
-  //               examTemplateArr: res.data.results[0].type.split(''),
-  //               htmlDesc: {
-  //                   ...htmlDesc,
-  //                   dimensional: newDimensional,
-  //                   abilityList: newList,
-  //               }
-  //           })
-  //       }
-  //       setResultDetial(newData, () => {
-  //         pdfDetail.current.exportPDF(() => {
-  //           setDownLoading(0);
-  //         });
-  //       });
-  //   }
-  // }
+            Object.assign(newData, {
+                resultType: res.data.results[0]?.type,
+                examTemplateArr: res.data.results[0]?.type.split(''),
+                htmlDesc: {
+                    ...htmlDesc,
+                    dimensional: newDimensional,
+                    abilityList: newList,
+                }
+            })
+        }
+        setResultDetial(newData, () => {
+          pdfDetail.current.exportPDF(() => {
+            setDownLoading(0);
+          });
+        });
+    }
+  }
 
   const columns: ColumnsType<IColumns> = [
     {
@@ -271,6 +271,7 @@ const RecruitEvaluation = () => {
                         className={styles.columns_btn_lock}
                         type='link'
                         loading={downLoading === record.examPaperId}
+                        onClick={() => onDownLoad(record)}
                       >
                         下载
                       </Button>
@@ -443,7 +444,7 @@ const RecruitEvaluation = () => {
       closeModal={closeModal}
     />
     <LookResult ref={lookResultRef} isRecruit={true} />
-    {/* <PdfDetailMBTI
+    <PdfDetailMBTI
       ref={pdfDetail}
       resultDetail={resultDetial}
       childStyle={{
@@ -454,7 +455,7 @@ const RecruitEvaluation = () => {
         'left': '-9999pt',
         'zIndex': '-9999'
       }}
-    /> */}
+    />
   </div>
 };
 

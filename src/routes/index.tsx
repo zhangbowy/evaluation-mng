@@ -20,6 +20,7 @@ const Layout = lazy(() => import('@/components/layout'));
 const ManagementLibrary = lazy(() => import('@/page/evaluation/management/library'));
 const RecruitEvaluation = lazy(() => import('@/page/evaluation/recruitEvaluation'));
 const LaunchEvaluation = lazy(() => import('@/page/evaluation/recruitEvaluation/launchEvaluation'));
+const RecruitReport = lazy(() => import('@/page/evaluation/recruitEvaluation/report'));
 const LookReport = lazy(() => import('@/page/evaluation/management/detail/lookReport'));
 const routes: RouteObject[] = [
     {
@@ -98,6 +99,10 @@ const routes: RouteObject[] = [
                     {
                         path: 'launchEvaluation',
                         element: <LaunchEvaluation />
+                    },
+                    {
+                        path: 'report/:id/lookReport/:people',
+                        element: <RecruitReport />
                     }
                 ]
             }
