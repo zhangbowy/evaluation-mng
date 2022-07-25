@@ -52,8 +52,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             const isTrue =
                 resultDetail?.scoreDetail[start]?.fullScore >
                 resultDetail?.scoreDetail[end]?.fullScore;
-            const value = isTrue ? resultDetail?.scoreDetail[start]?.fullScore 
-            : resultDetail?.scoreDetail[end]?.fullScore;
+            const value = Math.abs(resultDetail?.scoreDetail[start]?.fullScore - resultDetail?.scoreDetail[end]?.fullScore);
             if (value < 10) {
                 return `轻微偏好${isTrue ? item.startText : item.endText}型-${isTrue ? item.startProgress : item.endTextProgress}`;
             } else if (value < 30 && value > 10 ) {
