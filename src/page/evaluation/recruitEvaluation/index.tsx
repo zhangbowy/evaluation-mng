@@ -116,6 +116,10 @@ const RecruitEvaluation = () => {
   };
 
   const showReport = (record: IColumns) => {
+    if (record.examTemplateType === 'MBTI') {
+      history(`/evaluation/management/detail/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
+      return;
+    }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
 
@@ -123,7 +127,8 @@ const RecruitEvaluation = () => {
     {
       title: '候选人',
       dataIndex: 'name',
-      width: 150
+      width: 150,
+      fixed: 'left'
     },
     {
       title: '应聘岗位',
@@ -181,6 +186,7 @@ const RecruitEvaluation = () => {
       title: '操作',
       key: 'options',
       width: 200,
+      fixed: 'right',
       render: (record, text, index) => {
         const { examStatus } = record;
         if (examStatus == 10 || examStatus == 5) {
@@ -211,8 +217,12 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  <Divider type="vertical" />
-                  <span className={styles.showReport}>下载</span>
+                  {
+                    record.examTemplateType === 'MBTI' && <>
+                      <Divider type="vertical" />
+                      <span className={styles.showReport}>下载</span>
+                    </>
+                  }
                 </>
               default:
                 break;
@@ -353,6 +363,7 @@ const RecruitEvaluation = () => {
           columns={columns}
           rowKey={(res) => res.id}
           dataSource={candidateList}
+          scroll={{ x: 1400 }}
         />
       </main>
     </div>

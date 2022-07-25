@@ -44,6 +44,16 @@ const LaunchEvaluation = () => {
     setStampsId(type);
   };
 
+  const validatorPhone = () => {
+    const phoneNum = form.getFieldValue('phone');
+    const reg = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/;
+    const flag = reg.test(phoneNum);
+    if (!flag) {
+      return Promise.reject('请输入正确的手机号码');
+    }
+    return Promise.resolve();
+  }
+
   return <div className={styles.launch_evaluation_layout}>
     <Breadcrumb separator=">" className={styles.launch_evaluation_nav}>
       <Breadcrumb.Item href="#/evaluation/recruitEvaluation">招聘测评</Breadcrumb.Item>
@@ -71,7 +81,11 @@ const LaunchEvaluation = () => {
           >
             <Input placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
-          <Form.Item name="phone" label="手机号">
+          <Form.Item
+            name="phone"
+            label="手机号"
+            rules={[{ required: true, message: '' }, { validator: validatorPhone }]}
+          >
             <Input placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
           <Form.Item name="email" label="邮箱">
