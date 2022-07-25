@@ -18,15 +18,13 @@ import {
   PlusCircleOutlined,
   ExclamationCircleOutlined,
   CopyOutlined,
-  DownOutlined,
-  CheckOutlined,
   LockOutlined
 } from '@ant-design/icons';
 import styles from './index.module.less';
 import { ColumnsType } from 'antd/lib/table'
 import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
-import LookResult from './components/lookResult'
+import LookResult from '@/components/lookResult';
 import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem } from '@/api/api';
 import moment from 'moment';
 import { debounce } from '@/utils/utils';
@@ -79,11 +77,11 @@ const RecruitEvaluation = () => {
       const { code, data } = res;
       setTableLoading(false);
       if (code === 1) {
-        // const data1 = data.resultList.map((v: any) => ({
-        //   ...v,
-        //   examStatus: 10
-        // }))
-        setCandidateList(data.resultList);
+        const data1 = data.resultList.map((v: any) => ({
+          ...v,
+          examStatus: 10
+        }))
+        setCandidateList(data1);
         setTotalNum(data.totalItem);
       } else {
         setCandidateList([]);
@@ -389,7 +387,7 @@ const RecruitEvaluation = () => {
       modalLink={modalLink}
       closeModal={closeModal}
     />
-    <LookResult ref={lookResultRef} />
+    <LookResult ref={lookResultRef} isRecruit={true} />
   </div>
 };
 
