@@ -42,12 +42,6 @@ const Menu = (props: IMenuProps) => {
                     icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
                 }
             ]
-        },
-        {
-            id: 5,
-            name: 'PDF',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
-            path: '/evaluation/pdf'
         }
     ]
     const couponsIcon = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_coupons.svg'
