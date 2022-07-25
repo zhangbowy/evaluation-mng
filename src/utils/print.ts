@@ -12,14 +12,15 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
     if (!el) {
         throw new Error('未找到' + id + '对应的dom节点')
     }
-    // 将当前元素的scrollTop置为0
-    el.scrollTop = 0;
-    html2Canvas(el, {
+    const options: any = {
         allowTaint: true,
         useCORS: true,
-        dpi: 120,// 图片清晰度问题    
+        dpi: 120,// 图片清晰度问题
         background: '#FFFFFF',//如果指定的div没有设置背景色会默认成黑色,这里是个坑  
-    }).then(canvas => {
+    };
+    // 将当前元素的scrollTop置为0
+    el.scrollTop = 0;
+    html2Canvas(el, options).then(canvas => {
         //未生成pdf的html页面高度    
         let leftHeight = canvas.height;
         const a4Width = 595.28;
@@ -33,7 +34,7 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
         let index = 1, canvas1 = document.createElement('canvas'), height;
         pdf.setDisplayMode('fullwidth', 'continuous', 'FullScreen');
         const pdfName = title;
-        function createImpl(canvas) {
+        function createImpl(canvas: any) {
             if (leftHeight > 0) {
                 index++;
                 let checkCount = 0;
@@ -66,7 +67,7 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
                 }
                 canvas1.width = canvas.width
                 canvas1.height = height;
-                const ctx = canvas1.getContext('2d')
+                const ctx: any = canvas1.getContext('2d')
                 ctx.drawImage(canvas, 0, position, canvas.width, height, 0, 0, canvas.width, height,)
                 const pageHeight = Math.round((a4Width / canvas.width) * height);
                 // pdf.setPageSize(null, pageHeight)
