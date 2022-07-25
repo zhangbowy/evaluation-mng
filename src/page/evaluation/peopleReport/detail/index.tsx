@@ -97,7 +97,7 @@ const Detail = () => {
           </Tooltip>
         </div>
         <ul className={styles.detail_tags}>
-          {reportDetailList?.userTagVoList.map((tag: IUserTagVoList) => (
+          {reportDetailList?.userTagVoList?.map((tag: IUserTagVoList) => (
             <li key={tag.id}>{tag?.name}</li>
           ))}
         </ul>
@@ -114,15 +114,15 @@ const Detail = () => {
         </div>
         <div className={styles.detail_card_wrapper}>
           {
-            reportDetailList?.evaluationVoList.map((item, index) => (
-              <ul key={item.examId} style={isDone(item.answerStatus) ? {} : isReportStyle}>
+            reportDetailList?.evaluationVoList?.map((item, index) => (
+              <ul key={item?.examId} style={isDone(item?.answerStatus) ? {} : isReportStyle}>
                 <li>
-                  <img src={item.logoImage} alt="" />
+                  <img src={item?.logoImage} alt="" />
                   <article>
-                    <h1>{item.examName}</h1>
+                    <h1>{item?.examName}</h1>
                     <section>
-                      <span>{item.includeText}</span>
-                      <span>{item.date}</span>
+                      <span>{item?.includeText}</span>
+                      <span>{item?.date}</span>
                     </section>
                   </article>
                 </li>
