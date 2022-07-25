@@ -32,7 +32,6 @@ const LookReport = () => {
                     onClick={() => { 
                         setLoading(true);
                         pdfDetail.current.exportPDF(() => {
-                            console.log('走到了嘛---------')
                             setLoading(false);
                         }); 
                     }}

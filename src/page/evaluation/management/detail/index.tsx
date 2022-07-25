@@ -28,6 +28,7 @@ const Detail = () => {
   const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
   const [tableList, setTableList] = useState<IResultTable>() // 表格数据
   const [tableLoading, setTableLoading] = useState<boolean>(true);
+  const [downLoading, setDownLoading] = useState<number>(); // 下载的loading
   const [exportLoading, setExportLoading] = useState<boolean>(false) // 导出loading
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1);
@@ -354,6 +355,7 @@ const Detail = () => {
           }
         }
         const onDownLoad = async () => {
+          setDownLoading(record.examPaperId);
           const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.userId, major: true })
           if (res.code === 1) {
               const newData = {...res.data};
@@ -386,7 +388,9 @@ const Detail = () => {
                   })
               }
               setResultDetial(newData, () => {
-                pdfDetail.current.exportPDF();
+                pdfDetail.current.exportPDF(() => {
+                  setDownLoading(0);
+                });
               });
           }
         }
@@ -409,7 +413,10 @@ const Detail = () => {
                     measurement?.examTemplateType === 'MBTI' &&
                     <>
                       <Divider type="vertical" />
-                      <Button type="link" onClick={() => onDownLoad()}>下载</Button>
+                      <Button 
+                        type="link" 
+                        onClick={() => onDownLoad()} 
+                        loading={downLoading === record.examPaperId}>下载</Button>
                     </>
                   }
                 </>

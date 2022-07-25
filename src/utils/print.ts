@@ -96,7 +96,7 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
                 // console.log(err);
             }
         }
+        // 打印之后的操作
+        after && typeof after == 'function' && after();
     });
-    // 打印之后的操作
-    after && typeof after == 'function' && after();
 };
