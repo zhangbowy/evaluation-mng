@@ -90,6 +90,11 @@ export interface IUserExamResult {
     examPaperId: string,
     major?: boolean
 }
+export interface IUnlockItem {
+    operationType: string,
+    templateType: string,
+    userId: string | number
+}
 export interface IBResultParams {
     examPaperId: string;
     userId: string;

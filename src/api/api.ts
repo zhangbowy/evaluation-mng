@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult } from './type';
+import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -135,6 +135,10 @@ export const updateRecruitment = async (data: IUpdateRecruitment) => {
 // 获取招聘测评的详细信息
 export const getUserExamResult = async (data: IUserExamResult) => {
     return request('/api/spf-cc/b/evaluation/recruitment/getUserExamResult', { data, method: 'GET' })
+}
+// 招聘测试解锁报告
+export const recruitmentUnlockItem = async (data: IUnlockItem) => {
+    return request('/api/spf-cc/b/evaluation/recruitment/unlockItem', { data, method: 'POST' })
 }
 export const getBResult = async (params: IBResultParams) => {
     return request('/api/spf-cc/b/evaluation/management/getExamUsers', { params })

@@ -9,6 +9,7 @@ const LaunchEvaluation = () => {
   const [form] = Form.useForm();
   const [stamps, setStamps] = useState<number>(0);
   const [stampsId, setStampsId] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const goBackList = () => {
@@ -25,14 +26,14 @@ const LaunchEvaluation = () => {
         ...values,
         templateType: stampsId
       }
+      setLoading(true);
       addRecruitmentExam(formData).then((res: IBack) => {
         const { code, data, message: msg } = res;
+        setLoading(false);
         if (code === 1) {
           // 发布测评成功，跳回到列表页
           navigate('/evaluation/recruitEvaluation');
           sessionStorage.setItem('RECRUIT_MODAL_FLAG', data.shortLink);
-        } else {
-          message.error(msg);
         }
       })
     });
@@ -95,6 +96,7 @@ const LaunchEvaluation = () => {
         type='primary'
         className={styles.launch_evaluation_btn}
         onClick={onSubmit}
+        loading={loading}
       >
         发起测评
       </Button>

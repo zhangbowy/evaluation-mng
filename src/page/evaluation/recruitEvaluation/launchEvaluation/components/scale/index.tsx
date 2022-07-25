@@ -50,9 +50,7 @@ const Scale = ({ setStampsNum }: propsType) => {
             'scale_unlock_pdp': data.type === 'PDP',
             'scale_unlock_ca': data.type === 'CA',
             'scale_unlock_cpi': data.type === 'CPI',
-          })}>
-            <span>{title}</span>
-          </div>
+          })} />
           <div className={styles.scale_unlock_right}>
             {data.includeText}
           </div>

@@ -27,8 +27,9 @@ import { ColumnsType } from 'antd/lib/table'
 import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from './components/lookResult'
-import { queryRecruitmentExamList, updateRecruitment, UnLockReport } from '@/api/api';
+import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem } from '@/api/api';
 import moment from 'moment';
+import { debounce } from '@/utils/utils';
 
 const recruitStatusList:RecruitStatus[] = [
   {
@@ -138,10 +139,10 @@ const RecruitEvaluation = () => {
         className={cx({
           'status_base': true,
           'status_answer': text == 0,
-          'status_start': text == 1,
+          'status_start': (text == 1 || text == 2 || text == 3),
           'status_finish': text == 10 || text == 5
         })} >
-        {text == 5 ? '已完成' : rectuitMap[text]}
+        {text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]}
       </span>
     },
     {
@@ -189,13 +190,13 @@ const RecruitEvaluation = () => {
             setUnlockLoading([...unlockLoading])
             const params = {
               userId: record.phone,
-              templateType: record?.examTemplateType as string,
+              templateType: record?.templateType,
               operationType: '1',
-              examId: record.examPaperId
             }
-            const res = await UnLockReport(params)
+            const res = await recruitmentUnlockItem(params)
             if (res.code == 1) {
               getListData(current);
+              message.success('解锁成功！');
             } else {
               unlockFail[index] = true
               setUnlockFail([...unlockFail])
@@ -208,7 +209,11 @@ const RecruitEvaluation = () => {
                   onClick={onUnlockClick} type="link">
                   {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
               case 10:
-                return <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
+                return <>
+                  <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
+                  <Divider type="vertical" />
+                  <span className={styles.showReport}>下载</span>
+                </>
               default:
                 break;
             }
@@ -217,9 +222,6 @@ const RecruitEvaluation = () => {
             {
               getText(examStatus)
             }
-            {/* <span className={styles.showReport} onClick={() => showReport(record)}>查看报告</span> */}
-            <Divider type="vertical" />
-            <span className={styles.showReport}>下载</span>
           </>
         } else {
           const onOpenClick = (checked: boolean) => {
