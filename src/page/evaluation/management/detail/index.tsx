@@ -1,5 +1,5 @@
-import { getAllInfo, getChart, getExamUsers, measurementExport, queryDept, UnLockReport } from '@/api/api'
-import { Breadcrumb, Button, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
+import { getAllInfo, getChart, getExamResult, getExamUsers, measurementExport, queryDept, UnLockReport } from '@/api/api'
+import { Breadcrumb, Button, Divider, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { useNavigate, useParams } from 'react-router'
@@ -14,6 +14,10 @@ import LookIntroduce from './lookintroduce'
 import Loading from '@/components/loading'
 import { FullscreenOutlined } from '@ant-design/icons';
 import LookAllTags from './lookAllTags'
+import PdfDetailMBTI from '@/components/report/MBTI'
+import { abilityList, TagSort } from '@/components/report/MBTI/type'
+import { sortBy } from '@antv/util';
+import { useCallbackState } from '@/utils/hook'
 
 const Detail = () => {
   const navigator = useNavigate()
@@ -29,12 +33,14 @@ const Detail = () => {
   const [current, setCurrent] = useState<number>(1);
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
+  const [resultDetial, setResultDetial] = useCallbackState({});
   const [form] = Form.useForm();
   const { corpId, appId } = getAllUrlParam()
   const visualRef: any = useRef([])
   const lookResultRef: any = useRef();
   const lookIntroduceRef: any = useRef();
   const lookAllTagsRef: any = useRef()
+  const pdfDetail: any = useRef();
 
   // 完成情况select
   const doneCondition: characterProportions[] = [
@@ -347,6 +353,44 @@ const Detail = () => {
             setUnlockFail([...unlockFail])
           }
         }
+        const onDownLoad = async () => {
+          const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.userId, major: true })
+          if (res.code === 1) {
+              const newData = {...res.data};
+              if (res.data.results) {
+                  const { htmlDesc } = newData;
+                  const newDimensional = {};
+                  htmlDesc?.dimensional.forEach((item: any) => {
+                      Object.assign(newDimensional, {
+                          [item.tag]: item,
+                      });
+                  });
+                  const newList = abilityList.map((item: any) => {
+                      if (htmlDesc?.ability) {
+                          return {
+                              ...item,
+                              sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                          }
+                      }
+                  });
+                  sortBy(newList, function (item:any) { return item.sort });
+
+                  Object.assign(newData, {
+                      resultType: res.data.results[0].type,
+                      examTemplateArr: res.data.results[0].type.split(''),
+                      htmlDesc: {
+                          ...htmlDesc,
+                          dimensional: newDimensional,
+                          abilityList: newList,
+                      }
+                  })
+              }
+              setResultDetial(newData, () => {
+                pdfDetail.current.exportPDF();
+              });
+          }
+        }
+
         const getText = (key: number) => {
           switch (key) {
             case 0:
@@ -358,7 +402,18 @@ const Detail = () => {
                 onClick={onUnlockClick} type="link">
                 {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
             case 10:
-              return <Button type="link" onClick={onLookResult}>查看报告</Button>
+              return (
+                <>
+                  <Button type="link" onClick={onLookResult}>查看报告</Button>
+                  {
+                    measurement?.examTemplateType === 'MBTI' &&
+                    <>
+                      <Divider type="vertical" />
+                      <Button type="link" onClick={() => onDownLoad()}>下载</Button>
+                    </>
+                  }
+                </>
+              )
             default:
               break;
           }
@@ -474,6 +529,18 @@ const Detail = () => {
       <LookResult ref={lookResultRef} />
       <LookIntroduce ref={lookIntroduceRef} />
       <LookAllTags ref={lookAllTagsRef} onTagClick={onTagClick} />
+      <PdfDetailMBTI
+        ref={pdfDetail}
+        resultDetail={resultDetial}
+        childStyle={{
+          'width': '1120px',
+          'boxSizing': 'border-box',
+          'position': 'fixed',
+          'top': '0pt',
+          'left': '-9999pt',
+          'zIndex': '-9999'
+        }}
+      />
     </div>
   )
 }

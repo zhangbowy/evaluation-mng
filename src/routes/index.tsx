@@ -7,7 +7,8 @@ import Evaluation from '@/page/evaluation';
 import NeedPay from '@/page/402';
 import NotJurisdiction from '@/page/403';
 const Management = lazy(() => import('@/page/evaluation/management'));
-const PdfDetail  = lazy(() => import('@/page/evaluation/pdf'));
+// const PdfDetail  = lazy(() => import('@/page/evaluation/pdf'));
+const PeopleLookReport = lazy(() => import('@/page/evaluation/peopleReport/lookReport'));
 const PeopleReport = lazy(() => import('@/page/evaluation/peopleReport'));
 const Library = lazy(() => import('@/page/evaluation/library'));
 const UserAuthority = lazy(() => import('@/page/evaluation/userAuthority'));
@@ -60,6 +61,10 @@ const routes: RouteObject[] = [
                     {
                         path: 'detail/:userId',
                         element: <PeopleReportDetail />
+                    },
+                    {
+                        path: 'lookReport/:userId/:people',
+                        element: <PeopleLookReport />
                     }
                 ]
             },
@@ -77,16 +82,6 @@ const routes: RouteObject[] = [
                     {
                         path: 'account',
                         element: <UserAuthority />
-                    }
-                ]
-            },
-            {
-                path: 'pdf',
-                element: <Layout />,
-                children: [
-                    {
-                        index: true,
-                        element: <PdfDetail />
                     }
                 ]
             },

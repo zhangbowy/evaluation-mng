@@ -10,6 +10,7 @@ export interface DimensionalParam {
 export interface MBTIResult {
     examTemplateType: string;
     examTemplateArr: string[];
+    resultType: string;
     htmlDesc: {
         ability: any,
         dimensional: {
@@ -20,6 +21,13 @@ export interface MBTIResult {
         },
         scoreDetail: any,
     };
+    textDesc: string[];
+    user: {
+        avatar: string;
+        name: string;
+        userId: string;
+    };
+    imageDesc: string[];
 }
 
 export enum MBTISimpel {
@@ -75,3 +83,41 @@ export enum TagSort {
     '很低' = '8',
     '非常低' = '9',
 }
+
+export enum Gender {
+    '男' = 1,
+    '女' = 2,
+    '未知' = 0
+}
+
+export const abilityList = [{
+    id: 1,
+    name: '分析能力'
+}, {
+    id: 2,
+    name: '创新力'
+}, {
+    id: 3,
+    name: '判断能力'
+}, {
+    id: 4,
+    name: '洞察力'
+}, {
+    id: 5,
+    name: '忠诚度'
+}, {
+    id: 6,
+    name: '抗压能力'
+}, {
+    id: 7,
+    name: '沟通能力'
+}, {
+    id: 8,
+    name: '耐心程度'
+}, {
+    id: 9,
+    name: '责任心'
+}, {
+    id: 10,
+    name: '适应能力'
+}];

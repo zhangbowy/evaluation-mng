@@ -2,10 +2,10 @@ import { Button, Divider,Modal, Tabs } from 'antd';
 import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle} from 'react';
 import './index.less';
 import print from "@/utils/print";
-import { MBTIResult, MBTIType, MBTISimpel, chartHeight } from './type';
+import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
 const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
-    const { resultDetail } = props;
+    const { resultDetail, childStyle } = props;
     useImperativeHandle(ref, () => {
         return {
             exportPDF: toExportPdf,
@@ -101,18 +101,15 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             eleLine.style.transform = 'rotate('+ radius +'rad)';
         });
     }
-    const toExportPdf = () => {
+    const toExportPdf = (callback: Function) => {
         print(
             "Pdf_Body",
             "MBTI性格与岗位匹配度",
             () => {
-                // 查看详情按钮隐藏
-                // const doms = document.getElementsByClassName("operaction-action");
-                // doms.forEach((dom) => {
-                //     dom.style.opacity = 0;
-                // });
+                
             },
             () => {
+                callback && callback();
                 // 查看详情按钮显示
                 // const doms = document.getElementsByClassName("operaction-action");
                 // doms.forEach((dom) => {
@@ -122,7 +119,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
         );
     };
     return (
-        <div id="Pdf_Body" className="pdfdetail-layout">
+        <div id="Pdf_Body" className="pdfdetail-layout" style={childStyle}>
             {/*封面*/}
             <div className="pdf-cover">
                 <div className="logo">
@@ -142,8 +139,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </div>
                 <div className="user-info">
                     <p className="title">{resultDetail?.user?.name}</p>
-                    <p className="sub-title">性别/年龄/学历</p>
-                    <p className="sub-title">2022.06.23</p>
+                    <p className="sub-title">{resultDetail?.user && Gender[resultDetail?.user?.gender]}/年龄/学历</p>
+                    <p className="sub-title">{resultDetail?.createTime}</p>
                 </div>
                 <div className="cover-bottom">
                     鑫蜂维网络科技有限公司 版权所有
@@ -1069,23 +1066,21 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         现在你对自己的人格类型和动力已经有了一个比较清楚的了解，但这还不够。“如何通过这些信息使你在这份工作上取得更大的成功”，这是关键所在。运用你的能力非常容易，你成功的秘诀在于：
                     </p>
                     <div className="detail m-b-34">
-                        {/* {
-                            resultDetail?.htmlDesc?.proposal?['发展建议'] && 
-                            resultDetail?.htmlDesc?.proposal?['发展建议'].map((it: string) => (
+                        {
+                            resultDetail?.htmlDesc?.personality?.proposal?.['成功的秘诀'].map((it: string) => (
                                 <p key={it}>{it}</p>
                             ))
-                        } */}
+                        }
                     </div>
                     <p className="abstract">
                         个人发展建议是我们咨询师多年测评职业咨询和职业生涯规划的心得体会和经验总结，我们意识到以下的建议中有很多是难以完全照办的，但只要你花时间认真思考，一定会对你有极大的帮助和改变。发展建议：
                     </p>
                     <div className="detail m-b-77">
-                        {/* {
-                            resultDetail?.htmlDesc?.proposal?['发展建议'] && 
-                            resultDetail?.htmlDesc?.proposal?['发展建议'].map((it: string) => (
+                        {
+                            resultDetail?.htmlDesc?.personality?.proposal?.['发展建议'].map((it: string) => (
                                 <p key={it}>{it}</p>
                             ))
-                        } */}
+                        }
                     </div>
                 </div>
                 <div className="history-people">
@@ -1103,8 +1098,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     </div>
                 </div>
             </div>
-            {/* 分页结束 */}
-            <span className="btn" onClick={toExportPdf}>导出</span>
         </div>
     );
 }));
