@@ -148,3 +148,15 @@ export const getAllUrlParam = () => {
     }
     return theRequest;
 }  
+
+
+// 钉钉环境删除域名
+export const delPicDomain = (url: string) => {
+    const imgLocal = url?.includes('https://static-legacy.dingtalk.com');
+    return url?.replace(
+      imgLocal
+        ? 'https://static-legacy.dingtalk.com'
+        : 'https://qzz-static.forwe.store',
+      '',
+    );
+};
