@@ -35,6 +35,7 @@ const Management = () => {
     defaultPageSize: 10,
     defaultCurrent: 1,
     current: current,
+    showTotal: () =>`共 ${totalNum} 条数据`,
     total: totalNum,
     onChange: (page: number, pageSize: number) => {
       getEvaluationList({ curPage: page, pageSize, isFinishType: radioValue })
@@ -168,7 +169,7 @@ const Management = () => {
           const res = await editExam({ type: checked, examId: id });
           if (res.code === 1) {
             message.success('修改成功');
-            getEvaluationList({curPage:current});
+            getEvaluationList({ curPage: current });
           }
         }
         // 查看详情

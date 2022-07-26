@@ -8,6 +8,7 @@ interface IReportHeaderpProps {
   width?: number;
   height?: number;
   color?: string;
+  isDescribe?: boolean;
 }
 const ReportHeader = (props: IReportHeaderpProps) => {
   const avatarStyle = {
@@ -23,10 +24,13 @@ const ReportHeader = (props: IReportHeaderpProps) => {
           {props.name?.slice(0, 1)}
         </div>
       )}
-      <div className={styles.header_info}>
-        <h2 style={{ color: props.color || '#fff' }}>{props.name}</h2>
-        {!props.isShowText && <small>你的测评结果是</small>}
-      </div>
+      {
+        !props.isDescribe &&
+        <div className={styles.header_info}>
+          <h2 style={{ color: props.color || '#fff' }}>{props.name}</h2>
+          {!props.isShowText && <small>你的测评结果是</small>}
+        </div>
+      }
     </div>
   );
 };

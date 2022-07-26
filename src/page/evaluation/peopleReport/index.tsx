@@ -26,6 +26,7 @@ const PeopleReport = () => {
     defaultPageSize: 10,
     total: totalNum,
     current: current,
+    showTotal: () =>`共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
       getUserReport({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
