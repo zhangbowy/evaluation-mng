@@ -216,7 +216,7 @@ const RecruitEvaluation = () => {
           className={styles.copyIcon}
           onClick={() => copyText(text)}
         >
-          <CopyOutlined />
+          复制
         </span>
       </div>
     },
