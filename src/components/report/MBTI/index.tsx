@@ -284,101 +284,96 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     二、测评结果分析
                 </div>
                 <div className="result-box">
-                    {/* <div className="result-box-image">
-                        <img src={`/evaluation-mng/imgs/qcp_pdf_bg.png`} alt="背景图" />
-                    </div> */}
-                    {/* <div className="result-box-content"> */}
-                        <div className="left">
-                            <div className="round">
-                                <p className="m-title">{resultDetail.resultType}</p>
-                                <p className="s-title">
-                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}+
-                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[1]]}
-                                </p>
-                                <p className="s-title">
-                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[2]]}+
-                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[3]]}
-                                </p>
-                            </div>
-                            <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
+                    <div className="left">
+                        <div className="round">
+                            <p className="m-title">{resultDetail.resultType}</p>
+                            <p className="s-title">
+                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}+
+                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[1]]}
+                            </p>
+                            <p className="s-title">
+                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[2]]}+
+                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[3]]}
+                            </p>
                         </div>
-                        <div className="right">
-                            <div className="result-list">
-                                <div className="result-item">
-                                    <div className="in">
-                                        <div className="label">外向(E):{resultDetail?.scoreDetail && resultDetail?.scoreDetail?.E?.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-1" 
-                                                style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <div className="out">
-                                        <div className="label">内向(I):{resultDetail?.scoreDetail?.I.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-1" 
-                                                style={{width: `${resultDetail?.scoreDetail?.I.fullScore}%`}}
-                                            ></div>
-                                        </div>
+                        <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
+                    </div>
+                    <div className="right">
+                        <div className="result-list">
+                            <div className="result-item">
+                                <div className="in">
+                                    <div className="label">外向(E):{resultDetail?.scoreDetail && resultDetail?.scoreDetail?.E?.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-1" 
+                                            style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}
+                                        ></div>
                                     </div>
                                 </div>
-                                <div className="result-item">
-                                    <div className="in">
-                                        <div className="label">感觉(S):{resultDetail?.scoreDetail?.S.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-2" 
-                                                style={{width: `${resultDetail?.scoreDetail?.S.fullScore}%`}}
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <div className="out">
-                                        <div className="label">直觉(N):{resultDetail?.scoreDetail?.N.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-2" 
-                                                style={{width: `${resultDetail?.scoreDetail?.N.fullScore}%`}}
-                                            ></div>
-                                        </div>
+                                <div className="out">
+                                    <div className="label">内向(I):{resultDetail?.scoreDetail?.I.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-1" 
+                                            style={{width: `${resultDetail?.scoreDetail?.I.fullScore}%`}}
+                                        ></div>
                                     </div>
                                 </div>
-                                <div className="result-item">
-                                    <div className="in">
-                                        <div className="label">思考(T):{resultDetail?.scoreDetail?.T.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-3" 
-                                                style={{width: `${resultDetail?.scoreDetail?.T.fullScore}%`}}
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <div className="out">
-                                        <div className="label">情感(F):{resultDetail?.scoreDetail?.F.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-3" 
-                                                style={{width: `${resultDetail?.scoreDetail?.F.fullScore}%`}}
-                                            ></div>
-                                        </div>
+                            </div>
+                            <div className="result-item">
+                                <div className="in">
+                                    <div className="label">感觉(S):{resultDetail?.scoreDetail?.S.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-2" 
+                                            style={{width: `${resultDetail?.scoreDetail?.S.fullScore}%`}}
+                                        ></div>
                                     </div>
                                 </div>
-                                <div className="result-item">
-                                    <div className="in">
-                                        <div className="label">判断(J):{resultDetail?.scoreDetail?.J.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-4" 
-                                                style={{width: `${resultDetail?.scoreDetail?.J.fullScore}%`}}
-                                            ></div>
-                                        </div>
+                                <div className="out">
+                                    <div className="label">直觉(N):{resultDetail?.scoreDetail?.N.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-2" 
+                                            style={{width: `${resultDetail?.scoreDetail?.N.fullScore}%`}}
+                                        ></div>
                                     </div>
-                                    <div className="out">
-                                        <div className="label">知觉(P):{resultDetail?.scoreDetail?.P.score}</div>
-                                        <div className="pillar-box">
-                                            <div className="percent color-4" 
-                                                style={{width: `${resultDetail?.scoreDetail?.P.fullScore}%`}}
-                                            ></div>
-                                        </div>
+                                </div>
+                            </div>
+                            <div className="result-item">
+                                <div className="in">
+                                    <div className="label">思考(T):{resultDetail?.scoreDetail?.T.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-3" 
+                                            style={{width: `${resultDetail?.scoreDetail?.T.fullScore}%`}}
+                                        ></div>
+                                    </div>
+                                </div>
+                                <div className="out">
+                                    <div className="label">情感(F):{resultDetail?.scoreDetail?.F.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-3" 
+                                            style={{width: `${resultDetail?.scoreDetail?.F.fullScore}%`}}
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="result-item">
+                                <div className="in">
+                                    <div className="label">判断(J):{resultDetail?.scoreDetail?.J.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-4" 
+                                            style={{width: `${resultDetail?.scoreDetail?.J.fullScore}%`}}
+                                        ></div>
+                                    </div>
+                                </div>
+                                <div className="out">
+                                    <div className="label">知觉(P):{resultDetail?.scoreDetail?.P.score}</div>
+                                    <div className="pillar-box">
+                                        <div className="percent color-4" 
+                                            style={{width: `${resultDetail?.scoreDetail?.P.fullScore}%`}}
+                                        ></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {/* </div> */}
+                    </div>
                 </div>
                 <div className="result-detail">
                     <div className="result-detail-item">
