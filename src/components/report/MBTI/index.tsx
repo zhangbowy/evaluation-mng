@@ -284,9 +284,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     二、测评结果分析
                 </div>
                 <div className="result-box">
-                    <div className="result-box-image">
+                    {/* <div className="result-box-image">
                         <img src={`/evaluation-mng/imgs/qcp_pdf_bg.png`} alt="背景图" />
-                    </div>
+                    </div> */}
                     <div className="result-box-content">
                         <div className="left">
                             <div className="round">
