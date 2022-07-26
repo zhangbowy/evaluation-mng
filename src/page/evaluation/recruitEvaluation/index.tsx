@@ -61,7 +61,7 @@ const RecruitEvaluation = () => {
   const [modalLink, setModalLink] = useState<string>('');
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
-  const [downLoading, setDownLoading] = useState<number>(); // 下载的loading
+  const [downLoading, setDownLoading] = useState<string>(); // 下载的loading
   const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
@@ -164,7 +164,7 @@ const RecruitEvaluation = () => {
         }
         setResultDetial(newData, () => {
           pdfDetail.current.exportPDF(() => {
-            setDownLoading(0);
+            setDownLoading('0');
           });
         });
     }
@@ -241,7 +241,7 @@ const RecruitEvaluation = () => {
     {
       title: '操作',
       key: 'options',
-      width: 150,
+      width: 160,
       fixed: 'right',
       render: (record, text, index) => {
         const { examStatus } = record;
@@ -426,7 +426,7 @@ const RecruitEvaluation = () => {
           columns={columns}
           rowKey={(res) => res.id}
           dataSource={candidateList}
-          scroll={{ x: 1600 }}
+          scroll={{ x: 1610 }}
         />
       </main>
     </div>

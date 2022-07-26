@@ -7,7 +7,7 @@ export interface IColumns {
   job: string,
   phone: string,
   email: string,
-  examPaperId: number,
+  examPaperId: string,
   templateType: string,
   shortLink: string,
   examStatus: string,

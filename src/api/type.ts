@@ -87,7 +87,7 @@ export interface IUpdateRecruitment {
 }
 export interface IUserExamResult {
     userId: string,
-    examPaperId: number,
+    examPaperId: string,
     major?: boolean
 }
 export interface IUnlockItem {
