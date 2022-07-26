@@ -26,7 +26,7 @@ import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
 import PdfDetailMBTI from '@/components/report/MBTI';
-import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult } from '@/api/api';
+import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult, getUserExamResult } from '@/api/api';
 import moment from 'moment';
 import { debounce } from '@/utils/utils';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
@@ -61,7 +61,7 @@ const RecruitEvaluation = () => {
   const [modalLink, setModalLink] = useState<string>('');
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
-  const [downLoading, setDownLoading] = useState<number>(); // 下载的loading
+  const [downLoading, setDownLoading] = useState<string>(); // 下载的loading
   const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
@@ -131,7 +131,7 @@ const RecruitEvaluation = () => {
 
   const onDownLoad = async (record: IColumns) => {
     setDownLoading(record.examPaperId);
-    const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
+    const res = await getUserExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
     if (res.code === 1) {
         const newData = {...res.data};
         if (res.data.results) {
@@ -164,7 +164,7 @@ const RecruitEvaluation = () => {
         }
         setResultDetial(newData, () => {
           pdfDetail.current.exportPDF(() => {
-            setDownLoading(0);
+            setDownLoading('0');
           });
         });
     }
@@ -241,7 +241,7 @@ const RecruitEvaluation = () => {
     {
       title: '操作',
       key: 'options',
-      width: 150,
+      width: 160,
       fixed: 'right',
       render: (record, text, index) => {
         const { examStatus } = record;
@@ -426,7 +426,7 @@ const RecruitEvaluation = () => {
           columns={columns}
           rowKey={(res) => res.id}
           dataSource={candidateList}
-          scroll={{ x: 1600 }}
+          scroll={{ x: 1610 }}
         />
       </main>
     </div>

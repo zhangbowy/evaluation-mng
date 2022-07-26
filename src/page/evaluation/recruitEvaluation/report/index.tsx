@@ -43,6 +43,7 @@ const LookReport = () => {
                 ref={pdfDetail}
                 userId={userId}
                 examPaperId={examPaperId}
+                isRecruit={true}
             />
         </div>
     );
