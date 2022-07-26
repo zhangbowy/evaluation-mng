@@ -175,17 +175,20 @@ const RecruitEvaluation = () => {
       title: '候选人',
       dataIndex: 'name',
       width: 150,
-      fixed: 'left'
+      fixed: 'left',
+      render: (text: string) => <span className={styles.table_column_text}>{text}</span>
     },
     {
       title: '应聘岗位',
       dataIndex: 'job',
-      width: 150
+      width: 150,
+      render: (text: string) => <span className={styles.table_column_text}>{text}</span>
     },
     {
       title: '量表名称',
       dataIndex: 'templateTitle',
       width: 200,
+      render: (text: string) => <span className={styles.table_column_text}>{text}</span>
     },
     {
       title: '测评状态',
@@ -195,6 +198,7 @@ const RecruitEvaluation = () => {
       <span
         className={cx({
           'status_base': true,
+          'table_column_text': true,
           'status_answer': text == 0,
           'status_start': (text == 1 || text == 2 || text == 3),
           'status_finish': text == 10 || text == 5
@@ -206,8 +210,8 @@ const RecruitEvaluation = () => {
       title: '测评链接',
       dataIndex: 'shortLink',
       width: 250,
-      render: (text: string) => <div>
-        <span>{text}</span>
+      render: (text: string) => <div className={styles.table_column_link}>
+        <span className={styles.table_column_link_text}>{text}</span>
         <span
           className={styles.copyIcon}
           onClick={() => copyText(text)}
@@ -220,19 +224,19 @@ const RecruitEvaluation = () => {
       title: '手机号',
       dataIndex: 'phone',
       width: 150,
-      render: text => text ? text : '-'
+      render: text => <span className={styles.table_column_text}>{text ? text : '-'}</span>
     },
     {
       title: '邮箱',
       dataIndex: 'email',
-      width: 150,
-      render: text => text ? text : '-'
+      width: 200,
+      render: text => <span className={styles.table_column_text}>{text ? text : '-'}</span>
     },
     {
       title: '创建时间',
       dataIndex: 'created',
       width: 200,
-      render: text => text ? moment(text).format('YYYY-MM-DD hh:mm:ss') : '-'
+      render: text => <span className={styles.table_column_text}>{text ? moment(text).format('YYYY-MM-DD hh:mm:ss') : '-'}</span>
     },
     {
       title: '操作',
@@ -422,13 +426,13 @@ const RecruitEvaluation = () => {
           columns={columns}
           rowKey={(res) => res.id}
           dataSource={candidateList}
-          scroll={{ x: 1550 }}
+          scroll={{ x: 1600 }}
         />
       </main>
     </div>
     {
       candidateList.length && <footer>
-        <div className={styles.footer_line} />
+        {/* <div className={styles.footer_line} /> */}
         <Pagination
         showQuickJumper={true}
         defaultCurrent={1}

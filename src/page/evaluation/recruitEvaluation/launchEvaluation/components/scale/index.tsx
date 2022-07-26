@@ -10,6 +10,7 @@ import { CountContext } from '@/utils/context'
 
 const cx = classNames.bind(styles);
 const { confirm } = Modal;
+const checkSvg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_recruit_hook.svg';
 const Scale = ({ setStampsNum }: propsType) => {
   const [data, setData] = useState<IExamTemplateList[]>([]);
   const [selectScale, setSelectScale] = useState<number>();
@@ -97,7 +98,7 @@ const Scale = ({ setStampsNum }: propsType) => {
           >
             <div className={styles.scale_item_select}>
               {
-                v.id === selectScale ? <CheckOutlined /> : null
+                v.id === selectScale ? <img src={checkSvg} alt='check' /> : null
               }
             </div>
             <div className={styles.scale_item_title}>
