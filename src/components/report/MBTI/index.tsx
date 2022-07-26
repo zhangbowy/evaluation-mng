@@ -373,13 +373,13 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 {/* </div> */}
                 <div className="result-detail">
                     <div className="result-detail-item">
-                        <p className="title">能量来源（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}）</p>
+                        <p className="title">能量来源（{resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[0]]}）</p>
                         <div className="result-detail-box">
                             <p><em>外向(E):{resultDetail?.scoreDetail?.E?.score}</em>他人激励型，关注外部世界的人和事，乐意与人交往。</p>
                             <p><em>内向(I):{resultDetail?.scoreDetail?.I?.score}</em>自我或记忆激励型，关注思想、记忆、情感，倾向于自省。</p>
                         </div>
                     </div>
-                    <div className="result-detail-item">
+                    {/* <div className="result-detail-item">
                         <p className="title">信息接收（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr[1]}:{resultDetail?.examTemplateArr?.[1] && (MBTISimpel as any)[resultDetail?.examTemplateArr[1]]}）</p>
                         <div className="result-detail-box">
                             <p><em>感觉(S):{resultDetail?.scoreDetail?.S.score}</em>倾向于当前发生的事，关注由五官感觉获取的具体信息。</p>
@@ -399,7 +399,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <p><em>判断(J):{resultDetail?.scoreDetail?.J.score}</em>喜欢根据信息来做判断、计划和决定，愿意进行管理和控制，希望生活井然有序</p>
                             <p><em>知觉(P):{resultDetail?.scoreDetail?.P.score}</em>喜欢以自己的理解和信息做决策，灵活、试图去理解、适应环境,倾向于留有余地，喜欢宽松自由的生活方式。</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {/* 分页结束 */}
