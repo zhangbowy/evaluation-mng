@@ -928,13 +928,20 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <span className="name">{resultDetail.resultType}</span>
                         <span>一般职业：</span>
                     </p>
-                    <div 
-                        className="profession-detail"
-                        dangerouslySetInnerHTML={{
-                            __html: resultDetail?.htmlDesc?.personality?.occupation,
-                        }}
-                    >
-                    </div>
+                    {
+                        resultDetail?.htmlDesc?.personality?.occupation.map((it: string) => (
+                            <div 
+                                key={it}
+                                className="profession-detail"
+                                style={{marginBottom: '16px'}}
+                                dangerouslySetInnerHTML={{
+                                    __html: resultDetail?.htmlDesc?.personality?.occupation,
+                                }}
+                            >
+                            </div>
+                        ))
+                    }
+                    
                 </div>
             </div>
             {/* 分页结束 */}
