@@ -241,7 +241,7 @@ const RecruitEvaluation = () => {
     {
       title: '操作',
       key: 'options',
-      width: 160,
+      width: 170,
       fixed: 'right',
       render: (record, text, index) => {
         const { examStatus } = record;
@@ -426,7 +426,7 @@ const RecruitEvaluation = () => {
           columns={columns}
           rowKey={(res) => res.id}
           dataSource={candidateList}
-          scroll={{ x: 1610 }}
+          scroll={{ x: 1620 }}
         />
       </main>
     </div>
