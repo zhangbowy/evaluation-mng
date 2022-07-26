@@ -236,7 +236,7 @@ const RecruitEvaluation = () => {
       title: '创建时间',
       dataIndex: 'created',
       width: 200,
-      render: text => <span className={styles.table_column_text}>{text ? moment(text).format('YYYY-MM-DD hh:mm:ss') : '-'}</span>
+      render: text => <span className={styles.table_column_text}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>
     },
     {
       title: '操作',
