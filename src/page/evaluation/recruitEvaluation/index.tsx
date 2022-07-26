@@ -183,6 +183,11 @@ const RecruitEvaluation = () => {
       width: 150
     },
     {
+      title: '量表名称',
+      dataIndex: 'templateTitle',
+      width: 200,
+    },
+    {
       title: '测评状态',
       dataIndex: 'examStatus',
       width: 150,
@@ -232,7 +237,7 @@ const RecruitEvaluation = () => {
     {
       title: '操作',
       key: 'options',
-      width: 200,
+      width: 150,
       fixed: 'right',
       render: (record, text, index) => {
         const { examStatus } = record;
@@ -417,7 +422,7 @@ const RecruitEvaluation = () => {
           columns={columns}
           rowKey={(res) => res.id}
           dataSource={candidateList}
-          scroll={{ x: 1400 }}
+          scroll={{ x: 1550 }}
         />
       </main>
     </div>

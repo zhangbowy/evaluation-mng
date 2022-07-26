@@ -4,15 +4,12 @@ import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.module.less';
 import { useParams } from 'react-router';
 import ReportDetail from '@/components/report';
-import { IReportDetail } from '@/page/evaluation/peopleReport/type';
-import { getAllExam } from '@/api/api';
 
 /**
  * 查看报告
  */
 const LookReport = () => {
     const params = useParams() as { people: string }
-    const [reportDetailList, setReportDetailList] = useState<IReportDetail>()
     const pdfDetail: any = useRef();
     const [loading, setLoading] = useState<boolean>(false);
     const arr = params.people.split('~');
@@ -20,18 +17,8 @@ const LookReport = () => {
     const userId = arr[1];
 
     useEffect(() => {
-        getUserReport();
         return () => {};
     }, [])
-
-     // 获取列表
-  const getUserReport = async () => {
-    const res = await getAllExam({ userId })
-    if (res.code === 1) {
-      setReportDetailList(res.data)
-    }
-  }
-    
 
     return (
         <div className={styles.detail_layout}>
