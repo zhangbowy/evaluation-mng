@@ -2,7 +2,7 @@ import request from './http';
 import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem } from './type';
 
 export const login = async (data: any) => {
-    return request('/api/member/login/dt', { method: 'POST', data })
+    return request('/api/member/login/qcp/dt', { method: 'POST', data })
 }
 
 export const authLogin = async (data: { code: string, appId: string, corpId: string }) => {
