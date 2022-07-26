@@ -257,11 +257,11 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </div>
             </div>
             {/* 分页 */}
-            <div className="page-box m-b-77">
+            <div className="page-box" style={{marginBottom: '220px'}}>
                 <div className="page-top mg-b">
                     <div className="logo"></div>
                 </div>
-                <article className="article-text no-indent m-b-77">
+                <article className="article-text no-indent">
                     <h3 className="article-h3">报告阅读建议</h3>
                     <Divider />
                     <p className="article-cont">1.本测评所有题项采用0、1计分，报告基于您的在线作答，按照一定的计分原则得出您在四种人格维度上的倾向偏好和具体的人格类型，并据此给出专业选择和工作发展方面的分析和建议； </p>
@@ -273,9 +273,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
+                {/* <div className="page-top mg-b">
                     <div className="logo"></div>
-                </div>
+                </div> */}
                 <div className="page-title mg-b">
                     二、测评结果分析
                 </div>
