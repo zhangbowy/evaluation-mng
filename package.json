@@ -1,40 +1,41 @@
 {
-    "name": "my-app",
-    "private": true,
-    "version": "0.0.3",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build --mode daily",
-        "preview": "vite preview",
-        "build:daily": "tsc && vite build --mode daily",
-        "build:gray": "tsc && vite build --mode gray",
-        "build:prod": "tsc && vite build --mode prod"
-    },
-    "dependencies": {
-        "@antv/g2plot": "^2.4.20",
-        "@types/intro.js": "^3.0.2",
-        "antd": "^4.21.3",
-        "axios": "^0.27.2",
-        "dingtalk-design-libs": "^0.0.23",
-        "dingtalk-jsapi": "^2.14.1",
-        "intro.js": "^5.1.0",
-        "less": "^3.9.0",
-        "less-loader": "^4.0.1",
-        "path": "^0.12.7",
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0",
-        "react-router": "^6.3.0",
-        "react-router-dom": "^6.3.0",
-        "vite-plugin-imp": "^2.2.0",
-        "html2canvas": "^1.4.1",
-        "jspdf": "^2.5.1"
-    },
-    "devDependencies": {
-        "@types/node": "^18.0.1",
-        "@types/react": "^18.0.0",
-        "@types/react-dom": "^18.0.0",
-        "@vitejs/plugin-react": "^1.3.0",
-        "typescript": "^4.1.2",
-        "vite": "^2.3.0"
-    }
+  "name": "my-app",
+  "private": true,
+  "version": "0.0.3",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build --mode daily",
+    "preview": "vite preview",
+    "build:daily": "tsc && vite build --mode daily",
+    "build:gray": "tsc && vite build --mode gray",
+    "build:prod": "tsc && vite build --mode prod"
+  },
+  "dependencies": {
+    "@antv/g2plot": "^2.4.20",
+    "@types/intro.js": "^3.0.2",
+    "@types/react": "^18.0.15",
+    "antd": "^4.21.3",
+    "axios": "^0.27.2",
+    "dingtalk-design-libs": "^0.0.23",
+    "dingtalk-jsapi": "^2.14.1",
+    "html2canvas": "^1.4.1",
+    "intro.js": "^5.1.0",
+    "jspdf": "^2.5.1",
+    "less": "^3.9.0",
+    "less-loader": "^4.0.1",
+    "path": "^0.12.7",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "vite-plugin-imp": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.1",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.3.0",
+    "typescript": "^4.1.2",
+    "vite": "^2.3.0"
+  }
 }

@@ -251,7 +251,7 @@ const RecruitEvaluation = () => {
             unlockLoading[index] = true
             setUnlockLoading([...unlockLoading])
             const params = {
-              userId: record.phone,
+              userId: record.userId,
               templateType: record?.templateType,
               operationType: '1',
             }
