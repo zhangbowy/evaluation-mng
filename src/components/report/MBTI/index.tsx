@@ -382,10 +382,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <div className="result-detail-item">
                         <p className="title">信息接收（{resultDetail?.examTemplateArr?.[0] && resultDetail?.examTemplateArr?.[1]}:
                         {resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[1]]}）</p>
-                        {/* <div className="result-detail-box">
+                        <div className="result-detail-box">
                             <p><em>感觉(S):{resultDetail?.scoreDetail?.S?.score}</em>倾向于当前发生的事，关注由五官感觉获取的具体信息。</p>
                             <p><em>直觉(N):{resultDetail?.scoreDetail?.N?.score}</em>倾向于未来可能的和潜在的事，关注事物的整体和发展变化趋势。</p>
-                        </div> */}
+                        </div>
                     </div>
                     {/* <div className="result-detail-item">
                         <p className="title">信息处理（{resultDetail?.examTemplateArr?.length && resultDetail?.examTemplateArr?.[2]}:
