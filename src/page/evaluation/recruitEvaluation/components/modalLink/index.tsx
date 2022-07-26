@@ -23,7 +23,7 @@ const ModalLink = ({ visible, modalLink, copyText, closeModal }: propsType) => (
       <div
         className={styles.recruitEvaluation_modal_tip}
       >
-        候选人可通过此链接参与测评
+        点击复制按钮，发送以下链接给到候选人测试
       </div>
       <div
         className={styles.recruitEvaluation_modal_link}
@@ -37,7 +37,7 @@ const ModalLink = ({ visible, modalLink, copyText, closeModal }: propsType) => (
           className={styles.recruitEvaluation_modal_link_copy}
           onClick={() => copyText(modalLink)}
         >
-          <CopyOutlined />
+          复制
         </span>
       </div>
     </div>
