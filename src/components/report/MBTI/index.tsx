@@ -52,8 +52,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             const isTrue =
                 resultDetail?.scoreDetail[start]?.fullScore >
                 resultDetail?.scoreDetail[end]?.fullScore;
-            const value = isTrue ? resultDetail?.scoreDetail[start]?.fullScore 
-            : resultDetail?.scoreDetail[end]?.fullScore;
+            const value = Math.abs(resultDetail?.scoreDetail[start]?.fullScore - resultDetail?.scoreDetail[end]?.fullScore);
             if (value < 10) {
                 return `轻微偏好${isTrue ? item.startText : item.endText}型-${isTrue ? item.startProgress : item.endTextProgress}`;
             } else if (value < 30 && value > 10 ) {
@@ -122,10 +121,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
         <div id="Pdf_Body" className="pdfdetail-layout" style={childStyle}>
             {/*封面*/}
             <div className="pdf-cover">
-                <div className="logo">
-                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png" alt=""/>
-                    <span className="name">趣测评</span>
-                </div>
+                <div className="logo"></div>
                 <div className="main-title">
                     <p className="title">MBTI</p>
                     <span className="ch-title">
@@ -135,7 +131,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <p className="sb-en-title">Matching degree of personality and position</p>
                 </div>
                 <div className="cover-img">
-                    <img src="https://qzz-static.forwe.store/public-assets/cover-qcp.png" alt=""/>
+                    <img src={'/public-assets/cover-qcp.png'} alt=""/>
                 </div>
                 <div className="user-info">
                     <p className="title">{resultDetail?.user?.name}</p>
@@ -149,11 +145,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title mg-b">
                     一、报告导语
@@ -168,7 +161,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         1942年，瑞士精神分析学家荣格第一次提出人格分类的概念。他认为感知和判断是大脑的两大基本功能。不同的人，感知倾向不同——有些人更侧重直觉，有些更侧重感觉。同样，不同的人判断倾向也不同——有些更倾向理性分析得出结论，有些更侧重情感，更为感性。同时，这两大基本功能又受到精力来源不同（内向或外向）的影响。以荣格的人格分类理论为基础，美国心理学家Katherine Cook Briggs(1875-1968)和Isabel Briggs Myers母女提出了影响大脑做出决定的第四因素，行为和生活方式；并综合荣格的人格分类学说形成MBTI人格模型。
                     </div>
                     <div className="picture">
-                        <img src="https://qzz-static.forwe.store/public-assets/measurement-type.png?x-oss-process=image/resize,m_fill,w_282,h_254" alt=""/>
+                        <img src={`/public-assets/measurement-type.png?x-oss-process=image/resize,m_fill,w_282,h_254`} alt=""/>
                     </div>
                 </article>
                 <article className="article-text">
@@ -197,12 +190,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                <div className="page-top mg-b-20">
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <article className="article-text">
                     <p className="article-cont">
@@ -271,11 +261,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <article className="article-text no-indent">
                     <h3 className="article-h3">报告阅读建议</h3>
@@ -290,11 +277,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title mg-b">
                     二、测评结果分析
@@ -425,11 +409,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="result-analyse">
                     <div className="left">
@@ -493,11 +474,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="tag-line">
                     <div className="title">
@@ -571,8 +549,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <div className="line ability-color-9"></div>
                         </div>
                         <div className="left-arrow">
-                            <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_up.png?x-oss-process=image/resize,m_fill,w_21,h_41" />
-                            <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_down.png?x-oss-process=image/resize,m_fill,w_21,h_41" />
+                            <img src={`/evaluation-mng/imgs/qcp_pdf_up.png?x-oss-process=image/resize,m_fill,w_21,h_41`} />
+                            <img src={`/evaluation-mng/imgs/qcp_pdf_down.png?x-oss-process=image/resize,m_fill,w_21,h_41`} />
                         </div>
                     </div>
                 </div>
@@ -602,11 +580,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
              {/* 分页结束 */}
              <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title">
                     三、四维人格倾向解读
@@ -659,11 +634,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="personality-detail">
                     <div className="header">
@@ -748,10 +720,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
+                        {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
+                        <span className="name">趣测评</span> */}
                     </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="personality-detail">
                     <div className="header">
@@ -797,10 +769,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
              <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
+                        {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
+                        <span className="name">趣测评</span> */}
                     </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title">
                     四、MBTI人格类型解读
@@ -852,11 +824,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
                     <div className="title">
@@ -874,11 +843,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
                     <div className="title">
@@ -886,7 +852,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <p>4、个人优劣势分析</p>
                     </div>
                     <div className="classify-image m-b-25">
-                        <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_superiority.png?x-oss-process=image/resize,m_fill,w_90,h_31" />
+                        <img src={`/evaluation-mng/imgs/qcp_pdf_superiority.png?x-oss-process=image/resize,m_fill,w_90,h_31`} />
                         <div className="line"></div>
                     </div>
                     <p className="abstract">
@@ -900,7 +866,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         }
                     </div>
                     <div className="classify-image m-b-25">
-                        <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31" />
+                        <img src={`/evaluation-mng/imgs/qcp_pdf_inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31`} />
                         <div className="line"></div>
                     </div>
                     <p className="abstract">
@@ -918,14 +884,11 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
-                    <div className="title m-b-58">
+                    <div className="title">
                         <p className="diamond"></p>
                         <p>5、适合的岗位特质</p>
                     </div>
@@ -948,14 +911,11 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
-                    <div className="title m-b-58">
+                    <div className="title">
                         <p className="diamond"></p>
                         <p>6、适合的职位类型</p>
                     </div>
@@ -967,23 +927,27 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <span className="name">{resultDetail.resultType}</span>
                         <span>一般职业：</span>
                     </p>
-                    <div 
-                        className="profession-detail"
-                        dangerouslySetInnerHTML={{
-                            __html: resultDetail?.htmlDesc?.personality?.occupation,
-                        }}
-                    >
-                    </div>
+                    {
+                        resultDetail?.htmlDesc?.personality?.occupation.map((it: string) => (
+                            <div 
+                                key={it}
+                                className="profession-detail"
+                                style={{marginBottom: '16px'}}
+                                dangerouslySetInnerHTML={{
+                                    __html: it,
+                                }}
+                            >
+                            </div>
+                        ))
+                    }
+                    
                 </div>
             </div>
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
-                    <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
-                    </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
                     <div className="title m-b-25">
@@ -1016,10 +980,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
+                        {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
+                        <span className="name">趣测评</span> */}
                     </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
                     <div className="title m-b-25">
@@ -1035,7 +999,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             }
                         </div>
                         <div className="right">
-                            <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_warn.png?x-oss-process=image/resize,m_fill,w_91,h_91" alt="警告" />
+                            <img src={'/evaluation-mng/imgs/qcp_pdf_warn.png?x-oss-process=image/resize,m_fill,w_91,h_91'} alt="警告" />
                         </div>
                     </div>
                 </div>
@@ -1057,15 +1021,15 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo">
-                        <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span>
+                        {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
+                        <span className="name">趣测评</span> */}
                     </div>
-                    <div className="title">职业性格特质测评-sample</div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title">
                     五、个人发展建议
                 </div>
-                <div className="classify-detail">
+                <div className="classify-detail m-t-34">
                     <p className="abstract">
                         现在你对自己的人格类型和动力已经有了一个比较清楚的了解，但这还不够。“如何通过这些信息使你在这份工作上取得更大的成功”，这是关键所在。运用你的能力非常容易，你成功的秘诀在于：
                     </p>

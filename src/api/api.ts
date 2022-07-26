@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow } from './type';
+import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/dt', { method: 'POST', data })
@@ -118,6 +118,26 @@ export const queryConversationUserList = async (openConversationId: string) => {
 // 获取测评详情数据
 export const getExamUsers = async (data: IExamUsers) => {
     return request('/api/spf-cc/b/evaluation/management/getExamUsers', { data, method: 'POST' })
+}
+// 添加招聘测评
+export const addRecruitmentExam = async (data: IRecruitmentExam) => {
+    return request('/api/spf-cc/b/evaluation/recruitment/addRecruitmentExam', { data, method: 'POST' })
+}
+// 查询招聘测评列表
+export const queryRecruitmentExamList = async (data: IRecruitmentExamList) => {
+    return request('/api/spf-cc/b/evaluation/recruitment/queryRecruitmentExamList', { data, method: 'POST' })
+}
+// 更新招聘信息
+export const updateRecruitment = async (data: IUpdateRecruitment) => {
+    return request('/api/spf-cc/b/evaluation/recruitment/updateRecruitment', { data, method: 'POST' })
+}
+// 获取招聘测评的详细信息
+export const getUserExamResult = async (data: IUserExamResult) => {
+    return request('/api/spf-cc/b/evaluation/recruitment/getUserExamResult', { data, method: 'GET' })
+}
+// 招聘测试解锁报告
+export const recruitmentUnlockItem = async (data: IUnlockItem) => {
+    return request('/api/spf-cc/b/evaluation/recruitment/unlockItem', { data, method: 'POST' })
 }
 export const getBResult = async (params: IBResultParams) => {
     return request('/api/spf-cc/b/evaluation/management/getExamUsers', { params })

@@ -543,7 +543,7 @@ const Detail = () => {
         ref={pdfDetail}
         resultDetail={resultDetial}
         childStyle={{
-          'width': '1120px',
+          'width': '800px',
           'boxSizing': 'border-box',
           'position': 'fixed',
           'top': '0pt',
