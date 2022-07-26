@@ -279,7 +279,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 <div className="page-title mg-b">
                     二、测评结果分析
                 </div>
-                <div className="result-box">
+                {/* <div className="result-box"> */}
                     {/* <div className="left">
                         <div className="round">
                             <p className="m-title">{resultDetail.resultType}</p>
@@ -294,7 +294,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                         <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
                     </div> */}
-                    <div className="right">
+                    {/* <div className="right">
                         <div className="result-list">
                             <div className="result-item">
                                 <div className="in">
@@ -369,8 +369,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */}
                 {/* <div className="result-detail">
                     <div className="result-detail-item">
                         <p className="title">能量来源（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}）</p>
