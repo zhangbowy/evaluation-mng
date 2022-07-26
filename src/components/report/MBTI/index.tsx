@@ -935,7 +935,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 className="profession-detail"
                                 style={{marginBottom: '16px'}}
                                 dangerouslySetInnerHTML={{
-                                    __html: resultDetail?.htmlDesc?.personality?.occupation,
+                                    __html: it,
                                 }}
                             >
                             </div>
