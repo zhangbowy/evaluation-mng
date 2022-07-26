@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv, ConfigEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import vitePluginImp from 'vite-plugin-imp'
-import reactRefresh from '@vitejs/plugin-react-refresh' // 热更新
 import { resolve } from 'path';
 
 //daily-qzz-static.forwe.store/evaluation-mng/static/     日常
@@ -11,7 +10,6 @@ import { resolve } from 'path';
 export default defineConfig(({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, __dirname);
   return {
-    // base: '//daily-qzz-static.forwe.store/evaluation-mng/static/',
     base: env.VITE_BASE_URL || '/',
     server: {
       cors: true,
@@ -43,7 +41,6 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     plugins: [
       react(),
-      reactRefresh(),
       vitePluginImp({
         libList: [
           {
