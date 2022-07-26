@@ -380,13 +380,20 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                     <div className="result-detail-item">
+                        <p className="title">能量来源（{resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[0]]}）</p>
+                        <div className="result-detail-box">
+                            <p><em>外向(E):{resultDetail?.scoreDetail?.E?.score}</em>他人激励型，关注外部世界的人和事，乐意与人交往。</p>
+                            <p><em>内向(I):{resultDetail?.scoreDetail?.I?.score}</em>自我或记忆激励型，关注思想、记忆、情感，倾向于自省。</p>
+                        </div>
+                    </div>
+                    {/* <div className="result-detail-item">
                         <p className="title">信息接收（{resultDetail?.examTemplateArr?.[0] && resultDetail?.examTemplateArr?.[1]}:
                         {resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[1]]}）</p>
                         <div>
                             <p><em>感觉(S):{resultDetail?.scoreDetail?.S?.score}</em>倾向于当前发生的事，关注由五官感觉获取的具体信息。</p>
                             <p><em>直觉(N):{resultDetail?.scoreDetail?.N?.score}</em>倾向于未来可能的和潜在的事，关注事物的整体和发展变化趋势。</p>
                         </div>
-                    </div>
+                    </div> */}
                     {/* <div className="result-detail-item">
                         <p className="title">信息处理（{resultDetail?.examTemplateArr?.length && resultDetail?.examTemplateArr?.[2]}:
                         {resultDetail?.examTemplateArr?.length && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[2]]}）</p>
