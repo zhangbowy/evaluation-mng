@@ -26,7 +26,7 @@ import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
 import PdfDetailMBTI from '@/components/report/MBTI';
-import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult } from '@/api/api';
+import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult, getUserExamResult } from '@/api/api';
 import moment from 'moment';
 import { debounce } from '@/utils/utils';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
@@ -131,7 +131,7 @@ const RecruitEvaluation = () => {
 
   const onDownLoad = async (record: IColumns) => {
     setDownLoading(record.examPaperId);
-    const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
+    const res = await getUserExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
     if (res.code === 1) {
         const newData = {...res.data};
         if (res.data.results) {

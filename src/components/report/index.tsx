@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } f
 import styles from './index.module.less';
 import PdfDetailMBTI from '@/components/report/MBTI';
 import { useParams } from 'react-router';
-import { getExamResult } from '@/api/api';
+import { getExamResult, getUserExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 
@@ -12,7 +12,7 @@ import { sortBy } from '@antv/util';
  * 查看报告
  */
 const ReportDetail = forwardRef((props: any, ref) => {
-    const { userId, examPaperId } = props;
+    const { userId, examPaperId, isRecruit } = props;
     const [resultDetial, setResultDetial] = useState({});
     const pdfDetail: any = useRef();
 
@@ -67,7 +67,8 @@ const ReportDetail = forwardRef((props: any, ref) => {
 
 
     const getResult = async() => {
-        const res = await getExamResult({ examPaperId, userId, major: true })
+        const examResultRequest = isRecruit ? getUserExamResult : getExamResult;
+        const res = await examResultRequest({ examPaperId, userId, major: true })
         if (res.code === 1) {
             const newData = {...res.data};
             if (res.data.results) {
