@@ -903,7 +903,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </div>
             </div>
             {/* 分页结束 */}
-            {/* <div className="page-box">
+            <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
                 </div>
@@ -934,7 +934,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         ))
                     }
                 </div>
-            </div> */}
+            </div>
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
