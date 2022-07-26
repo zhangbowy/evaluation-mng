@@ -1,0 +1,85 @@
+.recharge_layout {
+    width: 100%;
+    height: 100%;
+    padding: 24px 34px;
+    overflow-y: scroll;
+    background-color: var(--white-color);
+
+    header {
+        font-size: 20px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #464C5B;
+        line-height: 28px;
+        margin-bottom: 20px;
+    }
+
+    aside {
+        background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_couponbg.png');
+        height: 160px;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .recharge_bgLeft {
+            padding-left: 72px;
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 62px;
+                height: 62px;
+                border-radius: 50%;
+            }
+
+            div {
+                margin: 0 53px 0 14px;
+
+                p {
+                    font-size: 40px;
+                    font-weight: bold;
+                    color: var(--white-color);
+                    letter-spacing: 1px;
+                }
+
+                small {
+                    font-size: 16px;
+                    font-family: PingFangSC-Regular, PingFang SC;
+                    font-weight: 400;
+                    color: var(--white-color);
+                }
+            }
+
+            .recharge_btn {
+                width: 160px;
+                height: 56px;
+                background: var(--white-color);
+                border-radius: 12px;
+                font-size: 20px;
+                font-family: PingFangSC-Semibold, PingFang SC;
+                font-weight: 600;
+                color: var(--primary-color);
+                line-height: 28px;
+                border: none;
+                cursor: pointer;
+            }
+        }
+
+        img {
+            width: 333px;
+            height: 100%;
+        }
+    }
+
+    main {
+        margin-top: 12px;
+        :global {
+            .ant-radio-button-checked {
+                background-color: #E7F1FF;
+                border-radius: 4px 0px 0px 4px;
+            }
+        }
+    }
+}
