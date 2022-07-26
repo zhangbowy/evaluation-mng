@@ -191,6 +191,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b-20">
                     <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <article className="article-text">
                     <p className="article-cont">
@@ -260,6 +261,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <article className="article-text no-indent">
                     <h3 className="article-h3">报告阅读建议</h3>
@@ -272,9 +274,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </article>
             </div>
             {/* 分页结束 */}
-            {/* <div className="page-box">
+            <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title mg-b">
                     二、测评结果分析
@@ -401,11 +404,12 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="result-analyse">
                     <div className="left">
@@ -470,6 +474,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="tag-line">
                     <div className="title">
@@ -903,9 +908,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </div>
             </div>
             {/* 分页结束 */}
-            {/* <div className="page-box">
+            <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
+                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
                     <div className="title">
@@ -933,8 +939,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             </div>
                         ))
                     }
+                    
                 </div>
-            </div> */}
+            </div>
             {/* 分页结束 */}
             <div className="page-box">
                 <div className="page-top mg-b">
