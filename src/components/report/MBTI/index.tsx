@@ -287,7 +287,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     {/* <div className="result-box-image">
                         <img src={`/evaluation-mng/imgs/qcp_pdf_bg.png`} alt="背景图" />
                     </div> */}
-                    <div className="result-box-content">
+                    {/* <div className="result-box-content"> */}
                         <div className="left">
                             <div className="round">
                                 <p className="m-title">{resultDetail.resultType}</p>
@@ -378,7 +378,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {/* </div> */}
                 </div>
                 <div className="result-detail">
                     <div className="result-detail-item">
