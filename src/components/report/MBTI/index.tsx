@@ -261,14 +261,14 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 <div className="page-top mg-b">
                     <div className="logo"></div>
                 </div>
-                <article className="article-text no-indent">
+                <article className="article-text no-indent m-b-77">
                     <h3 className="article-h3">报告阅读建议</h3>
                     <Divider />
                     <p className="article-cont">1.本测评所有题项采用0、1计分，报告基于您的在线作答，按照一定的计分原则得出您在四种人格维度上的倾向偏好和具体的人格类型，并据此给出专业选择和工作发展方面的分析和建议； </p>
                     <p className="article-cont">2.报告展示的是你的性格偏好，而不是你的知识、经验、技巧或能力。报告对您的人格特点进行详细分析，是为了帮助你拓展思路，接受更多的可能性，而不是限制你的选择；</p>
-                    {/* <p className="article-cont">3.报告结果中的性格类型没有“好”与“坏”之分，但不同特点对于不同的职业和专业存在“适合”与“不适合”的区别，因此会表现出具体条件下的优势和劣势。人格特点由遗传、成长环境和生活经历决定，不要一味地想象去改变它。但是我们可以在了解的基础上对某些倾向进行一定的补充和平衡，有效利用，扬长避短，从而更好的发挥个人的潜力；</p> */}
-                    {/* <p className="article-cont">4.报告中推荐的职业和专业是针对某一人格类型的人群的，但每个人的家庭背景、学习情况都存在特殊性，可能并不是所有的职业或专业都是合适你，需要具体结合个人的其他条件进行选择；</p> */}
-                    {/* <p className="article-cont">5.对于初次阅读此类报告的人员，需在专业人士的指导下阅读，或请专业人士解释此报告。</p> */}
+                    <p className="article-cont">3.报告结果中的性格类型没有“好”与“坏”之分，但不同特点对于不同的职业和专业存在“适合”与“不适合”的区别，因此会表现出具体条件下的优势和劣势。人格特点由遗传、成长环境和生活经历决定，不要一味地想象去改变它。但是我们可以在了解的基础上对某些倾向进行一定的补充和平衡，有效利用，扬长避短，从而更好的发挥个人的潜力；</p>
+                    <p className="article-cont">4.报告中推荐的职业和专业是针对某一人格类型的人群的，但每个人的家庭背景、学习情况都存在特殊性，可能并不是所有的职业或专业都是合适你，需要具体结合个人的其他条件进行选择；</p>
+                    <p className="article-cont">5.对于初次阅读此类报告的人员，需在专业人士的指导下阅读，或请专业人士解释此报告。</p>
                 </article>
             </div>
             {/* 分页结束 */}
@@ -279,8 +279,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 <div className="page-title mg-b">
                     二、测评结果分析
                 </div>
-                {/* <div className="result-box"> */}
-                    {/* <div className="left">
+                <div className="result-box">
+                    <div className="left">
                         <div className="round">
                             <p className="m-title">{resultDetail.resultType}</p>
                             <p className="s-title">
@@ -293,8 +293,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             </p>
                         </div>
                         <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
-                    </div> */}
-                    {/* <div className="right">
+                    </div>
+                    <div className="right">
                         <div className="result-list">
                             <div className="result-item">
                                 <div className="in">
@@ -369,8 +369,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 </div>
                             </div>
                         </div>
-                    </div> */}
-                {/* </div> */}
+                    </div>
+                </div>
                 <div className="result-detail">
                     <div className="result-detail-item">
                         <p className="title">能量来源（{resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[0]]}）</p>
@@ -387,7 +387,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <p><em>直觉(N):{resultDetail?.scoreDetail?.N?.score}</em>倾向于未来可能的和潜在的事，关注事物的整体和发展变化趋势。</p>
                         </div>
                     </div>
-                    {/* <div className="result-detail-item">
+                    <div className="result-detail-item">
                         <p className="title">信息处理（{resultDetail?.examTemplateArr?.length && resultDetail?.examTemplateArr?.[2]}:
                         {resultDetail?.examTemplateArr?.length && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[2]]}）</p>
                         <div className="result-detail-box">
@@ -402,7 +402,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <p><em>判断(J):{resultDetail?.scoreDetail?.J?.score}</em>喜欢根据信息来做判断、计划和决定，愿意进行管理和控制，希望生活井然有序</p>
                             <p><em>知觉(P):{resultDetail?.scoreDetail?.P?.score}</em>喜欢以自己的理解和信息做决策，灵活、试图去理解、适应环境,倾向于留有余地，喜欢宽松自由的生活方式。</p>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
             {/* 分页结束 */}
