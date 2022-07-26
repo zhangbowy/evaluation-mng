@@ -266,9 +266,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <Divider />
                     <p className="article-cont">1.本测评所有题项采用0、1计分，报告基于您的在线作答，按照一定的计分原则得出您在四种人格维度上的倾向偏好和具体的人格类型，并据此给出专业选择和工作发展方面的分析和建议； </p>
                     <p className="article-cont">2.报告展示的是你的性格偏好，而不是你的知识、经验、技巧或能力。报告对您的人格特点进行详细分析，是为了帮助你拓展思路，接受更多的可能性，而不是限制你的选择；</p>
-                    <p className="article-cont">3.报告结果中的性格类型没有“好”与“坏”之分，但不同特点对于不同的职业和专业存在“适合”与“不适合”的区别，因此会表现出具体条件下的优势和劣势。人格特点由遗传、成长环境和生活经历决定，不要一味地想象去改变它。但是我们可以在了解的基础上对某些倾向进行一定的补充和平衡，有效利用，扬长避短，从而更好的发挥个人的潜力；</p>
-                    <p className="article-cont">4.报告中推荐的职业和专业是针对某一人格类型的人群的，但每个人的家庭背景、学习情况都存在特殊性，可能并不是所有的职业或专业都是合适你，需要具体结合个人的其他条件进行选择；</p>
-                    <p className="article-cont">5.对于初次阅读此类报告的人员，需在专业人士的指导下阅读，或请专业人士解释此报告。</p>
+                    {/* <p className="article-cont">3.报告结果中的性格类型没有“好”与“坏”之分，但不同特点对于不同的职业和专业存在“适合”与“不适合”的区别，因此会表现出具体条件下的优势和劣势。人格特点由遗传、成长环境和生活经历决定，不要一味地想象去改变它。但是我们可以在了解的基础上对某些倾向进行一定的补充和平衡，有效利用，扬长避短，从而更好的发挥个人的潜力；</p> */}
+                    {/* <p className="article-cont">4.报告中推荐的职业和专业是针对某一人格类型的人群的，但每个人的家庭背景、学习情况都存在特殊性，可能并不是所有的职业或专业都是合适你，需要具体结合个人的其他条件进行选择；</p> */}
+                    {/* <p className="article-cont">5.对于初次阅读此类报告的人员，需在专业人士的指导下阅读，或请专业人士解释此报告。</p> */}
                 </article>
             </div>
             {/* 分页结束 */}
@@ -379,14 +379,14 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <p><em>内向(I):{resultDetail?.scoreDetail?.I?.score}</em>自我或记忆激励型，关注思想、记忆、情感，倾向于自省。</p>
                         </div>
                     </div>
-                    {/* <div className="result-detail-item">
+                    <div className="result-detail-item">
                         <p className="title">信息接收（{resultDetail?.examTemplateArr?.[0] && resultDetail?.examTemplateArr?.[1]}:
                         {resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[1]]}）</p>
-                        <div>
+                        <div className="result-detail-box">
                             <p><em>感觉(S):{resultDetail?.scoreDetail?.S?.score}</em>倾向于当前发生的事，关注由五官感觉获取的具体信息。</p>
                             <p><em>直觉(N):{resultDetail?.scoreDetail?.N?.score}</em>倾向于未来可能的和潜在的事，关注事物的整体和发展变化趋势。</p>
                         </div>
-                    </div> */}
+                    </div>
                     {/* <div className="result-detail-item">
                         <p className="title">信息处理（{resultDetail?.examTemplateArr?.length && resultDetail?.examTemplateArr?.[2]}:
                         {resultDetail?.examTemplateArr?.length && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[2]]}）</p>
