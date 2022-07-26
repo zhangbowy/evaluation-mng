@@ -294,11 +294,11 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                         <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
                     </div> */}
-                    {/* <div className="right">
+                    <div className="right">
                         <div className="result-list">
                             <div className="result-item">
                                 <div className="in">
-                                    <div className="label">外向(E):{resultDetail?.scoreDetail && resultDetail?.scoreDetail?.E?.score}</div>
+                                    <div className="label">外向(E):{resultDetail?.scoreDetail?.E?.score}</div>
                                     <div className="pillar-box">
                                         <div className="percent color-1" 
                                             style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}
@@ -369,9 +369,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 </div>
                             </div>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
-                <div className="result-detail">
+                {/* <div className="result-detail">
                     <div className="result-detail-item">
                         <p className="title">能量来源（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}）</p>
                         <div className="result-detail-box">
@@ -400,7 +400,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <p><em>知觉(P):{resultDetail?.scoreDetail?.P.score}</em>喜欢以自己的理解和信息做决策，灵活、试图去理解、适应环境,倾向于留有余地，喜欢宽松自由的生活方式。</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             {/* 分页结束 */}
             <div className="page-box">
