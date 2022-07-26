@@ -78,6 +78,7 @@ const Detail = () => {
     defaultPageSize: 10,
     total: totalNum,
     current: current,
+    showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
       getTableList({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
@@ -97,7 +98,7 @@ const Detail = () => {
     if (item.code === 1) {
       setChartList(item.data);
     }
-    getTableList(from)
+    getTableList({ ...from, curPage: current, pageSize })
   }
   // 获取测评信息
   const getAppraisalInfo = async () => {
@@ -360,40 +361,40 @@ const Detail = () => {
           setDownLoading(record.examPaperId);
           const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.userId, major: true })
           if (res.code === 1) {
-              const newData = {...res.data};
-              if (res.data.results) {
-                  const { htmlDesc } = newData;
-                  const newDimensional = {};
-                  htmlDesc?.dimensional.forEach((item: any) => {
-                      Object.assign(newDimensional, {
-                          [item.tag]: item,
-                      });
-                  });
-                  const newList = abilityList.map((item: any) => {
-                      if (htmlDesc?.ability) {
-                          return {
-                              ...item,
-                              sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
-                          }
-                      }
-                  });
-                  sortBy(newList, function (item:any) { return item.sort });
-
-                  Object.assign(newData, {
-                      resultType: res.data.results[0].type,
-                      examTemplateArr: res.data.results[0].type.split(''),
-                      htmlDesc: {
-                          ...htmlDesc,
-                          dimensional: newDimensional,
-                          abilityList: newList,
-                      }
-                  })
-              }
-              setResultDetial(newData, () => {
-                pdfDetail.current.exportPDF(() => {
-                  setDownLoading(0);
+            const newData = { ...res.data };
+            if (res.data.results) {
+              const { htmlDesc } = newData;
+              const newDimensional = {};
+              htmlDesc?.dimensional.forEach((item: any) => {
+                Object.assign(newDimensional, {
+                  [item.tag]: item,
                 });
               });
+              const newList = abilityList.map((item: any) => {
+                if (htmlDesc?.ability) {
+                  return {
+                    ...item,
+                    sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                  }
+                }
+              });
+              sortBy(newList, function (item: any) { return item.sort });
+
+              Object.assign(newData, {
+                resultType: res.data.results[0].type,
+                examTemplateArr: res.data.results[0].type.split(''),
+                htmlDesc: {
+                  ...htmlDesc,
+                  dimensional: newDimensional,
+                  abilityList: newList,
+                }
+              })
+            }
+            setResultDetial(newData, () => {
+              pdfDetail.current.exportPDF(() => {
+                setDownLoading(0);
+              });
+            });
           }
         }
 
@@ -415,9 +416,9 @@ const Detail = () => {
                     measurement?.examTemplateType === 'MBTI' &&
                     <>
                       <Divider type="vertical" />
-                      <Button 
-                        type="link" 
-                        onClick={() => onDownLoad()} 
+                      <Button
+                        type="link"
+                        onClick={() => onDownLoad()}
                         loading={downLoading === record.examPaperId}>下载</Button>
                     </>
                   }

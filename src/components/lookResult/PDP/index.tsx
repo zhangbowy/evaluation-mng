@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import { Radar } from '@antv/g2plot';
 import { IResult } from '@/page/evaluation/management/type'
+import ResultHeader from '@/components/resultHeader';
 
 const PDP = (props: { resultList: IResult }) => {
     const { resultList } = props;
@@ -29,8 +30,8 @@ const PDP = (props: { resultList: IResult }) => {
             lineStyle: {
                 fill: '#DFDFDF', //区域填充颜色
                 fillOpacity: 0.8, //区域填充颜色透明度
-                stroke:'#DFDFDF',
-                lineOpacity:0.8,
+                stroke: '#DFDFDF',
+                lineOpacity: 0.8,
             },
             xAxis: {
                 tickLine: null,
@@ -158,11 +159,7 @@ const PDP = (props: { resultList: IResult }) => {
                             <div className={styles.container}>
                                 <div id="container" ref={containerRef} />
                                 <div className={styles.userInfo}>
-                                    {resultList.user.avatar ? (
-                                        <img className={styles.userImg} src={resultList.user.avatar} />
-                                    ) : (
-                                        <span className={styles.span}>{resultList.user.name}</span>
-                                    )}
+                                    <ResultHeader width={42} height={42} isDescribe={true} name={resultList.user.name} src={resultList.user.avatar} />
                                 </div>
                                 <div className={styles.userName}>{resultList.user.name}</div>
                             </div>
