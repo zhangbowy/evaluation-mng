@@ -6,10 +6,9 @@
 .pnp.js
 /dist
 /.vscode
-/package-lock.json
 # testing
 /coverage
-
+package-lock.json
 # production
 /build
 
