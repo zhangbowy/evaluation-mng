@@ -81,6 +81,8 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
                     setTimeout(createImpl, 500, canvas);
                 } else {
                     pdf.save(pdfName + '.pdf')
+                    // 打印之后的操作
+                    after && typeof after == 'function' && after();
                 }
             }
         }
@@ -88,16 +90,16 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
         if (leftHeight < a4HeightRef) {
             pdf.addImage(pageData, 'JPEG', 0, 0, a4Width, (a4Width / canvas.width) * leftHeight)
             pdf.save(pdfName + '.pdf')
+            // 打印之后的操作
+            after && typeof after == 'function' && after();
         } else {
             try {
                 pdf.deletePage(0)
                 setTimeout(createImpl, 500, canvas)
             }
             catch (err) {
-                // console.log(err);
+                 console.log(err);
             }
         }
-        // 打印之后的操作
-        after && typeof after == 'function' && after();
     });
 };
