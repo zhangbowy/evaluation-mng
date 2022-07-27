@@ -77,7 +77,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
                     loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
                 }
             </Drawer >
-            <div style={{ height: 0 }}>
+            <div style={{ height: 0,overflow:'hidden' }}>
                 <PDP ref={(ref) => curRef.current[0] = ref} resultList={resultList as IResult} />
                 <CA ref={(ref) => curRef.current[1] = ref} resultList={resultList as IResult} />
                 <CPI ref={(ref) => curRef.current[2] = ref} charmList={resultList as IResult} />
