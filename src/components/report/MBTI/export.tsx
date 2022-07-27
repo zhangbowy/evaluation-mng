@@ -199,7 +199,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </article>
             </div>
             {/* 分页 */}
-            <div className="article-table">
+            <div className="page-box article-table">
                 <div className="article-hd">
                     <div className="hd">人格类型名称</div>
                     <div className="hd">英文代码</div>
@@ -410,9 +410,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                </div>
                 <div className="result-analyse">
                     <div className="left">
                         <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}></div>
@@ -445,6 +442,9 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                 </div>
+            </div>
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="tendency-degree">
                     <div className="small-title">
                         <p className="line"></p>
@@ -461,6 +461,9 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         }
                     </div>
                 </div>
+            </div>
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="result-tendency-degree m-b-77">
                     <div className="small-title">
                         <p className="line"></p>
@@ -474,9 +477,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                </div>
                 <div className="tag-line">
                     <div className="title">
                         <p className="diamond"></p>
@@ -554,6 +554,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="page-box">
                 <div className="tag-sort">
                     <div className="small-title">
                         <p className="line"></p>
@@ -577,12 +579,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     </div>
                 </div>
             </div>
-             {/* 分页结束 */}
+            {/* 分页结束 */}
              <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="page-title">
                     三、四维人格倾向解读
                 </div>
@@ -591,6 +589,9 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <p className="title">您的四维人格倾向（偏好）详解如下</p>
                 </div>
                 <div className="personality-line"></div>
+            </div>
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="personality-detail">
                     <div className="header">
                         E-I维度：{resultDetail?.htmlDesc?.dimensional.el.name}
@@ -633,10 +634,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="personality-detail">
                     <div className="header">
                         S-N维度：{resultDetail?.htmlDesc?.dimensional.sn.name}
@@ -676,6 +673,9 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                 </div>
+            </div>
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="personality-detail">
                     <div className="header">
                         T-F维度：{resultDetail?.htmlDesc?.dimensional.tf.name}
@@ -718,13 +718,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo">
-                        {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span> */}
-                    </div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="personality-detail">
                     <div className="header">
                         J-P维度：{resultDetail?.htmlDesc?.dimensional.jp.name}
@@ -767,13 +760,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
              {/* 分页结束 */}
              <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo">
-                        {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
-                        <span className="name">趣测评</span> */}
-                    </div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="page-title">
                     四、MBTI人格类型解读
                 </div>
@@ -783,6 +769,9 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <span>，详解如下：</span>
                 </div>
                 <div className="personality-line"></div>
+            </div>
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="classify-detail">
                     <div className="title">
                         <p className="diamond"></p>
@@ -808,6 +797,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="page-box"> 
                 <div className="classify-detail">
                     <div className="title">
                         <p className="diamond"></p>
@@ -823,10 +814,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="classify-detail">
                     <div className="title">
                         <p className="diamond"></p>
@@ -842,10 +829,6 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="classify-detail">
                     <div className="title">
                         <p className="diamond"></p>
@@ -865,6 +848,10 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             ))
                         }
                     </div>
+                </div>
+            </div>
+            <div className="page-box">
+                <div className="classify-detail">
                     <div className="classify-image m-b-25">
                         <img src={`/evaluation-mng/imgs/qcp_pdf_inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31`} />
                         <div className="line"></div>
@@ -960,6 +947,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         }
                     </div>
                 </div>
+            </div>
+            <div className="page-box">
                 <div className="classify-detail">
                     <div className="title m-b-25">
                         <p className="diamond"></p>
@@ -1049,6 +1038,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         }
                     </div>
                 </div>
+            </div>
+            <div className="page-box">
                 <div className="history-people">
                     <div className="header">
                         <p className="line"></p>

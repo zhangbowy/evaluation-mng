@@ -114,7 +114,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
                 ref={pdfDetail}
                 resultDetail={resultDetial}
                 childStyle={{
-                    'width': '800px',
+                    'width': '1200px',
                     'boxSizing': 'border-box',
                     'position': 'fixed',
                     'top': '0pt',
