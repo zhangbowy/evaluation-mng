@@ -39,7 +39,7 @@ const LookReport = () => {
         <div className={styles.detail_layout}>
             <header>
                 <Breadcrumb separator=">" className={styles.detail_nav}>
-                    <Breadcrumb.Item href="#/evaluation/management">盘点测评</Breadcrumb.Item>
+                    <Breadcrumb.Item href="#/evaluation/peopleReport">人才报告</Breadcrumb.Item>
                     <Breadcrumb.Item href={`#/evaluation/peopleReport/detail/${userId}`}>{reportDetailList?.name}</Breadcrumb.Item>
                     <Breadcrumb.Item>查看报告</Breadcrumb.Item>
                 </Breadcrumb>
