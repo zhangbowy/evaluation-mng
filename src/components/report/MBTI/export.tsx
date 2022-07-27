@@ -1,6 +1,6 @@
 import { Button, Divider,Modal, Tabs } from 'antd';
 import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle} from 'react';
-import './index.less';
+import './export.less';
 import print from "@/utils/print";
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
@@ -64,7 +64,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
     };
     useEffect(() => {
         //buildPdfFile();
-        const eleDots = document.querySelectorAll('#chartX s');
+        const eleDots = document.querySelectorAll('#chartS s');
         fnLineChart(eleDots); 
     //    toExportPdf();
     }, [resultDetail])
@@ -118,7 +118,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
         );
     };
     return (
-        <div id="Pdf_Body" className="pdfdetail-layout" style={childStyle}>
+        <div id="Pdf_Body" className="pdfdetail-layout-export" style={childStyle}>
             {/*封面*/}
             <div className="pdf-cover">
                 <div className="logo"></div>
@@ -197,67 +197,68 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         在以上四个维度上，每个人都会有自己天生就具有的倾向性，也就是说，处在两个方向分界点的这边或那边，我们称之为“偏好”。例如，如果你落在外向的那边，称为“你偏好外向”；如果你落在内向的那边，称为“你偏好内向”。在现实生活中，每个维度的两个方面你都会用到，只是其中的一个方面你用的更频繁、更舒适，即为你在这个维度上的偏好。将人们在四个维度上的偏好加以组合，就形成了16种人格类型（详见下表），它反映了人们在一系列心理过程和行为方式上的可能特点。
                     </p>
                 </article>
-                <div className="article-table">
-                    <div className="article-hd">
-                        <div className="hd">人格类型名称</div>
-                        <div className="hd">英文代码</div>
-                        <div className="hd">人格类型名称</div>
-                        <div className="hd">英文代码</div>
+            </div>
+            {/* 分页 */}
+            <div className="article-table">
+                <div className="article-hd">
+                    <div className="hd">人格类型名称</div>
+                    <div className="hd">英文代码</div>
+                    <div className="hd">人格类型名称</div>
+                    <div className="hd">英文代码</div>
+                </div>
+                <div className="article-bd">
+                    <div className="item">
+                        <div className="td">内向+感觉+思考+判断</div>
+                        <div className="td">ISTJ</div>
+                        <div className="td">内向+感觉+情感+判断</div>
+                        <div className="td">ISFJ</div>
                     </div>
-                    <div className="article-bd">
-                        <div className="item">
-                            <div className="td">内向+感觉+思考+判断</div>
-                            <div className="td">ISTJ</div>
-                            <div className="td">内向+感觉+情感+判断</div>
-                            <div className="td">ISFJ</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">内向+直觉+情感+判断</div>
-                            <div className="td">INFJ</div>
-                            <div className="td">内向+直觉+思考+判断</div>
-                            <div className="td">INTJ</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">内向+感觉+思考+知觉</div>
-                            <div className="td">ISTP</div>
-                            <div className="td">内向+感觉+情感+知觉</div>
-                            <div className="td">ISFP</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">内向+直觉+情感+知觉</div>
-                            <div className="td">INFP</div>
-                            <div className="td">内向+直觉+思考+知觉</div>
-                            <div className="td">INTP</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">外向+感觉+思考+判断</div>
-                            <div className="td">ESTJ</div>
-                            <div className="td">外向+感觉+情感+判断</div>
-                            <div className="td">ESFJ</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">外向+直觉+情感+判断</div>
-                            <div className="td">ENFJ</div>
-                            <div className="td">外向+直觉+思考+判断</div>
-                            <div className="td">ENTJ</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">外向+感觉+思考+知觉</div>
-                            <div className="td">ESTP</div>
-                            <div className="td">外向+感觉+情感+知觉</div>
-                            <div className="td">ESFP</div>
-                        </div>
-                        <div className="item">
-                            <div className="td">外向+直觉+情感+知觉</div>
-                            <div className="td">ENFP</div>
-                            <div className="td">外向+直觉+思考+知觉</div>
-                            <div className="td">ENTP</div>
-                        </div>
+                    <div className="item">
+                        <div className="td">内向+直觉+情感+判断</div>
+                        <div className="td">INFJ</div>
+                        <div className="td">内向+直觉+思考+判断</div>
+                        <div className="td">INTJ</div>
+                    </div>
+                    <div className="item">
+                        <div className="td">内向+感觉+思考+知觉</div>
+                        <div className="td">ISTP</div>
+                        <div className="td">内向+感觉+情感+知觉</div>
+                        <div className="td">ISFP</div>
+                    </div>
+                    <div className="item">
+                        <div className="td">内向+直觉+情感+知觉</div>
+                        <div className="td">INFP</div>
+                        <div className="td">内向+直觉+思考+知觉</div>
+                        <div className="td">INTP</div>
+                    </div>
+                    <div className="item">
+                        <div className="td">外向+感觉+思考+判断</div>
+                        <div className="td">ESTJ</div>
+                        <div className="td">外向+感觉+情感+判断</div>
+                        <div className="td">ESFJ</div>
+                    </div>
+                    <div className="item">
+                        <div className="td">外向+直觉+情感+判断</div>
+                        <div className="td">ENFJ</div>
+                        <div className="td">外向+直觉+思考+判断</div>
+                        <div className="td">ENTJ</div>
+                    </div>
+                    <div className="item">
+                        <div className="td">外向+感觉+思考+知觉</div>
+                        <div className="td">ESTP</div>
+                        <div className="td">外向+感觉+情感+知觉</div>
+                        <div className="td">ESFP</div>
+                    </div>
+                    <div className="item">
+                        <div className="td">外向+直觉+情感+知觉</div>
+                        <div className="td">ENFP</div>
+                        <div className="td">外向+直觉+思考+知觉</div>
+                        <div className="td">ENTP</div>
                     </div>
                 </div>
             </div>
             {/* 分页 */}
-            <div className="page-box">
+            <div className="page-box page-height">
                 {/* <div className="page-top mg-b">
                     <div className="logo"></div>
                 </div> */}
@@ -482,7 +483,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <p>能力标签分析</p>
                     </div>
                     <div className="tag-apply-chart">
-                        <div className="tag-chart" id="chartX">
+                        <div className="tag-chart" id="chartS">
                             <div className="result-xy">
                                 <div className="result-bg" data-month="忠诚度">
                                     <span className="result-bar" 

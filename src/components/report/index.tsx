@@ -107,11 +107,19 @@ const ReportDetail = forwardRef((props: any, ref) => {
     return (
         <div className={styles.pdfDetail}>
             <PdfDetailMBTI 
+                // ref={pdfDetail}
+                resultDetail={resultDetial}
+            />
+            <ExportPdfDetailMBTI 
                 ref={pdfDetail}
                 resultDetail={resultDetial}
                 childStyle={{
                     'width': '800px',
                     'boxSizing': 'border-box',
+                    'position': 'fixed',
+                    'top': '0pt',
+                    'left': '-9999pt',
+                    'zIndex': '-9999'
                 }}
             />
         </div>
