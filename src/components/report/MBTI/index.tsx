@@ -276,7 +276,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 {/* <div className="page-top mg-b">
                     <div className="logo"></div>
                 </div> */}
-                <div className="page-title">
+                <div className="page-title m-b-77">
                     二、测评结果分析
                 </div>
                 <div className="result-box">
@@ -371,7 +371,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div> */}
                 </div>
-                <div className="result-detail">
+                {/* <div className="result-detail">
                     <div className="result-detail-item">
                         <p className="title">能量来源（{resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[0]]}）</p>
                         <div className="result-detail-box">
@@ -400,7 +400,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <p><em>知觉(P):{resultDetail?.scoreDetail?.P.score}</em>喜欢以自己的理解和信息做决策，灵活、试图去理解、适应环境,倾向于留有余地，喜欢宽松自由的生活方式。</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             {/* 分页结束 */}
             <div className="page-box">
