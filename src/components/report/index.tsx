@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import { getExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
+import ExportPdfDetailMBTI from './MBTI/export';
 
 /**
  * 查看报告
@@ -107,6 +108,18 @@ const ReportDetail = forwardRef((props: any, ref) => {
             <PdfDetailMBTI 
                 ref={pdfDetail}
                 resultDetail={resultDetial}
+            />
+            <ExportPdfDetailMBTI
+                ref={pdfDetail}
+                resultDetail={resultDetial}
+                childStyle={{
+                    'width': '1000px',
+                    'boxSizing': 'border-box',
+                    'position': 'fixed',
+                    'top': '0pt',
+                    'left': '-9999pt',
+                    'zIndex': '-9999'
+                }}
             />
         </div>
     );
