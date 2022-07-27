@@ -332,10 +332,10 @@ const Detail = () => {
       render: (text: number, record, index: number) => {
         // 查看报告
         const onLookResult = () => {
-          if (measurement?.examTemplateType === 'MBTI') {
-            navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}`);
-            return;
-          }
+          // if (measurement?.examTemplateType === 'MBTI') {
+          //   navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}`);
+          //   return;
+          // }
           const cur = lookResultRef as any;
           cur.current.onOpenDrawer(record)
         }
@@ -412,7 +412,7 @@ const Detail = () => {
               return (
                 <>
                   <Button type="link" onClick={onLookResult}>查看报告</Button>
-                  {
+                  {/* {
                     measurement?.examTemplateType === 'MBTI' &&
                     <>
                       <Divider type="vertical" />
@@ -421,7 +421,7 @@ const Detail = () => {
                         onClick={() => onDownLoad()}
                         loading={downLoading === record.examPaperId}>下载</Button>
                     </>
-                  }
+                  } */}
                 </>
               )
             default:
@@ -539,7 +539,7 @@ const Detail = () => {
       <LookResult ref={lookResultRef} />
       <LookIntroduce ref={lookIntroduceRef} />
       <LookAllTags ref={lookAllTagsRef} onTagClick={onTagClick} />
-      <PdfDetailMBTI
+      {/* <PdfDetailMBTI
         ref={pdfDetail}
         resultDetail={resultDetial}
         childStyle={{
@@ -550,7 +550,7 @@ const Detail = () => {
           'left': '-9999pt',
           'zIndex': '-9999'
         }}
-      />
+      /> */}
     </div>
   )
 }
