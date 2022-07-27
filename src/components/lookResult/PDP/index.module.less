@@ -1,5 +1,7 @@
 .pageResult {
     background-color: #f3f3f3;
+    max-width: 400px;
+    height: 100%;
 
     .capture {
         position: relative;
@@ -15,7 +17,7 @@
         height: 100%;
         // background-color: #5200db;
         background-color: #fff;
-        background-image: url(//qzz-static.forwe.store/evaluation-web/imgs/pdp/bg.png);
+        background-image: url(/evaluation-web/imgs/pdp/bg.png);
         background-size: 100% auto;
     }
 
@@ -95,6 +97,10 @@
         position: relative;
         margin-top: 24px;
         padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
         .userInfo {
             position: absolute;

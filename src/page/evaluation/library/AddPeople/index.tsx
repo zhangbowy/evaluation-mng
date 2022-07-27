@@ -78,7 +78,7 @@ const AddPeople = forwardRef((props, ref) => {
                             const msg = {
                                 msgtype: "link",
                                 link: {
-                                    messageUrl: `${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`,
+                                    messageUrl: `dingtalk://dingtalkclient/page/link?url=${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login&pc_slide=true`,
                                     image: "http://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
                                     title: "您有一份测评待完成",
                                     text: "全抖音1亿用户都在玩的性格测评，赶紧测一测吧！"
@@ -109,7 +109,7 @@ const AddPeople = forwardRef((props, ref) => {
             <Modal title="添加人员" cancelText="取消" okText="下一步" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <p className={styles.addPeople_title}>请先确认本次测评名称</p>
                 <Input className={styles.addPeople_input}
-                    style={{ borderBottom: '1px solid #2B85FF',paddingLeft:0 }}
+                    style={{ borderBottom: '1px solid #2B85FF', paddingLeft: 0 }}
                     allowClear bordered={false} value={inputValue} onChange={onInputChange} placeholder="请输入测评名称" />
             </Modal>
             <Modal visible={successVisible} onCancel={() => setSuccessVisible(false)} footer={false} width={424}>

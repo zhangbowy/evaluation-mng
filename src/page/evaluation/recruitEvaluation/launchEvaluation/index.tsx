@@ -84,7 +84,7 @@ const LaunchEvaluation = () => {
           <Form.Item
             name="phone"
             label="手机号"
-            rules={[{ required: true, message: '' }, { validator: validatorPhone }]}
+            // rules={[{ required: true, message: '' }, { validator: validatorPhone }]}
           >
             <Input placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
