@@ -32,6 +32,7 @@ import { debounce } from '@/utils/utils';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
+import ExportPdfDetailMBTI from '@/components/report/MBTI/export';
 
 
 const recruitStatusList:RecruitStatus[] = [
@@ -453,11 +454,11 @@ const RecruitEvaluation = () => {
       closeModal={closeModal}
     />
     <LookResult ref={lookResultRef} isRecruit={true} />
-    <PdfDetailMBTI
+    <ExportPdfDetailMBTI
       ref={pdfDetail}
       resultDetail={resultDetial}
       childStyle={{
-        'width': '1120px',
+        'width': '800px',
         'boxSizing': 'border-box',
         'position': 'fixed',
         'top': '0pt',
