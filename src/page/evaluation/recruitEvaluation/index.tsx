@@ -274,7 +274,7 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  {
+                  {/* {
                     record.templateType === 'MBTI' && <>
                       <Divider type="vertical" />
                       <Button
@@ -286,7 +286,7 @@ const RecruitEvaluation = () => {
                         下载
                       </Button>
                     </>
-                  }
+                  } */}
                 </>
               default:
                 break;
