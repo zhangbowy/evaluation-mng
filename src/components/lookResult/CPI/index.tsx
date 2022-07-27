@@ -15,29 +15,31 @@ const Charm = forwardRef((props: { charmList: IResult }, ref) => {
         screenshotRef: screenshotRef.current
     }))
     return (
-        <div ref={screenshotRef} className={styles.charm_layout}>
-            <ReportHeader name={charmList?.user.name} src={charmList?.user.avatar} />
-            <div className={styles.charm_wrapper} >
-                <main>
-                    <img src={quotationMarksImg1} alt="" />
-                    <div className={styles.charm_main_content}>
-                        <h2>我的魅力指数</h2>
-                        <Rate
-                            className={styles.charm_main_rate}
-                            disabled
-                            value={
-                                parseInt(charmList?.results[0].type.split('：')[1] || '0') /
-                                2 /
-                                10
-                            }
-                        />
-                        <ProgressCircle
-                            percent={parseInt(charmList?.results[0].type.split('：')[1] || '0')}
-                        />
-                    </div>
-                    <div className={styles.charm_main_JH}>#</div>
-                </main>
-                <p>{charmList?.textDesc}</p>
+        <div className={styles.charm_layout}>
+            <div ref={screenshotRef} className={styles.charm_bg} >
+                <ReportHeader name={charmList?.user.name} src={charmList?.user.avatar} />
+                <div className={styles.charm_wrapper} >
+                    <main>
+                        <img src={quotationMarksImg1} alt="" />
+                        <div className={styles.charm_main_content}>
+                            <h2>我的魅力指数</h2>
+                            <Rate
+                                className={styles.charm_main_rate}
+                                disabled
+                                value={
+                                    parseInt(charmList?.results[0].type.split('：')[1] || '0') /
+                                    2 /
+                                    10
+                                }
+                            />
+                            <ProgressCircle
+                                percent={parseInt(charmList?.results[0].type.split('：')[1] || '0')}
+                            />
+                        </div>
+                        <div className={styles.charm_main_JH}>#</div>
+                    </main>
+                    <p>{charmList?.textDesc}</p>
+                </div>
             </div>
         </div>
     );

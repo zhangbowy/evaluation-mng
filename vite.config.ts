@@ -45,7 +45,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         libList: [
           {
             libName: "antd",
-            style: (name) => `antd/es/${name}/style`,
+            style: (name) => `antd/es/${name}/style/index.js`,
           },
         ],
       })

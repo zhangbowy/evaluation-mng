@@ -41,8 +41,8 @@ const CareerAnchor = forwardRef((props: { resultList: IResult }, ref) => {
         setCurrentIndex(index);
     };
     return (
-        <div ref={screenshotRef} className={styles.careerAnchor_layout}>
-            <div className={styles.careerAnchor_wrapper}>
+        <div className={styles.careerAnchor_layout}>
+            <div ref={screenshotRef} className={styles.careerAnchor_wrapper}>
                 <ReportHeader
                     src={resultList?.user.avatar}
                     name={resultList?.user.name}
@@ -103,7 +103,7 @@ const CareerAnchor = forwardRef((props: { resultList: IResult }, ref) => {
                             {introduce.map((item: IntroduceData) => (
                                 <div key={item.key} className={styles.careerAnchor_main_item}>
                                     <h2>{item.title}</h2>
-                                    <p>{resultList?.htmlDescList.length>0&&resultList?.htmlDescList[currentIndex][item.key]}</p>
+                                    <p>{resultList?.htmlDescList.length > 0 && resultList?.htmlDescList[currentIndex][item.key]}</p>
                                 </div>
                             ))}
                         </div>
