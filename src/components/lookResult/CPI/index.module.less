@@ -1,79 +1,82 @@
 .charm_layout {
     width: 100%;
+    max-width: 400px;
     min-height: 100vh;
-    background: url('//qzz-static.forwe.store/evaluation-web/imgs/qcp_web_image/qcp_c_home_bg.png') no-repeat;
-    background-size: 100% auto;
-    padding: 12px;
-    margin-bottom: 20px;
+    height: 100%;
+    // background-image: url('/evaluation-web/imgs/qcp_web_image/qcp_c_home_bg.png');
+    // background-repeat: no-repeat;
+    // background-size: 100% auto;
 
-    .charm_share_content {
-        height: 0;
-        overflow: hidden;
-    }
+    .charm_bg {
+        background-image: linear-gradient(155deg, #2a81fd 0%, #16C3FF 100%);
+        padding: 12px;
+        margin-bottom: 20px;
 
-    .charm_wrapper {
-        background-color: #ffffff;
-        border-radius: 16px;
-        width: 100%;
-        padding: 11px 13px;
-        margin-top: 21px;
-
-        main {
-            display: flex;
-            margin-bottom: 18px;
-            justify-content: space-between;
-
-            img {
-                width: 40px;
-                height: 33px;
-                float: left;
-            }
-
-            .charm_main_content {
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-                align-items: center;
-
-                h2 {
-                    font-size: 18px;
-                    font-weight: 500;
-                    color: #3e4043;
-                }
-
-                .charm_main_rate {
-                    margin: 8px 0 20px;
-                    --star-size: 20px;
-                }
-
-                .charm_main_progressCircle {
-                    display: block;
-                    --track-width: 15px;
-                    --size: 135px;
-                    // --fill-color: linear-gradient(198deg, rgba(0, 229, 255, 1), rgba(104, 130, 255, 1)) 17 17;
-                    height: 100%;
-                    overflow: visible;
-                }
-            }
-
-            .charm_main_JH {
-                color: #e8ebf0;
-                font-size: 40px;
-                display: flex;
-                align-items: flex-end;
-            }
-        }
-
-        p {
+        .charm_wrapper {
+            background-color: #ffffff;
+            border-radius: 16px;
             width: 100%;
-            background-color: #f6f7fa;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 400;
-            color: #3e4043;
-            line-height: 26px;
-            text-indent: 2em;
-            padding: 6px;
+            padding: 11px 13px;
+            margin-top: 21px;
+
+            main {
+                display: flex;
+                margin-bottom: 18px;
+                justify-content: space-between;
+
+                img {
+                    width: 40px;
+                    height: 33px;
+                    float: left;
+                }
+
+                .charm_main_content {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    align-items: center;
+
+                    h2 {
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #3e4043;
+                    }
+
+                    .charm_main_rate {
+                        margin: 8px 0 20px;
+                        --star-size: 20px;
+                    }
+
+                    .charm_main_progressCircle {
+                        display: block;
+                        --track-width: 15px;
+                        --size: 135px;
+                        // --fill-color: linear-gradient(198deg, rgba(0, 229, 255, 1), rgba(104, 130, 255, 1)) 17 17;
+                        height: 100%;
+                        overflow: visible;
+                    }
+                }
+
+                .charm_main_JH {
+                    color: #e8ebf0;
+                    font-size: 40px;
+                    display: flex;
+                    align-items: flex-end;
+                }
+            }
+
+            p {
+                width: 100%;
+                background-color: #f6f7fa;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 400;
+                color: #3e4043;
+                line-height: 26px;
+                text-indent: 2em;
+                padding: 6px;
+            }
         }
     }
+
 }

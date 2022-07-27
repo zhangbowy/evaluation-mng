@@ -9,6 +9,7 @@ export interface IColumns {
   email: string,
   examPaperId: string,
   templateType: string,
+  templateTitle:string;
   shortLink: string,
   examStatus: string,
   isOpen: boolean,

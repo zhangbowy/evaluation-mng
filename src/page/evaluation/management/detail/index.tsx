@@ -452,7 +452,7 @@ const Detail = () => {
                   <p>{measurement?.examTitle}</p>
                   <span>{IEvaluation[measurement!.examTemplateType]}</span>
                 </div>
-                <Button type="link" onClick={onLookIntroduceClick}>查看介绍</Button>
+                {measurement?.examTemplateType !== 'CPI' && <Button type="link" onClick={onLookIntroduceClick}>查看介绍</Button>}
               </div>
               <p className={styles.detail_bottom}>{measurement?.introduction}</p>
             </div>

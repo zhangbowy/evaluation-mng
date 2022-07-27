@@ -34,7 +34,7 @@ import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
 
 
-const recruitStatusList:RecruitStatus[] = [
+const recruitStatusList: RecruitStatus[] = [
   {
     label: '待答题',
     value: 0
@@ -66,7 +66,7 @@ const RecruitEvaluation = () => {
   const history = useNavigate();
   const lookResultRef: any = useRef();
   const pdfDetail: any = useRef();
-
+  // 获取列表
   const getListData = (pageNo: number, pageSize: number = 10) => {
     const values = form.getFieldsValue();
     const formData: paramsType = {
@@ -99,20 +99,20 @@ const RecruitEvaluation = () => {
       setTableLoading(false);
     })
   }
-
+  // 重置
   const onResetClick = () => {
     form.resetFields();
     getListData(1);
   };
-
+  // 搜索
   const onSearchClick = () => {
     getListData(1);
   };
-
+  //发起测评
   const onAddEvaluationClick = () => {
     history('/evaluation/recruitEvaluation/launchEvaluation');
   };
-
+  //复制
   const copyText = (text: string) => {
     if (copy(text)) {
       message.success('复制成功!');
@@ -120,7 +120,7 @@ const RecruitEvaluation = () => {
       message.success('复制失败，请重新复制');
     }
   };
-
+  // 查看报告
   const showReport = (record: IColumns) => {
     if (record.templateType === 'MBTI') {
       history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
@@ -128,46 +128,50 @@ const RecruitEvaluation = () => {
     }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
-
+  // 下载MBTI专业版
   const onDownLoad = async (record: IColumns) => {
     setDownLoading(record.examPaperId);
     const res = await getUserExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
     if (res.code === 1) {
-        const newData = {...res.data};
-        if (res.data.results) {
-            const { htmlDesc } = newData;
-            const newDimensional = {};
-            htmlDesc?.dimensional.forEach((item: any) => {
-                Object.assign(newDimensional, {
-                    [item.tag]: item,
-                });
-            });
-            const newList = abilityList.map((item: any) => {
-                if (htmlDesc?.ability) {
-                    return {
-                        ...item,
-                        sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
-                    }
-                }
-            });
-            sortBy(newList, function (item:any) { return item.sort });
-
-            Object.assign(newData, {
-                resultType: res.data.results[0]?.type,
-                examTemplateArr: res.data.results[0]?.type.split(''),
-                htmlDesc: {
-                    ...htmlDesc,
-                    dimensional: newDimensional,
-                    abilityList: newList,
-                }
-            })
-        }
-        setResultDetial(newData, () => {
-          pdfDetail.current.exportPDF(() => {
-            setDownLoading('0');
+      const newData = { ...res.data };
+      if (res.data.results) {
+        const { htmlDesc } = newData;
+        const newDimensional = {};
+        htmlDesc?.dimensional.forEach((item: any) => {
+          Object.assign(newDimensional, {
+            [item.tag]: item,
           });
         });
+        const newList = abilityList.map((item: any) => {
+          if (htmlDesc?.ability) {
+            return {
+              ...item,
+              sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+            }
+          }
+        });
+        sortBy(newList, function (item: any) { return item.sort });
+
+        Object.assign(newData, {
+          resultType: res.data.results[0]?.type,
+          examTemplateArr: res.data.results[0]?.type.split(''),
+          htmlDesc: {
+            ...htmlDesc,
+            dimensional: newDimensional,
+            abilityList: newList,
+          }
+        })
+      }
+      setResultDetial(newData, () => {
+        pdfDetail.current.exportPDF(() => {
+          setDownLoading('0');
+        });
+      });
     }
+  }
+  // 普通版下载
+  const onOrdinaryDownLoad = async (record: IColumns) => {
+    lookResultRef.current.onDownLoadReport({ templateTitle: record.templateTitle, examPaperId: record.examPaperId, userId: record.phone })
   }
 
   const columns: ColumnsType<IColumns> = [
@@ -195,16 +199,16 @@ const RecruitEvaluation = () => {
       dataIndex: 'examStatus',
       width: 150,
       render: (text: number) =>
-      <span
-        className={cx({
-          'status_base': true,
-          'table_column_text': true,
-          'status_answer': text == 0,
-          'status_start': (text == 1 || text == 2 || text == 3),
-          'status_finish': text == 10 || text == 5
-        })} >
-        {text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]}
-      </span>
+        <span
+          className={cx({
+            'status_base': true,
+            'table_column_text': true,
+            'status_answer': text == 0,
+            'status_start': (text == 1 || text == 2 || text == 3),
+            'status_finish': text == 10 || text == 5
+          })} >
+          {text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]}
+        </span>
     },
     {
       title: '测评链接',
@@ -273,6 +277,20 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
+                  {
+                    record.templateType !== 'MBTI' &&
+                    <>
+                      <Divider type="vertical" />
+                      <Button
+                        className={styles.columns_btn_lock}
+                        type='link'
+                        loading={downLoading === record.examPaperId}
+                        onClick={() => onOrdinaryDownLoad(record)}
+                      >
+                        下载
+                      </Button>
+                    </>
+                  }
                   {/* {
                     record.templateType === 'MBTI' && <>
                       <Divider type="vertical" />
@@ -340,7 +358,7 @@ const RecruitEvaluation = () => {
       }
     }
   ];
-
+  // 分页
   const changePagination = (page: number, pageSize: number) => {
     if (pageSize !== tableSize) {
       setCurrent(1);
@@ -352,7 +370,7 @@ const RecruitEvaluation = () => {
     setTableSize(pageSize);
     getListData(page, pageSize);
   }
-
+  // 关闭弹窗
   const closeModal = () => {
     setVisible(false);
   }
@@ -367,93 +385,107 @@ const RecruitEvaluation = () => {
     getListData(current, tableSize);
   }, []);
 
-  return <div className={styles.recruitEvaluation_layout}>
-    <div className={styles.recruitEvaluation_content}>
-      <h1>招聘测评</h1>
-      <nav>
-        <Form form={form} layout="inline">
-          <Form.Item name="candidateName" label="候选人">
-            <Input placeholder="请输入" style={{ width: 240 }} />
-          </Form.Item>
-          <Form.Item name="job" label="应聘岗位">
-            <Input placeholder="请输入" style={{ width: 240 }} />
-          </Form.Item>
-          <Form.Item name="examStatus" label="测评状态">
-            <Select
-              optionFilterProp="children"
-              allowClear
-              filterOption={(input, option) =>
-                (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
-              }
-              placeholder="请选择"
-              showSearch
-              style={{ width: 240 }} >
-              {
-                recruitStatusList.map((item: RecruitStatus) => <Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>)
-              }
-            </Select>
-          </Form.Item>
-        </Form>
-        <div className={styles.nav_right}>
-          {/* <span className={styles.nav_right_more}>
+  return (
+    <div className={styles.recruitEvaluation_layout}>
+      <div className={styles.recruitEvaluation_content}>
+        <h1>招聘测评</h1>
+        <nav>
+          <Form form={form} layout="inline">
+            <Form.Item name="candidateName" label="候选人">
+              <Input placeholder="请输入" style={{ width: 240 }} />
+            </Form.Item>
+            <Form.Item name="job" label="应聘岗位">
+              <Input placeholder="请输入" style={{ width: 240 }} />
+            </Form.Item>
+            <Form.Item name="examStatus" label="测评状态">
+              <Select
+                optionFilterProp="children"
+                allowClear
+                filterOption={(input, option) =>
+                  (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
+                }
+                placeholder="请选择"
+                showSearch
+                style={{ width: 240 }} >
+                {
+                  recruitStatusList.map((item: RecruitStatus) => <Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>)
+                }
+              </Select>
+            </Form.Item>
+          </Form>
+          <div className={styles.nav_right}>
+            {/* <span className={styles.nav_right_more}>
             <span>更多筛选</span>
             <DownOutlined />
           </span> */}
-          <Button onClick={onResetClick}>重置</Button>
-          <Button
-            type="primary"
-            onClick={onSearchClick}
-          >
-            搜索
-          </Button>
-        </div>
-      </nav>
-      <Divider />
-      <main>
-        <section>
-          <span>候选人表</span>
-          <Button
-            id="addPermissions"
-            onClick={onAddEvaluationClick}
-            type="primary"
-            icon={<PlusCircleOutlined />}
-          >
-            发起测评
-          </Button>
-        </section>
-        <Table loading={tableLoading}
-          pagination={false}
-          columns={columns}
-          rowKey={(res) => res.id}
-          dataSource={candidateList}
-          scroll={{ x: 1620 }}
-        />
-      </main>
-    </div>
-    {
-      candidateList.length && <footer>
-        {/* <div className={styles.footer_line} /> */}
-        <Pagination
-        showQuickJumper={true}
-        defaultCurrent={1}
-        defaultPageSize={10}
-        current={current}
-        total={totalNum}
-        showTotal={(total: number) => `共 ${total} 条数据`}
-        onChange={changePagination}
-        pageSizeOptions={[10, 20, 50, 100]}
-        showSizeChanger
-        />
-      </footer>
-    }
-    <ModalLink
-      visible={visible}
-      copyText={copyText}
-      modalLink={modalLink}
-      closeModal={closeModal}
-    />
-    <LookResult ref={lookResultRef} isRecruit={true} />
-  </div>
+            <Button onClick={onResetClick}>重置</Button>
+            <Button
+              type="primary"
+              onClick={onSearchClick}
+            >
+              搜索
+            </Button>
+          </div >
+        </nav >
+        <Divider />
+        <main>
+          <section>
+            <span>候选人表</span>
+            <Button
+              id="addPermissions"
+              onClick={onAddEvaluationClick}
+              type="primary"
+              icon={<PlusCircleOutlined />}
+            >
+              发起测评
+            </Button>
+          </section>
+          <Table loading={tableLoading}
+            pagination={false}
+            columns={columns}
+            rowKey={(res) => res.id}
+            dataSource={candidateList}
+            scroll={{ x: 1620 }}
+          />
+        </main>
+      </div >
+      {
+        candidateList.length && <footer>
+          {/* <div className={styles.footer_line} /> */}
+          <Pagination
+            showQuickJumper={true}
+            defaultCurrent={1}
+            defaultPageSize={10}
+            current={current}
+            total={totalNum}
+            showTotal={(total: number) => `共 ${total} 条数据`}
+            onChange={changePagination}
+            pageSizeOptions={[10, 20, 50, 100]}
+            showSizeChanger
+          />
+        </footer>
+      }
+      < ModalLink
+        visible={visible}
+        copyText={copyText}
+        modalLink={modalLink}
+        closeModal={closeModal}
+      />
+      <LookResult ref={lookResultRef} isRecruit={true} />
+      {/* <PdfDetailMBTI
+        ref={pdfDetail}
+        resultDetail={resultDetial}
+        childStyle={{
+          'width': '800px',
+          'boxSizing': 'border-box',
+          'position': 'fixed',
+          'top': '0pt',
+          'left': '-9999pt',
+          'zIndex': '-9999'
+        }}
+      /> */}
+    </div >
+  )
 };
 
 export default RecruitEvaluation;

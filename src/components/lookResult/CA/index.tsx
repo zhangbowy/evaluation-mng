@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, { Fragment, forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import styles from './index.module.less';
 import ReportHeader from '@/components/resultHeader';
 import { IResult } from '@/page/evaluation/management/type';
@@ -7,11 +7,11 @@ interface IntroduceData {
     title: string;
     key: string;
 }
-const CareerAnchor = (props: { resultList: IResult }) => {
+const CareerAnchor = forwardRef((props: { resultList: IResult }, ref) => {
     const qcp_c_labelBg1 =
-        '//qzz-static.forwe.store/evaluation-web/imgs/qcp_web_image/qcp_c_labelbg1.png';
+        '/evaluation-web/imgs/qcp_web_image/qcp_c_labelbg1.png';
     const qcp_c_labelBg2 =
-        '//qzz-static.forwe.store/evaluation-web/imgs/qcp_web_image/qcp_c_labelbg2.png';
+        '/evaluation-web/imgs/qcp_web_image/qcp_c_labelbg2.png';
     const introduce: IntroduceData[] = [
         {
             title: '岗位匹配',
@@ -32,16 +32,20 @@ const CareerAnchor = (props: { resultList: IResult }) => {
     ];
     const { resultList } = props;
     const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const screenshotRef = useRef<HTMLDivElement | null>(null) // 保存截图的节点
+    useImperativeHandle(ref, () => ({
+        screenshotRef: screenshotRef.current
+    }))
     // tab切换
     const onTabClick = (index: number) => {
         setCurrentIndex(index);
     };
     return (
         <div className={styles.careerAnchor_layout}>
-            <div className={styles.careerAnchor_wrapper}>
+            <div ref={screenshotRef} className={styles.careerAnchor_wrapper}>
                 <ReportHeader
                     src={resultList?.user.avatar}
-                    name={resultList!.user.name}
+                    name={resultList?.user.name}
                 />
                 <main>
                     <div className={styles.careerAnchor_main_title}>
@@ -55,7 +59,7 @@ const CareerAnchor = (props: { resultList: IResult }) => {
                             alt=""
                         />
                         <div className={styles.careerAnchor_labelBg_text}>
-                            {resultList!.results.length > 1 ? (
+                            {resultList?.results.length > 1 ? (
                                 <div className={styles.careerAnchor_labelBg_type}>
                                     <h2>{resultList?.results[0].type?.split('：')[0]}</h2>
                                     <h2>+</h2>
@@ -70,7 +74,7 @@ const CareerAnchor = (props: { resultList: IResult }) => {
                         </div>
                     </div>
                     <div className={styles.careerAnchor_main_content}>
-                        {resultList!.results.length > 1 && (
+                        {resultList?.results.length > 1 && (
                             <ul>
                                 {resultList?.results.map(
                                     (
@@ -99,7 +103,7 @@ const CareerAnchor = (props: { resultList: IResult }) => {
                             {introduce.map((item: IntroduceData) => (
                                 <div key={item.key} className={styles.careerAnchor_main_item}>
                                     <h2>{item.title}</h2>
-                                    <p>{resultList?.htmlDescList[currentIndex][item.key]}</p>
+                                    <p>{resultList?.htmlDescList.length > 0 && resultList?.htmlDescList[currentIndex][item.key]}</p>
                                 </div>
                             ))}
                         </div>
@@ -108,6 +112,6 @@ const CareerAnchor = (props: { resultList: IResult }) => {
             </div>
         </div>
     );
-};
+});
 
 export default CareerAnchor;
