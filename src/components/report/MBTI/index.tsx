@@ -3,7 +3,6 @@ import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle} from
 import './index.less';
 import print from "@/utils/print";
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
-import { delPicDomain } from '@/utils/utils';
 
 const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
     const { resultDetail, childStyle } = props;
@@ -132,7 +131,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <p className="sb-en-title">Matching degree of personality and position</p>
                 </div>
                 <div className="cover-img">
-                    <img src={`${delPicDomain('https://qzz-static.forwe.store')}/public-assets/cover-qcp.png`} alt=""/>
+                    <img src={'/public-assets/cover-qcp.png'} alt=""/>
                 </div>
                 <div className="user-info">
                     <p className="title">{resultDetail?.user?.name}</p>
@@ -147,7 +146,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="page-title mg-b">
                     一、报告导语
@@ -162,7 +160,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         1942年，瑞士精神分析学家荣格第一次提出人格分类的概念。他认为感知和判断是大脑的两大基本功能。不同的人，感知倾向不同——有些人更侧重直觉，有些更侧重感觉。同样，不同的人判断倾向也不同——有些更倾向理性分析得出结论，有些更侧重情感，更为感性。同时，这两大基本功能又受到精力来源不同（内向或外向）的影响。以荣格的人格分类理论为基础，美国心理学家Katherine Cook Briggs(1875-1968)和Isabel Briggs Myers母女提出了影响大脑做出决定的第四因素，行为和生活方式；并综合荣格的人格分类学说形成MBTI人格模型。
                     </div>
                     <div className="picture">
-                        <img src={`${delPicDomain('https://qzz-static.forwe.store/public-assets/measurement-type.png?x-oss-process=image/resize,m_fill,w_282,h_254')}`} alt=""/>
+                        <img src={`/public-assets/measurement-type.png?x-oss-process=image/resize,m_fill,w_282,h_254`} alt=""/>
                     </div>
                 </article>
                 <article className="article-text">
@@ -193,7 +191,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b-20">
                     <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <article className="article-text">
                     <p className="article-cont">
@@ -261,10 +258,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页 */}
             <div className="page-box">
-                <div className="page-top mg-b">
+                {/* <div className="page-top mg-b">
                     <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
+                </div> */}
                 <article className="article-text no-indent">
                     <h3 className="article-h3">报告阅读建议</h3>
                     <Divider />
@@ -277,108 +273,112 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             </div>
             {/* 分页结束 */}
             <div className="page-box">
-                <div className="page-top mg-b">
-                    <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
-                </div>
                 <div className="page-title mg-b">
                     二、测评结果分析
                 </div>
-                <div className="result-box">
-                    <div className="left">
-                        <div className="round">
-                            <p className="m-title">{resultDetail.resultType}</p>
-                            <p className="s-title">
-                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}+
-                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[1]]}
-                            </p>
-                            <p className="s-title">
-                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[2]]}+
-                                {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[3]]}
-                            </p>
-                        </div>
-                        <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
+                <div className="result-box mg-b">
+                    <div className="result-box-image">
+                        <img src={`/evaluation-mng/imgs/qcp_pdf_bg.png`} alt="背景图" />
                     </div>
-                    <div className="right">
-                        <div className="result-list">
-                            <div className="result-item">
-                                <div className="in">
-                                    <div className="label">外向(E):{resultDetail?.scoreDetail && resultDetail?.scoreDetail?.E?.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-1" 
-                                            style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}
-                                        ></div>
-                                    </div>
-                                </div>
-                                <div className="out">
-                                    <div className="label">内向(I):{resultDetail?.scoreDetail?.I.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-1" 
-                                            style={{width: `${resultDetail?.scoreDetail?.I.fullScore}%`}}
-                                        ></div>
-                                    </div>
-                                </div>
+                    <div className="result-box-content">
+                        <div className="left">
+                            <div className="round">
+                                <p className="m-title">{resultDetail.resultType}</p>
+                                <p className="s-title">
+                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}+
+                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[1]]}
+                                </p>
+                                <p className="s-title">
+                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[2]]}+
+                                    {resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[3]]}
+                                </p>
                             </div>
-                            <div className="result-item">
-                                <div className="in">
-                                    <div className="label">感觉(S):{resultDetail?.scoreDetail?.S.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-2" 
-                                            style={{width: `${resultDetail?.scoreDetail?.S.fullScore}%`}}
-                                        ></div>
+                            <div className="result-info">人群中大约有 {resultDetail?.textDesc?.[0]}% 的人和你一样</div>
+                        </div>
+                        <div className="right">
+                            <div className="result-list">
+                                <div className="result-item">
+                                    <div className="in">
+                                        <div className="label">外向(E):{resultDetail?.scoreDetail?.E?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-1" 
+                                                style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div className="out">
+                                        <div className="label">内向(I):{resultDetail?.scoreDetail?.I?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-1" 
+                                                style={{width: `${resultDetail?.scoreDetail?.I?.fullScore}%`}}
+                                            ></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="out">
-                                    <div className="label">直觉(N):{resultDetail?.scoreDetail?.N.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-2" 
-                                            style={{width: `${resultDetail?.scoreDetail?.N.fullScore}%`}}
-                                        ></div>
+                                <div className="result-item">
+                                    <div className="in">
+                                        <div className="label">感觉(S):{resultDetail?.scoreDetail?.S?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-2" 
+                                                style={{width: `${resultDetail?.scoreDetail?.S?.fullScore}%`}}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div className="out">
+                                        <div className="label">直觉(N):{resultDetail?.scoreDetail?.N?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-2" 
+                                                style={{width: `${resultDetail?.scoreDetail?.N?.fullScore}%`}}
+                                            ></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="result-item">
-                                <div className="in">
-                                    <div className="label">思考(T):{resultDetail?.scoreDetail?.T.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-3" 
-                                            style={{width: `${resultDetail?.scoreDetail?.T.fullScore}%`}}
-                                        ></div>
+                                <div className="result-item">
+                                    <div className="in">
+                                        <div className="label">思考(T):{resultDetail?.scoreDetail?.T.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-3" 
+                                                style={{width: `${resultDetail?.scoreDetail?.T?.fullScore}%`}}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div className="out">
+                                        <div className="label">情感(F):{resultDetail?.scoreDetail?.F?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-3" 
+                                                style={{width: `${resultDetail?.scoreDetail?.F?.fullScore}%`}}
+                                            ></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="out">
-                                    <div className="label">情感(F):{resultDetail?.scoreDetail?.F.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-3" 
-                                            style={{width: `${resultDetail?.scoreDetail?.F.fullScore}%`}}
-                                        ></div>
+                                <div className="result-item">
+                                    <div className="in">
+                                        <div className="label">判断(J):{resultDetail?.scoreDetail?.J?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-4" 
+                                                style={{width: `${resultDetail?.scoreDetail?.J?.fullScore}%`}}
+                                            ></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="result-item">
-                                <div className="in">
-                                    <div className="label">判断(J):{resultDetail?.scoreDetail?.J.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-4" 
-                                            style={{width: `${resultDetail?.scoreDetail?.J.fullScore}%`}}
-                                        ></div>
-                                    </div>
-                                </div>
-                                <div className="out">
-                                    <div className="label">知觉(P):{resultDetail?.scoreDetail?.P.score}</div>
-                                    <div className="pillar-box">
-                                        <div className="percent color-4" 
-                                            style={{width: `${resultDetail?.scoreDetail?.P.fullScore}%`}}
-                                        ></div>
+                                    <div className="out">
+                                        <div className="label">知觉(P):{resultDetail?.scoreDetail?.P?.score}</div>
+                                        <div className="pillar-box">
+                                            <div className="percent color-4" 
+                                                style={{width: `${resultDetail?.scoreDetail?.P?.fullScore}%`}}
+                                            ></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="result-detail">
                     <div className="result-detail-item">
-                        <p className="title">能量来源（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr[0]}:{resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[0]]}）</p>
+                        <p className="title">能量来源（{resultDetail?.examTemplateArr?.[0]}:{resultDetail?.examTemplateArr?.[0] && (MBTISimpel as any)[resultDetail?.examTemplateArr?.[0]]}）</p>
                         <div className="result-detail-box">
                             <p><em>外向(E):{resultDetail?.scoreDetail?.E?.score}</em>他人激励型，关注外部世界的人和事，乐意与人交往。</p>
                             <p><em>内向(I):{resultDetail?.scoreDetail?.I?.score}</em>自我或记忆激励型，关注思想、记忆、情感，倾向于自省。</p>
@@ -411,7 +411,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="result-analyse">
                     <div className="left">
@@ -476,7 +475,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="tag-line">
                     <div className="title">
@@ -550,8 +548,8 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             <div className="line ability-color-9"></div>
                         </div>
                         <div className="left-arrow">
-                            <img src={`${delPicDomain('https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_up.png?x-oss-process=image/resize,m_fill,w_21,h_41')}`} />
-                            <img src={`${delPicDomain('https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_down.png?x-oss-process=image/resize,m_fill,w_21,h_41')}`} />
+                            <img src={`/evaluation-mng/imgs/qcp_pdf_up.png?x-oss-process=image/resize,m_fill,w_21,h_41`} />
+                            <img src={`/evaluation-mng/imgs/qcp_pdf_down.png?x-oss-process=image/resize,m_fill,w_21,h_41`} />
                         </div>
                     </div>
                 </div>
@@ -607,7 +605,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                     {resultDetail?.htmlDesc?.dimensional.el.data}
                                 </div>
                                 <div className="right">
-                                    <img src={delPicDomain(`${resultDetail?.htmlDesc?.dimensional.el.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`)} alt="图片" />
+                                    <img src={`${resultDetail?.htmlDesc?.dimensional.el.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
                                 </div>
                             </div>
                         </div>
@@ -653,7 +651,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 {resultDetail?.htmlDesc?.dimensional.sn.data}
                                 </div>
                                 <div className="right">
-                                    <img src={delPicDomain(`${resultDetail?.htmlDesc?.dimensional.sn.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`)} alt="图片" />
+                                    <img src={`${resultDetail?.htmlDesc?.dimensional.sn.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
                                 </div>
                             </div>
                         </div>
@@ -692,7 +690,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 {resultDetail?.htmlDesc?.dimensional.tf.data}
                                 </div>
                                 <div className="right">
-                                    <img src={delPicDomain(`${resultDetail?.htmlDesc?.dimensional.tf.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`)} alt="图片" />
+                                    <img src={`${resultDetail?.htmlDesc?.dimensional.tf.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
                                 </div>
                             </div>
                         </div>
@@ -741,7 +739,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 {resultDetail?.htmlDesc?.dimensional.jp.data}
                                 </div>
                                 <div className="right">
-                                    <img src={delPicDomain(`${resultDetail?.htmlDesc?.dimensional.jp.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`)} alt="图片" />
+                                    <img src={`${resultDetail?.htmlDesc?.dimensional.jp.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
                                 </div>
                             </div>
                         </div>
@@ -804,7 +802,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <div className="right">
                             <p className="production">{resultDetail?.htmlDesc?.personality?.portraitPhoto?.desc}</p>
                             <div className="image">
-                                <img src={delPicDomain(`${resultDetail?.htmlDesc?.personality?.portraitPhoto?.jpg}?x-oss-process=image/resize,m_fill,w_119,h_180`)} />
+                                <img src={`${resultDetail?.htmlDesc?.personality?.portraitPhoto?.jpg}?x-oss-process=image/resize,m_fill,w_119,h_180`} />
                             </div>
                         </div>
                     </div>
@@ -853,7 +851,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <p>4、个人优劣势分析</p>
                     </div>
                     <div className="classify-image m-b-25">
-                        <img src={delPicDomain('https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_superiority.png?x-oss-process=image/resize,m_fill,w_90,h_31')} />
+                        <img src={`/evaluation-mng/imgs/qcp_pdf_superiority.png?x-oss-process=image/resize,m_fill,w_90,h_31`} />
                         <div className="line"></div>
                     </div>
                     <p className="abstract">
@@ -867,7 +865,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         }
                     </div>
                     <div className="classify-image m-b-25">
-                        <img src={delPicDomain('https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31')} />
+                        <img src={`/evaluation-mng/imgs/qcp_pdf_inferiority.png?x-oss-process=image/resize,m_fill,w_90,h_31`} />
                         <div className="line"></div>
                     </div>
                     <p className="abstract">
@@ -913,7 +911,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="page-top mg-b">
                     <div className="logo"></div>
-                    {/* <div className="title">职业性格特质测评-sample</div> */}
                 </div>
                 <div className="classify-detail">
                     <div className="title">
@@ -941,7 +938,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             </div>
                         ))
                     }
-                    
                 </div>
             </div>
             {/* 分页结束 */}
@@ -1000,7 +996,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             }
                         </div>
                         <div className="right">
-                            <img src={delPicDomain('https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_pdf_warn.png?x-oss-process=image/resize,m_fill,w_91,h_91')} alt="警告" />
+                            <img src={'/evaluation-mng/imgs/qcp_pdf_warn.png?x-oss-process=image/resize,m_fill,w_91,h_91'} alt="警告" />
                         </div>
                     </div>
                 </div>
