@@ -8,6 +8,7 @@ import { getExamResult, getUserExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import ExportPdfDetailMBTI from './MBTI/export';
+import ExportPdfDetailMBTIHTML from './MBTI/exportHtML';
 
 /**
  * 查看报告
@@ -110,7 +111,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
                 // ref={pdfDetail}
                 resultDetail={resultDetial}
             />
-            <ExportPdfDetailMBTI 
+            <ExportPdfDetailMBTIHTML 
                 ref={pdfDetail}
                 resultDetail={resultDetial}
                 childStyle={{
