@@ -9,6 +9,8 @@ import { IResultList, IResult } from '../../page/evaluation/management/type';
 import Loading from '@/components/loading';
 import { propsType } from './type';
 import html2Canvas from 'html2canvas';
+import styles from './index.module.less';
+
 const LookResult = forwardRef((props: propsType, ref) => {
     const [visible, setVisible] = useState<boolean>(false)
     const [resultList, setResultList] = useState<IResult>()
@@ -72,7 +74,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
     }
     return (
         <Fragment>
-            <Drawer title="测评报告" width={400} placement="right" onClose={onDrawerClose} visible={visible}>
+            <Drawer title="测评报告" width={400} placement="right" onClose={onDrawerClose} visible={visible} className={styles.antDrawer}>
                 {
                     loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
                 }
