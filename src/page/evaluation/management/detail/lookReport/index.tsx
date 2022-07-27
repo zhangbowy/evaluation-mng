@@ -26,7 +26,7 @@ const LookReport = () => {
                     <Breadcrumb.Item href={`#/evaluation/management/detail/${params.id}`}>测评详情</Breadcrumb.Item>
                     <Breadcrumb.Item>查看报告</Breadcrumb.Item>
                 </Breadcrumb>
-                <Button 
+                {/* <Button 
                     type="primary" 
                     icon={<DownloadOutlined />} 
                     onClick={() => { 
@@ -36,7 +36,7 @@ const LookReport = () => {
                         }); 
                     }}
                     loading={loading}
-                >下载报告</Button>
+                >下载报告</Button> */}
             </header>
             <ReportDetail
                 ref={pdfDetail}

@@ -16,11 +16,11 @@ const ReportDetail = forwardRef((props: any, ref) => {
     const [resultDetial, setResultDetial] = useState({});
     const pdfDetail: any = useRef();
 
-    useImperativeHandle(ref, () => {
-        return {
-            exportPDF,
-        };
-    });
+    // useImperativeHandle(ref, () => {
+    //     return {
+    //         exportPDF,
+    //     };
+    // });
 
     const exportPDF = (callback: Function) => {
         pdfDetail.current.exportPDF(() => {
@@ -106,7 +106,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
     return (
         <div className={styles.pdfDetail}>
             <PdfDetailMBTI 
-                ref={pdfDetail}
+                // ref={pdfDetail}
                 resultDetail={resultDetial}
             />
         </div>

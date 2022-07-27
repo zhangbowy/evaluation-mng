@@ -16,6 +16,7 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
         allowTaint: true,
         useCORS: true,
         dpi: 100,// 图片清晰度问题
+        scale: window.devicePixelRatio < 3 ? window.devicePixelRatio : 2,
         backgroundColor: '#FFFFFF',//如果指定的div没有设置背景色会默认成黑色,这里是个坑  
     };
     // 将当前元素的scrollTop置为0

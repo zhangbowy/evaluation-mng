@@ -122,10 +122,10 @@ const RecruitEvaluation = () => {
   };
 
   const showReport = (record: IColumns) => {
-    // if (record.templateType === 'MBTI') {
-    //   history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
-    //   return;
-    // }
+    if (record.templateType === 'MBTI') {
+      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
+      return;
+    }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
 
@@ -453,18 +453,6 @@ const RecruitEvaluation = () => {
       closeModal={closeModal}
     />
     <LookResult ref={lookResultRef} isRecruit={true} />
-    <PdfDetailMBTI
-      ref={pdfDetail}
-      resultDetail={resultDetial}
-      childStyle={{
-        'width': '1120px',
-        'boxSizing': 'border-box',
-        'position': 'fixed',
-        'top': '0pt',
-        'left': '-9999pt',
-        'zIndex': '-9999'
-      }}
-    />
   </div>
 };
 
