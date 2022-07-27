@@ -107,3 +107,9 @@ export interface IExamListParams {
     pageSize?: number;
     isFinishType?: number
 }
+
+export interface ScoreParams {
+    fullScore: string,
+    resultType: string,
+    score: string,
+}

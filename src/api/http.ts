@@ -8,11 +8,23 @@ let instance = axios.create({
 });
 instance.interceptors.request.use((request: any) => {
     request.headers['QZZ_ACCESS_TOKEN'] = sessionStorage.getItem('QCP_B_TOKEN');
+    // request.headers['QZZ_ACCESS_TOKEN'] = "d37025e6aeff933ef2de76decd2346f2";
     return request;
 }, function (error) {
     return Promise.reject(error);
 });
 instance.interceptors.response.use((response: any) => {
+    if (response.data.code === 4001067) {
+        Modal.confirm({
+            title: '抱歉，您的点券不足，请充值后解锁',
+            cancelText: '暂不充值',
+            okText: '去充值',
+            onOk() {
+                window.location.hash = '/evaluation/recharge';
+            },
+        })
+        return response.data;
+    }
     if (response.data.code != 1) {
         Modal.warning({
             title: '温馨提示',

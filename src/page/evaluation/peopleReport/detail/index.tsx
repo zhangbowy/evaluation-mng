@@ -7,6 +7,7 @@ import { IReportDetail, IUserTagVoList, ISex, IEvaluationVoList } from '../type'
 import LookResult from '@/components/lookResult'
 import Loading from '@/components/loading'
 import { LockOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router'
 
 const Detail = () => {
   const { userId } = useParams()
@@ -15,6 +16,7 @@ const Detail = () => {
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const lookResultRef: any = useRef()
+  const navigator = useNavigate()
   useEffect(() => {
     getUserReport()
   }, [])
@@ -41,6 +43,9 @@ const Detail = () => {
   const backText = (item: IEvaluationVoList, index: number) => {
     // 查看详情
     const onDetailClick = (item: IEvaluationVoList) => {
+      // if (item.examTemplateType === 'MBTI') {
+      //   navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}`);
+      // } 
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
     // 解锁查看

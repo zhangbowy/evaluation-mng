@@ -1,4 +1,4 @@
-import { getExamResult } from '@/api/api';
+import { getExamResult, getUserExamResult } from '@/api/api';
 import { Drawer, Spin } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react'
 import PDP from './PDP';
@@ -7,9 +7,9 @@ import CA from './CA';
 import CPI from './CPI'
 import { IResultList, IResult } from '../../page/evaluation/management/type';
 import Loading from '@/components/loading';
+import { propsType } from './type';
 
-
-const LookResult = forwardRef((props, ref) => {
+const LookResult = forwardRef((props: propsType, ref) => {
     const [visible, setVisible] = useState<boolean>(false)
     const [resultList, setResultList] = useState<IResult>()
     const [loading, setLoading] = useState<boolean>(true)
@@ -29,7 +29,9 @@ const LookResult = forwardRef((props, ref) => {
     // 打开
     const onOpenDrawer = async (record: { examPaperId: string, userId: string }) => {
         setVisible(true)
-        const res = await getExamResult({ examPaperId: record.examPaperId, userId: record.userId })
+        const { isRecruit } = props;
+        const resultRequest = isRecruit ? getUserExamResult : getExamResult;
+        const res = await resultRequest({ examPaperId: record.examPaperId, userId: record.userId })
         if (res.code === 1) {
             setResultList(res.data);
             setLoading(false)

@@ -10,7 +10,7 @@ const Header = memo(() => {
   const user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const history = useNavigate()
   const { state } = useContext(CountContext)
-
+  
   // 去充值
   const goRecharge = () => {
     history('/evaluation/recharge')
@@ -24,7 +24,7 @@ const Header = memo(() => {
       </div>
       <div className={styles.header_right}>
         {
-          user.avatar ? <img src={user?.avatar} alt="" /> : <div>{user.name?.slice(0, 1)}</div>
+          user?.avatar ? <img src={user?.avatar} alt="" /> : <div>{user?.name?.slice(0, 1)}</div>
         }
       </div>
     </div>

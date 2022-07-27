@@ -35,6 +35,7 @@ const index = () => {
     defaultPageSize: 10,
     current,
     total: totalNum,
+    showTotal: () =>`共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
       getUser({ curPage: page, pageSize, ...form.getFieldsValue() })
     }

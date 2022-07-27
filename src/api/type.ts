@@ -66,6 +66,35 @@ export interface IExamUsers {
     tags?: string;
 }
 
+export interface IRecruitmentExam {
+    name: string,
+    job: string,
+    phone?: string,
+    email?: string,
+    templateType: string
+}
+
+export interface IRecruitmentExamList {
+    candidateName?: string,
+    job?: string,
+    examStatus?: number,
+    pageSize: number,
+    curPage: number
+}
+export interface IUpdateRecruitment {
+    isOpen: number,
+    rId: number
+}
+export interface IUserExamResult {
+    userId: string,
+    examPaperId: string,
+    major?: boolean
+}
+export interface IUnlockItem {
+    operationType: string,
+    templateType: string,
+    userId: string | number
+}
 export interface IBResultParams {
     examPaperId: string;
     userId: string;
