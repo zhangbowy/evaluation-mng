@@ -122,10 +122,10 @@ const RecruitEvaluation = () => {
   };
 
   const showReport = (record: IColumns) => {
-    if (record.templateType === 'MBTI') {
-      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
-      return;
-    }
+    // if (record.templateType === 'MBTI') {
+    //   history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
+    //   return;
+    // }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
 
@@ -273,7 +273,7 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  {
+                  {/* {
                     record.templateType === 'MBTI' && <>
                       <Divider type="vertical" />
                       <Button
@@ -285,7 +285,7 @@ const RecruitEvaluation = () => {
                         下载
                       </Button>
                     </>
-                  }
+                  } */}
                 </>
               default:
                 break;
