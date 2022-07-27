@@ -32,6 +32,7 @@ import { debounce } from '@/utils/utils';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
+import ExportPdfDetailMBTI from '@/components/report/MBTI/export';
 
 
 const recruitStatusList: RecruitStatus[] = [
@@ -277,15 +278,33 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  <Divider type="vertical" />
-                  <Button
-                    className={styles.columns_btn_lock}
-                    type='link'
-                    loading={downLoading === record.examPaperId}
-                    onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
-                  >
-                    下载
-                  </Button>
+                  {
+                    record.templateType !== 'MBTI' &&
+                    <>
+                      <Divider type="vertical" />
+                      <Button
+                        className={styles.columns_btn_lock}
+                        type='link'
+                        loading={downLoading === record.examPaperId}
+                        onClick={() => onOrdinaryDownLoad(record)}
+                      >
+                        下载
+                      </Button>
+                    </>
+                  }
+                  {/* {
+                    record.templateType === 'MBTI' && <>
+                      <Divider type="vertical" />
+                      <Button
+                        className={styles.columns_btn_lock}
+                        type='link'
+                        loading={downLoading === record.examPaperId}
+                        onClick={() => onDownLoad(record)}
+                      >
+                        下载
+                      </Button>
+                    </>
+                  } */}
                 </>
               default:
                 break;
@@ -407,8 +426,8 @@ const RecruitEvaluation = () => {
             >
               搜索
             </Button>
-          </div>
-        </nav>
+          </div >
+        </nav >
         <Divider />
         <main>
           <section>
@@ -430,7 +449,7 @@ const RecruitEvaluation = () => {
             scroll={{ x: 1620 }}
           />
         </main>
-      </div>
+      </div >
       {
         candidateList.length && <footer>
           {/* <div className={styles.footer_line} /> */}
@@ -447,7 +466,7 @@ const RecruitEvaluation = () => {
           />
         </footer>
       }
-      <ModalLink
+      < ModalLink
         visible={visible}
         copyText={copyText}
         modalLink={modalLink}
@@ -455,18 +474,18 @@ const RecruitEvaluation = () => {
       />
       <LookResult ref={lookResultRef} isRecruit={true} />
       {/* <PdfDetailMBTI
-      ref={pdfDetail}
-      resultDetail={resultDetial}
-      childStyle={{
-        'width': '1120px',
-        'boxSizing': 'border-box',
-        'position': 'fixed',
-        'top': '0pt',
-        'left': '-9999pt',
-        'zIndex': '-9999'
-      }}
-    /> */}
-    </div>
+        ref={pdfDetail}
+        resultDetail={resultDetial}
+        childStyle={{
+          'width': '800px',
+          'boxSizing': 'border-box',
+          'position': 'fixed',
+          'top': '0pt',
+          'left': '-9999pt',
+          'zIndex': '-9999'
+        }}
+      /> */}
+    </div >
   )
 };
 

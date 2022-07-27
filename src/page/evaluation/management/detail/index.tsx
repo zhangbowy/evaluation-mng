@@ -14,7 +14,6 @@ import LookIntroduce from './lookintroduce'
 import Loading from '@/components/loading'
 import { FullscreenOutlined } from '@ant-design/icons';
 import LookAllTags from './lookAllTags'
-import PdfDetailMBTI from '@/components/report/MBTI'
 import { abilityList, TagSort } from '@/components/report/MBTI/type'
 import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook'
@@ -412,7 +411,7 @@ const Detail = () => {
               return (
                 <>
                   <Button type="link" onClick={onLookResult}>查看报告</Button>
-                  {
+                  {/* {
                     measurement?.examTemplateType === 'MBTI' &&
                     <>
                       <Divider type="vertical" />
@@ -421,7 +420,7 @@ const Detail = () => {
                         onClick={() => onDownLoad()}
                         loading={downLoading === record.examPaperId}>下载</Button>
                     </>
-                  }
+                  } */}
                 </>
               )
             default:
@@ -539,18 +538,6 @@ const Detail = () => {
       <LookResult ref={lookResultRef} />
       <LookIntroduce ref={lookIntroduceRef} />
       <LookAllTags ref={lookAllTagsRef} onTagClick={onTagClick} />
-      <PdfDetailMBTI
-        ref={pdfDetail}
-        resultDetail={resultDetial}
-        childStyle={{
-          'width': '800px',
-          'boxSizing': 'border-box',
-          'position': 'fixed',
-          'top': '0pt',
-          'left': '-9999pt',
-          'zIndex': '-9999'
-        }}
-      />
     </div>
   )
 }

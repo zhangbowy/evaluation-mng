@@ -1,5 +1,5 @@
-.pdfdetail-layout {
-    margin: 30px;
+.pdfdetail-layout-export {
+    margin: 30px auto;
     background-color: #FFF;
     // height: calc(100vh - 150px);
     // height: 10000px;
@@ -17,6 +17,10 @@
     .mg-b-20 {
         margin-bottom: 20px;
     }
+    .page-height {
+        height: 900px;
+        width: 100%;
+    }
     /***********测评封面**************/
     .pdf-cover {
         // margin-bottom: 50px;
@@ -24,7 +28,7 @@
             display: flex;
             align-items: center;
             // padding-top: 40px;
-            padding-left: 40px;
+            // padding-left: 40px;
             margin-bottom: 120px;
             img {
                 width: 36px;
@@ -105,7 +109,7 @@
     }
     /***********pdf内容**************/
     .page-box {
-        padding: 0 40px;
+        padding: 0 20px;
         .page-top {
             display: flex;
             justify-content: space-between;
@@ -138,7 +142,7 @@
             color: #FFFFFF;
         }
         .article-text {
-            margin-bottom: 10px;
+            margin-bottom: 50px;
             .article-h3 {
                 font-size: 18px;
                 font-weight: 500;
@@ -156,7 +160,7 @@
                 color: #464C5B;
                 line-height: 24px;
                 letter-spacing: 1px;
-                margin-bottom: 20px;
+                margin-bottom: 30px;
             }
         }
         .no-indent {
@@ -362,7 +366,7 @@
             margin: 0 auto;
             .result-detail-item {
                 text-align: center;
-                margin-bottom: 20px;
+                margin-bottom: 30px;
                 .title {
                     font-size: 16px;
                     font-family: AlibabaPuHuiTiB;
@@ -758,7 +762,7 @@
             margin-bottom: 25px!important;
         }
         .m-b-77 {
-            margin-bottom: 77px;
+            margin-bottom: 77px!important;
         }
         .m-b-34 {
             margin-bottom: 34px;
@@ -849,6 +853,8 @@
             margin: auto;
             display: flex;
             margin-left: 48px;
+            width: 100%;
+            justify-content: center;
             .left-color {
                 margin-left: 13px;
                 height: 503px;
@@ -903,7 +909,7 @@
             background: #AA8A82;
         }
         .tag-chart {
-            margin: 0 auto;
+            // margin: 0 auto;
             width: 570px;
             .result-xy {
                 height: 503px;

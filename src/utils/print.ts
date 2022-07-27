@@ -16,7 +16,8 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
         allowTaint: true,
         useCORS: true,
         dpi: 100,// 图片清晰度问题
-        background: '#FFFFFF',//如果指定的div没有设置背景色会默认成黑色,这里是个坑  
+        scale: window.devicePixelRatio < 3 ? window.devicePixelRatio : 2,
+        backgroundColor: '#FFFFFF',//如果指定的div没有设置背景色会默认成黑色,这里是个坑  
     };
     // 将当前元素的scrollTop置为0
     el.scrollTop = 0;
@@ -81,6 +82,8 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
                     setTimeout(createImpl, 500, canvas);
                 } else {
                     pdf.save(pdfName + '.pdf')
+                    // 打印之后的操作
+                    after && typeof after == 'function' && after();
                 }
             }
         }
@@ -88,16 +91,16 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
         if (leftHeight < a4HeightRef) {
             pdf.addImage(pageData, 'JPEG', 0, 0, a4Width, (a4Width / canvas.width) * leftHeight)
             pdf.save(pdfName + '.pdf')
+            // 打印之后的操作
+            after && typeof after == 'function' && after();
         } else {
             try {
                 pdf.deletePage(0)
                 setTimeout(createImpl, 500, canvas)
             }
             catch (err) {
-                // console.log(err);
+                 console.log(err);
             }
         }
-        // 打印之后的操作
-        after && typeof after == 'function' && after();
     });
 };
