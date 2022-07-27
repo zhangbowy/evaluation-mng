@@ -51,7 +51,8 @@ const LookResult = forwardRef((props: propsType, ref) => {
                 backgroundColor: null, //画出来的图片有白色的边框,不要可设置背景为透明色（null）
                 useCORS: true, //支持图片跨域
                 scale: window.devicePixelRatio < 3 ? window.devicePixelRatio : 2, //设置放大的倍数
-                width: 400
+                width: 400,
+                allowTaint: true, 
             }).then(canvas => {
                 const url = canvas.toDataURL('image/png', 1);
                 const a = document.createElement('a');
