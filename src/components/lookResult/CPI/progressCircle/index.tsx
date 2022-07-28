@@ -4,7 +4,7 @@ import styles from './index.module.less';
 const index = (props: { percent: number }) => {
   useEffect(() => {
     percentFn();
-  }, []);
+  }, [props.percent]);
   // 进度
   const percentFn = () => {
     const percent = props.percent / 100; //从接口获取到的圆环填充百分比
