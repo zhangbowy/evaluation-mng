@@ -52,7 +52,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
                 useCORS: true, //支持图片跨域
                 scale: window.devicePixelRatio < 3 ? window.devicePixelRatio : 2, //设置放大的倍数
                 width: 400,
-                allowTaint: true, 
+                allowTaint: true,
             }).then(canvas => {
                 const url = canvas.toDataURL('image/png', 1);
                 const a = document.createElement('a');
@@ -71,21 +71,22 @@ const LookResult = forwardRef((props: propsType, ref) => {
         if (res.code === 1) {
             awaitFn(res.data)
         }
+        console.log(visible, resultList, 'resultList')
     }
     return (
         <Fragment>
-            <Drawer 
+            <Drawer
                 title="测评报告"
-                width={400} 
-                placement="right" 
-                onClose={onDrawerClose} 
+                width={400}
+                placement="right"
+                onClose={onDrawerClose}
                 visible={visible}
             >
                 {
                     loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
                 }
             </Drawer >
-            <div style={{ height: 0,overflow:'hidden' }}>
+            <div style={{ height: 0, overflow: 'hidden' }}>
                 <PDP ref={(ref) => curRef.current[0] = ref} resultList={resultList as IResult} />
                 <CA ref={(ref) => curRef.current[1] = ref} resultList={resultList as IResult} />
                 <CPI ref={(ref) => curRef.current[2] = ref} charmList={resultList as IResult} />

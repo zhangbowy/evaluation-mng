@@ -126,6 +126,7 @@ const RecruitEvaluation = () => {
       history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
       return;
     }
+    console.log(record,lookResultRef,'record,lookResultRef')
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
   // 下载MBTI专业版
