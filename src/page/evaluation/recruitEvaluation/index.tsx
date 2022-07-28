@@ -277,21 +277,17 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  {/* {
-                    record.templateType !== 'MBTI' &&
-                    <>
-                      <Divider type="vertical" />
-                      <Button
-                        className={styles.columns_btn_lock}
-                        type='link'
-                        loading={downLoading === record.examPaperId}
-                        onClick={() => onOrdinaryDownLoad(record)}
-                      >
-                        下载
-                      </Button>
-                    </>
-                  } */}
-                  {/* {
+                  <Divider type="vertical" />
+                  <Button
+                    className={styles.columns_btn_lock}
+                    type='link'
+                    loading={downLoading === record.examPaperId}
+                    onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
+                  >
+                    下载
+                  </Button>
+                </>
+                {/* {
                     record.templateType === 'MBTI' && <>
                       <Divider type="vertical" />
                       <Button
@@ -304,7 +300,6 @@ const RecruitEvaluation = () => {
                       </Button>
                     </>
                   } */}
-                </>
               default:
                 break;
             }
@@ -472,7 +467,7 @@ const RecruitEvaluation = () => {
         closeModal={closeModal}
       />
       <LookResult ref={lookResultRef} isRecruit={true} />
-      {/* <PdfDetailMBTI
+      <PdfDetailMBTI
         ref={pdfDetail}
         resultDetail={resultDetial}
         childStyle={{
@@ -483,7 +478,7 @@ const RecruitEvaluation = () => {
           'left': '-9999pt',
           'zIndex': '-9999'
         }}
-      /> */}
+      />
     </div >
   )
 };
