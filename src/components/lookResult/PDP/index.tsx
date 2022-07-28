@@ -71,7 +71,7 @@ const PDP = forwardRef((props: { resultList: IResult }, ref) => {
                     <div className={styles.resultLitterBox}>
                         <div className={styles.contentBox}>
                             <div className={styles.resultRight} >
-                                <img src={delPicDomain(resultList?.results[0].typeIcon)} />
+                                <img src={delPicDomain(resultList?.results[0]?.typeIcon)} />
                                 {resultList?.results?.length > 1 && <img className={styles.jiahao} src={addImg} />}
                                 {resultList?.results?.length > 1 && <img src={delPicDomain(resultList?.results[1]?.typeIcon)} />}
                             </div>
