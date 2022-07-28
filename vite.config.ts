@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv, ConfigEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import vitePluginImp from 'vite-plugin-imp'
+import legacyPlugin from '@vitejs/plugin-legacy';
 import { resolve } from 'path';
 
 //daily-qzz-static.forwe.store/evaluation-mng/static/     日常
@@ -22,6 +23,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         }
       }
     },
+    build: {
+      target: ['es2015']
+    },
     resolve: {
       // 配置路径别名
       alias: {
@@ -41,14 +45,18 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     plugins: [
       react(),
-      // vitePluginImp({
-      //   libList: [
-      //     {
-      //       libName: "antd",
-      //       style: (name) => `antd/es/${name}/style/index.js`,
-      //     },
-      //   ],
-      // })
+      vitePluginImp({
+        libList: [
+          {
+            libName: "antd",
+            style: (name) => `antd/es/${name}/style/index.js`,
+          },
+        ],
+      }),
+      legacyPlugin({
+        // 兼容的目标
+        targets: ['chrome 52']
+      }),
     ],
   }
 })

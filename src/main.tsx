@@ -5,7 +5,6 @@ import App from './app'
 import './assets/global.less'
 import zhCN from 'antd/lib/locale/zh_CN';
 import { ConfigProvider } from 'antd'
-import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
