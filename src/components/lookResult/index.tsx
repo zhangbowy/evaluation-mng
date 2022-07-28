@@ -9,6 +9,7 @@ import { IResultList, IResult } from '../../page/evaluation/management/type';
 import Loading from '@/components/loading';
 import { propsType } from './type';
 import html2Canvas from 'html2canvas';
+import './index.module.less'
 
 const LookResult = forwardRef((props: propsType, ref) => {
     const [visible, setVisible] = useState<boolean>(false)
