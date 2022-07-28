@@ -86,29 +86,6 @@ const LookResult = forwardRef((props: propsType, ref) => {
                     loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
                 }
             </Drawer >
-            {/* <div
-                className={styles.mask}
-                style={{
-                    display: visible ? "block" : "none",
-                }}
-                onClick={() => {
-                    setLoading(false);
-                }}
-            >
-                <div
-                    className={styles.drawer_main}
-                    onClick={e => {
-                        e.stopPropagation();
-                    }}
-                >
-                    <div className={styles.drawer_header}>
-
-                    </div>
-                    {
-                        loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
-                    }
-                </div>
-            </div> */}
             <div style={{ height: 0, overflow: 'hidden' }}>
                 <PDP ref={(ref) => curRef.current[0] = ref} resultList={resultList as IResult} />
                 <CA ref={(ref) => curRef.current[1] = ref} resultList={resultList as IResult} />
