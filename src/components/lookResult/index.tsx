@@ -9,6 +9,7 @@ import { IResultList, IResult } from '../../page/evaluation/management/type';
 import Loading from '@/components/loading';
 import { propsType } from './type';
 import html2Canvas from 'html2canvas';
+import styles from './index.module.less';
 
 const LookResult = forwardRef((props: propsType, ref) => {
     const [visible, setVisible] = useState<boolean>(false)
@@ -71,7 +72,6 @@ const LookResult = forwardRef((props: propsType, ref) => {
         if (res.code === 1) {
             awaitFn(res.data)
         }
-        console.log(visible, resultList, 'resultList')
     }
     return (
         <Fragment>
@@ -86,6 +86,29 @@ const LookResult = forwardRef((props: propsType, ref) => {
                     loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
                 }
             </Drawer >
+            {/* <div
+                className={styles.mask}
+                style={{
+                    display: visible ? "block" : "none",
+                }}
+                onClick={() => {
+                    setLoading(false);
+                }}
+            >
+                <div
+                    className={styles.drawer_main}
+                    onClick={e => {
+                        e.stopPropagation();
+                    }}
+                >
+                    <div className={styles.drawer_header}>
+
+                    </div>
+                    {
+                        loading ? <Loading /> : (resultComponent[resultList?.examTemplateType as string])
+                    }
+                </div>
+            </div> */}
             <div style={{ height: 0, overflow: 'hidden' }}>
                 <PDP ref={(ref) => curRef.current[0] = ref} resultList={resultList as IResult} />
                 <CA ref={(ref) => curRef.current[1] = ref} resultList={resultList as IResult} />
