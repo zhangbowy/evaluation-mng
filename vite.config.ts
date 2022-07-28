@@ -41,14 +41,14 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     plugins: [
       react(),
-      vitePluginImp({
-        libList: [
-          {
-            libName: "antd",
-            style: (name) => `antd/es/${name}/style/index.js`,
-          },
-        ],
-      })
+      // vitePluginImp({
+      //   libList: [
+      //     {
+      //       libName: "antd",
+      //       style: (name) => `antd/es/${name}/style/index.js`,
+      //     },
+      //   ],
+      // })
     ],
   }
 })

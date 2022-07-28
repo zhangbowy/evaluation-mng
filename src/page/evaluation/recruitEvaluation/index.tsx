@@ -277,7 +277,7 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  <Divider type="vertical" />
+                  {/* <Divider type="vertical" />
                   <Button
                     className={styles.columns_btn_lock}
                     type='link'
@@ -285,7 +285,21 @@ const RecruitEvaluation = () => {
                     onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
                   >
                     下载
-                  </Button>
+                  </Button> */}
+                  {
+                    record.templateType !== 'MBTI' &&
+                    <>
+                      <Divider type="vertical" />
+                      <Button
+                        className={styles.columns_btn_lock}
+                        type='link'
+                        loading={downLoading === record.examPaperId}
+                        onClick={() => onOrdinaryDownLoad(record)}
+                      >
+                        下载
+                      </Button>
+                    </>
+                  }
                 </>
                 {/* {
                     record.templateType === 'MBTI' && <>
