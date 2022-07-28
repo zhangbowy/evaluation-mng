@@ -9,9 +9,9 @@ interface IntroduceData {
 }
 const CareerAnchor = forwardRef((props: { resultList: IResult }, ref) => {
     const qcp_c_labelBg1 =
-        '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_c_labelbg1.png';
+        '/evaluation-mng/imgs/qcp_c_labelbg1.png';
     const qcp_c_labelBg2 =
-        '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_c_labelbg2.png';
+        '/evaluation-mng/imgs/qcp_c_labelbg2.png';
     const introduce: IntroduceData[] = [
         {
             title: '岗位匹配',

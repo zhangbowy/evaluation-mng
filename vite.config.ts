@@ -12,6 +12,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
   return {
     base: env.VITE_BASE_URL || '/',
     server: {
+      port: 6666,
       cors: true,
       proxy: {
         '/api': {

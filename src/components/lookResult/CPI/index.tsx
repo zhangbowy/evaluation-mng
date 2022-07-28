@@ -8,7 +8,7 @@ import { IResult } from '@/page/evaluation/management/type';
 
 const Charm = forwardRef((props: { charmList: IResult }, ref) => {
     const quotationMarksImg1 =
-        '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_c_quotationMarks_left.png';
+        '/evaluation-mng/imgs/qcp_c_quotationMarks_left.png';
     const { charmList } = props
     const screenshotRef = useRef<HTMLDivElement | null>(null) // 保存截图的节点
     useImperativeHandle(ref, () => ({
