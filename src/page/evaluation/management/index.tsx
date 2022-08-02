@@ -1,4 +1,4 @@
-import { Button, Radio, RadioChangeEvent, Table, Progress, Switch, Divider, message, Tooltip, Modal, ConfigProvider } from 'antd';
+import { Button, Radio, RadioChangeEvent, Table, Progress, Switch, Divider, message, Tooltip, Modal, ConfigProvider, Tag } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import styles from './index.module.less'
@@ -114,9 +114,13 @@ const Management = () => {
           <div className={styles.create_userInfo}>
             <img src={record.logoImage} alt="" />
             <div className={styles.create_right}>
-              <Tooltip placement="top" title={record.evaluationName}>
-                <p>{record.evaluationName}</p>
-              </Tooltip>
+              <div>
+                <Tooltip placement="top" title={record.evaluationName}>
+                  <p>{record.evaluationName}</p>
+                </Tooltip>
+                <span className={styles.create_tag}>专</span>
+                <Tag title="酷应用" color="rgba(43, 133, 255, 1)" />
+              </div>
               <span>创建人:{record.createName || '暂无'}    {record.created}</span>
             </div>
           </div>
