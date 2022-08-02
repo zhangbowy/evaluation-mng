@@ -40,8 +40,8 @@ Ajax：Axios  <br />
 |   |   |   └── topupTable 点券充值记录
 |   |   └── userAuthority 权限管理
 │   └── login 登录页
-│   ├── App.vue app入口
-│   ├── main.js  入口文件
+│   ├── app.tsx app入口
+│   ├── main.tsx  入口文件
 │   ├── router   路由
 │   ├── global.d.ts  全局ts声明
 │   └── utils  
