@@ -35,7 +35,7 @@ const Management = () => {
     defaultPageSize: 10,
     defaultCurrent: 1,
     current: current,
-    showTotal: () =>`共 ${totalNum} 条数据`,
+    showTotal: () => `共 ${totalNum} 条数据`,
     total: totalNum,
     onChange: (page: number, pageSize: number) => {
       getEvaluationList({ curPage: page, pageSize, isFinishType: radioValue })
@@ -114,12 +114,16 @@ const Management = () => {
           <div className={styles.create_userInfo}>
             <img src={record.logoImage} alt="" />
             <div className={styles.create_right}>
-              <div>
+              <div className={styles.create_title}>
                 <Tooltip placement="top" title={record.evaluationName}>
                   <p>{record.evaluationName}</p>
                 </Tooltip>
-                <span className={styles.create_tag}>专</span>
-                <Tag title="酷应用" color="rgba(43, 133, 255, 1)" />
+                {
+                  record.examTemplateType == 'MBTI' && <span className={styles.create_tag}>专</span>
+                }
+                {
+                  record.fromSourceType == 1 && <Tag className={styles.create_tag2} color="processing">酷应用</Tag>
+                }
               </div>
               <span>创建人:{record.createName || '暂无'}    {record.created}</span>
             </div>

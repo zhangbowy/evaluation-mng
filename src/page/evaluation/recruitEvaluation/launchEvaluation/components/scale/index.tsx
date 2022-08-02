@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { message } from 'antd';
 import { CheckOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { Modal } from 'antd';
-import { IExamTemplateList, propsType } from './type';
+import { IExamTemplateList, propsType, titleType } from './type';
 import styles from './index.module.less';
 import { getExamTemplateList, UnLockReport } from '@/api/api';
 import { CountContext } from '@/utils/context'
@@ -33,7 +33,7 @@ const Scale = ({ setStampsNum }: propsType) => {
 
   const onUnlock = (data: IExamTemplateList) => {
     const title = data.type === 'MBTI' ? 'MBTI' : data.type === 'PDP' ? 'PDP'
-          : data.type === 'CA' ? '职业锚' : data.type === 'CPI' ? '人格魅力' : ''
+      : data.type === 'CA' ? '职业锚' : data.type === 'CPI' ? '人格魅力' : ''
     confirm({
       title: `解锁需要${data.examTemplateCommodityDetail.pointPrice}点券`,
       icon: <ExclamationCircleOutlined />,
@@ -81,13 +81,20 @@ const Scale = ({ setStampsNum }: propsType) => {
   return <div className={styles.scale_wrap}>
     {
       data.map((v: IExamTemplateList, index: number) => {
-        const title = v.type === 'MBTI' ? 'MBTI' : v.type === 'PDP' ? 'PDP'
-          : v.type === 'CA' ? '职业锚' : v.type === 'CPI' ? '人格魅力' : ''
+        const title: titleType = {
+          'PDP': 'PDP',
+          'MBTI': 'MBTI-专业版',
+          'MBTI_O': 'MBTI-普通版',
+          'CA': '职业锚',
+          'CPI': '人格魅力',
+        }
+        // const title = v.type === 'MBTI' ? 'MBTI' : v.type === 'PDP' ? 'PDP'
+        //   : v.type === 'CA' ? '职业锚' : v.type === 'CPI' ? '人格魅力' : ''
         if (v.isBuy) {
           return <div
             className={cx({
               'scale_item': true,
-              'scale_mbti': v.type === 'MBTI',
+              'scale_mbti': v.type === 'MBTI' || v.type === 'MBTI_O',
               'scale_pdp': v.type === 'PDP',
               'scale_career': v.type === 'CA',
               'scale_personality': v.type === 'CPI',
@@ -102,7 +109,7 @@ const Scale = ({ setStampsNum }: propsType) => {
               }
             </div>
             <div className={styles.scale_item_title}>
-              {title}
+              {title[v.type]}
             </div>
             <div className={styles.scale_item_content}>
               {v.includeText}
@@ -121,7 +128,7 @@ const Scale = ({ setStampsNum }: propsType) => {
                 <span>未解锁</span>
               </div>
               <div className={styles.scale_item_title}>
-                {title}
+                {title[v.type]}
               </div>
               <div className={styles.scale_item_content}>
                 {v.includeText}

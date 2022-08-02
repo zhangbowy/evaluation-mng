@@ -1,3 +1,4 @@
+
 export interface scaleType {
   isLock: boolean;
   title: string,
@@ -18,12 +19,16 @@ export interface IExamTemplateList {
   isBuy: boolean;
   title: string;
   type: string;
-  includeText:string;
-  planImage:string;
+  includeText: string;
+  planImage: string;
   examTemplateCommodityDetail: {
-      pointPrice: number;
+    pointPrice: number;
   };
   examCouponCommodityDetail: {
-      pointPrice: number;
+    pointPrice: number;
   }
+}
+
+export type titleType = {
+  [key: string]: string
 }

@@ -190,12 +190,9 @@ const Detail = () => {
       legend: {
         offsetX: -50,
         itemName: {
-          formatter: (text, item) => {
-            return text;
+          formatter: (text, item, index) => {
+            return `${text}-${chartList?.personalityProportions[index]?.value}人`;
           },
-          style: () => {
-
-          }
         },
         // itemValue: {
         //   formatter: (text, item) => {
@@ -218,6 +215,7 @@ const Detail = () => {
         },
       },
     })
+    piePlot.chart.removeInteraction('legend-filter');
     piePlot.on('element:click', (ev: any) => {
       getTableList({ resultType: ev.data.data.name })
     })

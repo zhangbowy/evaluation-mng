@@ -33,41 +33,70 @@ export const randomRgbColor = () => { //随机生成RGB颜色
 }
 
 type CurrentType = 'add' | 'update'
+
+
+
 // 钉钉选人
 export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 'add') => {
+    // 温馨提示
+    const cozyMessage = (data: Multiple[]) => {
+        if (data.length > 0) {
+            type == 'add' ?
+                Modal.confirm({
+                    title: '温馨提示',
+                    content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
+                    okText: '确认',
+                    cancelText: '取消',
+                    onOk() {
+                        item.successFn(data)
+                    },
+                }) : item.successFn(data)
+        }
+    }
+    // dd.env.platform !== 'notInDingTalk' &&
+    //     dd.ready(() => {
+    //         dd.biz.customContact.multipleChoose({
+    //             title: '请选择', //标题
+    //             users: item.usersList,//一组员工工号
+    //             corpId: item.corpId,//企业 ID，
+    //             isShowCompanyName: true,   //true|false，默认为 false
+    //             selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
+    //             disabledUsers: item.selectedUsers || [],//不能选的人
+    //             max: 1000, //人数限制
+    //             onSuccess: (data: Multiple[]) => {
+    //                 cozyMessage(data)
+    //             },
+    //             onFail: (err: Error) => {
+    //                 console.log(err, '失败了啊')
+    //             }
+    //         });
+    //     })
+
     dd.env.platform !== 'notInDingTalk' &&
-        dd.ready(() => {
-            dd.biz.customContact.multipleChoose({
-                title: '请选择', //标题
-                users: item.usersList,//一组员工工号
-                corpId: item.corpId,//企业 ID，
-                isShowCompanyName: true,   //true|false，默认为 false
-                selectedUsers: item.selectedUsers || [], //默认选中的人，注意:已选中不可以取消
-                disabledUsers: item.selectedUsers || [],//不能选的人
-                max: 1000, //人数限制
-                onSuccess: (data: Multiple[]) => {
-                    if (data.length > 0) {
-                        type == 'add' ?
-                            Modal.confirm({
-                                title: '温馨提示',
-                                content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
-                                okText: '确认',
-                                cancelText: '取消',
-                                onOk() {
-                                    item.successFn(data)
-                                },
-                            }) : item.successFn(data)
-                    }
-                },
-                onFail: function (err: Error) {
-                    console.log(err, '失败了啊')
-                }
-            });
-        })
+        dd.biz.contact.complexPicker({
+            title: "请选择",            //标题
+            corpId: item.corpId,             //企业的corpId
+            multiple: true,            //是否多选
+            limitTips: "超出了",          //超过限定人数返回提示
+            maxUsers: 1000,            //最大可选人数
+            pickedUsers: item.selectedUsers || [], //已选用户
+            disabledUsers: [],            //不可选用户
+            disabledDepartments: [],        //不可选部门
+            requiredUsers: [],            //必选用户（不可取消选中状态）
+            requiredDepartments: [],        //必选部门（不可取消选中状态）
+            responseUserOnly: true,        //返回人，或者返回人和部门
+            startWithDepartmentId: 0,   //仅支持0和-1
+            onSuccess: (result: ComplexPicker) => {
+                cozyMessage(result.users)
+            },
+            onFail: (err: Error) => {
+                console.log(err, '选择部门和人失败了啊')
+            }
+        });
 
 }
 // 添加人员
-export const ddAddPeople = async (item: IAddPeopleParams, type: 'add' | 'update') => {
+export const ddAddPeople = async (item: IAddPeopleParams, type: CurrentType = 'add') => {
     const obj = {
         tpf: 1,
         appId: item.appId,
