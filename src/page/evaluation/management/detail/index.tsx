@@ -79,7 +79,7 @@ const Detail = () => {
     current: current,
     showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
-      getTableList({ curPage: page, pageSize, ...form.getFieldsValue() })
+      getTableList({ curPage: page, pageSize, ...form.getFieldsValue(), deptId })
     }
   }
   useEffect(() => {
@@ -460,6 +460,7 @@ const Detail = () => {
           <div className={styles.detail_main_header}>
             <span className={styles.detail_main_title}>测评报表</span>
             <Select
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
               optionFilterProp="children"
               onChange={onSelectChange}
               filterOption={(input, option) =>
@@ -467,6 +468,7 @@ const Detail = () => {
               }
               placeholder="请选择部门"
               showSearch
+              allowClear
               style={{ width: 240 }} >
               {
                 department.map((item: IDept) => <Select.Option key={item.deptId} value={item.deptId}>{item.name}</Select.Option>)
@@ -512,13 +514,13 @@ const Detail = () => {
                   <Input placeholder="请输入姓名" style={{ width: 240 }} />
                 </Form.Item>
                 <Form.Item label="完成情况" name="status">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(doneCondition, 1)}</Select>
+                  <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(doneCondition, 1)}</Select>
                 </Form.Item>
                 <Form.Item label="性格类型" name="tags">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
+                  <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
                 </Form.Item>
                 <Form.Item label="人格类型" name="resultType">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
+                  <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
                 </Form.Item>
               </Form>
             </div>

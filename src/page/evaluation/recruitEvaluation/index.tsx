@@ -408,6 +408,7 @@ const RecruitEvaluation = () => {
             </Form.Item>
             <Form.Item name="examStatus" label="测评状态">
               <Select
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 optionFilterProp="children"
                 allowClear
                 filterOption={(input, option) =>

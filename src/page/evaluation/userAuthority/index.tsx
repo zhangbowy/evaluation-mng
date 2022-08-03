@@ -35,7 +35,7 @@ const index = () => {
     defaultPageSize: 10,
     current,
     total: totalNum,
-    showTotal: () =>`共 ${totalNum} 条数据`,
+    showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
       getUser({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
@@ -146,6 +146,7 @@ const index = () => {
           </Form.Item>
           <Form.Item name="deptId" label="部门">
             <Select
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
               optionFilterProp="children"
               onChange={onSelectChange}
               filterOption={(input, option) =>

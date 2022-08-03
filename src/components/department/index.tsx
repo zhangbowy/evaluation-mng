@@ -23,6 +23,7 @@ const Department = () => {
     return (
         <Form.Item name="deptId" label="部门">
             <Select
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 optionFilterProp="children"
                 filterOption={(input, option) =>
                     (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
