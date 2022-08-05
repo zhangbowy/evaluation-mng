@@ -35,6 +35,7 @@ interface DataType {
     type: boolean;
     logoImage: string;
     paperPrice: number;
+    fromSourceType: number;
 }
 interface IBack {
     code: number;
@@ -111,6 +112,11 @@ interface Multiple {
     name: string;
     avatar: string;
     emplId: string;
+}
+
+interface ComplexPicker {
+    selectedCount: number;
+    users: Multiple[]
 }
 
 interface IUser {

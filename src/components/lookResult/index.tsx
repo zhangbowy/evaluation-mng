@@ -2,14 +2,13 @@ import { getExamResult, getUserExamResult } from '@/api/api';
 import { Drawer, Form, Spin } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle, useEffect, useRef, Fragment } from 'react'
 import PDP from './PDP';
-import MBTI from './MBTI';
+import MBTI_O from './MBTI_O';
 import CA from './CA';
 import CPI from './CPI'
 import { IResultList, IResult } from '../../page/evaluation/management/type';
 import Loading from '@/components/loading';
 import { propsType } from './type';
 import html2Canvas from 'html2canvas';
-import styles from './index.module.less';
 
 const LookResult = forwardRef((props: propsType, ref) => {
     const [visible, setVisible] = useState<boolean>(false)
@@ -18,7 +17,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
     const curRef: any = useRef([])
     const resultComponent: { [key: string]: JSX.Element } = {
         "PDP": <PDP resultList={resultList as IResult} />,
-        "MBTI": <MBTI resulyData={resultList} />,
+        "MBTI_O": <MBTI_O resulyData={resultList} />,
         "CA": <CA resultList={resultList as IResult} />,
         "CPI": <CPI charmList={resultList as IResult} />,
     }
@@ -26,6 +25,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
         'PDP': 0,
         'CA': 1,
         'CPI': 2,
+        'MBTI_O': 3,
     }
     useImperativeHandle(ref, () => ({
         onOpenDrawer,
@@ -90,6 +90,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
                 <PDP ref={(ref) => curRef.current[0] = ref} resultList={resultList as IResult} />
                 <CA ref={(ref) => curRef.current[1] = ref} resultList={resultList as IResult} />
                 <CPI ref={(ref) => curRef.current[2] = ref} charmList={resultList as IResult} />
+                <MBTI_O ref={(ref) => curRef.current[3] = ref} resulyData={resultList} />
             </div>
         </Fragment>
     )

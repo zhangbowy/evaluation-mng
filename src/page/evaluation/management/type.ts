@@ -90,10 +90,11 @@ export enum IisDimission {
 }
 
 export enum IEvaluation {
-    MBTI = 'MBTI',
+    MBTI = 'MBTI-专业版',
     PDP = 'PDP',
     CA = '职业锚',
     CPI = '魅力指数',
+    MBTI_O = 'MBTI-普通版'
 }
 export interface ITagsProps {
     onTagClick: (name: string) => void;

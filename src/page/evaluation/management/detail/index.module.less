@@ -27,12 +27,13 @@
             background-color: var(--white-color);
 
             .detail_titleCard {
-                padding: 24px;
+                padding: 16px;
                 background-color: var(--white-color);
                 border-radius: 8px;
                 border: 1px solid var(--border-color-base);
                 display: flex;
                 align-items: center;
+                overflow: hidden;
 
                 img {
                     width: 267px;
@@ -63,7 +64,7 @@
                                 text-overflow: ellipsis;
                                 overflow: hidden;
                                 white-space: nowrap;
-                                max-width: 600px;
+                                max-width: 500px;
                                 margin-bottom: 0;
                             }
 
@@ -75,6 +76,7 @@
                                 font-family: PingFangSC-Regular, PingFang SC;
                                 font-weight: 400;
                                 color: #657180;
+                                white-space: nowrap;
                             }
                         }
                     }
@@ -85,11 +87,12 @@
                         font-weight: 400;
                         color: var(--text-color-secondary);
                         line-height: 20px;
-                        width: 680px;
+                        // width: 680px;
                         display: -webkit-box;
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 3;
                         overflow: hidden;
+                        white-space: wrap;
                     }
                 }
             }

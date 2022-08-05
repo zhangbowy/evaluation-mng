@@ -127,7 +127,7 @@ const PeopleReport = () => {
           </Form.Item>
           {Department()}
           <Form.Item name="isDimission" label="是否在职">
-            <Select placeholder="请选择" style={{ width: 230 }} >
+            <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 230 }} >
               <Select.Option value="0">在职</Select.Option>
               <Select.Option value="1">离职</Select.Option>
             </Select>

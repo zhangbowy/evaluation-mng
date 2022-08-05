@@ -1,5 +1,5 @@
 import { getAllInfo, getChart, getExamResult, getExamUsers, measurementExport, queryDept, UnLockReport } from '@/api/api'
-import { Breadcrumb, Button, Divider, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Divider, Empty, Form, Input, Select, Spin, Table, Tag, Tooltip } from 'antd'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { useNavigate, useParams } from 'react-router'
@@ -79,7 +79,7 @@ const Detail = () => {
     current: current,
     showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
-      getTableList({ curPage: page, pageSize, ...form.getFieldsValue() })
+      getTableList({ curPage: page, pageSize, ...form.getFieldsValue(), deptId })
     }
   }
   useEffect(() => {
@@ -190,12 +190,9 @@ const Detail = () => {
       legend: {
         offsetX: -50,
         itemName: {
-          formatter: (text, item) => {
-            return text;
+          formatter: (text, item, index) => {
+            return `${text}-${chartList?.personalityProportions[index]?.value}人`;
           },
-          style: () => {
-
-          }
         },
         // itemValue: {
         //   formatter: (text, item) => {
@@ -218,6 +215,7 @@ const Detail = () => {
         },
       },
     })
+    piePlot.chart.removeInteraction('legend-filter');
     piePlot.on('element:click', (ev: any) => {
       getTableList({ resultType: ev.data.data.name })
     })
@@ -449,7 +447,9 @@ const Detail = () => {
             <div className={styles.detail_right}>
               <div className={styles.detail_top}>
                 <div className={styles.detail_title}>
-                  <p>{measurement?.examTitle}</p>
+                  <Tooltip placement="top" title={measurement?.examTitle}>
+                    <p>{measurement?.examTitle}</p>
+                  </Tooltip>
                   <span>{IEvaluation[measurement!.examTemplateType]}</span>
                 </div>
                 {measurement?.examTemplateType !== 'CPI' && <Button type="link" onClick={onLookIntroduceClick}>查看介绍</Button>}
@@ -462,6 +462,7 @@ const Detail = () => {
           <div className={styles.detail_main_header}>
             <span className={styles.detail_main_title}>测评报表</span>
             <Select
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
               optionFilterProp="children"
               onChange={onSelectChange}
               filterOption={(input, option) =>
@@ -469,6 +470,7 @@ const Detail = () => {
               }
               placeholder="请选择部门"
               showSearch
+              allowClear
               style={{ width: 240 }} >
               {
                 department.map((item: IDept) => <Select.Option key={item.deptId} value={item.deptId}>{item.name}</Select.Option>)
@@ -514,13 +516,13 @@ const Detail = () => {
                   <Input placeholder="请输入姓名" style={{ width: 240 }} />
                 </Form.Item>
                 <Form.Item label="完成情况" name="status">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(doneCondition, 1)}</Select>
+                  <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(doneCondition, 1)}</Select>
                 </Form.Item>
                 <Form.Item label="性格类型" name="tags">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
+                  <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
                 </Form.Item>
                 <Form.Item label="人格类型" name="resultType">
-                  <Select placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
+                  <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
                 </Form.Item>
               </Form>
             </div>

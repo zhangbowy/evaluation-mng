@@ -72,23 +72,23 @@ const LaunchEvaluation = () => {
             label="姓名"
             rules={[{ required: true, message: '请输入姓名!' }]}
           >
-            <Input placeholder="请输入" style={{ width: 375 }} />
+            <Input showCount maxLength={20} placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
           <Form.Item
             name="job"
             label="应聘岗位"
             rules={[{ required: true, message: '请输入应聘岗位!' }]}
           >
-            <Input placeholder="请输入" style={{ width: 375 }} />
+            <Input showCount maxLength={20} placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
           <Form.Item
             name="phone"
             label="手机号"
           >
-            <Input placeholder="请输入" style={{ width: 375 }} />
+            <Input type='tel' placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
           <Form.Item name="email" label="邮箱">
-            <Input placeholder="请输入" style={{ width: 375 }} />
+            <Input type='email' placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
         </Form>
       </section>

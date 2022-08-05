@@ -287,7 +287,8 @@ const RecruitEvaluation = () => {
                     下载
                   </Button> */}
                   {
-                    record.templateType !== 'MBTI' &&
+                    record.templateType !== 'MBTI' && 
+                    record.templateType !== 'MBTI_O' &&
                     <>
                       <Divider type="vertical" />
                       <Button
@@ -408,6 +409,7 @@ const RecruitEvaluation = () => {
             </Form.Item>
             <Form.Item name="examStatus" label="测评状态">
               <Select
+                getPopupContainer={(triggerNode) => triggerNode.parentNode}
                 optionFilterProp="children"
                 allowClear
                 filterOption={(input, option) =>
