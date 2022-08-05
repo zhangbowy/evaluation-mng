@@ -136,9 +136,13 @@
         }
 
         .userName {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
             position: absolute;
+            
             top: calc(50% + 21px);
-            width: 100%;
+            max-width: 80px;
             margin-top: 4px;
             color: #434343;
             font-weight: 500;
