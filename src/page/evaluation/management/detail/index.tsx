@@ -1,5 +1,5 @@
 import { getAllInfo, getChart, getExamResult, getExamUsers, measurementExport, queryDept, UnLockReport } from '@/api/api'
-import { Breadcrumb, Button, Divider, Empty, Form, Input, Select, Spin, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Divider, Empty, Form, Input, Select, Spin, Table, Tag, Tooltip } from 'antd'
 import React, { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { useNavigate, useParams } from 'react-router'
@@ -447,7 +447,9 @@ const Detail = () => {
             <div className={styles.detail_right}>
               <div className={styles.detail_top}>
                 <div className={styles.detail_title}>
-                  <p>{measurement?.examTitle}</p>
+                  <Tooltip placement="top" title={measurement?.examTitle}>
+                    <p>{measurement?.examTitle}</p>
+                  </Tooltip>
                   <span>{IEvaluation[measurement!.examTemplateType]}</span>
                 </div>
                 {measurement?.examTemplateType !== 'CPI' && <Button type="link" onClick={onLookIntroduceClick}>查看介绍</Button>}
