@@ -287,7 +287,8 @@ const RecruitEvaluation = () => {
                     下载
                   </Button> */}
                   {
-                    record.templateType !== 'MBTI' &&
+                    record.templateType !== 'MBTI' && 
+                    record.templateType !== 'MBTI_O' &&
                     <>
                       <Divider type="vertical" />
                       <Button
