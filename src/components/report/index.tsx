@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import { getExamResult, getUserExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
+import DISCDetail from './DISC';
 
 /**
  * 查看报告
@@ -105,10 +106,11 @@ const ReportDetail = forwardRef((props: any, ref) => {
 
     return (
         <div className={styles.pdfDetail}>
-            <PdfDetailMBTI 
+            {/* <PdfDetailMBTI 
                 // ref={pdfDetail}
                 resultDetail={resultDetial}
-            />
+            /> */}
+            <DISCDetail resultDetail={{}} />
         </div>
     );
 })

@@ -329,7 +329,7 @@ const Detail = () => {
       render: (text: number, record, index: number) => {
         // 查看报告
         const onLookResult = () => {
-          if (measurement?.examTemplateType === 'MBTI') {
+          if ((measurement?.examTemplateType === 'MBTI') || (measurement?.examTemplateType === 'DISC')) {
             navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}`);
             return;
           }
