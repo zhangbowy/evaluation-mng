@@ -20,8 +20,13 @@ export default defineConfig(({ mode }: ConfigEnv) => {
           // target:'http://gray-eval.sunmeta.top',
           // target:'http://qzz-eval.forwe.store',
           changeOrigin: true,
+        },
+        '/api/spf-cc': {
+          target: 'http://10.255.21.42:8083',
+          changeOrigin: true,
         }
-      }
+      },
+      host: '0.0.0.0'
     },
     build: {
       target: ['es2015']

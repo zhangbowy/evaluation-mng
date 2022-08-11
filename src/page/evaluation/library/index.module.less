@@ -1,10 +1,12 @@
 .Library_layout {
-    display: flex;
     padding: 24px 34px;
     background-color: var(--white-color);
     height: 100%;
-    flex-direction: column;
-    overflow-y: scroll;
+    overflow: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     h1 {
         font-size: 20px;
@@ -17,12 +19,12 @@
     main {
         display: flex;
         flex-flow: row wrap;
-        margin-bottom: 120px;
 
         .Library_card_wrapper {
-            width: 266px;
+            width: 23%;
+            min-width: 264px;
             border-radius: 4px;
-            margin-right: 24px;
+            margin-right: 20px;
             overflow: hidden;
             border: 1px solid #D7DDE4;
             background-color: #FFFFFF;
@@ -33,6 +35,10 @@
             justify-content: space-between;
             transition: all .5s ease;
             margin-bottom: 24px;
+
+            &:nth-child(4n) {
+                margin-right: 0px;
+            }
 
             &:hover {
                 box-shadow: 0px 4px 12px 0px #dee3e8;

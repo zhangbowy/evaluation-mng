@@ -16,7 +16,7 @@ const NoAuthPage: FC = () => {
         2000006: '钉钉api服务接口错误',
         99999: '您当前没有权限,请联系管理员'
     }
-    const pushUrl: string = 'http://h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC63FE9AA1FB5D7DFC882653BC130D98DC599D1E334FC2D720DBBD3FB0872C1D1E6%26token%3D6283956d3721d4ba717dd18e362e5a70%26shareUid%3D383B86070279D64685AA4989BCA9F331&dtaction=os'
+    const pushUrl = '//h5.dingtalk.com/open-purchase/mobileUrl.html?redirectUrl=https%3A%2F%2Fh5.dingtalk.com%2Fopen-market%2Fshare.html%3FshareGoodsCode%3DD34E5A30A9AC7FC63FE9AA1FB5D7DFC882653BC130D98DC599D1E334FC2D720DBBD3FB0872C1D1E6%26token%3D6283956d3721d4ba717dd18e362e5a70%26shareUid%3D383B86070279D64685AA4989BCA9F331&dtaction=os'
     const { code } = useParams();
     const noPermissionsImg = '//daily-static-file.oss-cn-shanghai.aliyuncs.com/evaluation-web/imgs/nopermissions_img.png';
     const onContactClick = () => {

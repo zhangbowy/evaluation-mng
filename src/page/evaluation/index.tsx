@@ -37,7 +37,8 @@ const EvaluationLayout: FC = () => {
             'biz.contact.choose',
             'biz.chat.pickConversation',
             'biz.util.openSlidePanel',
-            'biz.customContact.multipleChoose'
+            'biz.customContact.multipleChoose',
+            'biz.util.downloadFile'
           ], // 必填，需要使用的jsapi列表，注意：不要带dd。
           onSuccess: () => {
             setDdConfig(true)

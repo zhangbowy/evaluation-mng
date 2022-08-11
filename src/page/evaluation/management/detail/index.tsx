@@ -76,9 +76,12 @@ const Detail = () => {
     showQuickJumper: true,
     defaultPageSize: 10,
     total: totalNum,
+    showSizeChanger: true,
+    pageSizeOptions: ["10", "20", "50", "100"],
     current: current,
     showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
+     console.log({ curPage: page, pageSize, ...form.getFieldsValue(), deptId });
       getTableList({ curPage: page, pageSize, ...form.getFieldsValue(), deptId })
     }
   }
@@ -183,12 +186,12 @@ const Detail = () => {
         value: {
           formatter: (v: any) => {
             return `${v || 0}人`
-            // return `${((chartList?.personalityProportions?.length || 0) / v) * 100}%`
           },
         },
       },
       legend: {
-        offsetX: -50,
+        offsetX: -60,
+        itemWidth: 120,
         itemName: {
           formatter: (text, item, index) => {
             return `${text}-${chartList?.personalityProportions[index]?.value}人`;

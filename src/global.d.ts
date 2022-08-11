@@ -149,3 +149,10 @@ interface ImportMetaEnv {
     readonly VITE_BASE_URL: string;
     readonly VITE_COOLAPPCODE: string;
 }
+
+
+// interface IBackResult<T> {
+//     code: number;
+//     data: T;
+//     message: null | string
+// }

@@ -22,32 +22,21 @@ import {
 } from '@ant-design/icons';
 import styles from './index.module.less';
 import { ColumnsType } from 'antd/lib/table'
-import { IColumns, RecruitStatus, rectuitMap, paramsType } from './type';
+import { IColumns, RecruitStatus, rectuitMap, paramsType, ISelectPdfStatusBack } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
 import PdfDetailMBTI from '@/components/report/MBTI';
-import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult, getUserExamResult } from '@/api/api';
+import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult, getUserExamResult, getPDFDownLoad, getIsHasPdf, getSelectPdfStatus } from '@/api/api';
 import moment from 'moment';
-import { debounce } from '@/utils/utils';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
+import { recruitStatusList } from '@/assets/data';
+import { downLoad } from '@/utils/utils';
+import dd from 'dingtalk-jsapi';
 
 
-const recruitStatusList: RecruitStatus[] = [
-  {
-    label: '待答题',
-    value: 0
-  },
-  {
-    label: '进行中',
-    value: 1
-  },
-  {
-    label: '已完成',
-    value: 10
-  }
-];
+
 const { confirm } = Modal;
 const cx = classNames.bind(styles);
 const RecruitEvaluation = () => {
@@ -61,16 +50,17 @@ const RecruitEvaluation = () => {
   const [modalLink, setModalLink] = useState<string>('');
   const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
-  const [downLoading, setDownLoading] = useState<string>(); // 下载的loading
+  const [downLoading, setDownLoading] = useState<string[]>([]); // 下载的loading
   const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
   const pdfDetail: any = useRef();
+  const tasksPdf: any = useRef([]); //下载储存的人任务
   // 获取列表
-  const getListData = (pageNo: number, pageSize: number = 10) => {
+  const getListData = (pageNo: number, pageSize?: number) => {
     const values = form.getFieldsValue();
     const formData: paramsType = {
-      pageSize,
+      pageSize: pageSize || 10,
       curPage: pageNo,
       examStatus: values.examStatus
     }
@@ -128,46 +118,116 @@ const RecruitEvaluation = () => {
     }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
   }
+  const onCloseLoading = (examPaperId: string) => {
+    const curIndex = downLoading.findIndex(res => examPaperId == res)
+    setDownLoading([...downLoading.slice(curIndex, 1)])
+  }
+  // 轮询
+  const polling = async (record: IColumns) => {
+    const item = await getSelectPdfStatus(tasksPdf.current)
+    let timer: any;
+    if (timer) {
+      clearInterval(timer)
+      timer = null
+    }
+    if (item.code == 1) {
+      if (Array.from(item.data).length > 0) {
+        await onDownLoad(record)
+        onCloseLoading(record.examPaperId)
+      } else {
+        timer = setInterval(() => {
+          polling(record)
+        }, 50000)
+      }
+    } else {
+      onCloseLoading(record.examPaperId)
+    }
+  }
   // 下载MBTI专业版
   const onDownLoad = async (record: IColumns) => {
-    setDownLoading(record.examPaperId);
-    const res = await getUserExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
-    if (res.code === 1) {
-      const newData = { ...res.data };
-      if (res.data.results) {
-        const { htmlDesc } = newData;
-        const newDimensional = {};
-        htmlDesc?.dimensional.forEach((item: any) => {
-          Object.assign(newDimensional, {
-            [item.tag]: item,
-          });
-        });
-        const newList = abilityList.map((item: any) => {
-          if (htmlDesc?.ability) {
-            return {
-              ...item,
-              sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
-            }
-          }
-        });
-        sortBy(newList, function (item: any) { return item.sort });
-
-        Object.assign(newData, {
-          resultType: res.data.results[0]?.type,
-          examTemplateArr: res.data.results[0]?.type.split(''),
-          htmlDesc: {
-            ...htmlDesc,
-            dimensional: newDimensional,
-            abilityList: newList,
-          }
-        })
+    setDownLoading([...downLoading, record.examPaperId])
+    const urlData = await getIsHasPdf({ examPaperId: record.examPaperId, templateType: 2 })
+    if (urlData.code == 1) {
+      const curExam = urlData.data.filter((co: ISelectPdfStatusBack) => (co.exam_paper_id + '') == record.examPaperId)
+      if (curExam) {
+        if (curExam[0].oss_url && curExam[0].status == 1) {
+          dd.env.platform != 'notInDingTalk' && dd.biz.util.downloadFile({
+            url: urlData.data[0].oss_url,
+            name: record.templateTitle
+          })
+        } else {
+          // setDownLoading([...downLoading, curExam[0].exam_paper_id])
+          tasksPdf.current.push(curExam[0].task_id)
+          polling(record)
+        }
+      } else {
+        const obj = {
+          url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
+          // url: `${window.location.origin}/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}&isRecruit=true`,
+          examPaperId: record.examPaperId,
+          userId: record.userId,
+          templateType: 2
+        }
+        const res = await getPDFDownLoad(obj)
+        if (res.code == 1) {
+          tasksPdf.current.push(res.data)
+          polling(record)
+        } else {
+          onCloseLoading(record.examPaperId)
+        }
       }
-      setResultDetial(newData, () => {
-        pdfDetail.current.exportPDF(() => {
-          setDownLoading('0');
-        });
-      });
     }
+    // console.log(window.location)
+    // const obj = {
+    //   url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
+    //   // url: `${window.location.origin}/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}&isRecruit=true`,
+    //   examPaperId: record.examPaperId,
+    //   userId: record.userId,
+    //   templateType: 2
+    // }
+    // const res = await getPDFDownLoad(obj)
+    // if (res.code == 1) {
+    //   const item = await 
+    //   console.log('res.data', res.data)
+    // }
+    // setDownLoading(record.examPaperId);
+    // const res = await getUserExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
+    // if (res.code === 1) {
+    //   const newData = { ...res.data };
+    //   if (res.data.results) {
+    //     const { htmlDesc } = newData;
+    //     const newDimensional = {};
+    //     htmlDesc?.dimensional.forEach((item: any) => {
+    //       Object.assign(newDimensional, {
+    //         [item.tag]: item,
+    //       });
+    //     });
+    //     const newList = abilityList.map((item: any) => {
+    //       if (htmlDesc?.ability) {
+    //         return {
+    //           ...item,
+    //           sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+    //         }
+    //       }
+    //     });
+    //     sortBy(newList, function (item: any) { return item.sort });
+
+    //     Object.assign(newData, {
+    //       resultType: res.data.results[0]?.type,
+    //       examTemplateArr: res.data.results[0]?.type.split(''),
+    //       htmlDesc: {
+    //         ...htmlDesc,
+    //         dimensional: newDimensional,
+    //         abilityList: newList,
+    //       }
+    //     })
+    //   }
+    //   setResultDetial(newData, () => {
+    //     pdfDetail.current.exportPDF(() => {
+    //       setDownLoading('0');
+    //     });
+    //   });
+    // }
   }
   // 普通版下载
   const onOrdinaryDownLoad = async (record: IColumns) => {
@@ -277,17 +337,17 @@ const RecruitEvaluation = () => {
               case 10:
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
-                  {/* <Divider type="vertical" />
+                  <Divider type="vertical" />
                   <Button
                     className={styles.columns_btn_lock}
                     type='link'
-                    loading={downLoading === record.examPaperId}
+                    loading={downLoading.includes(record.examPaperId)}
                     onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
                   >
                     下载
-                  </Button> */}
-                  {
-                    record.templateType !== 'MBTI' && 
+                  </Button>
+                  {/* {
+                    record.templateType !== 'MBTI' &&
                     record.templateType !== 'MBTI_O' &&
                     <>
                       <Divider type="vertical" />
@@ -300,7 +360,7 @@ const RecruitEvaluation = () => {
                         下载
                       </Button>
                     </>
-                  }
+                  } */}
                 </>
                 {/* {
                     record.templateType === 'MBTI' && <>

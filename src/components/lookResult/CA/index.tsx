@@ -113,5 +113,5 @@ const CareerAnchor = forwardRef((props: { resultList: IResult }, ref) => {
         </div>
     );
 });
-
+CareerAnchor.displayName = 'CareerAnchor'
 export default CareerAnchor;

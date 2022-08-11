@@ -1,6 +1,7 @@
 .scale_wrap {
   display: flex;
   padding-left: 125px;
+
   .scale_item {
     width: 104px;
     height: 98px;
@@ -9,6 +10,7 @@
     border-radius: 5px;
     padding: 8px;
     cursor: pointer;
+
     .scale_item_select {
       width: 14px;
       height: 14px;
@@ -21,6 +23,7 @@
       font-size: 10px;
       color: #2B85FF;
     }
+
     .scale_item_title {
       font-size: 14px;
       font-family: PingFangSC-Semibold, PingFang SC;
@@ -28,6 +31,7 @@
       color: #FFFFFF;
       line-height: 20px;
     }
+
     .scale_item_content {
       font-size: 12px;
       font-family: PingFangSC-Regular, PingFang SC;
@@ -41,46 +45,67 @@
       word-break: break-all;
     }
   }
+
   .scale_mbti {
     &:hover {
       background-image: linear-gradient(#6781fe, #98a7ff);
     }
+
     &.selected {
       background-image: linear-gradient(#6781fe, #98a7ff);
     }
   }
+
   .scale_pdp {
     &:hover {
       background-image: linear-gradient(#16b3ff, #55d9fc);
     }
+
     &.selected {
       background-image: linear-gradient(#16b3ff, #55d9fc);
     }
   }
+
   .scale_career {
     &:hover {
       background-image: linear-gradient(#ffc231, #ffd863);
     }
+
     &.selected {
       background-image: linear-gradient(#ffc231, #ffd863);
     }
   }
+
   .scale_personality {
     &:hover {
       background-image: linear-gradient(#fe711a, #fea167);
     }
+
     &.selected {
       background-image: linear-gradient(#fe711a, #fea167);
     }
   }
+
+  .scale_disc {
+    &:hover {
+      background-image: linear-gradient(#8C65F6, #9887FD);
+    }
+
+    &.selected {
+      background-image: linear-gradient(#8C65F6, #9887FD);
+    }
+  }
+
   .scale_lock {
     background-color: #F5F7F9;
     color: #464C5B;
     position: relative;
     padding-top: 31px;
+
     &:hover .scale_item_mark {
       display: flex;
     }
+
     .scale_item_tip {
       position: absolute;
       right: 0;
@@ -96,12 +121,15 @@
       color: #FFFFFF;
       line-height: 17px;
     }
+
     .scale_item_title {
       color: #464C5B
     }
+
     .scale_item_content {
       color: #464C5B
     }
+
     .scale_item_mark {
       width: 104px;
       height: 98px;
@@ -113,6 +141,7 @@
       align-items: center;
       background-color: rgba(0, 0, 0, .5);
       border-radius: 8px;
+
       span {
         font-size: 14px;
         font-family: PingFangSC-Regular, PingFang SC;
@@ -123,6 +152,7 @@
     }
   }
 }
+
 .scale_unlock_item {
   width: 294px;
   height: 68px;
@@ -131,6 +161,7 @@
   background: #F5F7F9;
   border-radius: 2px;
   margin-top: 18px;
+
   .scale_unlock_left {
     width: 48px;
     height: 48px;
@@ -143,30 +174,45 @@
     font-weight: 500;
     padding: 2px 0;
     background-size: cover;
+
     span {
       display: block;
       text-align: center;
       letter-spacing: 3px;
     }
   }
+
   .is_china_chart {
     span {
       text-align: left;
       padding: 0 7px
     }
   }
+
   .scale_unlock_mbti {
-    background-image: url('//qzz-static.forwe.store/public-assets/MBTI.png');
+    background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/recruit_b_mbii.png');
   }
+
+  .scale_unlock_mbti_o {
+    background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/recruit_b_mbti_o.png');
+  }
+
   .scale_unlock_pdp {
-    background-image: url('//qzz-static.forwe.store/public-assets/PDP.png');
+    background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/recruit_b_pdp.png');
   }
+
   .scale_unlock_ca {
-    background-image: url('//qzz-static.forwe.store/public-assets/CA.png');
+    background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/recruit_b_pdp.png');
   }
+
   .scale_unlock_cpi {
-    background-image: url('//qzz-static.forwe.store/public-assets/CPI.png');
+    background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/recruit_b_cpi.png');
   }
+
+  .scale_unlock_disc {
+    background-image: url('//qzz-static.forwe.store/evaluation-mng/imgs/recruit_b_disc.png');
+  }
+
   .scale_unlock_right {
     flex: 1;
     margin-left: 11px;

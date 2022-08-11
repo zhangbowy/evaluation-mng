@@ -1,10 +1,10 @@
-import { Button, Divider,Modal, Tabs } from 'antd';
-import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle} from 'react';
+import { Button, Divider, Modal, Tabs } from 'antd';
+import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle } from 'react';
 import './export.less';
 import print from "@/utils/print";
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
-const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
+const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref) => {
     const { resultDetail, childStyle } = props;
     useImperativeHandle(ref, () => {
         return {
@@ -55,7 +55,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             const value = Math.abs(resultDetail?.scoreDetail[start]?.fullScore - resultDetail?.scoreDetail[end]?.fullScore);
             if (value < 10) {
                 return `轻微偏好${isTrue ? item.startText : item.endText}型-${isTrue ? item.startProgress : item.endTextProgress}`;
-            } else if (value < 30 && value > 10 ) {
+            } else if (value < 30 && value > 10) {
                 return `中度偏好${isTrue ? item.startText : item.endText}型-${isTrue ? item.startProgress : item.endTextProgress}`
             } else {
                 return `重度偏好${isTrue ? item.startText : item.endText}型-${isTrue ? item.startProgress : item.endTextProgress}`
@@ -65,8 +65,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
     useEffect(() => {
         //buildPdfFile();
         const eleDots = document.querySelectorAll('#chartS s');
-        fnLineChart(eleDots); 
-    //    toExportPdf();
+        fnLineChart(eleDots);
+        //    toExportPdf();
     }, [resultDetail])
     const buildPdfFile = () => {
         console.log(2112);
@@ -76,7 +76,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
         const oldEle = eles;
         [].slice.call(eles).forEach(function (ele: any, index) {
             var eleNext = oldEle[index + 1];
-            if (!eleNext) { return;  }
+            if (!eleNext) { return; }
             var eleLine = ele.querySelector('i');
             if (!eleLine) {
                 eleLine = document.createElement('i');
@@ -96,8 +96,8 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             var radius = Math.atan((y2 - y1) / (x2 - x1));
             // 设置线条样式
             eleLine.style.width = distance + 'px';
-            eleLine.style.msTransform = 'rotate('+ radius +'rad)';
-            eleLine.style.transform = 'rotate('+ radius +'rad)';
+            eleLine.style.msTransform = 'rotate(' + radius + 'rad)';
+            eleLine.style.transform = 'rotate(' + radius + 'rad)';
         });
     }
     const toExportPdf = (callback: Function) => {
@@ -105,7 +105,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             "Pdf_Body",
             "MBTI性格与岗位匹配度",
             () => {
-                
+
             },
             () => {
                 callback && callback();
@@ -131,7 +131,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     <p className="sb-en-title">Matching degree of personality and position</p>
                 </div>
                 <div className="cover-img">
-                    <img src={'/public-assets/cover-qcp.png'} alt=""/>
+                    <img src={'/public-assets/cover-qcp.png'} alt="" />
                 </div>
                 <div className="user-info">
                     <p className="title">{resultDetail?.user?.name}</p>
@@ -160,7 +160,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         1942年，瑞士精神分析学家荣格第一次提出人格分类的概念。他认为感知和判断是大脑的两大基本功能。不同的人，感知倾向不同——有些人更侧重直觉，有些更侧重感觉。同样，不同的人判断倾向也不同——有些更倾向理性分析得出结论，有些更侧重情感，更为感性。同时，这两大基本功能又受到精力来源不同（内向或外向）的影响。以荣格的人格分类理论为基础，美国心理学家Katherine Cook Briggs(1875-1968)和Isabel Briggs Myers母女提出了影响大脑做出决定的第四因素，行为和生活方式；并综合荣格的人格分类学说形成MBTI人格模型。
                     </div>
                     <div className="picture">
-                        <img src={`/public-assets/measurement-type.png?x-oss-process=image/resize,m_fill,w_282,h_254`} alt=""/>
+                        <img src={`/public-assets/measurement-type.png?x-oss-process=image/resize,m_fill,w_282,h_254`} alt="" />
                     </div>
                 </article>
                 <article className="article-text">
@@ -302,16 +302,16 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                     <div className="in">
                                         <div className="label">外向(E):{resultDetail?.scoreDetail?.E?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-1" 
-                                                style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}
+                                            <div className="percent color-1"
+                                                style={{ width: `${resultDetail?.scoreDetail?.E?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
                                     <div className="out">
                                         <div className="label">内向(I):{resultDetail?.scoreDetail?.I?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-1" 
-                                                style={{width: `${resultDetail?.scoreDetail?.I?.fullScore}%`}}
+                                            <div className="percent color-1"
+                                                style={{ width: `${resultDetail?.scoreDetail?.I?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
@@ -320,16 +320,16 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                     <div className="in">
                                         <div className="label">感觉(S):{resultDetail?.scoreDetail?.S?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-2" 
-                                                style={{width: `${resultDetail?.scoreDetail?.S?.fullScore}%`}}
+                                            <div className="percent color-2"
+                                                style={{ width: `${resultDetail?.scoreDetail?.S?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
                                     <div className="out">
                                         <div className="label">直觉(N):{resultDetail?.scoreDetail?.N?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-2" 
-                                                style={{width: `${resultDetail?.scoreDetail?.N?.fullScore}%`}}
+                                            <div className="percent color-2"
+                                                style={{ width: `${resultDetail?.scoreDetail?.N?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
@@ -338,16 +338,16 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                     <div className="in">
                                         <div className="label">思考(T):{resultDetail?.scoreDetail?.T.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-3" 
-                                                style={{width: `${resultDetail?.scoreDetail?.T?.fullScore}%`}}
+                                            <div className="percent color-3"
+                                                style={{ width: `${resultDetail?.scoreDetail?.T?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
                                     <div className="out">
                                         <div className="label">情感(F):{resultDetail?.scoreDetail?.F?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-3" 
-                                                style={{width: `${resultDetail?.scoreDetail?.F?.fullScore}%`}}
+                                            <div className="percent color-3"
+                                                style={{ width: `${resultDetail?.scoreDetail?.F?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
@@ -356,16 +356,16 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                     <div className="in">
                                         <div className="label">判断(J):{resultDetail?.scoreDetail?.J?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-4" 
-                                                style={{width: `${resultDetail?.scoreDetail?.J?.fullScore}%`}}
+                                            <div className="percent color-4"
+                                                style={{ width: `${resultDetail?.scoreDetail?.J?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
                                     <div className="out">
                                         <div className="label">知觉(P):{resultDetail?.scoreDetail?.P?.score}</div>
                                         <div className="pillar-box">
-                                            <div className="percent color-4" 
-                                                style={{width: `${resultDetail?.scoreDetail?.P?.fullScore}%`}}
+                                            <div className="percent color-4"
+                                                style={{ width: `${resultDetail?.scoreDetail?.P?.fullScore}%` }}
                                             ></div>
                                         </div>
                                     </div>
@@ -412,10 +412,10 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
             <div className="page-box">
                 <div className="result-analyse">
                     <div className="left">
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.E?.fullScore}%`}}></div>
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.S?.fullScore}%`}}></div>
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.T?.fullScore}%`}}></div>
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.J?.fullScore}%`}}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.E?.fullScore}%` }}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.S?.fullScore}%` }}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.T?.fullScore}%` }}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.J?.fullScore}%` }}></div>
                         <div className="bottom">
                             <div className="percent">
                                 <span>100%</span>
@@ -427,10 +427,10 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         </div>
                     </div>
                     <div className="right">
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.I?.fullScore}%`}}></div>
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.N?.fullScore}%`}}></div>
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.F?.fullScore}%`}}></div>
-                        <div className="result-analyse-item" style={{width: `${resultDetail?.scoreDetail?.P?.fullScore}%`}}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.I?.fullScore}%` }}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.N?.fullScore}%` }}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.F?.fullScore}%` }}></div>
+                        <div className="result-analyse-item" style={{ width: `${resultDetail?.scoreDetail?.P?.fullScore}%` }}></div>
                         <div className="bottom">
                             <div className="percent">
                                 <span></span>
@@ -456,7 +456,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             charactertype.map((it: any) => (
                                 <div className="item m-r-49" key={it.id}>
                                     <em>{isLeftProgress(it.startProgress, it.endTextProgress, it)}</em>
-                                </div>      
+                                </div>
                             ))
                         }
                     </div>
@@ -486,53 +486,53 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <div className="tag-chart" id="chartS">
                             <div className="result-xy">
                                 <div className="result-bg" data-month="忠诚度">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['忠诚度']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['忠诚度']]}` }}
                                     ><s title="8.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="责任心">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['责任心']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['责任心']]}` }}
                                     ><s title="2.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="创新力">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['创新力']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['创新力']]}` }}
                                     ><s title="3.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="耐心程度">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['耐心程度']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['耐心程度']]}` }}
                                     ><s title="4.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="洞察力">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['洞察力']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['洞察力']]}` }}
                                     ><s title="5.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="分析能力">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['分析能力']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['分析能力']]}` }}
                                     ><s title="6.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="适应能力">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['适应能力']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['适应能力']]}` }}
                                     ><s title="7.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="抗压能力">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['抗压能力']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['抗压能力']]}` }}
                                     ><s title="6.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="沟通能力">
-                                    <span className="result-bar" 
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['沟通能力']]}`}}
+                                    <span className="result-bar"
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['沟通能力']]}` }}
                                     ><s title="4.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="判断能力">
                                     <span className="result-bar"
-                                        style={{height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['判断能力']]}`}}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['判断能力']]}` }}
                                     ><s title="5.4"></s></span>
                                 </div>
                             </div>
@@ -570,7 +570,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                         <div className={`tag ability-color-${it.sort}`}>{it.name}</div>
                                         {
                                             (index + 1) !== resultDetail?.htmlDesc?.abilityList.length &&
-                                            <p>{it.sort === resultDetail?.htmlDesc?.abilityList[index+1].sort ? '=' : '>'}</p>
+                                            <p>{it.sort === resultDetail?.htmlDesc?.abilityList[index + 1].sort ? '=' : '>'}</p>
                                         }
                                     </Fragment>
                                 ))
@@ -580,7 +580,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                 </div>
             </div>
             {/* 分页结束 */}
-             <div className="page-box">
+            <div className="page-box">
                 <div className="page-title">
                     三、四维人格倾向解读
                 </div>
@@ -646,7 +646,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             </div>
                             <div className="item-content">
                                 <div className="left">
-                                {resultDetail?.htmlDesc?.dimensional.sn.data}
+                                    {resultDetail?.htmlDesc?.dimensional.sn.data}
                                 </div>
                                 <div className="right">
                                     <img src={`${resultDetail?.htmlDesc?.dimensional.sn.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
@@ -659,7 +659,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 <p className="title">优点</p>
                             </div>
                             <div className="item-content">
-                            {resultDetail?.htmlDesc?.dimensional.sn.advantage}
+                                {resultDetail?.htmlDesc?.dimensional.sn.advantage}
                             </div>
                         </div>
                         <div className="item">
@@ -688,7 +688,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             </div>
                             <div className="item-content">
                                 <div className="left">
-                                {resultDetail?.htmlDesc?.dimensional.tf.data}
+                                    {resultDetail?.htmlDesc?.dimensional.tf.data}
                                 </div>
                                 <div className="right">
                                     <img src={`${resultDetail?.htmlDesc?.dimensional.tf.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
@@ -701,7 +701,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 <p className="title">优点</p>
                             </div>
                             <div className="item-content">
-                            {resultDetail?.htmlDesc?.dimensional.tf.advantage}
+                                {resultDetail?.htmlDesc?.dimensional.tf.advantage}
                             </div>
                         </div>
                         <div className="item">
@@ -710,7 +710,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 <p className="title">缺点</p>
                             </div>
                             <div className="item-content">
-                            {resultDetail?.htmlDesc?.dimensional.tf.shortcoming}
+                                {resultDetail?.htmlDesc?.dimensional.tf.shortcoming}
                             </div>
                         </div>
                     </div>
@@ -730,7 +730,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                             </div>
                             <div className="item-content">
                                 <div className="left">
-                                {resultDetail?.htmlDesc?.dimensional.jp.data}
+                                    {resultDetail?.htmlDesc?.dimensional.jp.data}
                                 </div>
                                 <div className="right">
                                     <img src={`${resultDetail?.htmlDesc?.dimensional.jp.jpg}?x-oss-process=image/resize,m_fill,w_150,h_71`} alt="图片" />
@@ -743,7 +743,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 <p className="title">优点</p>
                             </div>
                             <div className="item-content">
-                            {resultDetail?.htmlDesc?.dimensional.jp.advantage}
+                                {resultDetail?.htmlDesc?.dimensional.jp.advantage}
                             </div>
                         </div>
                         <div className="item">
@@ -752,14 +752,14 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                 <p className="title">缺点</p>
                             </div>
                             <div className="item-content">
-                            {resultDetail?.htmlDesc?.dimensional.jp.shortcoming}
+                                {resultDetail?.htmlDesc?.dimensional.jp.shortcoming}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-             {/* 分页结束 */}
-             <div className="page-box">
+            {/* 分页结束 */}
+            <div className="page-box">
                 <div className="page-title">
                     四、MBTI人格类型解读
                 </div>
@@ -787,7 +787,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                                     </div>
                                 ))
                             }
-                            
+
                         </div>
                         <div className="right">
                             <p className="production">{resultDetail?.htmlDesc?.personality?.portraitPhoto?.desc}</p>
@@ -798,14 +798,14 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     </div>
                 </div>
             </div>
-            <div className="page-box"> 
+            <div className="page-box">
                 <div className="classify-detail">
                     <div className="title">
                         <p className="diamond"></p>
                         <p>2、人格特征</p>
                     </div>
-                    <div 
-                        className="detail" 
+                    <div
+                        className="detail"
                         dangerouslySetInnerHTML={{
                             __html: resultDetail?.htmlDesc?.personality?.features,
                         }}
@@ -819,7 +819,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         <p className="diamond"></p>
                         <p>3、可能存在的盲点</p>
                     </div>
-                    <div 
+                    <div
                         className="detail"
                         dangerouslySetInnerHTML={{
                             __html: resultDetail?.htmlDesc?.personality?.spot,
@@ -886,7 +886,7 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                         下面的条目从各个侧面上认证了您怎样才能受到真正的职业满足，看完这些条目之后，我们建议您根据它们对您的重要程序进行排序，排序的时候，回想一下您过去的学习、工作经历以及当前学习环境和工作
                         感受，并思考：“哪一些是令你感到特别满意，有哪些令你极其不高兴”。试着寻找贯穿这些经历的主题。
                     </p>
-                    <div 
+                    <div
                         className="detail"
                         dangerouslySetInnerHTML={{
                             __html: `你的岗位特质：作为${resultDetail?.resultType}型人，职业满足意味着你做的这些工作：</br>${resultDetail?.htmlDesc?.personality?.position}`,
@@ -915,10 +915,10 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
                     </p>
                     {
                         resultDetail?.htmlDesc?.personality?.occupation.map((it: string) => (
-                            <div 
+                            <div
                                 key={it}
                                 className="profession-detail"
-                                style={{marginBottom: '16px'}}
+                                style={{ marginBottom: '16px' }}
                                 dangerouslySetInnerHTML={{
                                     __html: it,
                                 }}
@@ -1058,4 +1058,5 @@ const ExportPdfDetailMBTI = memo(forwardRef((props: any, ref)=>{
         </div>
     );
 }));
+ExportPdfDetailMBTI.displayName = 'ExportPdfDetailMBTI'
 export default ExportPdfDetailMBTI;

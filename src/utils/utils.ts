@@ -7,28 +7,32 @@ export const isTrue = (text: any) => {
     return text === 'true' || text == 1
 }
 // 防抖
-export const debounce = (fn: Function, time: number) => {
+export const debounce = (fn: () => void, time: number) => {
     let timer: any;
-    return function (this: any) {
-        timer && clearTimeout(timer)
+    return (arg: any) => {
+        if (timer) {
+            clearTimeout(timer);
+            timer = null;
+        }
         timer = setTimeout(() => {
-            fn.apply(this, arguments)
+            // eslint-disable-next-line prefer-spread
+            fn.apply(null, arg)
         }, time)
     }
 }
 //  随机rgba颜色
 export const randomRgbaColor = () => {
-    var r = Math.floor(Math.random() * 256); //随机生成256以内r值
-    var g = Math.floor(Math.random() * 256); //随机生成256以内g值
-    var b = Math.floor(Math.random() * 256); //随机生成256以内b值
-    var alpha = Math.random(); //随机生成1以内a值
+    const r = Math.floor(Math.random() * 256); //随机生成256以内r值
+    const g = Math.floor(Math.random() * 256); //随机生成256以内g值
+    const b = Math.floor(Math.random() * 256); //随机生成256以内b值
+    const alpha = Math.random(); //随机生成1以内a值
     return `rgb(${r},${g},${b},${alpha})`; //返回rgba(r,g,b,a)格式颜色
 }
 //  随机rgb颜色
 export const randomRgbColor = () => { //随机生成RGB颜色
-    var r = Math.floor(Math.random() * 256); //随机生成256以内r值
-    var g = Math.floor(Math.random() * 256); //随机生成256以内g值
-    var b = Math.floor(Math.random() * 256); //随机生成256以内b值
+    const r = Math.floor(Math.random() * 256); //随机生成256以内r值
+    const g = Math.floor(Math.random() * 256); //随机生成256以内g值
+    const b = Math.floor(Math.random() * 256); //随机生成256以内b值
     return `${r},${g},${b}`; //返回rgb(r,g,b)格式颜色
 }
 
@@ -166,18 +170,17 @@ export const getIsGuide = async (setsArr: StepsType[], type: number) => {
 }
 // 获取连接上的参数
 export const getAllUrlParam = () => {
-    var url = location.search; //获取url中"?"符后的字串  
-    var theRequest: any = new Object();
+    const url = location.search; //获取url中"?"符后的字串  
+    const theRequest: any = new Object();
     if (url.indexOf("?") != -1) {
-        var str = url.substr(1);
-        var strs = str.split("&");
-        for (var i = 0; i < strs.length; i++) {
+        const str = url.substr(1);
+        const strs = str.split("&");
+        for (let i = 0; i < strs.length; i++) {
             theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
         }
     }
     return theRequest;
 }
-
 
 // 钉钉环境删除域名
 export const delPicDomain = (url: string) => {
@@ -189,3 +192,12 @@ export const delPicDomain = (url: string) => {
         '',
     );
 };
+// 下载
+export const downLoad = (url: string, name: string) => {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a)
+}

@@ -24,5 +24,5 @@ const LookIntroduce = forwardRef((props, ref) => {
         </Drawer>
     )
 })
-
+LookIntroduce.displayName = 'LookIntroduce'
 export default LookIntroduce

@@ -127,5 +127,5 @@ const AddPeople = forwardRef((props, ref) => {
         </Fragment>
     )
 })
-
+AddPeople.displayName = 'AddPeople'
 export default AddPeople

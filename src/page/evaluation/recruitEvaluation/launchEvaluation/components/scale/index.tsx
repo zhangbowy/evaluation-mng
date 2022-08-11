@@ -48,9 +48,11 @@ const Scale = ({ setStampsNum }: propsType) => {
             'is_letter': data.type === 'MBTI' || data.type === 'PDP',
             'is_china_chart': data.type === 'CA' || data.type === 'CPI',
             'scale_unlock_mbti': data.type === 'MBTI',
+            'scale_unlock_mbti_o': data.type === 'MBTI_O',
             'scale_unlock_pdp': data.type === 'PDP',
             'scale_unlock_ca': data.type === 'CA',
             'scale_unlock_cpi': data.type === 'CPI',
+            'scale_unlock_disc': data.type === 'DISC',
           })} />
           <div className={styles.scale_unlock_right}>
             {data.includeText}
@@ -87,6 +89,7 @@ const Scale = ({ setStampsNum }: propsType) => {
           'MBTI_O': 'MBTI-普通版',
           'CA': '职业锚',
           'CPI': '人格魅力',
+          "DISC": "DISC",
         }
         // const title = v.type === 'MBTI' ? 'MBTI' : v.type === 'PDP' ? 'PDP'
         //   : v.type === 'CA' ? '职业锚' : v.type === 'CPI' ? '人格魅力' : ''
@@ -98,6 +101,7 @@ const Scale = ({ setStampsNum }: propsType) => {
               'scale_pdp': v.type === 'PDP',
               'scale_career': v.type === 'CA',
               'scale_personality': v.type === 'CPI',
+              'scale_disc': v.type === 'DISC',
               'selected': v.id === selectScale
             })}
             onClick={() => onSelectScale(index)}

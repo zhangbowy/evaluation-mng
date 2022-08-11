@@ -1,7 +1,7 @@
 import { Modal } from 'antd';
 import axios from 'axios';
 
-let instance = axios.create({
+const instance = axios.create({
     baseURL: '',
     withCredentials: false,
     timeout: 50000

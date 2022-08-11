@@ -99,3 +99,61 @@ export interface IBResultParams {
     examPaperId: string;
     userId: string;
 }
+
+export interface IUserExamResultBack {
+    IUserExamResult: string;
+    examTemplateType: string;
+    htmlDesc: {
+        ability: {
+            [key: string]: string;
+        };
+        dimensional: {
+            advantage: string;
+            data: string;
+            jpg: string;
+            name: string;
+            shortcoming: string;
+            tag: string;
+        }[];
+        personality: any;
+    }
+    polygon: string;
+    results: {
+        type: string;
+        typeIcon: string;
+    }[];
+    scoreDetail: {
+        [key: string]: {
+            fullScore: number;
+            resultType: string;
+            score: number;
+        }
+    };
+    status: number;
+    tags: {
+        appId: string;
+        icon: string;
+        id: number;
+        tpf: number;
+    }[];
+    textDesc: string[];
+    user: {
+        avatar: string;
+        gender: number;
+        name: string;
+        userId: string;
+    }
+}
+
+
+export interface IPDFDownLoadParams {
+    url: string;
+    examPaperId: string;
+    userId: string;
+    templateType: number;
+}
+
+export interface IsHasPdfParams {
+    examPaperId: string;
+    templateType: number;
+}

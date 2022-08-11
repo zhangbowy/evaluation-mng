@@ -3,7 +3,7 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { characterProportions, ITagsProps } from '../../type'
 import styles from './index.module.less'
 
-const index = forwardRef((props: ITagsProps, ref) => {
+const LookAllTags = forwardRef((props: ITagsProps, ref) => {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
     const [tagList, setTagList] = useState<characterProportions[]>([])
     const tagsColor = [
@@ -46,5 +46,5 @@ const index = forwardRef((props: ITagsProps, ref) => {
         </Modal>
     )
 })
-
-export default index
+LookAllTags.displayName = 'LookAllTags'
+export default LookAllTags

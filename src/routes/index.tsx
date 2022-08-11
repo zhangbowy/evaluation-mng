@@ -6,6 +6,7 @@ import Login from '@/page/login';
 import Evaluation from '@/page/evaluation';
 import NeedPay from '@/page/402';
 import NotJurisdiction from '@/page/403';
+import PDF from '@/page/pdf';
 const Management = lazy(() => import('@/page/evaluation/management'));
 // const PdfDetail  = lazy(() => import('@/page/evaluation/pdf'));
 const PeopleLookReport = lazy(() => import('@/page/evaluation/peopleReport/lookReport'));
@@ -107,6 +108,10 @@ const routes: RouteObject[] = [
                 ]
             }
         ]
+    },
+    {
+        path: '/pdf',
+        element: <PDF />,
     },
     {
         path: '/login',

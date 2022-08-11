@@ -101,5 +101,5 @@ const PDP = forwardRef((props: { resultList: IResult }, ref) => {
         </div>
     )
 })
-
+PDP.displayName = "PDP";
 export default PDP

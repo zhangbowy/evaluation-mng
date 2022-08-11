@@ -1,6 +1,6 @@
 import { getExamResult, getUserExamResult } from '@/api/api';
-import { Drawer, Form, Spin } from 'antd'
-import React, { useState, forwardRef, useImperativeHandle, useEffect, useRef, Fragment } from 'react'
+import { Drawer } from 'antd'
+import React, { useState, forwardRef, useImperativeHandle, useRef, Fragment } from 'react'
 import PDP from './PDP';
 import MBTI_O from './MBTI_O';
 import CA from './CA';
@@ -53,13 +53,16 @@ const LookResult = forwardRef((props: propsType, ref) => {
                 useCORS: true, //支持图片跨域
                 scale: window.devicePixelRatio < 3 ? window.devicePixelRatio : 2, //设置放大的倍数
                 width: 400,
+                height: curRef.current[reportType[res.data.examTemplateType]].screenshotRef.scrollHeight,
                 allowTaint: true,
             }).then(canvas => {
                 const url = canvas.toDataURL('image/png', 1);
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = `${record.templateTitle}.png`
+                document.body.appendChild(a);
                 a.click();
+                document.body.removeChild(a)
             })
         }
     }
@@ -95,5 +98,7 @@ const LookResult = forwardRef((props: propsType, ref) => {
         </Fragment>
     )
 })
+
+LookResult.displayName = "LookResult";
 
 export default LookResult

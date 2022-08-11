@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams,IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem } from './type';
+import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -71,7 +71,9 @@ export const shareInfo = async (data: shareType) => {
 export const isGuide = async (params: any) => {
     return request('/api/spf-cc/b/evaluation/library/queryGuide', { params })
 }
-
+export const getBResult = async (params: IBResultParams) => {
+    return request('/api/spf-cc/b/evaluation/management/getExamUsers', { params })
+}
 export const upDateGuide = async (data: any) => {
     return request('/api/spf-cc/b/evaluation/library/updateReadGuide', { data, method: 'POST' })
 }
@@ -139,6 +141,19 @@ export const getUserExamResult = async (data: IUserExamResult) => {
 export const recruitmentUnlockItem = async (data: IUnlockItem) => {
     return request('/api/spf-cc/b/evaluation/recruitment/unlockItem', { data, method: 'POST' })
 }
-export const getBResult = async (params: IBResultParams) => {
-    return request('/api/spf-cc/b/evaluation/management/getExamUsers', { params })
+// 获取pdf报告结果
+export const getPDFResult = async (params: IUserExamResult) => {
+    return request('/api/spf-cc/c/evaluation/result/getUserExamResult', { params, method: 'GET' })
+}
+// pdf下载
+export const getPDFDownLoad = async (params: IPDFDownLoadParams) => {
+    return request('/api/spf-cc/c/evaluation/result/downloadPdf', { params, method: 'GET' })
+}
+// 轮训获取当前完成的key
+export const getSelectPdfStatus = async (taskIds: number[]) => {
+    return request('/api/spf-cc/c/evaluation/result/selectPdfStatus', { data: { taskIds }, method: 'POST' })
+}
+// pdf下载
+export const getIsHasPdf = async (params: IsHasPdfParams) => {
+    return request('/api/spf-cc/c/evaluation/result/isHasPdf', { params, method: 'GET' })
 }

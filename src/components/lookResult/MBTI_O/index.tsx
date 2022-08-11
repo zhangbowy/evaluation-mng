@@ -1,6 +1,6 @@
 import styles from './index.module.less'
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { forwardRef, Fragment, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, Fragment, useImperativeHandle, useRef, useState } from 'react';
 import { delPicDomain } from '@/utils/utils';
 
 const MbtiPreview = forwardRef((props: any, ref) => {
@@ -267,5 +267,5 @@ const MbtiPreview = forwardRef((props: any, ref) => {
         </div>
     )
 })
-
+MbtiPreview.displayName = "MbtiPreview";
 export default MbtiPreview;

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useContext } from 'react'
+import React, {useEffect} from 'react';
 import QzzRouter from './routes'
 import './assets/app.less'
 import { useLocation, useNavigate } from 'react-router'
@@ -10,8 +10,7 @@ const App = () => {
   const token = sessionStorage.getItem('QCP_B_TOKEN')
 
   useEffect(() => {
-    
-    if (!token && locationInfo.pathname !== '/402') {
+    if (!token && locationInfo.pathname !== '/402' && locationInfo.pathname !== '/pdf') {
       navigate(`/login`, { replace: true })
     }
   }, [locationInfo.pathname])

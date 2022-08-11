@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import { getExamResult, getUserExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
+import { abilityList } from '@/assets/data';
 
 /**
  * 查看报告
@@ -22,7 +23,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
     //     };
     // });
 
-    const exportPDF = (callback: Function) => {
+    const exportPDF = (callback: () => void) => {
         pdfDetail.current.exportPDF(() => {
             callback && callback();
         });
@@ -30,47 +31,13 @@ const ReportDetail = forwardRef((props: any, ref) => {
 
     useEffect(() => {
         getResult();
-        return () => {};
     }, []);
 
-    const abilityList = [{
-        id: 1,
-        name: '分析能力'
-    }, {
-        id: 2,
-        name: '创新力'
-    }, {
-        id: 3,
-        name: '判断能力'
-    }, {
-        id: 4,
-        name: '洞察力'
-    }, {
-        id: 5,
-        name: '忠诚度'
-    }, {
-        id: 6,
-        name: '抗压能力'
-    }, {
-        id: 7,
-        name: '沟通能力'
-    }, {
-        id: 8,
-        name: '耐心程度'
-    }, {
-        id: 9,
-        name: '责任心'
-    }, {
-        id: 10,
-        name: '适应能力'
-    }];
-
-
-    const getResult = async() => {
+    const getResult = async () => {
         const examResultRequest = isRecruit ? getUserExamResult : getExamResult;
         const res = await examResultRequest({ examPaperId, userId, major: true })
         if (res.code === 1) {
-            const newData = {...res.data};
+            const newData = { ...res.data };
             if (res.data.results) {
                 const { htmlDesc } = newData;
                 const newDimensional = {};
@@ -87,7 +54,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
                         }
                     }
                 });
-                sortBy(newList, function (item:any) { return item.sort });
+                sortBy(newList, function (item: any) { return item.sort });
 
                 Object.assign(newData, {
                     resultType: res.data.results[0].type,
@@ -105,7 +72,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
 
     return (
         <div className={styles.pdfDetail}>
-            <PdfDetailMBTI 
+            <PdfDetailMBTI
                 // ref={pdfDetail}
                 resultDetail={resultDetial}
             />
@@ -114,5 +81,5 @@ const ReportDetail = forwardRef((props: any, ref) => {
 })
 
 // #endregion
-
+ReportDetail.displayName = 'ReportDetail'
 export default ReportDetail;

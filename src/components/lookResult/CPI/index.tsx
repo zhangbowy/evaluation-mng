@@ -45,4 +45,5 @@ const Charm = forwardRef((props: { charmList: IResult }, ref) => {
     );
 });
 
+Charm.displayName = "Charm";
 export default Charm;
