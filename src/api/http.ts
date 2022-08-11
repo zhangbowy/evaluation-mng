@@ -8,7 +8,6 @@ const instance = axios.create({
 });
 instance.interceptors.request.use((request: any) => {
     request.headers['QZZ_ACCESS_TOKEN'] = sessionStorage.getItem('QCP_B_TOKEN');
-    // request.headers['QZZ_ACCESS_TOKEN'] = "d37025e6aeff933ef2de76decd2346f2";
     return request;
 }, function (error) {
     return Promise.reject(error);

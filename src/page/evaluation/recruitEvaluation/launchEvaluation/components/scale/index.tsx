@@ -33,7 +33,7 @@ const Scale = ({ setStampsNum }: propsType) => {
 
   const onUnlock = (data: IExamTemplateList) => {
     const title = data.type === 'MBTI' ? 'MBTI' : data.type === 'PDP' ? 'PDP'
-      : data.type === 'CA' ? '职业锚' : data.type === 'CPI' ? '人格魅力' : ''
+      : data.type === 'CA' ? '职业锚' : data.type === 'CPI' ? '人格魅力' : data.type === 'DISC' ? 'DISC' : ''
     confirm({
       title: `解锁需要${data.examTemplateCommodityDetail.pointPrice}点券`,
       icon: <ExclamationCircleOutlined />,

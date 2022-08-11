@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import QzzRouter from './routes'
 import './assets/app.less'
+import './assets/iconfont/iconfont.less'
 import { useLocation, useNavigate } from 'react-router'
 
 

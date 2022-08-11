@@ -15,6 +15,7 @@ const LookReport = () => {
     const arr = params.people.split('~');
     const examPaperId = arr[0];
     const userId = arr[1];
+    const templateType = arr[2];
 
     useEffect(() => {
         return () => {};
@@ -44,6 +45,7 @@ const LookReport = () => {
                 userId={userId}
                 examPaperId={examPaperId}
                 isRecruit={true}
+                templateType={templateType}
             />
         </div>
     );
