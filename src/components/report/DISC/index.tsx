@@ -2,26 +2,28 @@ import { Column, Pie } from '@antv/g2plot';
 import React, { useEffect, useRef } from 'react';
 import cs from 'classnames';
 import styles from './index.module.less';
+import { Gender } from '../MBTI/type';
 
-
+const numToStr: any = {
+    0: '一',
+    1: '二',
+    2: '三',
+    3: '四',
+};
 const DISCDetail = (props: any) => {
     const { resultDetail } = props; 
     useEffect(() => {
-        columnChart();
-        rateChart();
+        if (resultDetail?.discData) {
+            columnChart(resultDetail?.discData || []);
+            rateChart(resultDetail?.discData || []);
+        }
         return () => {};
-    }, []);
+    }, [resultDetail?.discData]);
 
     const column: any = useRef();
     const pie: any = useRef();
 
-    const columnChart = () => {
-        const data = [
-            { type: '支配性\nD', value: 1 },
-            { type: '影响性\nI', value: 2 },
-            { type: '稳健性\nS', value: 3 },
-            { type: '谨慎性\nC', value: 4 },
-        ];
+    const columnChart = (data: any) => {
         const columnPlot = new Column(column.current, {
         data,
         xField: 'type',
@@ -41,19 +43,54 @@ const DISCDetail = (props: any) => {
             return '#F77E70';
         },
         label: {
-            content: (originData: any) => {
-            const val = parseFloat(originData.value);
-            if (val < 0.05) {
-                return (val * 100).toFixed(1) + '%';
-            }
+            position: 'top',
+             // 可配置附加的布局方法
+             layout: [
+                // 柱形图数据标签位置自动调整
+                // { type: 'interval-adjust-position' },
+                // 数据标签防遮挡
+                { type: 'interval-hide-overlap' },
+                // 数据标签文颜色自动调整
+                // { type: 'adjust-color' },
+            ],
+            style: {
+                fill: 'rgba(155, 161, 168, 1)',
+                fontSize: 12
             },
-            offset: 10,
+        },
+        yAxis: {
+            label: {
+                style: {
+                    fill: 'rgba(155, 161, 168, 1)',
+                    fontSize: 12
+                },
+            },
+            grid: {
+                line: {
+                    style: {
+                        stroke: 'rgba(209, 216, 231, 1)',
+                        lineWidth: 1
+                    }
+                },
+            },
         },
         legend: false,
+        tooltip: false,
+        padding: [20,25,30,25],
         xAxis: {
+            line: {
+                style: {
+                    stroke: 'rgba(209, 216, 231, 1)',
+                    lineWidth: 1
+                }
+            },
             label: {
-            autoHide: true,
-            autoRotate: false,
+                style: {
+                    fill: 'rgba(155, 161, 168, 1)',
+                    fontSize: 12
+                },
+                autoHide: true,
+                autoRotate: false,
             },
         },
         });
@@ -61,36 +98,34 @@ const DISCDetail = (props: any) => {
         columnPlot.render();
     }
 
-    const rateChart = () => {
-        const data = [
-            { type: '支配性', value: 27 },
-            { type: '影响性', value: 25 },
-            { type: '稳健性', value: 18 },
-            { type: '分类四', value: 15 },
-          ];
+    const rateChart = (data: any) => {
           
           const piePlot = new Pie(pie.current, {
-            appendPadding: 10,
+            // appendPadding: 10,
             data,
-            angleField: 'value',
-            colorField: 'type',
+            angleField: 'percent',
+            colorField: 'name',
             radius: 0.8,
             legend: false,
-            color: ({ type }) => {
-                if (type === '支配性') {
+            color: ({ name }) => {
+                if (name === '支配性') {
                     return '#52BEEA';
                 }
-                if (type === '影响性') {
+                if (name === '影响性') {
                     return '#5DD89E';
                 }
-                if (type === '稳健性') {
+                if (name === '稳健性') {
                     return '#908AEA';
                 }
                 return '#F77E70';
             },
             label: {
               type: 'outer',
-              content: '{name} {percentage}',
+              content: '{name}（{value}%）',
+              style: {
+                fill: 'rgba(155, 161, 168, 1)',
+                fontSize: '12px'
+              },
             },
             interactions: [{ type: 'pie-legend-active' }, { type: 'element-active' }],
           });
@@ -107,7 +142,7 @@ const DISCDetail = (props: any) => {
                 </div>
                 <div className={styles.pdfPro}>
                     <div className={styles.image}>
-
+                        <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_disc_bg1.png" />
                     </div>
                     <div className={styles.header}>
                         <p>[DISC]</p>
@@ -120,6 +155,11 @@ const DISCDetail = (props: any) => {
                     <p className={styles.title}>{resultDetail?.user?.name}</p>
                     <p className={styles['sub-title']}>{resultDetail?.user && Gender[resultDetail?.user?.gender]}</p>
                     <p className={styles['sub-title']}>{resultDetail?.created}</p>
+                </div>
+                <div className={styles.footerImg}>
+                    <div className={styles.image}>
+                        <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_disc_bg2.png" />
+                    </div>
                 </div>
                 <div className={styles.footer}>鑫蜂维网络科技有限公司 版权所有</div>
             </div>
@@ -162,90 +202,110 @@ const DISCDetail = (props: any) => {
             </div>
             <div className={styles.page}>
                 <div className={cs(styles.sub_title, styles.m_b_32)}>三、测评得分分析</div>
-                <p className={styles.subTitle}>您的测评结果是：DI主导（75%）DIS</p>
+                <p className={styles.subTitle}>您的测评结果是：<span>{resultDetail?.results?.[0]?.type}</span></p>
                 <div className={styles.line}>
                     <div className={styles.topBorder}></div>
                     <div className={styles.bottomBorder}></div>
                 </div>
                 <div className={styles.describe}>
                     <p className={styles.title}>一、典型描述</p>
-                    <p>这种典型行为风格,可被大致描述为是"总结者"的类型。这种类型的人通常是非常强烈的个人主义者。
-                        他们富于梦想,不断进取而且为达目的不懈努力。他们能量充沛又直接主动。总结者对自己和周围的
-                        人都有较高的标准,对他人很有影响力,能激励他人去实现目标。总结者会看上去冷酷或迟钝，因为他
-                        们是典型的任务取向者。他们很容易发脾气, 尤其是感受到被超越时，因此他们总是不断向前。</p>
+                    <p>{resultDetail?.htmlDesc?.describe}</p>
                 </div>
                 <div className={styles.describe}>
-                    <p className={styles.title}>二、典型描述</p>
-                    <p>这种典型行为风格,可被大致描述为是"总结者"的类型。这种类型的人通常是非常强烈的个人主义者。
-                        他们富于梦想,不断进取而且为达目的不懈努力。他们能量充沛又直接主动。总结者对自己和周围的
-                        人都有较高的标准,对他人很有影响力,能激励他人去实现目标。总结者会看上去冷酷或迟钝，因为他
-                        们是典型的任务取向者。他们很容易发脾气, 尤其是感受到被超越时，因此他们总是不断向前。</p>
-                </div>
-            </div>
-            <div className={styles.page}>
-                <div className={cs(styles.sub_title, styles.m_b_24)}>四、特征分析（一）</div>
-                <div className={styles.four_title}>
-                    <p>D（Dominance）-支配掌控型</p>
-                    <div className={styles.progress}>
-                        <div className={styles.jd}>20%</div>
-                    </div>
-                </div>
-                <div className={styles.tag}>
-                    <div className={styles.title}>
-                        <div className={styles.content}>
-                            <i className="iconfont" />
-                            <span>标签</span>
-                        </div>
-                    </div>
-                    <div className={styles.list}>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                    </div>
-                </div>
-                <div className={styles.tag}>
-                    <div className={styles.title}>
-                        <div className={styles.content}>
-                            <i className="iconfont" />
-                            <span>优势</span>
-                        </div>
-                    </div>
-                    <div className={styles.detailList}>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                    </div>
-                </div>
-                <div className={styles.tag}>
-                    <div className={styles.title}>
-                        <div className={styles.content}>
-                            <i className="iconfont" />
-                            <span>劣势</span>
-                        </div>
-                    </div>
-                    <div className={styles.detailList}>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                        <p>主动得开拓者</p>
-                    </div>
-                </div>
-                <div className={styles.line}>
-                    <div className={styles.topBorder}></div>
-                    <div className={styles.bottomBorder}></div>
+                    <p className={styles.title}>二、行为特征</p>
+                    <p>{resultDetail?.htmlDesc?.behavior}</p>
                 </div>
                 <div className={styles.describe}>
-                    <p className={styles.title}>- 在情感方面</p>
-                    <p>D型人一个坚定果敢的人，酷好变化，喜欢控制，干劲十足，独立自主，
-                        超级自信。可是，由于比较不会顾及别人的感受，所以显得粗鲁、霸道、没有耐心、
-                        穷追不舍、不会放松。D型人不习惯与别人进行感情上的交流，不会恭维人，不喜欢眼泪，匮乏同情心。 </p>
+                    <p className={styles.title}>三、交流沟通</p>
+                    <p>{resultDetail?.htmlDesc?.communication}</p>
+                </div>
+                <div className={styles.describe}>
+                    <p className={styles.title}>四、能力特征</p>
+                    <p>{resultDetail?.htmlDesc?.ability}</p>
+                </div>
+                <div className={styles.describe}>
+                    <p className={styles.title}>五、行为优势</p>
+                    <p>{resultDetail?.htmlDesc?.advantage}</p>
+                </div>
+                <div className={styles.describe}>
+                    <p className={styles.title}>六、行为弱势</p>
+                    <p>{resultDetail?.htmlDesc?.inferiority}</p>
                 </div>
             </div>
+            {
+                resultDetail?.htmlDesc?.features.map((it: any, index: number) => (
+                    <div className={styles.page} key={it.type}>
+                        <div className={cs(styles.sub_title, styles.m_b_24)}>四、特征分析（{numToStr[index]}）</div>
+                        <div className={styles.four_title}>
+                            <p>{it.name}</p>
+                            <div className={styles.progress}>
+                                <div className={styles.jd} style={{width: `${resultDetail?.scoreDetail?.[it.type]?.fullScore}%`}}>{resultDetail?.scoreDetail?.[it.type]?.fullScore}%</div>
+                            </div>
+                        </div>
+                        <div className={styles.tag}>
+                            <div className={cs(styles.title, styles[`${it.type}-content`])}>
+                                <div className={styles.content}>
+                                    <i className="iconfont icon-biaoqian" />
+                                    <span>标签</span>
+                                </div>
+                            </div>
+                            <div className={styles.list}>
+                                {
+                                    it?.tag.map((item: string) => (
+                                        <p key={item}>{item}</p>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                        <div className={styles.tag}>
+                            <div className={cs(styles.title, styles[`${it.type}-content`])}>
+                                <div className={styles.content}>
+                                    <i className="iconfont icon-youshi" />
+                                    <span>优势</span>
+                                </div>
+                            </div>
+                            <div className={styles.detailList}>
+                                {
+                                    it?.advantage.map((item: string) => (
+                                        <p key={item}>{item}</p>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                        <div className={styles.tag}>
+                            <div className={cs(styles.title, styles[`${it.type}-content`])}>
+                                <div className={styles.content}>
+                                    <i className="iconfont icon-lieshi" />
+                                    <span>劣势</span>
+                                </div>
+                            </div>
+                            <div className={styles.detailList}>
+                                {
+                                    it?.inferiority.map((item: string) => (
+                                        <p key={item}>{item}</p>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                        <div className={styles.line}>
+                            <div className={styles.topBorder}></div>
+                            <div className={styles.bottomBorder}></div>
+                        </div>
+                        <div className={styles.describe}>
+                            <p className={styles.title}>- 在情感方面</p>
+                            <p>{it.emotion}</p>
+                        </div>
+                        <div className={styles.describe}>
+                            <p className={styles.title}>- 在工作方面</p>
+                            <p>{it.work}</p>
+                        </div>
+                        <div className={styles.describe}>
+                            <p className={styles.title}>- 在人际关系方面</p>
+                            <p>{it.interpersonal}</p>
+                        </div>
+                    </div>
+                ))
+            }
         </div>
     )
 }

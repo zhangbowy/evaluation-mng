@@ -122,8 +122,8 @@ const RecruitEvaluation = () => {
   };
   // 查看报告
   const showReport = (record: IColumns) => {
-    if (record.templateType === 'MBTI') {
-      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}`);
+    if (record.templateType === 'MBTI' || record.templateType === 'DISC') {
+      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}~${record.templateType}`);
       return;
     }
     lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
@@ -289,6 +289,7 @@ const RecruitEvaluation = () => {
                   {
                     record.templateType !== 'MBTI' && 
                     record.templateType !== 'MBTI_O' &&
+                    record.templateType !== 'DISC' &&
                     <>
                       <Divider type="vertical" />
                       <Button

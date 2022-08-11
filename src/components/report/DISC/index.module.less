@@ -1,5 +1,6 @@
 .details {
     padding-bottom: 36px;
+    margin: 16px;
     .logo {
         height: 24px;
         align-items: center;
@@ -45,6 +46,10 @@
                 margin-right: 36px;
                 margin-top: 234px;
                 height: 295px;
+                img{
+                    width: 100%;
+                    height: auto;
+                }
             }
         }
        
@@ -63,8 +68,22 @@
                 line-height: 1.5;
             }
         }
+        .footerImg {
+            width: 100%;
+            height: 194px;
+            position: relative;
+            .image {
+              height: 194px;
+              position: absolute;
+              right: 0;
+              img {
+                width: auto;
+                height: 100%;
+              }
+            }
+          }
         .footer {
-            width: 794px;
+            width: 100%;
             height: 44px;
             background: #6CA1B7;
             line-height: 44px;
@@ -76,6 +95,9 @@
     }
     .m_b_43 {
         margin-bottom: 43px;
+    }
+    .m_b_36 {
+        margin-bottom: 36px;
     }
     .account {
         p {
@@ -136,6 +158,9 @@
     .subTitle {
         font-size: 18px;
         font-weight: 600;
+        span{
+            color: #F54040;
+        }
     }
     .line {
         margin: 31px 0 24px 0;
@@ -174,7 +199,7 @@
             margin-bottom: 16px;
         }
         .progress {
-            width: 581px;
+            width: 100%;
             height: 28px;
             background: #E4EAF1;
             position: relative;
@@ -200,6 +225,42 @@
             border-radius: 0px 2px 2px 0px;
             border-right:24px solid transparent;
             position: relative;
+        }
+        .D-content {
+            border-top: 40px solid rgba(82, 190, 234, 0.1);
+            :global{
+                .iconfont {
+                    color: rgba(82, 190, 234, 1);
+                    margin-right: 4px;
+                }
+            }
+        }
+        .I-content {
+            border-top: 40px solid rgba(93, 216, 158, 0.1);
+            :global{
+                .iconfont {
+                    color: rgba(93, 216, 158, 1);
+                    margin-right: 4px;
+                }
+            }
+        }
+        .S-content {
+            border-top: 40px solid rgba(144, 138, 234, 0.1);
+            :global{
+                .iconfont {
+                    color: rgba(144, 138, 234, 1);
+                    margin-right: 4px;
+                }
+            }
+        }
+        .C-content {
+            border-top: 40px solid rgba(247, 126, 112, 0.1);
+            :global{
+                .iconfont {
+                    color: rgba(247, 126, 112, 1);
+                    margin-right: 4px;
+                }
+            }
         }
         .content {
             height: 40px;
