@@ -94,7 +94,8 @@ export enum IEvaluation {
     PDP = 'PDP',
     CA = '职业锚',
     CPI = '魅力指数',
-    MBTI_O = 'MBTI-普通版'
+    MBTI_O = 'MBTI-普通版',
+    DISC = 'DISC'
 }
 export interface ITagsProps {
     onTagClick: (name: string) => void;

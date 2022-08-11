@@ -46,3 +46,6 @@ export const recruitStatusList: RecruitStatus[] = [
         value: 10
     }
 ];
+
+
+export const majorType = ['MBTI', 'DISC']

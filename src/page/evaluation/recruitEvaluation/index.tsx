@@ -31,7 +31,7 @@ import moment from 'moment';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
-import { recruitStatusList } from '@/assets/data';
+import { majorType, recruitStatusList } from '@/assets/data';
 import { downLoad } from '@/utils/utils';
 import dd from 'dingtalk-jsapi';
 import { downloadFile } from '@/components/dd';
@@ -113,7 +113,7 @@ const RecruitEvaluation = () => {
   };
   // 查看报告
   const showReport = (record: IColumns) => {
-    if (record.templateType === 'MBTI' || record.templateType === 'DISC') {
+    if (majorType.includes(record.templateType)) {
       history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}~${record.templateType}`);
       return;
     }
@@ -148,8 +148,7 @@ const RecruitEvaluation = () => {
       }
     }
   }
-  // 下载MBTI专业版     
-
+  // 下载MBTI专业版    
   const onDownLoad = async (record: IColumns) => {
     setDownLoading([...downLoading, record.examPaperId])
     const urlData = await getIsHasPdf({ examPaperId: record.examPaperId, templateType: 2 })

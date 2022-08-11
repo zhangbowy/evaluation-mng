@@ -8,6 +8,7 @@ import LookResult from '@/components/lookResult'
 import Loading from '@/components/loading'
 import { LockOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router'
+import { majorType } from '@/assets/data';
 
 const Detail = () => {
   const { userId } = useParams()
@@ -43,9 +44,11 @@ const Detail = () => {
   const backText = (item: IEvaluationVoList, index: number) => {
     // 查看详情
     const onDetailClick = (item: IEvaluationVoList) => {
-      if (item.examTemplateType === 'MBTI') {
+      if (majorType.includes(item.examTemplateType)) {
+        // history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}~${record.templateType}`);
         navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}`);
-      } 
+        return
+      }
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
     // 解锁查看
