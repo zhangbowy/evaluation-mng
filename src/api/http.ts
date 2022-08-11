@@ -24,7 +24,7 @@ instance.interceptors.response.use((response: any) => {
         })
         return response.data;
     }
-    if (response.data.code != 1) {
+    if (response.data.code != 1 && (new Function("return " + response.data))().code != 1) {
         Modal.warning({
             title: '温馨提示',
             content: response.data.message || '网络错误',

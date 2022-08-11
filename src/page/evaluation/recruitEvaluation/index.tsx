@@ -22,7 +22,7 @@ import {
 } from '@ant-design/icons';
 import styles from './index.module.less';
 import { ColumnsType } from 'antd/lib/table'
-import { IColumns, RecruitStatus, rectuitMap, paramsType, ISelectPdfStatusBack } from './type';
+import { IColumns, RecruitStatus, rectuitMap, paramsType, ISelectPdfStatusBack, SelectPdfStatus } from './type';
 import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
 import PdfDetailMBTI from '@/components/report/MBTI';
@@ -34,6 +34,7 @@ import { useCallbackState } from '@/utils/hook';
 import { recruitStatusList } from '@/assets/data';
 import { downLoad } from '@/utils/utils';
 import dd from 'dingtalk-jsapi';
+import { downloadFile } from '@/components/dd';
 
 
 
@@ -123,55 +124,64 @@ const RecruitEvaluation = () => {
     setDownLoading([...downLoading.slice(curIndex, 1)])
   }
   // 轮询
-  const polling = async (record: IColumns) => {
-    const item = await getSelectPdfStatus(tasksPdf.current)
+  const polling = async () => {
+    const item = await getSelectPdfStatus(tasksPdf.current.map((res: SelectPdfStatus) => res.taskId))
     let timer: any;
     if (timer) {
       clearInterval(timer)
       timer = null
     }
-    if (item.code == 1) {
-      if (Array.from(item.data).length > 0) {
-        await onDownLoad(record)
-        onCloseLoading(record.examPaperId)
-      } else {
+    const obj = (new Function("return " + item))();
+    if (obj.code == 1) {
+      tasksPdf.current.forEach((taskObj: SelectPdfStatus) => {
+        if (obj.data[taskObj.taskId].oss_url) {
+          downloadFile(obj.data[taskObj.taskId].oss_url, taskObj.fileName)
+          onCloseLoading(taskObj.examPaperId)
+          const curIndex = tasksPdf.current.findIndex((res: SelectPdfStatus) => taskObj.taskId == res.taskId)
+          tasksPdf.current.slice(curIndex, 1)
+        }
+      })
+      if (tasksPdf.current.length > 0) {
         timer = setInterval(() => {
-          polling(record)
+          polling()
         }, 50000)
       }
-    } else {
-      onCloseLoading(record.examPaperId)
     }
   }
-  // 下载MBTI专业版
+  // 下载MBTI专业版     
+
   const onDownLoad = async (record: IColumns) => {
     setDownLoading([...downLoading, record.examPaperId])
     const urlData = await getIsHasPdf({ examPaperId: record.examPaperId, templateType: 2 })
     if (urlData.code == 1) {
       const curExam = urlData.data.filter((co: ISelectPdfStatusBack) => (co.exam_paper_id + '') == record.examPaperId)
-      if (curExam) {
+      if (curExam.length > 0) {
         if (curExam[0].oss_url && curExam[0].status == 1) {
-          dd.env.platform != 'notInDingTalk' && dd.biz.util.downloadFile({
-            url: urlData.data[0].oss_url,
-            name: record.templateTitle
-          })
+          downloadFile(curExam[0].oss_url, record.templateTitle)
         } else {
-          // setDownLoading([...downLoading, curExam[0].exam_paper_id])
-          tasksPdf.current.push(curExam[0].task_id)
-          polling(record)
+          tasksPdf.current.push({
+            examPaperId: record.examPaperId,
+            taskId: curExam[0].task_id,
+            fileName: record.templateTitle
+          })
+          polling()
         }
       } else {
         const obj = {
-          url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-          // url: `${window.location.origin}/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}&isRecruit=true`,
+          // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
+          url: `${window.location.origin}/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
           examPaperId: record.examPaperId,
           userId: record.userId,
           templateType: 2
         }
         const res = await getPDFDownLoad(obj)
         if (res.code == 1) {
-          tasksPdf.current.push(res.data)
-          polling(record)
+          tasksPdf.current.push({
+            examPaperId: record.examPaperId,
+            taskId: res.data,
+            fileName: record.templateTitle
+          })
+          polling()
         } else {
           onCloseLoading(record.examPaperId)
         }

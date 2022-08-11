@@ -48,3 +48,5 @@ export interface ISelectPdfStatusBack {
   updated: number;
   user_id: string;
 }
+
+export type SelectPdfStatus = { examPaperId: string, taskId: number, fileName: string }
