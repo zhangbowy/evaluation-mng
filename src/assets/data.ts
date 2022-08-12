@@ -46,6 +46,12 @@ export const recruitStatusList: RecruitStatus[] = [
         value: 10
     }
 ];
+export const discData = [
+    { type: '支配性\nD', tag: 'D', name: '支配性' },
+    { type: '影响性\nI', tag: 'I', name: '影响性' },
+    { type: '稳健性\nS', tag: 'S', name: '稳健性' },
+    { type: '谨慎性\nC', tag: 'C', name: '谨慎性' },
+];
 
 
 export const majorType = ['MBTI', 'DISC']

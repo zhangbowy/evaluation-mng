@@ -5,6 +5,7 @@ import { message } from 'antd'
 import dd from 'dingtalk-jsapi'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import styles from './index.module.less'
 
 const Login = () => {
   const { corpId, appId, clientId, authCode } = getAllUrlParam()
@@ -59,7 +60,9 @@ const Login = () => {
     });
   }, [])
   return (
-    <Loading>登录中...</Loading>
+    <div className={styles.login_loading}>
+      <Loading>登录中...</Loading>
+    </div>
   )
 }
 

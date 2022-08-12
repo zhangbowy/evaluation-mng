@@ -8,7 +8,7 @@ import { getExamResult, getUserExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import DISCDetail from './DISC';
-import { abilityList } from '@/assets/data';
+import { abilityList, discData } from '@/assets/data';
 
 /**
  * 查看报告
@@ -18,29 +18,9 @@ const ReportDetail = forwardRef((props: any, ref) => {
     const [resultDetial, setResultDetial] = useState({ examTemplateType: '' });
     const pdfDetail: any = useRef();
 
-    // useImperativeHandle(ref, () => {
-    //     return {
-    //         exportPDF,
-    //     };
-    // });
-
-    const exportPDF = (callback: () => void) => {
-        pdfDetail.current.exportPDF(() => {
-            callback && callback();
-        });
-    }
-
     useEffect(() => {
         getResult();
     }, []);
-
-    const discData = [
-        { type: '支配性\nD', tag: 'D', name: '支配性' },
-        { type: '影响性\nI', tag: 'I', name: '影响性' },
-        { type: '稳健性\nS', tag: 'S', name: '稳健性' },
-        { type: '谨慎性\nC', tag: 'C', name: '谨慎性' },
-    ];
-
 
     const getResult = async () => {
         const examResultRequest = isRecruit ? getUserExamResult : getExamResult;

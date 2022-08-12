@@ -110,7 +110,7 @@ const routes: RouteObject[] = [
         ]
     },
     {
-        path: '/pdf',
+        path: '/pdf/:type/:userId/:examPaperId',
         element: <PDF />,
     },
     {
