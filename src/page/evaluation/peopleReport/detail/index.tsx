@@ -43,8 +43,8 @@ const Detail = () => {
   const backText = (item: IEvaluationVoList, index: number) => {
     // 查看详情
     const onDetailClick = (item: IEvaluationVoList) => {
-      if (item.examTemplateType === 'MBTI') {
-        navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}`);
+      if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC') {
+        navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}~${item.examTemplateType}`);
       } 
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
