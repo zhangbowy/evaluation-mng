@@ -20,6 +20,7 @@ const LookReport = () => {
     const arr = params.people.split('~');
     const examPaperId = arr[0];
     const userId = arr[1];
+    const templateType = arr[2];
 
     useEffect(() => {
         getUserReport();
@@ -59,6 +60,7 @@ const LookReport = () => {
                 ref={pdfDetail}
                 userId={userId}
                 examPaperId={examPaperId}
+                templateType={templateType}
             />
         </div>
     );
