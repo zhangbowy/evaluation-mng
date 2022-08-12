@@ -348,14 +348,18 @@ const RecruitEvaluation = () => {
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
                   <Divider type="vertical" />
-                  <Button
-                    className={styles.columns_btn_lock}
-                    type='link'
-                    loading={downLoading.includes(record.examPaperId)}
-                    onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
-                  >
-                    下载
-                  </Button>
+                  {
+                    record.templateType !== 'DISC' &&
+                    <Button
+                      className={styles.columns_btn_lock}
+                      type='link'
+                      loading={downLoading.includes(record.examPaperId)}
+                      onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
+                    >
+                      下载
+                    </Button>
+                  }
+                  
                   {/* {
                     record.templateType !== 'MBTI' &&
                     record.templateType !== 'MBTI_O' &&
