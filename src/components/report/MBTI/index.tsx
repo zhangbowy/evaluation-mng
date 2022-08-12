@@ -1015,7 +1015,7 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
                 </div>
             </div>
             {/* 分页结束 */}
-            <div className="page-box">
+            <div className="page-box four_mbti">
                 <div className="page-top mg-b">
                     <div className="logo">
                         {/* <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
