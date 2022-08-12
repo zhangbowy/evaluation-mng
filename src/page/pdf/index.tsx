@@ -1,4 +1,4 @@
-import { getPDFResult } from '@/api/api'
+import { getPDFResult, getUserExamResult } from '@/api/api'
 import { IUserExamResultBack } from '@/api/type'
 import Loading from '@/components/loading'
 import PdfDetailMBTI from '@/components/report/MBTI'
@@ -20,7 +20,7 @@ const PDF = () => {
 
     // 获取pdf的数据
     const getResultDetail = async () => {
-        const res = await getPDFResult({ major: true, userId, examPaperId })
+        const res = await getUserExamResult({ major: true, userId, examPaperId })
         if (res.code == 1) {
             const newData = { ...res.data };
             if (res.data.results) {

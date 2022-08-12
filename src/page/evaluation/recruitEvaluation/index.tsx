@@ -134,14 +134,19 @@ const RecruitEvaluation = () => {
     const item = await getSelectPdfStatus(tasksPdf.current.map((res: SelectPdfStatus) => res.taskId))
     const obj = (new Function("return " + item))();
     if (obj.code == 1) {
+      console.log('obj.data', obj.data)
       tasksPdf.current.forEach((taskObj: SelectPdfStatus) => {
+        console.log('obj.data[taskObj.taskId][0].oss_url', obj.data[taskObj.taskId][0].oss_url)
         if (obj.data[taskObj.taskId][0].oss_url) {
           downloadFile(obj.data[taskObj.taskId][0].oss_url, taskObj.fileName)
           onCloseLoading(taskObj.examPaperId)
           const curIndex = tasksPdf.current.findIndex((res: SelectPdfStatus) => taskObj.taskId == res.taskId)
           tasksPdf.current.slice(curIndex, 1)
+          console.log('del --- tasksPdf.current', tasksPdf.current)
         }
       })
+      console.log('!timer && tasksPdf.current.length > 0', !timer && tasksPdf.current.length > 0)
+      console.log('timer,tasksPdf.current', timer, tasksPdf.current)
       if (!timer && tasksPdf.current.length > 0) {
         timer = setInterval(() => {
           polling()
@@ -363,7 +368,7 @@ const RecruitEvaluation = () => {
                       下载
                     </Button>
                   }
-                  
+
                   {/* {
                     record.templateType !== 'MBTI' &&
                     record.templateType !== 'MBTI_O' &&
