@@ -247,7 +247,7 @@ const DISCDetail = (props: any) => {
                         <div className={styles.four_title}>
                             <p>{it.name}</p>
                             <div className={styles.progress}>
-                                <div className={styles.jd} style={{ width: `${resultDetail?.scoreDetail?.[it.type]?.fullScore}%` }}>{resultDetail?.scoreDetail?.[it.type]?.fullScore}%</div>
+                                <div className={cs(styles.jd, styles[`jd_${it.type}`])} style={{ width: `${resultDetail?.scoreDetail?.[it.type]?.fullScore}%` }}>{resultDetail?.scoreDetail?.[it.type]?.fullScore}%</div>
                             </div>
                         </div>
                         <div className={styles.tag}>
