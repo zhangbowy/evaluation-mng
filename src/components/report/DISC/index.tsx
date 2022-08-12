@@ -184,7 +184,7 @@ const DISCDetail = (props: any) => {
                     <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_disc_pro.png" alt="说明" />
                 </div>
                 <article className={cs(styles.account, styles.m_b_36)}>
-                    <p>DISC作用</p>
+                    <p className={styles.fw_600}>DISC作用</p>
                     <p>人格与管理活动的关系十分密切，它在一定程度上决定了个体适合什么样的工作及可能取得的绩效，可以通过诊断一个人的人格特征，来确定其管理的成功与否。</p>
                     <p>
                         研究证明：人格会影响到职业选择、工作满意
