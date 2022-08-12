@@ -11,103 +11,104 @@ const numToStr: any = {
     3: '四',
 };
 const DISCDetail = (props: any) => {
-    const { resultDetail } = props; 
+    const { resultDetail } = props;
     useEffect(() => {
         if (resultDetail?.discData) {
             columnChart(resultDetail?.discData || []);
             rateChart(resultDetail?.discData || []);
         }
-        return () => {};
+        return () => { };
     }, [resultDetail?.discData]);
 
     const column: any = useRef();
     const pie: any = useRef();
 
     const columnChart = (data: any) => {
+        column.current.innerHTML = ''
         const columnPlot = new Column(column.current, {
-        data,
-        xField: 'type',
-        yField: 'value',
-        seriesField: '',
-        maxColumnWidth: 40,
-        color: ({ type }) => {
-            if (type === '支配性\nD') {
-                return '#52BEEA';
-            }
-            if (type === '影响性\nI') {
-                return '#5DD89E';
-            }
-            if (type === '稳健性\nS') {
-                return '#908AEA';
-            }
-            return '#F77E70';
-        },
-        label: {
-            position: 'top',
-             // 可配置附加的布局方法
-             layout: [
-                // 柱形图数据标签位置自动调整
-                // { type: 'interval-adjust-position' },
-                // 数据标签防遮挡
-                { type: 'interval-hide-overlap' },
-                // 数据标签文颜色自动调整
-                // { type: 'adjust-color' },
-            ],
-            style: {
-                fill: 'rgba(155, 161, 168, 1)',
-                fontSize: 12
+            data,
+            xField: 'type',
+            yField: 'value',
+            seriesField: '',
+            maxColumnWidth: 40,
+            color: ({ type }) => {
+                if (type === '支配性\nD') {
+                    return '#52BEEA';
+                }
+                if (type === '影响性\nI') {
+                    return '#5DD89E';
+                }
+                if (type === '稳健性\nS') {
+                    return '#908AEA';
+                }
+                return '#F77E70';
             },
-        },
-        yAxis: {
             label: {
+                position: 'top',
+                // 可配置附加的布局方法
+                layout: [
+                    // 柱形图数据标签位置自动调整
+                    // { type: 'interval-adjust-position' },
+                    // 数据标签防遮挡
+                    { type: 'interval-hide-overlap' },
+                    // 数据标签文颜色自动调整
+                    // { type: 'adjust-color' },
+                ],
                 style: {
                     fill: 'rgba(155, 161, 168, 1)',
                     fontSize: 12
                 },
             },
-            line: {
-                style: {
-                    stroke: 'rgba(209, 216, 231, 1)',
-                    lineWidth: 1
-                }
-            },
-            grid: {
-                alternateColor: 'rgba(247, 247, 247, 1)',
+            yAxis: {
+                label: {
+                    style: {
+                        fill: 'rgba(155, 161, 168, 1)',
+                        fontSize: 12
+                    },
+                },
                 line: {
                     style: {
                         stroke: 'rgba(209, 216, 231, 1)',
-                        lineWidth: 0
+                        lineWidth: 1
                     }
                 },
-            },
-        },
-        legend: false,
-        tooltip: false,
-        padding: [30,25,30,25],
-        xAxis: {
-            line: {
-                style: {
-                    stroke: 'rgba(209, 216, 231, 1)',
-                    lineWidth: 1
-                }
-            },
-            label: {
-                style: {
-                    fill: 'rgba(155, 161, 168, 1)',
-                    fontSize: 12
+                grid: {
+                    alternateColor: 'rgba(247, 247, 247, 1)',
+                    line: {
+                        style: {
+                            stroke: 'rgba(209, 216, 231, 1)',
+                            lineWidth: 0
+                        }
+                    },
                 },
-                autoHide: true,
-                autoRotate: false,
             },
-        },
+            legend: false,
+            tooltip: false,
+            padding: [30, 25, 30, 25],
+            xAxis: {
+                line: {
+                    style: {
+                        stroke: 'rgba(209, 216, 231, 1)',
+                        lineWidth: 1
+                    }
+                },
+                label: {
+                    style: {
+                        fill: 'rgba(155, 161, 168, 1)',
+                        fontSize: 12
+                    },
+                    autoHide: true,
+                    autoRotate: false,
+                },
+            },
         });
 
         columnPlot.render();
     }
 
     const rateChart = (data: any) => {
-          
-          const piePlot = new Pie(pie.current, {
+        pie.current.innerHTML = ''
+        const piePlot = new Pie(pie.current, {
             // appendPadding: 10,
             data,
             angleField: 'percent',
@@ -127,24 +128,24 @@ const DISCDetail = (props: any) => {
                 return '#F77E70';
             },
             label: {
-              type: 'outer',
-              content: '{name}（{value}%）',
-              style: {
-                fill: 'rgba(155, 161, 168, 1)',
-                fontSize: '12px'
-              },
+                type: 'outer',
+                content: '{name}（{value}%）',
+                style: {
+                    fill: 'rgba(155, 161, 168, 1)',
+                    fontSize: '12px'
+                },
             },
             interactions: [{ type: 'pie-legend-active' }, { type: 'element-active' }],
-          });
-          
-          piePlot.render();
+        });
+
+        piePlot.render();
     }
 
     return (
         <div className={styles.details}>
             <div className={styles.home}>
                 <div className={styles.logo}>
-                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt=""/>
+                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt="" />
                     <span className="name">趣测评</span>
                 </div>
                 <div className={styles.pdfPro}>
@@ -197,13 +198,13 @@ const DISCDetail = (props: any) => {
                 <div className={styles.chart}>
                     <p>得分柱状图</p>
                     <div className={styles.columnChart}>
-                        <div ref={column} style={{width: '100%', height: '100%'}}></div>
+                        <div ref={column} style={{ width: '100%', height: '100%' }}></div>
                     </div>
                 </div>
                 <div className={styles.chart}>
                     <p>得分饼图</p>
                     <div className={styles.pieChart}>
-                        <div ref={pie} style={{width: '100%', height: '100%'}}></div>
+                        <div ref={pie} style={{ width: '100%', height: '100%' }}></div>
                     </div>
                 </div>
             </div>
@@ -246,7 +247,7 @@ const DISCDetail = (props: any) => {
                         <div className={styles.four_title}>
                             <p>{it.name}</p>
                             <div className={styles.progress}>
-                                <div className={styles.jd} style={{width: `${resultDetail?.scoreDetail?.[it.type]?.fullScore}%`}}>{resultDetail?.scoreDetail?.[it.type]?.fullScore}%</div>
+                                <div className={styles.jd} style={{ width: `${resultDetail?.scoreDetail?.[it.type]?.fullScore}%` }}>{resultDetail?.scoreDetail?.[it.type]?.fullScore}%</div>
                             </div>
                         </div>
                         <div className={styles.tag}>

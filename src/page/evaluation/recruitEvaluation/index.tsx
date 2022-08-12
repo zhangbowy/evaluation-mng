@@ -191,57 +191,6 @@ const RecruitEvaluation = () => {
         }
       }
     }
-    // console.log(window.location)
-    // const obj = {
-    //   url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-    //   // url: `${window.location.origin}/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}&isRecruit=true`,
-    //   examPaperId: record.examPaperId,
-    //   userId: record.userId,
-    //   templateType: 2
-    // }
-    // const res = await getPDFDownLoad(obj)
-    // if (res.code == 1) {
-    //   const item = await 
-    //   console.log('res.data', res.data)
-    // }
-    // setDownLoading(record.examPaperId);
-    // const res = await getUserExamResult({ examPaperId: record.examPaperId, userId: record.phone, major: true })
-    // if (res.code === 1) {
-    //   const newData = { ...res.data };
-    //   if (res.data.results) {
-    //     const { htmlDesc } = newData;
-    //     const newDimensional = {};
-    //     htmlDesc?.dimensional.forEach((item: any) => {
-    //       Object.assign(newDimensional, {
-    //         [item.tag]: item,
-    //       });
-    //     });
-    //     const newList = abilityList.map((item: any) => {
-    //       if (htmlDesc?.ability) {
-    //         return {
-    //           ...item,
-    //           sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
-    //         }
-    //       }
-    //     });
-    //     sortBy(newList, function (item: any) { return item.sort });
-
-    //     Object.assign(newData, {
-    //       resultType: res.data.results[0]?.type,
-    //       examTemplateArr: res.data.results[0]?.type.split(''),
-    //       htmlDesc: {
-    //         ...htmlDesc,
-    //         dimensional: newDimensional,
-    //         abilityList: newList,
-    //       }
-    //     })
-    //   }
-    //   setResultDetial(newData, () => {
-    //     pdfDetail.current.exportPDF(() => {
-    //       setDownLoading('0');
-    //     });
-    //   });
-    // }
   }
   // 普通版下载
   const onOrdinaryDownLoad = async (record: IColumns) => {
@@ -352,17 +301,14 @@ const RecruitEvaluation = () => {
                 return <>
                   <Button className={styles.columns_btn_lock} type="link" onClick={() => showReport(record)}>查看报告</Button>
                   <Divider type="vertical" />
-                  {
-                    record.templateType !== 'DISC' &&
-                    <Button
-                      className={styles.columns_btn_lock}
-                      type='link'
-                      loading={downLoading.includes(record.examPaperId)}
-                      onClick={record.templateType === 'MBTI' ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
-                    >
-                      下载
-                    </Button>
-                  }
+                  <Button
+                    className={styles.columns_btn_lock}
+                    type='link'
+                    loading={downLoading.includes(record.examPaperId)}
+                    onClick={majorType.includes(record.templateType) ? () => onDownLoad(record) : () => onOrdinaryDownLoad(record)}
+                  >
+                    下载
+                  </Button>
 
                   {/* {
                     record.templateType !== 'MBTI' &&
