@@ -121,7 +121,10 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
         <div id="Pdf_Body" className="pdfdetail-layout" style={childStyle}>
             {/*封面*/}
             <div className="pdf-cover">
-                <div className="logo"></div>
+                <div className="logo">
+                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt="" />
+                    <span className="name">趣测评</span>
+                </div>
                 <div className="main-title">
                     <p className="title">MBTI</p>
                     <span className="ch-title">
