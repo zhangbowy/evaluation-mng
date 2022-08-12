@@ -19,10 +19,11 @@
     main {
         display: flex;
         flex-flow: row wrap;
+        // gap: 20px;
 
         .Library_card_wrapper {
             width: 23%;
-            min-width: 264px;
+            min-width: 260px;
             border-radius: 4px;
             margin-right: 20px;
             overflow: hidden;
@@ -34,11 +35,11 @@
             flex-direction: column;
             justify-content: space-between;
             transition: all .5s ease;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
 
-            &:nth-child(4n) {
-                margin-right: 0px;
-            }
+            // &:nth-child(4n) {
+            //     margin-right: 0px;
+            // }
 
             &:hover {
                 box-shadow: 0px 4px 12px 0px #dee3e8;

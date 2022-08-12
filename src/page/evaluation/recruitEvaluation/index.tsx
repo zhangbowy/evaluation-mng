@@ -57,6 +57,12 @@ const RecruitEvaluation = () => {
   const lookResultRef: any = useRef();
   const pdfDetail: any = useRef();
   const tasksPdf: any = useRef([]); //下载储存的人任务
+  let timer: any;
+  useEffect(() => {
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
   // 获取列表
   const getListData = (pageNo: number, pageSize?: number) => {
     const values = form.getFieldsValue();
@@ -126,25 +132,23 @@ const RecruitEvaluation = () => {
   // 轮询
   const polling = async () => {
     const item = await getSelectPdfStatus(tasksPdf.current.map((res: SelectPdfStatus) => res.taskId))
-    let timer: any;
-    if (timer) {
-      clearInterval(timer)
-      timer = null
-    }
     const obj = (new Function("return " + item))();
     if (obj.code == 1) {
       tasksPdf.current.forEach((taskObj: SelectPdfStatus) => {
-        if (obj.data[taskObj.taskId].oss_url) {
-          downloadFile(obj.data[taskObj.taskId].oss_url, taskObj.fileName)
+        if (obj.data[taskObj.taskId][0].oss_url) {
+          downloadFile(obj.data[taskObj.taskId][0].oss_url, taskObj.fileName)
           onCloseLoading(taskObj.examPaperId)
           const curIndex = tasksPdf.current.findIndex((res: SelectPdfStatus) => taskObj.taskId == res.taskId)
           tasksPdf.current.slice(curIndex, 1)
         }
       })
-      if (tasksPdf.current.length > 0) {
+      if (!timer && tasksPdf.current.length > 0) {
         timer = setInterval(() => {
           polling()
-        }, 50000)
+        }, 5000)
+      }
+      if (tasksPdf.current.length < 1) {
+        clearInterval(timer)
       }
     }
   }
