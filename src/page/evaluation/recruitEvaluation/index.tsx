@@ -169,7 +169,7 @@ const RecruitEvaluation = () => {
       } else {
         const obj = {
           // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-          url: `${window.location.origin}/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
+          url: `${window.location.origin}/admin/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
           examPaperId: record.examPaperId,
           userId: record.userId,
           templateType: 2
