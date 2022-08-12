@@ -65,18 +65,25 @@ const DISCDetail = (props: any) => {
                     fontSize: 12
                 },
             },
+            line: {
+                style: {
+                    stroke: 'rgba(209, 216, 231, 1)',
+                    lineWidth: 1
+                }
+            },
             grid: {
+                alternateColor: 'rgba(247, 247, 247, 1)',
                 line: {
                     style: {
                         stroke: 'rgba(209, 216, 231, 1)',
-                        lineWidth: 1
+                        lineWidth: 0
                     }
                 },
             },
         },
         legend: false,
         tooltip: false,
-        padding: [20,25,30,25],
+        padding: [30,25,30,25],
         xAxis: {
             line: {
                 style: {
@@ -148,7 +155,7 @@ const DISCDetail = (props: any) => {
                         <p>[DISC]</p>
                         <p className={styles.fw_600}>人才甄选测验</p>
                         <p className={styles.title}>测评报告</p>
-                        <p className={styles.pro}>careeranchor</p>
+                        <p className={styles.pro}>Talent selection and evaluation</p>
                     </div>
                 </div>
                 <div className={styles['user-info']}>
@@ -267,7 +274,10 @@ const DISCDetail = (props: any) => {
                             <div className={styles.detailList}>
                                 {
                                     it?.advantage.map((item: string) => (
-                                        <p key={item}>{item}</p>
+                                        <p className={styles.advantage} key={item}>
+                                            <span className={styles.icon}><i className="iconfont dagousvg" /></span>
+                                            <span>{item}</span>
+                                        </p>
                                     ))
                                 }
                             </div>
