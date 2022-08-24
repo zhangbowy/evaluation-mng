@@ -34,9 +34,6 @@ export const getAllExam = async (params: any) => {
     return request('/api/spf-cc/b/evaluation/report/getUserAllExams', { params })
 }
 
-export const getExamResult = async (params: any) => {
-    return request('/api/spf-cc/b/evaluation/management/getUserExamResult', { params })
-}
 
 export const queryUser = async (corpId: string, appId: string, fuzzyName?: string) => {
     return request('/api/member/user/aggr/fuzzy', { params: { corpId, appId, fuzzyName, curPage: 1, pageSize: 10 } })
@@ -141,7 +138,11 @@ export const getUserExamResult = async (data: IUserExamResult) => {
 export const recruitmentUnlockItem = async (data: IUnlockItem) => {
     return request('/api/spf-cc/b/evaluation/recruitment/unlockItem', { data, method: 'POST' })
 }
-// 获取pdf报告结果
+// 专业版报告
+export const getExamResult = async (params: any) => {
+    return request('/api/spf-cc/b/evaluation/management/getUserExamResult', { params })
+}
+// 招聘获取pdf报告结果
 export const getPDFResult = async (params: IUserExamResult) => {
     return request('/api/spf-cc/c/evaluation/result/getUserExamResult', { params, method: 'GET' })
 }
