@@ -158,3 +158,12 @@ export const getSelectPdfStatus = async (taskIds: number[]) => {
 export const getIsHasPdf = async (params: IsHasPdfParams) => {
     return request('/api/spf-cc/c/evaluation/result/isHasPdf', { params, method: 'GET' })
 }
+
+export const POSITION_UPLOAD = async (params: IsHasPdfParams) => {
+    return request('/api/member/user/position/upload', { params, method: 'POST' })
+}
+
+export const RENEW_POSITION = async (params: IsHasPdfParams) => {
+    return request('/api/member/user/position/saveOrUpdate', { params, method: 'POST' })
+}
+

@@ -1,18 +1,25 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
+import { formType } from './form/type'
 import styles from './index.module.less';
 import AdvancedSearchForm from './form';
 import Tables from './table';
-import { formType } from './form/type'
+import UploadModal from './modal';
+
 
 const staff: FC = () => {
     const [syncLoading, setSyncLoading] = useState<boolean>(false); //control synchronous loading status
-    const [searchForm, setSearchForm] = useState<formType>({});
+    const [searchForm, setSearchForm] = useState<formType>({}); //save search form data
+    const [height, setHeight] = useState<number>(0); //save tableRef height
+    const [uploadVisible, setUploadVisible] = useState<boolean>(false); //control modal visible
+    const tableRef = useRef<HTMLDivElement|null>(null);
 
     useEffect(() => {
-        console.log(searchForm);
-        
-    },[searchForm])
+        setHeight(tableRef?.current?.clientHeight as number)
+        window.addEventListener('resize', () => {
+            setHeight(tableRef?.current?.clientHeight as number)
+        })
+    },)
 
     /**
      * return synchronous time dom
@@ -45,7 +52,14 @@ const staff: FC = () => {
         setTimeout(() => {
             setSyncLoading(false);
         }, 1000);
-    }
+    };
+
+    /**
+     * handle upload batch operation
+     */
+    const handleUpload = () => {
+        setUploadVisible(true);
+    };
     return (
         <Fragment>
             <div className={styles.Staff_layout}>
@@ -58,14 +72,15 @@ const staff: FC = () => {
                     <AdvancedSearchForm setSearchForm={setSearchForm} />
                 </div>
                 <div className={styles.Staff_operation}>
-                    <Button type="primary" style={{ marginLeft: 'auto' }}>
+                    <Button type="primary" style={{ marginLeft: 'auto' }} onClick={handleUpload}>
                         批量操作
                     </Button>
                 </div>
-                <div className={styles.Staff_table}>
-                    <Tables />
+                <div className={styles.Staff_table} ref={tableRef}>
+                    <Tables height={height} />
                 </div>
             </div>
+            <UploadModal uploadVisible={uploadVisible} setUploadVisible={setUploadVisible} />
         </Fragment>
     )
 }
