@@ -159,11 +159,31 @@ export const getIsHasPdf = async (params: IsHasPdfParams) => {
     return request('/api/spf-cc/c/evaluation/result/isHasPdf', { params, method: 'GET' })
 }
 
-export const POSITION_UPLOAD = async (params: IsHasPdfParams) => {
+//上传花名册
+export const POSITION_UPLOAD = async (params: any) => {
     return request('/api/member/user/position/upload', { params, method: 'POST' })
 }
-
-export const RENEW_POSITION = async (params: IsHasPdfParams) => {
+//更新岗位
+export const RENEW_POSITION = async (params: any) => {
     return request('/api/member/user/position/saveOrUpdate', { params, method: 'POST' })
 }
-
+//导出excel
+export const EXCEL_EXPORT = async (params: any) => {
+    return request('/api/member/user/position/exportExcel', { params, method: 'GET' })
+}
+//同步通讯录
+export const SYNC_CONTACTS = async (params: any) => {
+    return request('/api/member/user/position/syncContacts', { params, method: 'GET'})
+}
+//获取通讯录同步信息
+export const CONTACTS_DETAIL = async (params: any) => {
+    return request('/api/member/user/position/getSyncContactsDetail', {params, method: 'GET'})
+}
+//获取岗位下拉
+export const POSITION_SELECT = async (params: any) => {
+    return request('/api/member/position/getPositionSelect', {params, method: 'GET'})
+}
+//获取人员管理列表
+export const USER_LIST = async (params: any) => {
+    return request('/api/member/user/position/list', {params, method: 'GET'})
+}

@@ -1,134 +1,64 @@
 import { Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { FC, useEffect, Fragment, useState } from 'react';
+import { formType } from '../form/type';
+import { USER_LIST } from '@/api/api';
 import ModalEdit from './modal';
 
 interface DataType {
   userId: string;
   name: string;
   positionId: number | null;
+  positionName: string | null;
   isDimission: number;
-  hireDate: number;
+  isDimissionStr: string;
+  hiredDate: number;
+  hiredDateStr: string | null;
   deptNames: string;
   deptIds: string;
-  index: number;
+  index?: number;
 };
 
 interface Props {
-  height: number
+  height: number,
+  searchForm: formType,
+  isReload: boolean,
+  setIsReload: any
 }
 
-const data: DataType[] = [
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '马文卿',
-    positionId: null,
-    userId: '1231561521568',
-    index: 0
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '刘恒',
-    positionId: null,
-    userId: '2964165448',
-    index: 1
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '吴金锁',
-    positionId: null,
-    userId: '484965148516',
-    index: 2
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '吴金锁',
-    positionId: null,
-    userId: '15165151',
-    index: 3
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '吴金锁',
-    positionId: null,
-    userId: '484564151',
-    index: 4
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '吴金锁',
-    positionId: null,
-    userId: '24534535445',
-    index: 5
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '吴金锁',
-    positionId: null,
-    userId: '2574354738547',
-    index: 6
-  },
-  {
-    deptIds: '1',
-    deptNames: 'qzz',
-    hireDate: 0,
-    isDimission: 0,
-    name: '吴金锁',
-    positionId: null,
-    userId: '484375834151',
-    index: 7
-  },
-];
-
-const Tables: FC<Props> = ({ height }: Props) => {
+const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props) => {
   const columns: ColumnsType<DataType> = [
     {
       title: '序号',
       dataIndex: 'index',
       render: text => <p>{text}</p>,
+      width: 75,
     },
     {
       title: '姓名',
       dataIndex: 'name',
+      ellipsis: true
     },
     {
       title: '职位',
-      dataIndex: 'positionId',
+      dataIndex: 'positionName',
+      ellipsis: true,
       render: text => <p>{text ? text : '待补充'}</p>
     },
     {
       title: '招聘部门',
       dataIndex: 'deptNames',
+      ellipsis: true
     },
     {
       title: '在职情况',
       dataIndex: 'isDimission',
-      render: text => <p>{text == 0 ? '不在职' : '在职'}</p>
+      width: 100,
+      render: text => <p>{text == 0 ? '离职' : '在职'}</p>
     },
     {
       title: '入职时间',
-      dataIndex: 'hireDate',
+      dataIndex: 'hiredDateStr',
     },
     {
       title: '操作',
@@ -140,17 +70,59 @@ const Tables: FC<Props> = ({ height }: Props) => {
     },
   ];
   const [modalVisible, setModalVisible] = useState<boolean>(false); //save modal status
-  const [item, setItem] = useState<DataType>()
+  const [item, setItem] = useState<DataType>(); //save click user data
+  const [tableList, setTableList] = useState<DataType[]>([]); //save user list
+  const [totalItem, setTotalItem] = useState<number>(0); //save total item
+  const [tableLoading, setTableLoading] = useState<boolean>(false); //control table loading
 
-  const handlePosition = (item:DataType) => {
+  useEffect(() => {
+    queryList()
+  },[searchForm]);
+
+  useEffect(() => {
+    if(isReload) {
+      queryList();
+      setIsReload(false);
+    }
+  },[isReload])
+
+  /**
+   * query table list
+   */
+  const queryList = async () => {
+    setTableLoading(true);
+    const {code, data} = await USER_LIST({
+      ...searchForm,
+      curPage:1,
+      pageSize: 10
+    });
+    if(code === 1) {
+      let arr = data.resultList;
+      arr.forEach((el:DataType, index:number) => {
+        el.index = index + 1;
+      });
+      setTotalItem(data.totalItem)
+      setTableList(arr);
+      setTableLoading(false);
+    }
+  };
+
+  /**
+   * reload list
+   */
+  const reloadList = () => {
+    queryList();
+  }
+
+  const handlePosition = (item: DataType) => {
     setModalVisible(true)
     setItem(item);
   }
 
   return (
     <Fragment>
-      <Table columns={columns} dataSource={data} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: 100 }} />
-      <ModalEdit visible={modalVisible} item={item as DataType} setModalVisible={setModalVisible} />
+      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: totalItem }} />
+      <ModalEdit visible={modalVisible} item={item as DataType} setModalVisible={setModalVisible} reloadList={reloadList} />
     </Fragment>
   )
 };

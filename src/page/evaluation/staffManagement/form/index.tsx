@@ -50,43 +50,43 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
             },
             {
                 title: '职位',
-                name: 'position',
+                name: 'positionName',
                 value: '',
                 type: 'input'
             },
             {
                 title: '部门',
-                name: 'dept',
+                name: 'deptId',
                 type: 'select',
                 option: departmentList,
             },
             {
                 title: '在职状态',
-                name: 'status',
+                name: 'isDimission',
                 type: 'select',
                 option: [
                     {
-                        value: true,
+                        value: 0,
                         name: '在职',
                     },
                     {
-                        value: false,
-                        name: '不在职',
+                        value: 1,
+                        name: '离职',
                     }
                 ],
             },
             {
                 title: '职位匹配状态',
-                name: 'mate',
+                name: 'havePosition',
                 type: 'select',
                 option: [
                     {
-                        value: true,
-                        name: '匹配',
+                        value: 1,
+                        name: '有职位',
                     },
                     {
-                        value: false,
-                        name: '不匹配',
+                        value: 0,
+                        name: '无职位',
                     }
                 ],
             },

@@ -6,8 +6,8 @@ export type deptList = {
 
 export interface formType {
     name?: string,
-    meta?: string,
-    dept?: number,
-    position?: boolean,
-    status?: boolean
+    havePosition?: number,
+    deptId?: number,
+    positionName?: string,
+    isDimission?: number
 }

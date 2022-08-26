@@ -1,25 +1,28 @@
 import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
-import { formType } from './form/type'
+import { formType } from './form/type';
+import { SYNC_CONTACTS, CONTACTS_DETAIL } from '@/api/api';
 import styles from './index.module.less';
 import AdvancedSearchForm from './form';
 import Tables from './table';
 import UploadModal from './modal';
 
-
 const staff: FC = () => {
-    const [syncLoading, setSyncLoading] = useState<boolean>(false); //control synchronous loading status
+    const [syncLoading, setSyncLoading] = useState<number>(0); //control synchronous loading status
     const [searchForm, setSearchForm] = useState<formType>({}); //save search form data
     const [height, setHeight] = useState<number>(0); //save tableRef height
     const [uploadVisible, setUploadVisible] = useState<boolean>(false); //control modal visible
-    const tableRef = useRef<HTMLDivElement|null>(null);
+    const [timeText, setTimeText] = useState<string>('');
+    const [isReload, setIsReload] = useState<boolean>(false)
+    const tableRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         setHeight(tableRef?.current?.clientHeight as number)
         window.addEventListener('resize', () => {
             setHeight(tableRef?.current?.clientHeight as number)
-        })
-    },)
+        });
+        querySync()
+    }, []);
 
     /**
      * return synchronous time dom
@@ -27,7 +30,7 @@ const staff: FC = () => {
      */
     const Synchronous = () => {
         return (
-            <span className={styles.Staff_time}>上次同步时间：{'2020-10-09'}</span>
+            <span className={styles.Staff_time}>上次同步时间：{timeText}</span>
         )
     };
 
@@ -35,7 +38,7 @@ const staff: FC = () => {
      * return synchronous button dom
      */
     const SyncBtn = () => {
-        if (syncLoading) {
+        if (syncLoading === 0) {
             return (
                 <span className={styles.Staff_syncing_btn}>同步中...</span>
             )
@@ -47,11 +50,24 @@ const staff: FC = () => {
     /**
      * handle synchronous dd framework event
      */
-    const handleSync = () => {
-        setSyncLoading(true);
-        setTimeout(() => {
-            setSyncLoading(false);
-        }, 1000);
+    const handleSync = async () => {
+        setSyncLoading(0);
+        const { code } = await SYNC_CONTACTS({});
+        if (code === 1) {
+            setSyncLoading(1);
+            querySync()
+        }
+    };
+
+    /**
+     * query sync detail
+     */
+    const querySync = async () => {
+        const { code, data } = await CONTACTS_DETAIL({});
+        if (code === 1) {
+            setSyncLoading(data.status);
+            setTimeText(data.time)
+        }
     };
 
     /**
@@ -65,8 +81,8 @@ const staff: FC = () => {
             <div className={styles.Staff_layout}>
                 <div className={styles.Staff_title}>
                     <header className={styles.Staff_header}>人员管理</header>
-                    <Synchronous />
-                    <SyncBtn />
+                    {Synchronous()}
+                    {SyncBtn()}
                 </div>
                 <div className={styles.Staff_form}>
                     <AdvancedSearchForm setSearchForm={setSearchForm} />
@@ -77,10 +93,10 @@ const staff: FC = () => {
                     </Button>
                 </div>
                 <div className={styles.Staff_table} ref={tableRef}>
-                    <Tables height={height} />
+                    <Tables height={height} searchForm={searchForm} isReload={isReload} setIsReload={setIsReload} />
                 </div>
             </div>
-            <UploadModal uploadVisible={uploadVisible} setUploadVisible={setUploadVisible} />
+            <UploadModal uploadVisible={uploadVisible} setUploadVisible={setUploadVisible} searchForm={searchForm} setIsReload={setIsReload} />
         </Fragment>
     )
 }
