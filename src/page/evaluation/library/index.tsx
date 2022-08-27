@@ -212,8 +212,12 @@ const Library = (props: { type?: number }) => {
               </div>
               <footer>
                 <div className={styles.Library_footerLeft}>
-                  <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
-                  <span>{item.isBuy ? ` ${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
+                  {
+                    appId.split('_')[0] === '1' && <>
+                      <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
+                      <span>{item.isBuy ? ` ${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
+                    </>
+                  }
                 </div>
                 {
                   item.isBuy ?

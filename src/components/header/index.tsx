@@ -4,12 +4,14 @@ import styles from './index.module.less';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getPointAsset } from '@/api/api'
 import { CountContext } from '@/utils/context';
+import { getAllUrlParam } from '@/utils/utils';
 
 
 const Header = memo(() => {
   const user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const history = useNavigate()
   const { state } = useContext(CountContext)
+  const { appId } = getAllUrlParam()
   
   // 去充值
   const goRecharge = () => {
@@ -18,9 +20,13 @@ const Header = memo(() => {
   return (
     <div className={styles.header_layout}>
       <div className={styles.header_left}>
-        <label>可用点券</label>
-        <label>{state}</label>
-        <Button type='primary' onClick={goRecharge}>去充值</Button>
+        {
+          appId.split('_')[0] === '1' && <>
+            <label>可用点券</label>
+            <label>{state}</label>
+            <Button type='primary' onClick={goRecharge}>去充值</Button>
+          </>
+        }
       </div>
       <div className={styles.header_right}>
         {

@@ -57,9 +57,11 @@ const EvaluationLayout: FC = () => {
       appId,
       corpId
     }
-    const res = await getPointAsset(params)
-    if (res.code == 1) {
-      setCouponsNum(res.data.amount)
+    if (appId.split('_')[0] === '1') {
+      const res = await getPointAsset(params)
+      if (res.code == 1) {
+        setCouponsNum(res.data.amount)
+      }
     }
   }
   return (
