@@ -44,7 +44,7 @@ const Detail = () => {
   const backText = (item: IEvaluationVoList, index: number) => {
     // 查看详情
     const onDetailClick = (item: IEvaluationVoList) => {
-      if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC') {
+      if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC' || item.examTemplateType === 'PDP' || item.examTemplateType === 'CA') {
         navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}~${item.examTemplateType}`);
       } 
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })

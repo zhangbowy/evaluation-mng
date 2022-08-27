@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams } from './type';
+import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, MenuParams } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -157,4 +157,8 @@ export const getSelectPdfStatus = async (taskIds: number[]) => {
 // pdf下载
 export const getIsHasPdf = async (params: IsHasPdfParams) => {
     return request('/api/spf-cc/c/evaluation/result/isHasPdf', { params, method: 'GET' })
+}
+// 获取菜单
+export const getMenu = async (params: MenuParams) => {
+    return request('/api/member//b/mng/menu/list/db', { params, method: 'GET' })
 }

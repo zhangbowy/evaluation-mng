@@ -157,3 +157,8 @@ export interface IsHasPdfParams {
     examPaperId: string;
     templateType: number;
 }
+
+export interface MenuParams {
+    tpf: 1,
+    appId: string
+}

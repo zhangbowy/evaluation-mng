@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
 import styles from './index.module.less';
 import PdfDetailMBTI from '@/components/report/MBTI';
 import { useParams } from 'react-router';
@@ -8,11 +8,25 @@ import { getExamResult, getUserExamResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import DISCDetail from './DISC';
+import PDPDetail from './PDP';
+import CADetail from './CA';
 import { abilityList, discData } from '@/assets/data';
 
 /**
  * 查看报告
  */
+const typeMap: any = {
+    'MBTI': PdfDetailMBTI,
+    'DISC': DISCDetail,
+    'PDP': PDPDetail,
+    'CA': CADetail
+}
+const typeFlag: any = {
+    'MBTI': true,
+    'DISC': false,
+    'PDP': false,
+    'CA': false,
+}
 const ReportDetail = forwardRef((props: any, ref) => {
     const { userId, examPaperId, isRecruit, templateType } = props;
     const [resultDetial, setResultDetial] = useState({ examTemplateType: '' });
@@ -24,35 +38,45 @@ const ReportDetail = forwardRef((props: any, ref) => {
 
     const getResult = async () => {
         const examResultRequest = isRecruit ? getUserExamResult : getExamResult;
-        const res = await examResultRequest({ examPaperId, userId, major: templateType !== 'DISC' })
+        const res = await examResultRequest({ examPaperId, userId, major: typeFlag[templateType] })
         if (res.code === 1) {
             const newData = { ...res.data };
             if (templateType !== 'DISC') {
                 if (res.data.results) {
                     const { htmlDesc } = newData;
                     const newDimensional = {};
-                    htmlDesc?.dimensional.forEach((item: any) => {
-                        Object.assign(newDimensional, {
-                            [item.tag]: item,
+                    if (templateType === 'MBTI') {
+                        htmlDesc?.dimensional.forEach((item: any) => {
+                            Object.assign(newDimensional, {
+                                [item.tag]: item,
+                            });
                         });
-                    });
-                    const newList = abilityList.map((item: any) => {
-                        if (htmlDesc?.ability) {
-                            return {
-                                ...item,
-                                sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                        const newList = abilityList.map((item: any) => {
+                            if (htmlDesc?.ability) {
+                                return {
+                                    ...item,
+                                    sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                                }
                             }
-                        }
-                    });
-                    sortBy(newList, function (item: any) { return item.sort });
+                        });
+                        sortBy(newList, function (item: any) { return item.sort });
+                        Object.assign(newData, {
+                            resultType: res.data.results[0].type,
+                            examTemplateArr: res.data.results[0].type.split(''),
+                            htmlDesc: {
+                                ...htmlDesc,
+                                dimensional: newDimensional,
+                                abilityList: newList,
+                            }
+                        })
+                        return;
+                    }
 
                     Object.assign(newData, {
                         resultType: res.data.results[0].type,
                         examTemplateArr: res.data.results[0].type.split(''),
                         htmlDesc: {
                             ...htmlDesc,
-                            dimensional: newDimensional,
-                            abilityList: newList,
                         }
                     })
                 }
@@ -73,9 +97,13 @@ const ReportDetail = forwardRef((props: any, ref) => {
         }
     };
 
+    const Com = useMemo(() => {
+        return typeMap[templateType]
+    }, [templateType]);
+
     return (
         <div className={styles.pdfDetail}>
-            {
+            {/* {
                 templateType === 'DISC' ?
                     <DISCDetail resultDetail={resultDetial} />
                     :
@@ -83,7 +111,8 @@ const ReportDetail = forwardRef((props: any, ref) => {
                         // ref={pdfDetail}
                         resultDetail={resultDetial}
                     />
-            }
+            } */}
+            <Com resultDetail={resultDetial} />
         </div>
     );
 })
