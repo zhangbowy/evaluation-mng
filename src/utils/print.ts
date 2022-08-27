@@ -1,7 +1,7 @@
 import html2Canvas from "html2canvas";
 import JsPDF from "jspdf";
 //下载pdf方法
-export default function createPDF(id:any, title:any, before:any, after:any) {
+export default function createPDF(id: any, title: any, before: any, after: any) {
     // 打印之前的操作
     before && typeof before == 'function' && before();
     document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -99,7 +99,7 @@ export default function createPDF(id:any, title:any, before:any, after:any) {
                 setTimeout(createImpl, 500, canvas)
             }
             catch (err) {
-                 console.log(err);
+                console.log(err);
             }
         }
     });

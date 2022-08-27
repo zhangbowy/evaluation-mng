@@ -157,3 +157,12 @@ export interface IsHasPdfParams {
     examPaperId: string;
     templateType: number;
 }
+
+export interface IPortraitPublish {
+    positions: {
+        id: number;
+        name: string;
+        description: string;
+        tagIds: number[]
+    }[]
+}

@@ -23,6 +23,10 @@ const RecruitEvaluation = lazy(() => import('@/page/evaluation/recruitEvaluation
 const LaunchEvaluation = lazy(() => import('@/page/evaluation/recruitEvaluation/launchEvaluation'));
 const RecruitReport = lazy(() => import('@/page/evaluation/recruitEvaluation/report'));
 const LookReport = lazy(() => import('@/page/evaluation/management/detail/lookReport'));
+const WorthPortrait = lazy(() => import('@/page/evaluation/portrait/worth'));
+const PostPortrait = lazy(() => import('@/page/evaluation/portrait/post'));
+const Employee = lazy(() => import('@/page/evaluation/employee'));
+
 const routes: RouteObject[] = [
     {
         path: '/evaluation',
@@ -81,6 +85,10 @@ const routes: RouteObject[] = [
                 element: <Recharge />
             },
             {
+                path: 'employee',
+                element: <Employee />
+            },
+            {
                 path: 'userAuthority',
                 children: [
                     {
@@ -106,6 +114,23 @@ const routes: RouteObject[] = [
                         element: <RecruitReport />
                     }
                 ]
+            },
+            {
+                path: 'portrait',
+                element: <Layout />,
+                children: [
+                    {
+                        index: true,
+                    },
+                    {
+                        path: 'worth',
+                        element: <WorthPortrait />
+                    },
+                    {
+                        path: 'post',
+                        element: <PostPortrait />
+                    }
+                ],
             }
         ]
     },

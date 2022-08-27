@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext, useEffect } from 'react'
+import React, { Fragment, useState, useContext, useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AppstoreAddOutlined, DownOutlined } from '@ant-design/icons';
@@ -8,6 +8,10 @@ import { MyContext } from '@/utils/context'
 
 type IMenuProps = {
     handelPackUp: () => void
+}
+type IPackUpStyleBack = {
+    overflow: string;
+    height: string;
 }
 const Menu = (props: IMenuProps) => {
     const menuList: IMenuItem[] = [
@@ -36,6 +40,32 @@ const Menu = (props: IMenuProps) => {
             path: '/evaluation/library'
         },
         {
+            id: 7,
+            name: '人才画像',
+            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
+            path: '/evaluation/portrait',
+            children: [
+                {
+                    id: 8,
+                    name: '价值观画像',
+                    path: '/evaluation/portrait/worth',
+                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
+                },
+                {
+                    id: 9,
+                    name: '岗位画像',
+                    path: '/evaluation/portrait/post',
+                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
+                },
+            ]
+        },
+        {
+            id: 10,
+            name: '员工管理',
+            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
+            path: '/evaluation/employee'
+        },
+        {
             id: 3,
             name: '权限管理',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
@@ -55,10 +85,12 @@ const Menu = (props: IMenuProps) => {
     const navigate = useNavigate()
     const { state, dispatch } = useContext(MyContext)
     const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
+    const [curIsRotate, setCurIsRotate] = useState<any>({});
     const locationInfo = useLocation()
-    const downStyle = {
-        transform: `translateY(-50%) rotate(${isRotate ? '180deg' : '0deg'})`
-    }
+    const packUpStyle = (id: number): IPackUpStyleBack => ({
+        overflow: curIsRotate[id] ? 'visible' : 'hidden',
+        height: curIsRotate[id] ? '100%' : '40px'
+    })
     useEffect(() => {
         window.addEventListener('resize', resizeFn)
         return () => window.removeEventListener('resize', resizeFn)
@@ -80,7 +112,8 @@ const Menu = (props: IMenuProps) => {
             const path: string = (item.children as IMenuItem[])[0].path
             navigate(path)
         } else {
-            setIsRotate(!isRotate);
+            // setIsRotate(!isRotate);
+            setCurIsRotate({ ...curIsRotate, [item.id]: !curIsRotate[item.id] })
         }
     }
     // 去充值
@@ -88,8 +121,9 @@ const Menu = (props: IMenuProps) => {
         navigate('/evaluation/recharge')
     }
     // 收起菜单
-    const onPackUpClick = () => {
-        setIsRotate(false)
+    const onPackUpClick = async () => {
+        // setIsRotate(false)
+        await setCurIsRotate({})
         dispatch(!state)
     }
     // 一级节点
@@ -106,15 +140,16 @@ const Menu = (props: IMenuProps) => {
     // 二级节点
     const twoElement = (item: IMenuItem) => {
         return (
-            <div className={styles.menu_twoWrapper} style={{ overflow: isRotate ? 'visible' : 'hidden' }}>
+            // <div className={styles.menu_twoWrapper} style={{ overflow: curIsRotate[item.id] ? 'visible' : 'hidden' }}></div>
+            <div className={styles.menu_twoWrapper} >
                 <div className={`${styles.menu_level}`} onClick={() => handleClick(item)}>
                     <div className={styles.menu_icon}>
                         <img src={item.icon} className={styles.menu_icon_color} />
                     </div>
                     <span className={styles.menu_title}>{item.name}</span>
-                    <DownOutlined className={styles.menu_down} style={downStyle} />
+                    <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${curIsRotate[item.id] ? '180deg' : '0deg'})` }} />
                 </div>
-                <div className={styles.menu_twoTitle}>
+                <div className={styles.menu_twoTitle} style={{ height: curIsRotate[item.id] ? '100%' : '0' }}>
                     {item.children!.map((res: IMenuItem) => <Fragment key={res.id}>{oneElement(res)}</Fragment>)}
                 </div>
             </div>

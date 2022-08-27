@@ -1,0 +1,121 @@
+.peopleStatistics {
+    .detail_main_filter {
+        width: 100%;
+        display: flex;
+        background-color: var(--white-color);
+        display: flex;
+        justify-content: space-between;
+
+        .detail_main_filter_left {
+            width: 58%;
+
+            .from_wrapper {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-between;
+
+                .ant-form-item {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .detail_main_filter_right {
+            button {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    .detail_main_table {
+        text-align: right;
+        background-color: var(--white-color);
+
+        button {
+            margin-bottom: 12px;
+        }
+
+        .table_list_tags {
+            display: flex;
+            align-items: center;
+
+            span {
+                background: #E7F1FF;
+                border-radius: 2px;
+                padding: 2px 4px;
+                font-size: 12px;
+                font-family: PingFangSC-Regular, PingFang SC;
+                font-weight: 400;
+                display: inline-block;
+                margin-right: 8px;
+            }
+
+            span:nth-child(1) {
+                background-color: #E7F1FF;
+                color: #2B85FF;
+            }
+
+            span:nth-child(2) {
+                background-color: #DFFDEE;
+                color: #00CC66;
+            }
+
+            span:nth-child(3) {
+                background-color: #FFF3E0;
+                color: #FF9900;
+            }
+
+            &>div {
+                line-height: 20px;
+                background-color: #F5F7F9;
+                border-radius: 2px;
+                padding: 2px 4px;
+                color: #657180;
+                cursor: pointer;
+            }
+
+
+        }
+
+        :global {
+            .ant-table-tbody>tr>td {
+                font-size: 14px;
+                font-weight: 400;
+                color: #657180;
+            }
+
+            .ant-table-thead {
+                tr {
+                    th {
+                        background: #F5F7F9;
+                    }
+                }
+
+            }
+
+            .ant-table-cell {
+                button {
+                    padding: 0;
+                }
+            }
+
+            ::-webkit-scrollbar {
+                background: #c3cbd6;
+                height: 6px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                border-radius: 5px;
+                background: #c3cbd6;
+            }
+
+            ::-webkit-scrollbar-track {
+                -webkit-box-shadow: 0;
+                border-radius: 0;
+                background: #f0f2f5;
+            }
+        }
+    }
+
+
+}

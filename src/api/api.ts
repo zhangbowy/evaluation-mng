@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams } from './type';
+import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -55,7 +55,7 @@ export const queryDept = async (params: any) => {
 export const getChart = async (params: chartDate) => {
     return request('/api/spf-cc/b/evaluation/management/querySummaryGraphData', { params })
 }
-export const getAllInfo = async (examid: string | undefined) => {
+export const getAllInfo = async (examid: string) => {
     return request('/api/spf-cc/b/evaluation/management/getExamInformation', { params: { examid } })
 }
 
@@ -157,4 +157,12 @@ export const getSelectPdfStatus = async (taskIds: number[]) => {
 // pdf下载
 export const getIsHasPdf = async (params: IsHasPdfParams) => {
     return request('/api/spf-cc/c/evaluation/result/isHasPdf', { params, method: 'GET' })
+}
+// 价值观画像发布
+export const portraitPublish = async (data: IPortraitPublish) => {
+    return request('/api/member/position/publish', { method: 'POST', data })
+}
+// 价值观画像列表
+export const getPortraitList = async () => {
+    return request('/api/member/position/getList')
 }
