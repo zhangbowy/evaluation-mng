@@ -34,17 +34,23 @@
             width: 140px;
             white-space: nowrap;
             position: absolute;
-            left:60px;
+            left: 60px;
         }
     }
 
     main {
         padding: 8px;
+        // height: calc(100vh - 61px - 132px);
+        // overflow: scroll;
+
+        // &::-webkit-scrollbar {
+        //     width: 0 !important;
+        // }
 
         .menu_level {
             width: 100%;
             height: 40px;
-            margin: 0 0 10px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             padding-left: 18px;
@@ -82,10 +88,15 @@
 
         .menu_twoWrapper {
             width: 100%;
-            height: 40px;
             transition: all .3s;
+            // margin: 0 0 10px;
+            // margin-bottom: 10px;
 
             .menu_twoTitle {
+                height: 0;
+                overflow: hidden;
+                transition: height .1s ease;
+
                 .menu_level {
                     padding-left: 38px;
                 }
@@ -228,10 +239,13 @@
 
         .menu_twoWrapper {
             width: 100%;
-            height: 70px;
             transition: all .3s;
 
             .menu_twoTitle {
+                height: 0;
+                overflow: hidden;
+                transition: height .1s ease;
+
                 .menu_level {
                     padding-left: 38px;
                 }

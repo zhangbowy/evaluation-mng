@@ -158,6 +158,15 @@ export interface IsHasPdfParams {
     templateType: number;
 }
 
+export interface IPortraitPublish {
+    positions: {
+        id: number;
+        name: string;
+        description: string;
+        tagIds: number[]
+    }[]
+}
+
 export interface MenuParams {
     tpf: 1,
     appId: string

@@ -98,7 +98,7 @@ export enum IEvaluation {
     DISC = 'DISC'
 }
 export interface ITagsProps {
-    onTagClick: (name: string) => void;
+    onTagClick?: (name: string) => void;
 }
 export interface IOptions {
     label: string;
@@ -114,4 +114,22 @@ export interface ScoreParams {
     fullScore: string,
     resultType: string,
     score: string,
+}
+
+export type LineChart = {
+    fraction: string;
+    people: number
+}
+export type Average = {
+    fullScore: null;
+    resultSimpleType: string;
+    resultType: string;
+    score: number;
+    name: string;
+}
+
+export type TeamAnalysis = {
+    name: string;
+    type: string;
+    value: number
 }

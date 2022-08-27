@@ -7,19 +7,21 @@ export const isTrue = (text: any) => {
     return text === 'true' || text == 1
 }
 // 防抖
-export const debounce = (fn: () => void, time: number) => {
+export const debounce = (fn: (value: any) => void, time: number = 800) => {
     let timer: any;
-    return (arg: any) => {
+    return (args?: any) => {
         if (timer) {
             clearTimeout(timer);
             timer = null;
         }
         timer = setTimeout(() => {
-            // eslint-disable-next-line prefer-spread
-            fn.apply(null, arg)
+            fn(args);
+            timer = null
         }, time)
     }
 }
+
+
 //  随机rgba颜色
 export const randomRgbaColor = () => {
     const r = Math.floor(Math.random() * 256); //随机生成256以内r值
@@ -204,4 +206,29 @@ export const downLoad = (url: string, name: string) => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a)
+}
+
+// 判断是否为数组
+const isArr = (origin: any): boolean => {
+    let str = '[object Array]'
+    return Object.prototype.toString.call(origin) == str ? true : false
+}
+
+// 深拷贝
+export const deepClone = <T>(origin: T, target?: Record<string, any> | T): T => {
+    let tar = target || {}
+
+    for (const key in origin) {
+        if (Object.prototype.hasOwnProperty.call(origin, key)) {
+            if (typeof origin[key] === 'object' && origin[key] !== null) {
+                tar[key] = isArr(origin[key]) ? [] : {}
+                deepClone(origin[key], tar[key])
+            } else {
+                tar[key] = origin[key]
+            }
+
+        }
+    }
+
+    return tar as T
 }

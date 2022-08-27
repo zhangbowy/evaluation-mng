@@ -49,7 +49,7 @@ interface IMeasurement {
     finishValue: string;
     examTitle: string;
     introduction: string;
-    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI' | 'DISC';
+    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI' | 'DISC' | 'MBTI_O';
     introductionImage: {
         admin: string;
         mobile: {
@@ -152,6 +152,9 @@ interface ImportMetaEnv {
 }
 
 
+interface IObjType {
+    [key: keyof typeof IObjType]: any;
+}
 // interface IBackResult<T> {
 //     code: number;
 //     data: T;
