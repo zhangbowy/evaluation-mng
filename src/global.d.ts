@@ -7,6 +7,7 @@ interface IMenuItem {
     name: string;
     icon?: string;
     path: string;
+    authKey: string;
     children?: IMenuItem[];
 }
 interface shareType {

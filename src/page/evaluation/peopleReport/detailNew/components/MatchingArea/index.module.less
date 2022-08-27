@@ -1,0 +1,100 @@
+.matching_area {
+  text-align: center;
+  .text {
+    font-size: 12px;
+    color: #464C5B;
+    line-height: 17px;
+  }
+  .matching_area_text_top {
+    margin-bottom: 7px;
+  }
+  .matching_area_text_left {
+    margin-right: 4px;
+  }
+  .matching_area_text_right {
+    margin-left: 16px;
+  }
+  .matching_area_text_bottom {
+    margin-top: 9px;
+  }
+  .matching_area_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .matching_area_table {
+      width: 250px;
+      height: 250px;
+      border-left: 1px dashed #E3E8EE;  
+      border-bottom: 1px dashed #E3E8EE;  
+      position: relative;
+      .matching_area_table_single_right {
+        width: 240px;
+        height: 2px;
+        position: absolute;
+        background-color: #E3E8EE;
+        top: 50%;
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: -10px;  /* 箭头位置 */
+          top: -4px;  /* 箭头位置 */
+          border-top: 5px solid transparent; 	/* 箭头高低 */
+          border-bottom: 5px solid transparent; /* 箭头高低 */
+          border-left: 10px solid #E3E8EE; /* 箭头长度*/
+        }
+      }
+      .matching_area_table_single_top {
+        width: 240px;
+        height: 2px;
+        position: absolute;
+        background-color: #E3E8EE;
+        top: 51%;
+        left: 4px;
+        transform: rotate(-90deg);
+        &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: -10px;  /* 箭头位置 */
+          top: -4px;  /* 箭头位置 */
+          border-top: 5px solid transparent; 	/* 箭头高低 */
+          border-bottom: 5px solid transparent; /* 箭头高低 */
+          border-left: 10px solid #E3E8EE; /* 箭头长度*/
+        }
+      }
+      .matching_area_table_tr {
+        td {
+          width: 25%;
+          height: 25%;
+          border-right: 1px dashed #E3E8EE;  
+          border-top: 1px dashed #E3E8EE;  
+          border-spacing: 0;  
+          // border: 1px solid #ccc;
+        }
+      }
+      .matching_area_table_point {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #2B85FF;
+        animation: point 2s ease-out 0s infinite;
+      }
+    }
+  }
+}
+@keyframes point {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}

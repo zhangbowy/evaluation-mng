@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish } from './type';
+import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish, MenuParams } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -165,4 +165,8 @@ export const portraitPublish = async (data: IPortraitPublish) => {
 // 价值观画像列表
 export const getPortraitList = async () => {
     return request('/api/member/position/getList')
+}
+// 获取菜单
+export const getMenu = async (params: MenuParams) => {
+    return request('/api/member//b/mng/menu/list/db', { params, method: 'GET' })
 }

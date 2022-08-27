@@ -1,10 +1,12 @@
-import React, { Fragment, useState, useContext, useEffect, useRef } from 'react'
+import React, { Fragment, useState, useContext, useEffect, useRef, useMemo } from 'react'
 import styles from './index.module.less'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AppstoreAddOutlined, DownOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
 import { MyContext } from '@/utils/context'
+import { getMenu } from '@/api/api'
+import { getAllUrlParam } from '@/utils/utils';
 
 type IMenuProps = {
     handelPackUp: () => void
@@ -14,30 +16,36 @@ type IPackUpStyleBack = {
     height: string;
 }
 const Menu = (props: IMenuProps) => {
+    const [authMenuKey, setAuthMenuKey] = useState<string[]>([]);
+    const { appId } = getAllUrlParam()
     const menuList: IMenuItem[] = [
         {
             id: 6,
             name: '招聘测评',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_people.svg',
             path: '/evaluation/recruitEvaluation',
+            authKey: 'EVAL_RECRUITMENT'
         },
         {
             id: 0,
             name: '盘点测评',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_evaluation.svg',
-            path: '/evaluation/management'
+            path: '/evaluation/management',
+            authKey: 'EVAL_EXAM'
         },
         {
             id: 1,
             name: '人才报告',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_people.svg',
-            path: '/evaluation/peopleReport'
+            path: '/evaluation/peopleReport',
+            authKey: 'EVAL_REPORT'
         },
         {
             id: 2,
             name: '测评库',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
-            path: '/evaluation/library'
+            path: '/evaluation/library',
+            authKey: 'EVAL_TEMPLATE'
         },
         {
             id: 7,
@@ -70,16 +78,25 @@ const Menu = (props: IMenuProps) => {
             name: '权限管理',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
             path: '/evaluation/userAuthority',
+            authKey: 'EVAL_AUTH',
             children: [
                 {
                     id: 4,
                     name: '账号管理',
                     path: '/evaluation/userAuthority/account',
-                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
+                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg',
+                    authKey: 'EVAL_AUTH_MNG'
                 }
             ]
         }
     ]
+    const authMenuList: IMenuItem[] = useMemo(() => {
+        if (authMenuKey.length > 0) {
+            const list: IMenuItem[] = menuList.filter(v => (authMenuKey.includes(v.authKey)));
+            return list;
+        }
+        return [];
+    }, [authMenuKey]);
     const couponsIcon = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_coupons.svg'
     const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
     const navigate = useNavigate()
@@ -95,6 +112,20 @@ const Menu = (props: IMenuProps) => {
         window.addEventListener('resize', resizeFn)
         return () => window.removeEventListener('resize', resizeFn)
     }, [])
+    useEffect(() => {
+        getMenu({
+            tpf: 1,
+            appId: appId
+        }).then(res => {
+            const { code, data } = res;
+            if (code === 1) {
+                const keys = data.map((v: any) => v.authKey);
+                setAuthMenuKey(keys);
+            } else {
+                setAuthMenuKey([]);
+            }
+        })
+    }, []);
     const resizeFn = (e: Event) => {
         document.body.clientWidth < 1025 && onPackUpClick()
     }
@@ -164,7 +195,7 @@ const Menu = (props: IMenuProps) => {
                 </header>
                 <main>
                     {
-                        menuList.map(res => (
+                        authMenuList.map(res => (
                             <Fragment key={res.id}>
                                 {res.children ?
                                     twoElement(res) :

@@ -166,3 +166,8 @@ export interface IPortraitPublish {
         tagIds: number[]
     }[]
 }
+
+export interface MenuParams {
+    tpf: 1,
+    appId: string
+}
