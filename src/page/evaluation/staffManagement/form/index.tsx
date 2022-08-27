@@ -8,7 +8,7 @@ import styles from './index.module.less';
 const { Option } = Select;
 
 interface face {
-    setSearchForm: any
+    setSearchForm: (searchForm: formType) => void
 }
 
 const AdvancedSearchForm = ({setSearchForm}:face) => {

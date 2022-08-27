@@ -187,3 +187,7 @@ export const POSITION_SELECT = async (params: any) => {
 export const USER_LIST = async (params: any) => {
     return request('/api/member/user/position/list', {params, method: 'GET'})
 }
+//导出人才报告
+export const EXPORT_TALENT_REPORT = async (params: any) => {
+    return request('/api/spf-cc/b/evaluation/report/exportExcel', {params, method: 'GET'})
+}

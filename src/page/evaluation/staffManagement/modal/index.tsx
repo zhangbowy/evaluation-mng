@@ -12,9 +12,9 @@ const controller = new AbortController();
 
 interface Props {
     uploadVisible: boolean,
-    setUploadVisible: any,
+    setUploadVisible: (uploadVisible:boolean) => void,
     searchForm: formType,
-    setIsReload: any
+    setIsReload: (isReload: boolean) => void
 };
 
 const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchForm, setIsReload }: Props) => {
@@ -252,23 +252,23 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
     const handleDownloadExcel = () => {
         setDownloadDis(true);
         setLoadStep(2)
-        window.open(url);
-        setTimeout(() => {
-            setDownloadDis(false);
-            setLoadStep(3);
-        }, 3000);
-        // dd.biz.util.downloadFile({
-        //     url: url, //要下载的文件的url
-        //     name: '员工数据', //定义下载文件名字
-        //     onProgress: function (msg: any) {
-        //         // 文件下载进度回调
-        //     },
-        //     onSuccess: function (result: any) {
-        //         setDownloadDis(false);
-        //         setLoadStep(3);
-        //     },
-        //     onFail: function () { }
-        // })
+        // window.open(url);
+        // setTimeout(() => {
+        //     setDownloadDis(false);
+        //     setLoadStep(3);
+        // }, 3000);
+        dd.biz.util.downloadFile({
+            url: url, //要下载的文件的url
+            name: '员工数据', //定义下载文件名字
+            onProgress: function (msg: any) {
+                // 文件下载进度回调
+            },
+            onSuccess: function (result: any) {
+                setDownloadDis(false);
+                setLoadStep(3);
+            },
+            onFail: function () { }
+        })
     }
 
     return (

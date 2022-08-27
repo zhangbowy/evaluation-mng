@@ -6,8 +6,8 @@ import styles from './index.module.less';
 interface Props {
     visible: boolean,
     item: TableType,
-    setModalVisible: any,
-    reloadList: any
+    setModalVisible: (modalVisible: boolean) => void,
+    reloadList: () => void
 };
 
 interface TableType {

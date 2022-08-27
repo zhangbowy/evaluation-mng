@@ -23,7 +23,7 @@ interface Props {
   height: number,
   searchForm: formType,
   isReload: boolean,
-  setIsReload: any
+  setIsReload: (isReload: boolean) => void
 }
 
 const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props) => {
