@@ -1,9 +1,8 @@
 import { Button, Empty } from 'antd'
 import React, { Fragment, memo, ReactElement, useEffect, useRef, useState } from 'react'
 import styles from './index.module.less'
-import { abilityText, statusText } from '@/config/management.config'
+import { abilityText } from '@/config/management.config'
 import { Liquid, Pie, Line, Column } from '@antv/g2plot';
-// import { EvalDetail as chartList } from '@/store';
 import { Average, characterProportions, IChartList, IFromName, LineChart, TeamAnalysis } from '../../type';
 import { tagsColor } from '@/config/management.config';
 import LookAllTags from '../lookAllTags';

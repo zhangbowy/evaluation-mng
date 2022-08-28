@@ -52,18 +52,19 @@ const Menu = (props: IMenuProps) => {
             name: '人才画像',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
             path: '/evaluation/portrait',
+            authKey: 'EVAL_TALENT_PORTRAIT',
             children: [
                 {
                     id: 8,
                     name: '价值观画像',
                     path: '/evaluation/portrait/worth',
-                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
+                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg',
                 },
                 {
                     id: 9,
                     name: '岗位画像',
                     path: '/evaluation/portrait/post',
-                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg'
+                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg',
                 },
             ]
         },
@@ -71,7 +72,8 @@ const Menu = (props: IMenuProps) => {
             id: 10,
             name: '员工管理',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
-            path: '/evaluation/employee'
+            path: '/evaluation/employee',
+            authKey: 'EVAL_USER_MANT',
         },
         {
             id: 3,
@@ -92,7 +94,7 @@ const Menu = (props: IMenuProps) => {
     ]
     const authMenuList: IMenuItem[] = useMemo(() => {
         if (authMenuKey.length > 0) {
-            const list: IMenuItem[] = menuList.filter(v => (authMenuKey.includes(v.authKey)));
+            const list: IMenuItem[] = menuList.filter(v => (authMenuKey.includes(v.authKey || '')));
             return list;
         }
         return [];

@@ -4,18 +4,22 @@ import styles from './index.module.less'
 import { PlusCircleOutlined, CloseOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import AddTags from './addTags'
 import TextArea from 'antd/lib/input/TextArea';
-import { ICurSelectTag, IFilterList, IFormItem, IWorth } from './type';
+import { ICurList, ICurSelectTag, IFilterList, IFormItem, IWorth } from './type';
 import { portraitConfig } from '@/config/portrait.config';
-import { portraitPublish } from '@/api/api';
+import { getPortraitList, portraitPublish } from '@/api/api';
 
 const Worth = ({ isWorth = true }: IWorth) => {
     const [form] = Form.useForm();
     const AddTagsRef: any = useRef()
-    const { getFieldValue, setFieldsValue, validateFields, resetFields } = form
+    const { getFieldsValue, getFieldValue, setFieldsValue, validateFields, resetFields } = form
     const [tagsList, setTagsList] = useState<{ [key: string]: any }>({}) // 所有选中的标签
     const [curKey, setCurKey] = useState<number>(0) // 当前点击添加标签的所欲
     const [isEdit, setIsEdit] = useState<boolean>(false) // 是否可以修改
+    const [transferredData, setTransferredData] = useState<IObjType>({})
     const config = isWorth ? portraitConfig.worth : portraitConfig.post // 配置
+    useEffect(() => {
+        getList()
+    }, [])
     // 取消
     const cancelClick = () => {
         setIsEdit(false)
@@ -23,13 +27,22 @@ const Worth = ({ isWorth = true }: IWorth) => {
     }
     // 获取列表
     const getList = async () => {
-
+        const res = await getPortraitList()
+        if (res.code == 1) {
+            const arr = res.data.length > 0 ? res.data : [{
+                name: '',
+                description: '',
+                tagIds: []
+            }]
+            form.setFieldsValue({ positions: arr });
+        }
     }
     // 发布
     const publishClick = () => {
+
         validateFields().then(async values => {
-            const res = await portraitPublish(values)
-            console.log(res)
+            // const res = await portraitPublish(values)
+            // console.log(res)
         }).catch((err) => {
             console.log(err, 'err')
             message.error('请填写完整信息，再进行发布');
@@ -41,6 +54,8 @@ const Worth = ({ isWorth = true }: IWorth) => {
             title: '确认要删除此行数据吗？',
             icon: <ExclamationCircleOutlined />,
             onOk() {
+                delete transferredData[key]
+                setTransferredData({ ...transferredData })
                 fn(key)
             },
         });
@@ -50,17 +65,19 @@ const Worth = ({ isWorth = true }: IWorth) => {
         e.preventDefault();
         tagsList[key].splice(curIndex, 1)
         setTagsList({ ...tagsList })
-        const fields = form.getFieldsValue()
+        const fields = getFieldsValue()
         const { positions } = fields
         Object.assign(positions[key], { tagIds: positions[key].tagIds.splice(curIndex, 1) })
         setFieldsValue({ positions })
     }
     // 获取选中的标签
-    const getSelectTags = (arr: IFilterList[]) => {
-        tagsList[curKey] = arr
+    const getSelectTags = (obj: IObjType) => {
+        transferredData[curKey] = obj
+        tagsList[curKey] = Object.values(obj).flat(Infinity)
         setTagsList({ ...tagsList })
-        const tagIds = arr.map(res => res.id)
-        const fields = form.getFieldsValue()
+        setTransferredData({ ...transferredData })
+        const tagIds = Object.values(obj).flat(Infinity).map(res => res.id)
+        const fields = getFieldsValue()
         const { positions } = fields
         Object.assign(positions[curKey], { tagIds })
         setFieldsValue({ positions })
@@ -68,7 +85,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
     // 新增标签
     const addTag = (key: number) => {
         setCurKey(key)
-        AddTagsRef.current.onOpenClick(tagsList[key] || [])
+        AddTagsRef.current.onOpenClick(transferredData[key] || {})
     }
     // 获取列
     const getColumns = (remove: (key: number) => void) => {
@@ -78,8 +95,8 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 dataIndex: 'name',
                 render: (text: any, field: any, index: number) => {
                     return (
-                        <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: '请输入价值观内容' }]}>
-                            <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder='请输入价值观内容' />
+                        <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: `请输入${config.tableHeader[0]}` }]}>
+                            <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[0]}`} />
                         </Form.Item>
                     )
                 }
@@ -89,8 +106,8 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 dataIndex: 'description',
                 render: (text: any, field: any, index: number) => {
                     return (
-                        <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: '请输入价值观描述' }]}>
-                            <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder='请输入价值观描述' />
+                        <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}}描述` }]}>
+                            <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[1]}`} />
                         </Form.Item>
                     )
                 }
@@ -102,7 +119,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                     const { name, key } = field
                     const record = (getFieldValue('positions') || [])?.[index] || {}
                     return (
-                        <Form.Item name={[name, 'tagIds']} rules={[{ required: true, message: '请选择价值观标签' }]}>
+                        <Form.Item name={[field.name, 'tagIds']} rules={[{ required: true, message: `请选择${config.tableHeader[2]}标签` }]}>
                             <div className={styles.tagWrapper}>
                                 <Button disabled={!isEdit} type="dashed" onClick={() => addTag(key)} icon={<PlusOutlined />}>标签</Button>
                                 <div>
@@ -146,12 +163,8 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 </header>
                 <main>
                 </main>
-                <Form form={form}>
-                    <Form.List name="positions" initialValue={[{
-                        name: '',
-                        description: '',
-                        tagIds: []
-                    }]}>
+                <Form form={form} >
+                    <Form.List name="positions" >
                         {(fields, { add, remove }) => (
                             <>
                                 <Table

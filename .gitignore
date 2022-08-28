@@ -9,6 +9,7 @@
 # testing
 /coverage
 package-lock.json
+pnpm-lock.yaml
 # production
 /build
 

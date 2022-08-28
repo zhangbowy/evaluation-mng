@@ -148,13 +148,13 @@ export interface IUserExamResultBack {
 
 export interface IPDFDownLoadParams {
     url: string;
-    examPaperId: string;
+    examPaperId: string | number;
     userId: string;
     templateType: number;
 }
 
 export interface IsHasPdfParams {
-    examPaperId: string;
+    examPaperId: string | number;
     templateType: number;
 }
 

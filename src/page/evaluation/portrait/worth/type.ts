@@ -19,3 +19,13 @@ export interface IFilterList {
     name: string;
     checked?: boolean;
 }
+export interface ITagsList {
+    groupName: string;
+    tags: IFilterList[]
+}
+
+export interface ICurList {
+    name: string,
+    description: string,
+    tagIds: number[]
+}

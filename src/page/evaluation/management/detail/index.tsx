@@ -80,7 +80,7 @@ const Detail = observer(() => {
     {
       id: 2,
       name: '人员统计',
-      component: <PeopleStatistics />
+      component: <PeopleStatistics type={measurement?.examTemplateType || ''} />
     }
   ]
   return (

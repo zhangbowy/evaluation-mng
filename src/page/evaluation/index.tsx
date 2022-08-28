@@ -57,10 +57,10 @@ const EvaluationLayout: FC = () => {
       appId,
       corpId
     }
-    const res = await getPointAsset(params)
-    if (res.code == 1) {
-      setCouponsNum(res.data.amount)
-    }
+    // const res = await getPointAsset(params)
+    // if (res.code == 1) {
+    //   setCouponsNum(res.data.amount)
+    // }
   }
   return (
     <div className={styles.evaluation_layout}>

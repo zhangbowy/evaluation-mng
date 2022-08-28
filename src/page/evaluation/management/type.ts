@@ -21,7 +21,8 @@ export interface IResultTable {
     totalPage: number;
 }
 export interface IResultList {
-    examPaperId: number;
+    examPaperId: number
+    examTemplateTitle: string;
     deptAggregationDTOS: {
         name: string;
     }[],

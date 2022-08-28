@@ -164,7 +164,11 @@ export const portraitPublish = async (data: IPortraitPublish) => {
 }
 // 价值观画像列表
 export const getPortraitList = async () => {
-    return request('/api/member/position/getList')
+    return request('/api/spf-cc/values/getList', { method: 'GET' })
+}
+// 价值观画像列表
+export const getAllList = async () => {
+    return request('/api/member/b/tag/getGroupTags', { method: 'GET' })
 }
 // 获取菜单
 export const getMenu = async (params: MenuParams) => {

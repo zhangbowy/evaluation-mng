@@ -1,29 +1,90 @@
 .modal_wrapper {
     display: flex;
     width: 100%;
-    height: 400px;
+    height: 100%;
 
     .modal_left {
-        width: 50%;
+        width: 70%;
         border-right: 1px solid #F3F3F4;
 
         .modal_lefHeader {
             margin-bottom: 20px;
-
-            input {
-                width: 294px;
-            }
+            margin-right: 20px;
         }
 
         .modal_leftContent {
-            height: 375px;
-            overflow-y: scroll;
-            padding-bottom: 20px;
+            display: flex;
+            width: 100%;
+
+            .modal_leftOne {
+                height: 370px;
+                overflow-y: scroll;
+                width: 25%;
+                background-color: #F5F7F9;
+                border-radius: 4px;
+                padding: 6px 0;
+
+                &::-webkit-scrollbar {
+                    width: 0 !important;
+                }
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .oneTab {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #464C5B;
+                    padding: 10px 16px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    span {
+                        &:nth-child(1) {
+                            width: 100px;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            overflow: hidden;
+                        }
+
+                        &:nth-child(2) {
+                            font-size: 14px;
+                            font-weight: 400;
+                            color: #8F969E;
+                        }
+                    }
+                }
+
+                .activeTab {
+                    background-color: #E7F1FF;
+                    position: relative;
+
+                    &::before {
+                        content: "";
+                        width: 4px;
+                        height: 100%;
+                        display: block;
+                        position: absolute;
+                        left: 0;
+                        background-color: #2B85FF;
+                    }
+                }
+            }
+
+            .modal_leftTwo {
+                width: 75%;
+                padding: 0 30px 20px;
+                // height: 405px;
+                // overflow-y: scroll;
+            }
+
         }
     }
 
     .modal_right {
-        width: 50%;
+        width: 30%;
 
         .modal_rightContent {
             margin-left: 24px;

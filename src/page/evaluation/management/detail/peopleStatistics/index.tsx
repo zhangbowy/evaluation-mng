@@ -1,4 +1,4 @@
-import { getExamResult, getExamUsers, measurementExport, UnLockReport } from '@/api/api';
+import { getExamResult, getExamUsers, getIsHasPdf, getPDFDownLoad, getSelectPdfStatus, measurementExport, UnLockReport } from '@/api/api';
 import Loading from '@/components/loading';
 import { doneCondition, tagsColor } from '@/config/management.config';
 import { useCallbackState } from '@/utils/hook';
@@ -12,8 +12,11 @@ import { EvalDetail } from '@/store';
 import { toJS } from 'mobx';
 import { LockOutlined } from '@ant-design/icons'
 import LookAllTags from '../lookAllTags';
+import { downloadFile } from '@/components/dd';
+import { IColumns, ISelectPdfStatusBack, SelectPdfStatus } from '@/page/evaluation/recruitEvaluation/type';
 
-const PeopleStatistics = memo(() => {
+type IPeopleStatistics = { type: string }
+const PeopleStatistics = memo((props: IPeopleStatistics) => {
     const [form] = Form.useForm();
     const params = useParams() as { id: string }
     const chartList = toJS(EvalDetail.getEvalDetailInfo())
@@ -23,15 +26,20 @@ const PeopleStatistics = memo(() => {
     const [exportLoading, setExportLoading] = useState<boolean>(false) // 导出loading
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [tableList, setTableList] = useState<IResultTable>() // 表格数据
-    const [downLoading, setDownLoading] = useState<number>(); // 下载的loading
+    const [downLoading, setDownLoading] = useState<number[]>([]); // 下载的loading
     const [totalNum, setTotalNum] = useState<number>(0);
     const [current, setCurrent] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10) // 多少条
     const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
     const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
     const lookAllTagsRef: any = useRef()
+    const tasksPdf: any = useRef([]); //下载储存的人任务
+    let timer: any;
     useEffect(() => {
         getTableList()
+        return () => {
+            clearInterval(timer)
+        }
     }, [])
     const columns: ColumnsType<IResultList> = [
         {
@@ -130,9 +138,6 @@ const PeopleStatistics = memo(() => {
                 }
 
                 const getText = (key: number) => {
-                    const onDownLoad = () => {
-
-                    }
                     switch (key) {
                         case 0:
                             return <Button type='text' disabled>未参加测评</Button>
@@ -143,14 +148,15 @@ const PeopleStatistics = memo(() => {
                                 onClick={onUnlockClick} type="link">
                                 {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
                         case 10:
+                            console.log('record', record)
                             return (
                                 <>
                                     <Button type="link" onClick={onLookResult}>查看报告</Button>
                                     <Divider type="vertical" />
                                     <Button
                                         type="link"
-                                        onClick={() => onDownLoad()}
-                                        loading={downLoading === record.examPaperId}>下载</Button>
+                                        onClick={() => onDownLoad(record)}
+                                        loading={downLoading.includes(record.examPaperId)}>下载</Button>
                                 </>
                             )
                         default:
@@ -214,6 +220,75 @@ const PeopleStatistics = memo(() => {
             a.download = res.data.cname
             a.click()
             setExportLoading(false)
+        }
+    }
+    // 关闭loading
+    const onCloseLoading = (examPaperId: string | number) => {
+        const curIndex = downLoading.findIndex(res => examPaperId == res)
+        setDownLoading([...downLoading.splice(curIndex, 1)])
+    }
+    // 轮询
+    const polling = async () => {
+        const item = await getSelectPdfStatus(tasksPdf.current.map((res: SelectPdfStatus) => res.taskId))
+        const obj = (new Function("return " + item))();
+        console.log(obj, 'obj');
+        if (obj.code == 1) {
+            tasksPdf.current.forEach((taskObj: SelectPdfStatus) => {
+                if (obj.data[taskObj.taskId][0].oss_url) {
+                    downloadFile(obj.data[taskObj.taskId][0].oss_url, taskObj.fileName)
+                    onCloseLoading(taskObj.examPaperId)
+                    const curIndex = tasksPdf.current.findIndex((res: SelectPdfStatus) => taskObj.taskId == res.taskId)
+                    tasksPdf.current.splice(curIndex, 1)
+                }
+            })
+            if (!timer && tasksPdf.current.length > 0) {
+                timer = setInterval(() => {
+                    polling()
+                }, 5000)
+            }
+            if (tasksPdf.current.length < 1) {
+                clearInterval(timer)
+            }
+        }
+    }
+    // 下载MBTI专业版    
+    const onDownLoad = async (record: IResultList) => {
+        setDownLoading([...downLoading, record.examPaperId])
+        const urlData = await getIsHasPdf({ examPaperId: record.examPaperId, templateType: 2 })
+        if (urlData.code == 1) {
+            const curExam = urlData.data.filter((co: ISelectPdfStatusBack) => co.exam_paper_id == record.examPaperId)
+            if (curExam.length > 0) {
+                if (curExam[0].oss_url && curExam[0].status == 1) {
+                    downloadFile(curExam[0].oss_url, `${record.examTemplateTitle}.pdf`)
+                    onCloseLoading(record.examPaperId)
+                } else {
+                    tasksPdf.current.push({
+                        examPaperId: record.examPaperId,
+                        taskId: curExam[0].task_id,
+                        fileName: `${record.examTemplateTitle}.pdf`
+                    })
+                    polling()
+                }
+            } else {
+                const obj = {
+                    // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
+                    url: `${window.location.origin}/admin/#/pdf/${props.type.toUpperCase()}/${record.userId}/${record.examPaperId}`,
+                    examPaperId: record.examPaperId,
+                    userId: record.userId,
+                    templateType: 2
+                }
+                const res = await getPDFDownLoad(obj)
+                if (res.code == 1) {
+                    tasksPdf.current.push({
+                        examPaperId: record.examPaperId,
+                        taskId: res.data,
+                        fileName: `${record.examTemplateTitle}.pdf`
+                    })
+                    polling()
+                } else {
+                    onCloseLoading(record.examPaperId)
+                }
+            }
         }
     }
     if (tableLoading) {
