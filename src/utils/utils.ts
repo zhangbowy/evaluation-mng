@@ -40,14 +40,28 @@ export const randomRgbColor = () => { //随机生成RGB颜色
 
 type CurrentType = 'add' | 'update'
 
-
+// 获取连接上的参数
+export const getAllUrlParam = () => {
+    const url = location.search; //获取url中"?"符后的字串  
+    const theRequest: any = new Object();
+    if (url.indexOf("?") != -1) {
+        const str = url.substr(1);
+        const strs = str.split("&");
+        for (let i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+    }
+    return theRequest;
+}
 
 // 钉钉选人
 export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 'add') => {
+    const { appId } = getAllUrlParam();
     // 温馨提示
     const cozyMessage = (data: Multiple[]) => {
         if (data.length > 0) {
-            type == 'add' ?
+            if (appId.split('_')[0] === '1') {
+                type == 'add' ?
                 Modal.confirm({
                     title: '温馨提示',
                     content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
@@ -57,6 +71,9 @@ export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 
                         item.successFn(data)
                     },
                 }) : item.successFn(data)
+            } else if (appId.split('_')[0] === '2') {
+                item.successFn(data)
+            }
         }
     }
     // dd.env.platform !== 'notInDingTalk' &&
@@ -169,19 +186,6 @@ export const getIsGuide = async (setsArr: StepsType[], type: number) => {
             await handleStep(setsArr, type)
         }
     }
-}
-// 获取连接上的参数
-export const getAllUrlParam = () => {
-    const url = location.search; //获取url中"?"符后的字串  
-    const theRequest: any = new Object();
-    if (url.indexOf("?") != -1) {
-        const str = url.substr(1);
-        const strs = str.split("&");
-        for (let i = 0; i < strs.length; i++) {
-            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-        }
-    }
-    return theRequest;
 }
 
 // 钉钉环境删除域名

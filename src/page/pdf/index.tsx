@@ -9,8 +9,10 @@ import { abilityList, discData } from '@/assets/data'
 import { TagSort } from '@/components/report/MBTI/type'
 import { sortBy } from '@antv/util';
 import DISCDetail from '@/components/report/DISC'
+import PDPDetail from '@/components/report/PDP'
+import CADetail from '@/components/report/CA'
 
-type templateType = 'MBTI' | 'DISC'
+type templateType = 'MBTI' | 'DISC' | 'PDP' | 'CA'
 const PDF = () => {
     const [resultDetail, setResultDetail] = useState<IUserExamResultBack>()
     const query = useParams();
@@ -23,6 +25,8 @@ const PDF = () => {
     const TypeReport = {
         "MBTI": <PdfDetailMBTI resultDetail={resultDetail} />,
         "DISC": <DISCDetail resultDetail={resultDetail} />,
+        "PDP": <PDPDetail resultDetail={resultDetail} />,
+        "CA": <CADetail resultDetail={resultDetail} />,
     }
     // 获取pdf的数据
     const getResultDetail = async () => {

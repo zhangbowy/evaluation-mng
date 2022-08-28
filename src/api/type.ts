@@ -171,3 +171,15 @@ export interface MenuParams {
     tpf: 1,
     appId: string
 }
+
+export interface UserRoleParams {
+    userIds: string[];
+    roleKeys: string[];
+}
+export interface PermissionUserListParams {
+    name?: string;
+    roleName?: string;
+    deptId?: number;
+    pageSize: number;
+    curPage: number
+}

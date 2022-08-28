@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish, MenuParams } from './type';
+import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish, MenuParams, UserRoleParams, PermissionUserListParams } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -172,5 +172,13 @@ export const getAllList = async () => {
 }
 // 获取菜单
 export const getMenu = async (params: MenuParams) => {
-    return request('/api/member//b/mng/menu/list/db', { params, method: 'GET' })
+    return request('/api/member/b/mng/menu/list/db', { params, method: 'GET' })
+}
+// 人员权限设置
+export const setUserRole = async (params: UserRoleParams) => {
+    return request('/api/member/auth/setUserRole', { params, method: 'POST' })
+}
+// 获取人员权限列表
+export const queryPermissionUserList = async (params: PermissionUserListParams) => {
+    return request('/api/member/auth/queryPermissionUserList', { params, method: 'GET' })
 }

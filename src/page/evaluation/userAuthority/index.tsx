@@ -1,15 +1,15 @@
 import { Button, Divider, Form, Input, message, Select, Switch, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
-import { getUserList, queryDept, setAuths } from '@/api/api'
+import { getUserList, queryDept, setAuths, setUserRole, queryPermissionUserList } from '@/api/api'
 import { useSearchParams } from 'react-router-dom'
-import { IUserParams, IColumns, IUserObj } from './type'
+import { IUserParams, IColumns, IUserObj, IUserNewParams, IColumnsNew } from './type'
 import { ColumnsType } from 'antd/lib/table'
 import dd from 'dingtalk-jsapi'
 import { getIsGuide, getAllUrlParam } from '@/utils/utils'
 
 const index = () => {
-  const [userList, setUserList] = useState<IColumns[]>([]);
+  const [userList, setUserList] = useState<IColumnsNew[]>([]);
   const { corpId, appId } = getAllUrlParam()
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [departmentList, setDepartmentList] = useState<IDept[]>([]);
@@ -52,15 +52,15 @@ const index = () => {
   // 获取用户列表
   const getUser = async (obj?: IUserObj) => {
     setTableLoading(true)
-    const params: IUserParams = {
-      corpId,
-      appId,
-      authPoint: 'admin',
+    const params: IUserNewParams = {
+      // corpId,
+      // appId,
+      // authPoint: appId.split('_')[0] == 1 ? 'admin' : 'EVAL_USER_LIST',
       pageSize: obj?.pageSize || pageSize,
       curPage: obj?.curPage || 1,
       ...obj
     }
-    const res = await getUserList(params)
+    const res = await queryPermissionUserList(params)
     if (res.code == 1) {
       setUserList(res.data.resultList)
       setTableLoading(false)
@@ -109,20 +109,33 @@ const index = () => {
       }
     }
   }
-  const columns: ColumnsType<IColumns> = [
+  const columns: ColumnsType<IColumnsNew> = [
     { title: '序号', key: 'index', render: (text, record, index) => <div>{index + 1}</div> },
     { title: '姓名', dataIndex: 'name' },
     {
-      title: '部门', dataIndex: 'depts', width: 500, render: (text: IDept[], record) => <div>{text.map(res => res.name).join(',')}</div>
+      title: '部门', dataIndex: 'deptName', width: 500,
     },
     {
       title: '操作', key: 'option', render: (text, record) => {
+        const roleKeys = record.roles.map(v => v.roleKey);
         const onOpenClick = async (checked: boolean) => {
-          const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
-          const res = await setAuths(data);
-          if (res.code === 1) {
-            getUser({ curPage: current })
-            message.success('操作成功');
+          if (appId.split('_')[0] === '1') {
+            const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
+            const res = await setAuths(data);
+            if (res.code === 1) {
+              getUser({ curPage: current })
+              message.success('操作成功');
+            }
+          } else if (appId.split('_')[0] === '2') {
+            const data = {
+              userIds: [record.userId],
+              roleKeys: [checked ? 'ADMIN' : 'BROWSER']
+            };
+            const res = await setUserRole(data);
+            if (res.code === 1) {
+              getUser({ curPage: current })
+              message.success('操作成功');
+            }
           }
         }
         return <Switch
@@ -130,7 +143,7 @@ const index = () => {
           checkedChildren="开"
           unCheckedChildren="关"
           onClick={(checked) => onOpenClick(checked)}
-          checked={record.auths?.includes('admin')}
+          checked={roleKeys?.includes('ADMIN')}
         />
       }
     }
@@ -141,7 +154,7 @@ const index = () => {
       <h1>账号管理 </h1>
       <nav>
         <Form form={form} layout="inline">
-          <Form.Item name="fuzzyName" label="姓名">
+          <Form.Item name="name" label="姓名">
             <Input placeholder="请输入" style={{ width: 240 }} />
           </Form.Item>
           <Form.Item name="deptId" label="部门">
