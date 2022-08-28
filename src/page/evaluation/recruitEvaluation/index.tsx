@@ -179,7 +179,6 @@ const RecruitEvaluation = () => {
           userId: record.userId,
           templateType: 2
         }
-        console.log(obj, 'obj');
         const res = await getPDFDownLoad(obj)
         if (res.code == 1) {
           tasksPdf.current.push({
