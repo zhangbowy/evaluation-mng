@@ -215,7 +215,7 @@ const CA = ({ resultDetail = {} }: any) => {
           </div>
         </div>
       </div>
-      {/* {
+      {
         descList?.map((v: any) => (
           <div key={v.type} className={styles.page}>
             <div className={cs(styles.sub_title, styles.m_b_43)}>
@@ -321,7 +321,7 @@ const CA = ({ resultDetail = {} }: any) => {
             </div>
           </div>
         ))
-      } */}
+      }
       <div className={styles['end-wrap']}>
         <div className={styles['end-line']}></div>
         <div className={styles['end-text']}>END</div>
