@@ -113,7 +113,7 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
                             name={`${el.name}`}
                             label={`${el.title}`}
                         >
-                            <Select style={{width: 280}} placeholder="请选择">
+                            <Select style={{width: 280}} placeholder="请选择" showSearch={el.name === 'deptId'} optionFilterProp="children">
                                 {el.option?.map((i, val) => {
                                     return <Option value={i.value} key={val}>{i.name}</Option>
                                 })}
