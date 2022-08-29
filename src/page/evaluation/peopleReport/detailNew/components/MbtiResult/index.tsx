@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.module.less';
 import { Button } from 'antd';
 
-const MbtiResult = () => {
+const MbtiResult = ({ chartsData }: any) => {
   return (
     <div className={styles.mbti_result}>
       <div className={styles.mbti_result_header}>

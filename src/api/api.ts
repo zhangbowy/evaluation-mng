@@ -1,5 +1,5 @@
 import request from './http';
-import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish, MenuParams, UserRoleParams, PermissionUserListParams } from './type';
+import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish, MenuParams, UserRoleParams, PermissionUserListParams, UserAllExamResultSummaryGraphParams } from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -177,4 +177,8 @@ export const setUserRole = async (params: UserRoleParams) => {
 // 获取人员权限列表
 export const queryPermissionUserList = async (params: PermissionUserListParams) => {
     return request('/api/member/auth/queryPermissionUserList', { params, method: 'GET' })
+}
+// 获取人才详情页图表数据
+export const getUserAllExamResultSummaryGraph = async (params: UserAllExamResultSummaryGraphParams) => {
+    return request('/api/spf-cc/b/evaluation/report/getUserAllExamResultSummaryGraph', { params, method: 'GET' })
 }

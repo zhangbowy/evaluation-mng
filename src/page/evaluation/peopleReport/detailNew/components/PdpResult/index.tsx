@@ -3,33 +3,40 @@ import styles from './index.module.less';
 import { Radar } from '@antv/g2plot';
 import { Button } from 'antd';
 
-function PdpResult() {
+function PdpResult({ chartsData }: any) {
   const containerRef: any = useRef();
 
   useEffect(() => {
-    radarMap();
-  }, []);
-  const radarMap = () => {
+    console.log(chartsData, 'chartsData')
+    radarMap(chartsData);
+  }, [chartsData]);
+  const radarMap = (chartsData: any) => {
     containerRef.current.innerHTML = ''
-    // const json = JSON.parse(resultList?.polygon);
-    // const data = Object.keys(json).map((key) => ({
-    //     item: key,
-    //     a: json[key],
-    //     value: json[key],
-    // }));
+    let data: any = [];
+    if (!data) {
+      const json = chartsData;
+      data = Object.keys(json).map((key) => ({
+          item: key,
+          a: json[key],
+          value: json[key],
+      }));
+    } else {
+      data = [
+        { item: '应变能力', a: 0 },
+        { item: '决策能力', a: 0 },
+        { item: '协作能力', a: 0 },
+        { item: '创新能力', a: 0 },
+        { item: '分析能力', a: 0 },
+        { item: '沟通能力', a: 0 },
+      ]
+    }
+    console.log(data, 'data111')
     const radarPlot = new Radar(containerRef.current, {
-        data: [
-          { name: '应变能力', star: 1 },
-          { name: '决策能力', star: 2 },
-          { name: '协作能力', star: 3 },
-          { name: '创新能力', star: 4 },
-          { name: '分析能力', star: 5 },
-          { name: '沟通能力', star: 3 },
-        ],
+        data,
         width: 250,
         height: 180,
-        xField: 'name',
-        yField: 'star',
+        xField: 'item',
+        yField: 'a',
         tooltip: false,
         lineStyle: {
             fill: 'rgba(43,133,255,0.5)', //区域填充颜色

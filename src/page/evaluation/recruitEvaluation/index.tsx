@@ -120,10 +120,10 @@ const RecruitEvaluation = () => {
   // 查看报告
   const showReport = (record: IColumns) => {
     if (majorType.includes(record.templateType)) {
-      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}~${record.templateType}`);
+      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.userId}~${record.templateType}`);
       return;
     }
-    lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
+    lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.userId })
   }
   const onCloseLoading = (examPaperId: string) => {
     const curIndex = downLoading.findIndex(res => examPaperId == res)
