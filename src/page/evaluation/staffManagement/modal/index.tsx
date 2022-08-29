@@ -30,7 +30,6 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
     const [opacity, setOpacity] = useState<number>(1);
 
     const customUpload = async (option: any) => {
-        console.log(option);
         const { onSuccess, onError, file, onProgress } = option;
         setFileName(file.name);
         const fmData = new FormData();
@@ -256,13 +255,13 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
             onProgress: function (msg: any) {
                 setDownloadDis(true);
                 setLoadStep(2);
-                console.log(msg);
+                console.log('msg',msg);
                 
             },
             onSuccess: function (result: any) {
                 setDownloadDis(false);
                 setLoadStep(3);
-                console.log(111);
+                console.log('res',result);
                 console.log(loadStep);  
             },
             onFail: function () { }
