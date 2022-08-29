@@ -35,7 +35,7 @@ const CA = ({ resultDetail }: any) => {
     str = str.substring(0, str.length - 1);
     setResultType(str);
     setTags(tags);
-    const htmlDescListData: any = htmlDescList.map((v: any) => ({
+    const htmlDescListData: any = htmlDescList?.map((v: any) => ({
       ...v,
       styleList: v.style
     }))
