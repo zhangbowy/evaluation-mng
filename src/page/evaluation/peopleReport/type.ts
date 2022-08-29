@@ -54,4 +54,5 @@ export interface IReportDetail {
     successNum: number;
     userTagVoList: IUserTagVoList[];
     avatar: string;
+    position: string
 }

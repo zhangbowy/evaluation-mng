@@ -2,84 +2,89 @@ import React from 'react';
 import styles from './index.module.less';
 import { Button } from 'antd';
 
-const MbtiResult = ({ chartsData }: any) => {
+const MbtiResult = ({ chartsData, sendNotice }: any) => {
+  const sendInfo = () => {
+    sendNotice && sendNotice(chartsData?.examPaperId);
+  };
   return (
     <div className={styles.mbti_result}>
       <div className={styles.mbti_result_header}>
-        <div className={styles.mbti_result_header_title}>INSP（哲学家型）</div>
-        <div className={styles.mbti_result_header_tips}>适合的岗位有运营岗</div>
-        <Button className={styles.mbti_result_header_action} type='primary'>通知测评</Button>
+        <div className={styles.mbti_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
+        <div className={styles.mbti_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        {
+          (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.mbti_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
+        }
       </div>
       <div className={styles.mbti_result_content}>
         <div className={styles['result-list']}>
           <div className={styles['result-item']}>
             <div className={styles.in}>
-              <div className={styles.label}>外向(E):10</div>
+              <div className={styles.label}>外向(E):{chartsData?.chartData?.E?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent_down}
-                  style={{ width: `10%` }}
+                <div className={chartsData?.resultType?.indexOf('E') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.E?.fullScore ? chartsData?.chartData?.E?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
             <div className={styles.out}>
-              <div className={styles.label}>内向(I):11</div>
+              <div className={styles.label}>内向(I):{chartsData?.chartData?.I?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent}
-                  style={{ width: `11%` }}
+                <div className={chartsData?.resultType?.indexOf('I') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.I?.fullScore ? chartsData?.chartData?.I?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
           </div>
           <div className={styles['result-item']}>
             <div className={styles.in}>
-              <div className={styles.label}>感觉(S):9</div>
+              <div className={styles.label}>感觉(S):{chartsData?.chartData?.S?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent_down}
-                  style={{ width: `9%` }}
+                <div className={chartsData?.resultType?.indexOf('S') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.S?.fullScore ? chartsData?.chartData?.S?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
             <div className={styles.out}>
-              <div className={styles.label}>直觉(N):17</div>
+              <div className={styles.label}>直觉(N):{chartsData?.chartData?.N?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent}
-                  style={{ width: `17%` }}
+                <div className={chartsData?.resultType?.indexOf('N') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.N?.fullScore ? chartsData?.chartData?.N?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
           </div>
           <div className={styles['result-item']}>
             <div className={styles.in}>
-              <div className={styles.label}>思考(T):10</div>
+              <div className={styles.label}>思考(T):{chartsData?.chartData?.T?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent_down}
-                  style={{ width: `10%` }}
+                <div className={chartsData?.resultType?.indexOf('T') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.T?.fullScore ? chartsData?.chartData?.T?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
             <div className={styles.out}>
-              <div className={styles.label}>情感(F):14</div>
+              <div className={styles.label}>情感(F):{chartsData?.chartData?.F?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent}
-                  style={{ width: `14%` }}
+                <div className={chartsData?.resultType?.indexOf('F') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.F?.fullScore ? chartsData?.chartData?.F?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
           </div>
           <div className={styles['result-item']}>
             <div className={styles.in}>
-              <div className={styles.label}>判断(J):6</div>
+              <div className={styles.label}>判断(J):{chartsData?.chartData?.J?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent_down}
-                  style={{ width: `6%` }}
+                <div className={chartsData?.resultType?.indexOf('J') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.J?.fullScore ? chartsData?.chartData?.J?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>
             <div className={styles.out}>
-              <div className={styles.label}>知觉(P):16</div>
+              <div className={styles.label}>知觉(P):{chartsData?.chartData?.P?.score || '-'}</div>
               <div className={styles['pillar-box']}>
-                <div className={styles.percent}
-                  style={{ width: `16%` }}
+                <div className={chartsData?.resultType?.indexOf('P') > -1 ? styles.percent : styles.percent_down}
+                  style={{ width: `${chartsData?.chartData?.P?.fullScore ? chartsData?.chartData?.P?.fullScore : 0}%` }}
                 ></div>
               </div>
             </div>

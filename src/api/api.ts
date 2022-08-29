@@ -230,3 +230,7 @@ export const queryPermissionUserList = async (params: PermissionUserListParams) 
 export const getUserAllExamResultSummaryGraph = async (params: UserAllExamResultSummaryGraphParams) => {
     return request('/api/spf-cc/b/evaluation/report/getUserAllExamResultSummaryGraph', { params, method: 'GET' })
 }
+// 获取人才详情页总结数据
+export const getWorthMatch = async (params: UserAllExamResultSummaryGraphParams) => {
+    return request('/api/spf-cc/b/evaluation/report/getWorthMatch', { params, method: 'GET' })
+}

@@ -3,18 +3,17 @@ import styles from './index.module.less';
 import { Radar } from '@antv/g2plot';
 import { Button } from 'antd';
 
-function PdpResult({ chartsData }: any) {
+function PdpResult({ chartsData = {}, sendNotice }: any) {
   const containerRef: any = useRef();
 
   useEffect(() => {
-    console.log(chartsData, 'chartsData')
     radarMap(chartsData);
   }, [chartsData]);
   const radarMap = (chartsData: any) => {
     containerRef.current.innerHTML = ''
     let data: any = [];
-    if (!data) {
-      const json = chartsData;
+    if (chartsData?.chartData) {
+      const json = chartsData?.chartData ? chartsData?.chartData : {};
       data = Object.keys(json).map((key) => ({
           item: key,
           a: json[key],
@@ -56,8 +55,10 @@ function PdpResult({ chartsData }: any) {
             },
             label: {
               formatter: (text: string, item: any, index: number) => {
+                if (data[index].value > 0) {
+                  return `${text}(${data[index].value})`;
+                }
                 return `${text}`;
-                // (${data[index].value})
               },
             },
             grid: {
@@ -101,12 +102,17 @@ function PdpResult({ chartsData }: any) {
     })
     radarPlot.render();
   }
+  const sendInfo = () => {
+    sendNotice && sendNotice(chartsData?.examPaperId);
+  };
   return (
     <div className={styles.pdp_result}>
       <div className={styles.pdp_result_header}>
-        <div className={styles.pdp_result_header_title}>老虎型</div>
-        <div className={styles.pdp_result_header_tips}>适合掌握整个局面</div>
-        <Button className={styles.pdp_result_header_action} type='primary'>通知测评</Button>
+        <div className={styles.pdp_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
+        <div className={styles.pdp_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        {
+          (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.pdp_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
+        }
       </div>
       <div ref={containerRef}></div>
     </div>

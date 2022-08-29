@@ -14,7 +14,6 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     base: env.VITE_BASE_URL || '/',
     server: {
       cors: true,
-      host: '0.0.0.0',
       proxy: {
         '/api': {
           target: 'http://daily-eval.sunmeta.top',

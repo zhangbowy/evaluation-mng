@@ -106,7 +106,7 @@ const Menu = (props: IMenuProps) => {
         return [];
     }, [authMenuKey]);
     const couponsIcon = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_coupons.svg'
-    const logo = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
+    const logo = '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
     const navigate = useNavigate()
     const { state, dispatch } = useContext(MyContext)
     const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
@@ -199,7 +199,7 @@ const Menu = (props: IMenuProps) => {
             <div>
                 <header>
                     <img src={logo} alt="" />
-                    <span>趣测评管理后台</span>
+                    <span>招才选将</span>
                 </header>
                 <main>
                     {
@@ -215,12 +215,15 @@ const Menu = (props: IMenuProps) => {
                 </main>
             </div>
             <footer>
-                <div className={styles.menu_recharge} onClick={goRecharge}>
-                    <div className={styles.footer_couponsIcon}>
-                        <img src={couponsIcon} />
+                {
+                    appId.split('_')[0] === '1' &&
+                    <div className={styles.menu_recharge} onClick={goRecharge}>
+                        <div className={styles.footer_couponsIcon}>
+                            <img src={couponsIcon} />
+                        </div>
+                        <span>点券充值</span>
                     </div>
-                    <span>点券充值</span>
-                </div>
+                }
                 <Divider />
                 <MenuFoldOutlined onClick={onPackUpClick} className={styles.packUp} />
             </footer>

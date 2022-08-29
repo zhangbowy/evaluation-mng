@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './index.module.less';
 import cs from 'classnames';
+import { propsType } from './type';
 
-const MatchingArea = () => {
+const MatchingArea = ({ totalData }: propsType) => {
+  const {x, y} = useMemo(() => {
+    console.log(totalData, 'totalData');
+    return {
+      x: totalData?.positionMatchDTO?.totalMatch || 0,
+      y: totalData?.valuesMatchDTO?.totalMatch || 0
+    }
+  }, [totalData])
   return (
     <div className={styles.matching_area}>
       <div className={cs(styles.matching_area_text_top, styles.text)}>价值观匹配参考（高100%）</div>
@@ -12,7 +20,10 @@ const MatchingArea = () => {
           <tfoot>
             <div className={styles.matching_area_table_single_right}></div>
             <div className={styles.matching_area_table_single_top}></div>
-            <div className={styles.matching_area_table_point}></div>
+            <div
+              style={{ left: `calc(${x}% - 10px)`, bottom: `calc(${y}% - 10px)` }}
+              className={styles.matching_area_table_point}
+            />
           </tfoot>
           <tr className={styles.matching_area_table_tr}>
             <td></td>
