@@ -59,6 +59,7 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
     {
       title: '入职时间',
       dataIndex: 'hiredDateStr',
+      ellipsis: true
     },
     {
       title: '操作',
@@ -117,11 +118,16 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
   const handlePosition = (item: DataType) => {
     setModalVisible(true)
     setItem(item);
+  };
+
+  const handlePaging = (page:number,pageSize:number) => {
+    console.log(page);
+    
   }
 
   return (
     <Fragment>
-      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: totalItem }} />
+      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: totalItem, onChange: handlePaging }} />
       <ModalEdit visible={modalVisible} item={item as DataType} setModalVisible={setModalVisible} reloadList={reloadList} />
     </Fragment>
   )

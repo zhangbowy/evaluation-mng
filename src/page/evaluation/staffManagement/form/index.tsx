@@ -82,11 +82,11 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
                 option: [
                     {
                         value: 1,
-                        name: '有职位',
+                        name: '已补充',
                     },
                     {
                         value: 0,
-                        name: '无职位',
+                        name: '待补充',
                     }
                 ],
             },
@@ -131,6 +131,12 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
         setSearchForm(values)
     };
 
+    const onReset = () => {
+        form.resetFields();
+        setSearchForm(form.getFieldsValue())
+        
+    };
+
     return (
         <Form
             form={form}
@@ -141,9 +147,7 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
             <Row gutter={24}>{getFields()}
                 <Button
                     style={{ margin: '0 8px', marginLeft: 'auto' }}
-                    onClick={() => {
-                        form.resetFields();
-                    }}
+                    onClick={onReset}
                 >
                     重置
                 </Button>

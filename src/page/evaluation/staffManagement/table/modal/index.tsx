@@ -46,8 +46,8 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
     }, [visible]);
 
     useEffect(() => {
-        querySelect()
-    }, [])
+        querySelect();
+    },[])
 
     /**
      * query select option
@@ -93,9 +93,9 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
      * return select dom
      * @returns select dom
      */
-    const SelectBox = () => {
+    const SelectBox = (item:TableType) => {
         return (
-            <Select placeholder='请选择' style={{ width: '100%' }} onChange={handleChange}>
+            <Select placeholder='请选择' style={{ width: '100%' }} onChange={handleChange} value={item?.positionId}>
                 {selectList?.map((el) => {
                     return <Option value={el.id} key={el.id}>{el.name}</Option>
                 })}
@@ -115,7 +115,7 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
         <>
             <Modal title="编辑职位" wrapClassName='Edit_modal' bodyStyle={{ padding: '15px 24px' }} visible={visible} onOk={handleOk} onCancel={handleCancel} maskClosable={false} okButtonProps={{ disabled: !Boolean(selectVal) }}>
                 <p className={styles.Edit_title}>{modalData?.name}的职位</p>
-                {SelectBox()}
+                {SelectBox(item)}
             </Modal>
         </>
     );
