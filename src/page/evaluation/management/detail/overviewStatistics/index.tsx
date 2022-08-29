@@ -1,14 +1,11 @@
 import { Button, Empty } from 'antd'
-import React, { Fragment, memo, ReactElement, useEffect, useRef, useState } from 'react'
+import React, { Fragment, memo, ReactElement, useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import { abilityText } from '@/config/management.config'
 import { Liquid, Pie, Line, Column } from '@antv/g2plot';
-import { Average, characterProportions, IChartList, IFromName, LineChart, TeamAnalysis } from '../../type';
+import { Average, characterProportions, LineChart, TeamAnalysis } from '../../type';
 import { tagsColor } from '@/config/management.config';
 import LookAllTags from '../lookAllTags';
-import { getAllUrlParam } from '@/utils/utils';
-import { getChart } from '@/api/api';
-import { useParams } from 'react-router';
 import { EvalDetail } from '@/store'
 import { toJS } from 'mobx';
 
@@ -775,7 +772,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             xField: 'fraction',
             yField: 'people',
             label: {
-                formatter: () => null
+                formatter: '',
             },
             point: {
                 size: 3,
@@ -786,7 +783,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             },
             yAxis: {
                 grid: {
-                    line: false
+                    line: undefined
                 }
             },
             xAxis: {
@@ -794,7 +791,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             },
             tooltip: {
                 showTitle: false,
-                formatter: (datum: LineChart) => {
+                formatter: (datum) => {
                     return { name: '人数', value: datum.people };
                 },
                 showMarkers: false
@@ -830,7 +827,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             legend: {
                 position: 'top'
             },
-            label: null,
+            label: undefined,
         });
 
         plot.render();
@@ -843,7 +840,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             xField: 'name',
             yField: 'value',
             height: 200,
-            label: null,
+            label: undefined,
             columnWidthRatio: 0.2,
             xAxis: {
                 label: {
@@ -857,7 +854,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             },
             tooltip: {
                 showTitle: false,
-                formatter: (datum: TeamAnalysis) => {
+                formatter: (datum) => {
                     return { name: datum.name, value: datum.value + '人' };
                 },
             },
@@ -865,7 +862,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
         columnPlot.render();
     }
     // 团队偏好占比
-    const renderTeamProportion = (el: ReactElement, data: any[]) => {
+    const renderTeamProportion = (el: HTMLElement, data: any[]) => {
         const piePlot = new Pie(el, {
             height: 130,
             width: 200,
@@ -930,14 +927,14 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             columnWidthRatio: 0.3,
             tooltip: {
                 showTitle: false,
-                formatter: (datum: TeamAnalysis) => {
+                formatter: (datum) => {
                     return { name: datum.name, value: datum.value + '人' };
                 },
             },
             legend: {
                 position: 'top'
             },
-            label: null,
+            label: undefined,
         });
 
         stackedColumnPlot.render();
@@ -1101,5 +1098,5 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
 
     )
 })
-
+OverviewStatistics.displayName = "OverviewStatistics";
 export default OverviewStatistics

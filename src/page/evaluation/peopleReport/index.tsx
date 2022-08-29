@@ -7,7 +7,7 @@ import { getJoinExamUsers, EXPORT_TALENT_REPORT } from '@/api/api'
 import { IReportParams, IReportList, IDeptAggregationDTOS, ISex, IisDimission } from './type'
 import { ColumnsType } from 'antd/lib/table'
 import { useNavigate } from 'react-router'
-import { getIsGuide } from '@/utils/utils'
+import { getIsGuide, returnCurDate } from '@/utils/utils'
 import dd from "dingtalk-jsapi";
 
 const PeopleReport = () => {
@@ -108,7 +108,7 @@ const PeopleReport = () => {
     setExportLoading(false)
     dd.biz.util.downloadFile({
       url: url, //要下载的文件的url
-      name: '人才报告', //定义下载文件名字
+      name: `人才报告${returnCurDate()}.xlsx`, //定义下载文件名字
       onProgress: function (msg: any) {
           // 文件下载进度回调
       },
