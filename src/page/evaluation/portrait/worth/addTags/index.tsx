@@ -40,6 +40,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     const [filterList, setFilterList] = useState<ITagsList[]>([])   // 所有数据
     const [inputValue, setInputValue] = useState<string>() //搜索内容
     const [curSelectTagIndex, setCurSelectTagIndex] = useState<number>(0) // 当前一级tab的索引
+    const [curSelectTagName, setCurSelectTagName] = useState<string>('') // 当前一级tab标题
     const [indeterminate, setIndeterminate] = useState(true);  // 全选样式
     const [checkAll, setCheckAll] = useState(false); // 全选按钮是否选中
     const [tagsMap, seyTagsMap] = useState<IObjType>({}) // 标签集合
@@ -49,9 +50,10 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     }, [])
     // 获取标签
     const getTags = async () => {
-        // const res = await getAllList()
-        // console.log('res', res)
-        setFilterList(tags)
+        const res = await getAllList()
+        if (res.code == 1) {
+            setFilterList(res.data)
+        }
     }
     // 筛选所有标签
     const filterTag = async (data: any[]) => {
@@ -74,11 +76,11 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     // 删除标签
     const preventDefault = (e: MouseEvent<HTMLElement>, id: number) => {
         e.preventDefault()
-        Object.keys(tagsMap).map(res => {
+        Object.keys(tagsMap).map((res, index) => {
             const curIndex = tagsMap[res].findIndex((item: IFilterList) => item.id == id)
             if (curIndex > -1) {
                 tagsMap[res].splice(curIndex, 1)
-                setAllStyle(Number(res))
+                setAllStyle(index, res)
                 return
             }
         })
@@ -91,7 +93,6 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     const onCloseCallback = () => {
         setIsModalVisible(false)
         setInputValue('')
-        // setCurSelectTags([])
         seyTagsMap({})
         setIndeterminate(true)
         setCheckAll(false)
@@ -101,60 +102,62 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         const arr: any = []
         filterList.forEach((item: ITagsList, index) => {
             item.tags.forEach(res => {
-                arr.push({ ...res, index })
+                arr.push({ ...res, index, groupName: item.groupName })
             })
         })
         const list = arr.filter((res: any) => res.name.indexOf(e.target.value) > -1)
         setCurSelectTagIndex(list[0]?.index)
-        setAllStyle(list[0]?.index)
+        setCurSelectTagName(list[0]?.groupName)
+        setAllStyle(list[0]?.index, list[0]?.groupName)
         setInputValue(e.target.value)
     })
     // checked
-    const onCheckboxClick = (e: CheckboxChangeEvent, index: number) => {
-        !tagsMap[index] && (tagsMap[index] = [])
-        const isCurSelectIdx = tagsMap[index].findIndex((item: IFilterList) => item.id == e.target.value.id)
+    const onCheckboxClick = (e: CheckboxChangeEvent, index: number, name: string) => {
+        !tagsMap[name] && (tagsMap[name] = [])
+        const isCurSelectIdx = tagsMap[name].findIndex((item: IFilterList) => item.id == e.target.value.id)
         if (isCurSelectIdx > -1) {
             if (e.target.checked) {
-                tagsMap[index].push({
+                tagsMap[name].push({
                     name: e.target.value.name,
                     id: e.target.value.id,
                     checked: e.target.checked
                 })
             } else {
-                tagsMap[index].splice(isCurSelectIdx, 1)
+                tagsMap[name].splice(isCurSelectIdx, 1)
             }
         } else {
-            tagsMap[index].push({
+            tagsMap[name].push({
                 name: e.target.value.name,
                 id: e.target.value.id,
                 checked: e.target.checked
             })
         }
         seyTagsMap({ ...tagsMap })
-        setAllStyle(index)
+        setAllStyle(index, name)
     }
     // 设置全选样式
-    const setAllStyle = (index: number) => {
-        setIndeterminate((tagsMap[index] || []).length != filterList[index].tags.length);
-        setCheckAll((tagsMap[index] || []).length == filterList[index].tags.length);
+    const setAllStyle = (index: number, name: string) => {
+        setIndeterminate((tagsMap[name] || []).length != filterList[index].tags.length);
+        setCheckAll((tagsMap[name] || []).length == filterList[index].tags.length);
     }
     // 一级tab点击
-    const onOneTitleClick = (index: number) => {
+    const onOneTitleClick = (index: number, name: string) => {
         setCurSelectTagIndex(index)
-        setAllStyle(index)
+        setCurSelectTagName(name)
+        setAllStyle(index, name)
     }
     // 全选
     const onCheckAllChange = (e: CheckboxChangeEvent, item: ITagsList, index: number) => {
-        !tagsMap[index] && (tagsMap[index] = [])
+        !tagsMap[item.groupName] && (tagsMap[item.groupName] = [])
         const curMap = new Map()
-        if (tagsMap[index].length > 0) {
-            tagsMap[index].forEach((list: IFilterList) => {
+        if (tagsMap[item.groupName].length > 0) {
+            tagsMap[item.groupName].forEach((list: IFilterList) => {
                 curMap.set(list.id, list)
             })
         }
         item.tags.map(res => {
             if (!curMap.has(res.id)) {
-                tagsMap[index].push({
+                tagsMap[item.groupName].push({
                     name: res.name,
                     id: res.id,
                     checked: true
@@ -164,12 +167,13 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         if (e.target.checked) {
             seyTagsMap({ ...tagsMap })
         } else {
-            delete tagsMap[index]
+            delete tagsMap[item.groupName]
             seyTagsMap({ ...tagsMap })
         }
         setIndeterminate(false);
         setCheckAll(e.target.checked);
     }
+    console.log('tagsMap', tagsMap)
     return (
         <Modal width={980} title="添加标签" visible={isModalVisible} onOk={handleOk} onCancel={onCloseCallback}>
             <div className={styles.modal_wrapper}>
@@ -182,7 +186,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                             {
                                 filterList.length > 0 &&
                                 filterList.map((item, index) => (
-                                    <div onClick={() => onOneTitleClick(index)} className={`${styles.oneTab} ${curSelectTagIndex == index && styles.activeTab}`} key={item.groupName}>
+                                    <div onClick={() => onOneTitleClick(index, item.groupName)} className={`${styles.oneTab} ${curSelectTagIndex == index && styles.activeTab}`} key={item.groupName}>
                                         <span>{item.groupName}</span>
                                         <span>{item.tags.length}</span>
                                     </div>
@@ -206,7 +210,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                                                         res.tags.map(item => (
                                                             <Col span={8} key={item.id}>
                                                                 <Checkbox
-                                                                    onChange={(e: CheckboxChangeEvent) => onCheckboxClick(e, index)}
+                                                                    onChange={(e: CheckboxChangeEvent) => onCheckboxClick(e, index, res.groupName)}
                                                                     value={item}
                                                                     checked={tagsMap[index]?.filter((res: any) => res?.id == item.id)[0]?.checked}
                                                                 >{item.name}</Checkbox>

@@ -1,0 +1,107 @@
+.Upload_modal {
+    width: 580px !important;
+
+    :global {
+        .ant-modal-header {
+            border-bottom: none;
+            padding: 24px 32px;
+        }
+
+        .ant-modal-body {
+            height: 294px;
+            padding: 0;
+            position: relative;
+        }
+
+        .ant-modal-footer {
+            border-top: none;
+            padding: 24px 32px;
+        }
+    }
+
+    .Modal_main {
+        height: calc(100% - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .Modal_Footer {
+        padding: 24px 32px;
+        display: flex;
+        align-items: center;
+
+        .Prompt_p {
+            font-size: 12px;
+            font-weight: 400;
+            color: #8F969E;
+        }
+    }
+
+    .Upload_download_box {
+        width: 100%;
+        padding: 0 32px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        position: absolute;
+
+        .Upload_excel_img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .Upload_p {
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #8F969E;
+        }
+
+        .Upload_t {
+            .Upload_p;
+            margin: 0;
+        }
+
+        .Upload_h {
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 24px;
+            margin-bottom: 20px;
+            color: rgba(0, 0, 0, 0.85);
+        }
+
+        .Upload_track {
+            width: 100%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.04);
+            border-radius: 1px;
+            margin-bottom: 16px;
+            position: relative;
+            .Upload_progress {
+                width: 50%;
+                height: 2px;
+                background-color: #2B85FF;
+                border-radius: 1px;
+                position: absolute;
+            }
+        }
+    }
+}
+
+.Spin_loading {
+    color: #8F969E;
+    span {
+        margin-bottom: 40px;
+    }
+};
+
+.Close_icon {
+    margin-bottom: 10px;
+    color: #9EA7B4;
+    margin-left: auto;
+    cursor: pointer;
+    &:hover {
+        color: #2B85FF;
+    }
+}

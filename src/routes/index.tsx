@@ -25,7 +25,7 @@ const RecruitReport = lazy(() => import('@/page/evaluation/recruitEvaluation/rep
 const LookReport = lazy(() => import('@/page/evaluation/management/detail/lookReport'));
 const WorthPortrait = lazy(() => import('@/page/evaluation/portrait/worth'));
 const PostPortrait = lazy(() => import('@/page/evaluation/portrait/post'));
-const Employee = lazy(() => import('@/page/evaluation/employee'));
+const Employee = lazy(() => import('@/page/evaluation/staffManagement'))
 
 const routes: RouteObject[] = [
     {
@@ -131,7 +131,7 @@ const routes: RouteObject[] = [
                         element: <PostPortrait />
                     }
                 ],
-            }
+            },
         ]
     },
     {

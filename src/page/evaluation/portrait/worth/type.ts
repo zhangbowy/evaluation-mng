@@ -18,6 +18,7 @@ export interface IFilterList {
     id: number;
     name: string;
     checked?: boolean;
+    groupName?: string;
 }
 export interface ITagsList {
     groupName: string;

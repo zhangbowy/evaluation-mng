@@ -6,7 +6,7 @@ import AddTags from './addTags'
 import TextArea from 'antd/lib/input/TextArea';
 import { ICurList, ICurSelectTag, IFilterList, IFormItem, IWorth } from './type';
 import { portraitConfig } from '@/config/portrait.config';
-import { getPortraitList, portraitPublish } from '@/api/api';
+import { getPortraitList, getPostList, portraitPublish, postPublish } from '@/api/api';
 
 const Worth = ({ isWorth = true }: IWorth) => {
     const [form] = Form.useForm();
@@ -27,22 +27,30 @@ const Worth = ({ isWorth = true }: IWorth) => {
     }
     // 获取列表
     const getList = async () => {
-        const res = await getPortraitList()
+        const res = isWorth ? await getPortraitList() : await getPostList()
         if (res.code == 1) {
             const arr = res.data.length > 0 ? res.data : [{
                 name: '',
                 description: '',
                 tagIds: []
             }]
-            form.setFieldsValue({ positions: arr });
+            arr.forEach((item: IFilterList) => {
+                !tagsList[item.groupName || ''] && (tagsList[item.groupName || ''] = [])
+                tagsList[item.groupName || ''].push(item)
+            })
+            setTagsList({ ...tagsList })
+            setFieldsValue({ positions: arr });
         }
     }
     // 发布
     const publishClick = () => {
-
         validateFields().then(async values => {
-            // const res = await portraitPublish(values)
-            // console.log(res)
+            const res = isWorth ? await portraitPublish(values) : await postPublish(values)
+            if (res.code == 1) {
+                message.success('发布成功');
+                cancelClick()
+                getList()
+            }
         }).catch((err) => {
             console.log(err, 'err')
             message.error('请填写完整信息，再进行发布');
@@ -72,6 +80,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
     }
     // 获取选中的标签
     const getSelectTags = (obj: IObjType) => {
+        console.log('obj', obj)
         transferredData[curKey] = obj
         tagsList[curKey] = Object.values(obj).flat(Infinity)
         setTagsList({ ...tagsList })

@@ -158,15 +158,59 @@ export const getSelectPdfStatus = async (taskIds: number[]) => {
 export const getIsHasPdf = async (params: IsHasPdfParams) => {
     return request('/api/spf-cc/c/evaluation/result/isHasPdf', { params, method: 'GET' })
 }
+
+//上传花名册
+export const POSITION_UPLOAD = async (params: any) => {
+    return request('/api/member/user/position/upload', { params, method: 'POST' })
+}
+//更新岗位
+export const RENEW_POSITION = async (params: any) => {
+    return request('/api/member/user/position/saveOrUpdate', { params, method: 'POST' })
+}
+//导出excel
+export const EXCEL_EXPORT = async (params: any) => {
+    return request('/api/member/user/position/exportExcel', { params, method: 'GET' })
+}
+//同步通讯录
+export const SYNC_CONTACTS = async (params: any) => {
+    return request('/api/member/user/position/syncContacts', { params, method: 'GET' })
+}
+//获取通讯录同步信息
+export const CONTACTS_DETAIL = async (params: any) => {
+    return request('/api/member/user/position/getSyncContactsDetail', { params, method: 'GET' })
+}
+//获取岗位下拉
+export const POSITION_SELECT = async (params: any) => {
+    return request('/api/member/position/getPositionSelect', { params, method: 'GET' })
+}
+//获取人员管理列表
+export const USER_LIST = async (params: any) => {
+    return request('/api/member/user/position/list', { params, method: 'GET' })
+}
+//导出人才报告
+export const EXPORT_TALENT_REPORT = async (params: any) => {
+    return request('/api/spf-cc/b/evaluation/report/exportExcel', { params, method: 'GET' })
+}
+
 // 价值观画像发布
 export const portraitPublish = async (data: IPortraitPublish) => {
+    return request('/api/spf-cc/values/publish', { method: 'POST', data })
+}
+
+//岗位发布
+export const postPublish = async (data: IPortraitPublish) => {
     return request('/api/member/position/publish', { method: 'POST', data })
 }
+
 // 价值观画像列表
 export const getPortraitList = async () => {
     return request('/api/spf-cc/values/getList', { method: 'GET' })
 }
-// 价值观画像列表
+// 岗位列表
+export const getPostList = async () => {
+    return request('/api/member/position/getList', { method: 'GET' })
+}
+// 价值观画像标签
 export const getAllList = async () => {
     return request('/api/member/b/tag/getGroupTags', { method: 'GET' })
 }

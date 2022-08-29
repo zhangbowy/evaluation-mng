@@ -77,6 +77,12 @@ const Menu = (props: IMenuProps) => {
         },
         {
             id: 3,
+            name: '员工管理',
+            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
+            path: '/evaluation/staff'
+        },
+        {
+            id: 4,
             name: '权限管理',
             icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
             path: '/evaluation/userAuthority',
