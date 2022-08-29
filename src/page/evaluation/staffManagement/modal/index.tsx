@@ -118,7 +118,7 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
         } else {
             if (loadStep === 4 && opacity != 0) {
                 setStep(1);
-                setLoadStep(3);
+                setLoadStep(1);
             } else {
                 if (loadStep === 5) {
                     setLoadStep(4);
@@ -250,18 +250,12 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
      * dd download event
      */
     const handleDownloadExcel = () => {
-        setDownloadDis(true);
-        setLoadStep(2)
-        // window.open(url);
-        // setTimeout(() => {
-        //     setDownloadDis(false);
-        //     setLoadStep(3);
-        // }, 3000);
         dd.biz.util.downloadFile({
             url: url, //要下载的文件的url
-            name: '员工人员岗位匹配数据', //定义下载文件名字
+            name: '员工人员岗位匹配数据.xlsx', //定义下载文件名字
             onProgress: function (msg: any) {
-                // 文件下载进度回调
+                setDownloadDis(true);
+                setLoadStep(2);
             },
             onSuccess: function (result: any) {
                 setDownloadDis(false);
@@ -273,7 +267,7 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
 
     return (
         <>
-            <Modal title="批量编辑" className={styles.Upload_modal} visible={uploadVisible} footer={null} onCancel={handleCancel} afterClose={afterClose}>
+            <Modal title="批量编辑" className={styles.Upload_modal} visible={uploadVisible} footer={null} maskClosable={false} keyboard={false} onCancel={handleCancel} afterClose={afterClose}>
                 <main className={styles.Modal_main}>
                     {DownloadExcel()}
                 </main>
