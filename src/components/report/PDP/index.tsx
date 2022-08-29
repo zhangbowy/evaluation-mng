@@ -262,8 +262,8 @@ const CA = ({ resultDetail }: any) => {
                   }
                 </div>
               </div>
-              <div className={styles['page-three-adv']}>
-                <div className={styles['page-three-adv-title']}>工作风格</div>
+              <div className={cs(styles['page-three-adv'], styles['page-three-adv-title-split'])}>
+                <div className={cs(styles['page-three-adv-title'])}>工作风格</div>
                 <div className={styles['page-three-adv-content']}>
                   {
                     v.style.map((item: any) => (

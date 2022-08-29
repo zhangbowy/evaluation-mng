@@ -373,10 +373,10 @@ const CA = ({ resultDetail }: any) => {
               <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon1.png" />
           </div>
           <div className={styles.header}>
-              <p>PDP</p>
-              <p className={styles.fw_600}>职业性格测试</p>
+              <p>[职业锚]</p>
+              <p className={styles.fw_600}>人才匹配测评</p>
               <p className={styles.title}>测评报告</p>
-              <p className={styles.pro}>Professional personality assessment</p>
+              <p className={styles.pro}>careeranchor</p>
           </div>
         </div>
         <div className={styles['user-info']}>
@@ -492,7 +492,7 @@ const CA = ({ resultDetail }: any) => {
                       </div>
                     </div>
                   </div>
-                  <div className={styles['page-four-bottom-item']}>
+                  <div className={cs(styles['page-four-bottom-item'], styles['page-four-bottom-item-split'])}>
                     <div className={styles['page-four-bottom-title']}>典型特征</div>
                     <div className={styles['page-four-bottom-content']}>
                       <div className={styles['page-four-bottom-content-item']}>

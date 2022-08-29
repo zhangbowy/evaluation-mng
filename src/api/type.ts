@@ -183,3 +183,7 @@ export interface PermissionUserListParams {
     pageSize: number;
     curPage: number
 }
+
+export interface UserAllExamResultSummaryGraphParams {
+    userId?: string;
+}

@@ -1,4 +1,4 @@
-import { getAllExam, UnLockReport } from '@/api/api';
+import { getAllExam, UnLockReport, getUserAllExamResultSummaryGraph } from '@/api/api';
 import { Breadcrumb, Button, Divider, Tooltip } from 'antd';
 import React, { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
@@ -38,11 +38,13 @@ const Detail = () => {
   const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
   const [isHidden, setIsHidden] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [chartsData, setChartsData] = useState<any>({});
   const lookResultRef: any = useRef()
   const navigator = useNavigate()
   const cx = classNames.bind(styles);
   useEffect(() => {
-    getUserReport()
+    getUserReport();
+    getChartsData()
   }, [])
   // 获取列表
   const getUserReport = async () => {
@@ -51,6 +53,14 @@ const Detail = () => {
       console.log(res.data);
       setReportDetailList(res.data)
       setDetailLoading(false)
+    }
+  }
+  // 获取图表数据
+  const getChartsData = async () => {
+    const res = await getUserAllExamResultSummaryGraph({ userId })
+    if (res.code === 1) {
+      console.log(res);
+      setChartsData(res.data);
     }
   }
   // 是否存在报告的样式
@@ -305,12 +315,12 @@ const Detail = () => {
           </div>
           <div className={styles.detail_content_right_result}>
             <div className={styles.detail_content_right_result_wrap}>
-              <MbtiResult />
-              <PdpResult />
+              <MbtiResult chartsData={chartsData.mbtiResultChart} />
+              <PdpResult chartsData={chartsData.pdpResultChart} />
             </div>
             <div className={styles.detail_content_right_result_wrap}>
-              <DiscResult />
-              <CaResult />
+              <DiscResult chartsData={chartsData.discResultChart} />
+              <CaResult chartsData={chartsData.caResultChart} />
             </div>
           </div>
           <div className={styles.detail_content_right_report}>

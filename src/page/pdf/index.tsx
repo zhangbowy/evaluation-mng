@@ -13,6 +13,12 @@ import PDPDetail from '@/components/report/PDP'
 import CADetail from '@/components/report/CA'
 
 type templateType = 'MBTI' | 'DISC' | 'PDP' | 'CA'
+const typeFlag: any = {
+    'MBTI': true,
+    'DISC': false,
+    'PDP': false,
+    'CA': false,
+}
 const PDF = () => {
     const [resultDetail, setResultDetail] = useState<IUserExamResultBack>()
     const query = useParams();
@@ -31,37 +37,71 @@ const PDF = () => {
     // 获取pdf的数据
     const getResultDetail = async () => {
         const examResultRequest = isRecruit ? getUserExamResult : getExamResult;
-        const res = await examResultRequest({ examPaperId, userId, major: type !== 'DISC' })
+        const res = await examResultRequest({ examPaperId, userId, major: typeFlag[type] })
         if (res.code === 1) {
             const newData = { ...res.data };
             if (type !== 'DISC') {
                 if (res.data.results) {
                     const { htmlDesc } = newData;
                     const newDimensional = {};
-                    htmlDesc?.dimensional.forEach((item: any) => {
-                        Object.assign(newDimensional, {
-                            [item.tag]: item,
+                    if (type === 'MBTI') {
+                        htmlDesc?.dimensional.forEach((item: any) => {
+                            Object.assign(newDimensional, {
+                                [item.tag]: item,
+                            });
                         });
-                    });
-                    const newList = abilityList.map((item: any) => {
-                        if (htmlDesc?.ability) {
-                            return {
-                                ...item,
-                                sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                        const newList = abilityList.map((item: any) => {
+                            if (htmlDesc?.ability) {
+                                return {
+                                    ...item,
+                                    sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                                }
                             }
-                        }
-                    });
-                    sortBy(newList, function (item: any) { return item.sort });
+                        });
+                        sortBy(newList, function (item: any) { return item.sort });
+                        Object.assign(newData, {
+                            resultType: res.data.results[0].type,
+                            examTemplateArr: res.data.results[0].type.split(''),
+                            htmlDesc: {
+                                ...htmlDesc,
+                                dimensional: newDimensional,
+                                abilityList: newList,
+                            }
+                        })
+                        return;
+                    }
 
                     Object.assign(newData, {
                         resultType: res.data.results[0].type,
                         examTemplateArr: res.data.results[0].type.split(''),
                         htmlDesc: {
                             ...htmlDesc,
-                            dimensional: newDimensional,
-                            abilityList: newList,
                         }
                     })
+                    // htmlDesc?.dimensional.forEach((item: any) => {
+                    //     Object.assign(newDimensional, {
+                    //         [item.tag]: item,
+                    //     });
+                    // });
+                    // const newList = abilityList.map((item: any) => {
+                    //     if (htmlDesc?.ability) {
+                    //         return {
+                    //             ...item,
+                    //             sort: (TagSort as any)[htmlDesc?.ability?.[item.name]]
+                    //         }
+                    //     }
+                    // });
+                    // sortBy(newList, function (item: any) { return item.sort });
+
+                    // Object.assign(newData, {
+                    //     resultType: res.data.results[0].type,
+                    //     examTemplateArr: res.data.results[0].type.split(''),
+                    //     htmlDesc: {
+                    //         ...htmlDesc,
+                    //         dimensional: newDimensional,
+                    //         abilityList: newList,
+                    //     }
+                    // })
                 }
             } else {
                 if (res?.data?.scoreDetail) {
