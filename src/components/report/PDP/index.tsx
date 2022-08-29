@@ -43,12 +43,12 @@ const CA = ({ resultDetail = {} }: any) => {
   }, [resultDetail]);
   useEffect(() => {
     if (containerRef.current && resultList?.status) {
-        radarMap()
+        radarMap(resultList)
     }
   }, [containerRef.current, resultList])
-  const radarMap = () => {
+  const radarMap = (dataRadar: any) => {
     containerRef.current.innerHTML = ''
-    const json = JSON.parse(resultList?.polygon);
+    const json = JSON.parse(dataRadar?.polygon);
     const data = Object.keys(json).map((key) => ({
         item: key,
         a: json[key],
