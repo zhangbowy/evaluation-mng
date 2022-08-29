@@ -16,7 +16,7 @@ import * as dayjs from 'dayjs'
 //     '沟通能力': 5,
 //   }
 // }
-const CA = ({ resultDetail }: any) => {
+const CA = ({ resultDetail = {} }: any) => {
   const containerRef: any = useRef();
   const [resultList, setResultList] = useState<any>();
   const [resultType, setResultType] = useState<string>('');
@@ -27,7 +27,7 @@ const CA = ({ resultDetail }: any) => {
     const result: any = resultDetail;
     console.log(result, 'result');
     setResultList(result);
-    const { tags, results = [], htmlDescList } = result;
+    const { tags = [], results = [], htmlDescList = [] } = result;
     let str = '';
     results?.map((v: any) => {
       str += `${v.type},`;
