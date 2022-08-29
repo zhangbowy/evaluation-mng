@@ -490,7 +490,7 @@ const Detail = () => {
                           (item.answerStatus === 1 || item.answerStatus === 0) &&
                           <div className={item.answerStatus === 1 ? styles.detail_card_num : styles.detail_card_num_no}>
                             <span className={styles.detail_card_num_status}>{item.answerStatus === 1 ? '测试中' : '未开始'}</span>
-                            <span>2/30</span>
+                            <span>{item.finishQuestionCount}/{item.totalQuestionCount}</span>
                           </div>
                         }
                         <img src={item?.logoImage} alt="" />

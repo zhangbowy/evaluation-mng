@@ -35,7 +35,11 @@ const CA = ({ resultDetail }: any) => {
     str = str.substring(0, str.length - 1);
     setResultType(str);
     setTags(tags);
-    setDescList(htmlDescList);
+    const htmlDescListData: any = htmlDescList.map((v: any) => ({
+      ...v,
+      styleList: v.style
+    }))
+    setDescList(htmlDescListData);
   }, [resultDetail]);
   useEffect(() => {
     if (containerRef.current && resultList?.status) {
@@ -266,7 +270,7 @@ const CA = ({ resultDetail }: any) => {
                 <div className={cs(styles['page-three-adv-title'])}>工作风格</div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.style.map((item: any) => (
+                    v.styleList.map((item: any) => (
                       <div key={item} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{item}</span>
