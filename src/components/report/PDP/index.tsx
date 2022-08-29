@@ -178,7 +178,7 @@ const CA = ({ resultDetail = {} }: any) => {
           </div>
         </div>
       </div>
-      <div className={styles.page}>
+      {/* <div className={styles.page}>
         <div className={cs(styles.sub_title, styles.m_b_43)}>
           二、测评结果分析
         </div>
@@ -321,7 +321,7 @@ const CA = ({ resultDetail = {} }: any) => {
             </div>
           </div>
         ))
-      }
+      } */}
       <div className={styles['end-wrap']}>
         <div className={styles['end-line']}></div>
         <div className={styles['end-text']}>END</div>
