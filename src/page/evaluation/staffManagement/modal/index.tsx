@@ -1,4 +1,4 @@
-import { Button, Modal, Spin, Upload } from 'antd';
+import { Button, message, Modal, Spin, Upload } from 'antd';
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import type { UploadProps } from 'antd';
@@ -209,8 +209,8 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
                 return (
                     <>
                         <div className={styles.Upload_download_box} style={{ opacity: opacity, zIndex: opacity }}>
-                            <Upload {...props} maxCount={1} accept='.xlsx' showUploadList={false}>
-                                <Button type="primary">导入人岗匹配明细</Button>
+                            <Upload {...props} maxCount={1} showUploadList={false} beforeUpload={beforeUpload}>
+                                <Button type="primary" style={{marginBottom: '10px'}}>导入人岗匹配明细</Button>
                             </Upload>
                             <p className={styles.Upload_p}>支持拓展名：.xlsx</p>
                         </div>
@@ -261,15 +261,21 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
                     setLoadStep(3);
                 }
             },
-            onSuccess: function (result: any) {
-                // setDownloadDis(false);
-                // setLoadStep(3);
-                // console.log('res',result);
-                // console.log(loadStep);  
-            },
+            onSuccess: function (result: any) {},
             onFail: function () { }
         })
-    }
+    };
+
+    const beforeUpload = (file:File) => {
+        let index = file.name.lastIndexOf('.');
+        let type = file.name.substring(index);
+
+        if(type !== '.xlsx') {
+            message.error('请上传后缀名为.xlsx的文件');
+            return false
+        }
+        return true
+    };
 
     return (
         <>
