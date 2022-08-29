@@ -38,7 +38,7 @@ const staff: FC = () => {
      * return synchronous button dom
      */
     const SyncBtn = () => {
-        if (syncLoading === 0) {
+        if (syncLoading === 1) {
             return (
                 <span className={styles.Staff_syncing_btn}>同步中...</span>
             )
@@ -51,10 +51,9 @@ const staff: FC = () => {
      * handle synchronous dd framework event
      */
     const handleSync = async () => {
-        setSyncLoading(0);
+        setSyncLoading(1);
         const { code } = await SYNC_CONTACTS({});
         if (code === 1) {
-            setSyncLoading(1);
             querySync()
         }
     };
