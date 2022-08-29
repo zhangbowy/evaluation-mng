@@ -148,7 +148,7 @@ const CA = ({ resultDetail = {} }: any) => {
         </div>
         <div className={styles.footer}>鑫蜂维网络科技有限公司 版权所有</div>
       </div>
-      {/* <div className={styles.page}>
+      <div className={styles.page}>
         <div className={cs(styles.sub_title, styles.m_b_43)}>
           一、报告导语
         </div>
@@ -177,7 +177,7 @@ const CA = ({ resultDetail = {} }: any) => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
       {/* <div className={styles.page}>
         <div className={cs(styles.sub_title, styles.m_b_43)}>
           二、测评结果分析
