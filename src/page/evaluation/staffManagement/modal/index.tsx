@@ -256,14 +256,14 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
             onProgress: function (msg: any) {
                 setDownloadDis(true);
                 setLoadStep(2);
+                console.log(msg);
+                
             },
             onSuccess: function (result: any) {
                 setDownloadDis(false);
                 setLoadStep(3);
                 console.log(111);
-                console.log(loadStep);
-                
-                
+                console.log(loadStep);  
             },
             onFail: function () { }
         })
