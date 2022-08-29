@@ -3,7 +3,7 @@ import styles from './index.module.less';
 import { Button } from 'antd';
 import cs from 'classnames';
 
-function DiscResult() {
+function DiscResult(props: any) {
   const isHaveData = true;
   return (
     <div className={styles.disc_result}>

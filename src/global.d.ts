@@ -153,7 +153,7 @@ interface ImportMetaEnv {
 
 
 interface IObjType {
-    [key: keyof typeof IObjType]: any;
+    [key: string]: any;
 }
 // interface IBackResult<T> {
 //     code: number;
