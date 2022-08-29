@@ -178,7 +178,7 @@ const CA = ({ resultDetail = {} }: any) => {
           </div>
         </div>
       </div>
-      {/* <div className={styles.page}>
+      <div className={styles.page}>
         <div className={cs(styles.sub_title, styles.m_b_43)}>
           二、测评结果分析
         </div>
@@ -215,7 +215,7 @@ const CA = ({ resultDetail = {} }: any) => {
           </div>
         </div>
       </div>
-      {
+      {/* {
         descList?.map((v: any) => (
           <div key={v.type} className={styles.page}>
             <div className={cs(styles.sub_title, styles.m_b_43)}>
