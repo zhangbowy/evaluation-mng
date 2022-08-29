@@ -62,15 +62,15 @@ export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 
         if (data.length > 0) {
             if (appId.split('_')[0] === '1') {
                 type == 'add' ?
-                Modal.confirm({
-                    title: '温馨提示',
-                    content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
-                    okText: '确认',
-                    cancelText: '取消',
-                    onOk() {
-                        item.successFn(data)
-                    },
-                }) : item.successFn(data)
+                    Modal.confirm({
+                        title: '温馨提示',
+                        content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
+                        okText: '确认',
+                        cancelText: '取消',
+                        onOk() {
+                            item.successFn(data)
+                        },
+                    }) : item.successFn(data)
             } else if (appId.split('_')[0] === '2') {
                 item.successFn(data)
             }
@@ -231,4 +231,23 @@ export const deepClone = <T>(origin: T, target?: Record<string, any> | T): T => 
     }
 
     return tar as T
+};
+
+/**
+ * return current date
+ * yy-mm-dd
+ */
+export const returnCurDate = () => {
+    let date = new Date();
+    let nowMonth = date.getMonth() + 1;
+    let strDate = date.getDate();
+    if (nowMonth >= 1 && nowMonth <= 9) {
+        nowMonth = Number("0" + nowMonth);
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = Number("0" + strDate);
+    }
+
+    let nowDate = date.getFullYear() + '-' + nowMonth + '-' + strDate;
+    return nowDate
 }
