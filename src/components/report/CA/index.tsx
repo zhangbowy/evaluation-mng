@@ -382,7 +382,7 @@ const CA = ({ resultDetail }: any) => {
         <div className={styles['user-info']}>
           <p className={styles.title}>{resultDetail?.user?.name}</p>
           <p className={styles['sub-title']}>{resultDetail?.user?.gender === 1 ? '男' : '女'}</p>
-          <p className={styles['sub-title']}>{dayjs(resultDetail?.created).format('YYYY-MM-DD')}</p>
+          <p className={styles['sub-title']}>{resultDetail?.created}</p>
         </div>
         <div className={styles.footerImg}>
           <div className={styles.image}>
