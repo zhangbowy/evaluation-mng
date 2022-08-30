@@ -7,7 +7,7 @@ export const isTrue = (text: any) => {
     return text === 'true' || text == 1
 }
 // 防抖
-export const debounce = (fn: (value: any) => void, time: number = 800) => {
+export const debounce = (fn: (value: any) => void, time = 800) => {
     let timer: any;
     return (args?: any) => {
         if (timer) {

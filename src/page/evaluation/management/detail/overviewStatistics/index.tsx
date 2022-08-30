@@ -3,23 +3,19 @@ import React, { Fragment, memo, ReactElement, useEffect, useRef } from 'react'
 import styles from './index.module.less'
 import { abilityText } from '@/config/management.config'
 import { Liquid, Pie, Line, Column } from '@antv/g2plot';
-import { Average, characterProportions, LineChart, TeamAnalysis } from '../../type';
+import { Average, characterProportions, IChartList, LineChart, TeamAnalysis } from '../../type';
 import { tagsColor } from '@/config/management.config';
 import LookAllTags from '../lookAllTags';
-import { EvalDetail } from '@/store'
-import { toJS } from 'mobx';
 
-
-type IOverviewStatistics = { type: string, onTabChange: (key: string) => void }
-const OverviewStatistics = memo((props: IOverviewStatistics) => {
-    const chartList = toJS(EvalDetail.getEvalDetailInfo())
+type IOverviewStatistics = { chartList: IChartList, type: string, onTabChange: (key: string) => void }
+const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStatistics) => {
+    // const chartList = toJS(EvalDetail.getEvalDetailInfo())
     const visualRef: any = useRef([])
     const preferenceRef: any = useRef([]) // 倾向偏好占比
     const eachRef: any = useRef([]) // 各项能力折线图
     const averageRef: any = useRef([]) // 团队平均分和人群批评均分     
     const teamRef: any = useRef([]) // 团队偏好
     const lookAllTagsRef: any = useRef()
-
     useEffect(() => {
         if (visualRef?.current?.length > 0) {
             visualRef.current[0].innerHTML = '';
@@ -30,196 +26,14 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
         const currEleType: IObjType = {
             'MBTI': () => {
                 // 倾向偏好占比
-                if (preferenceRef?.current?.length > 0) {
-                    const data: any = {
-                        'EILabels': [
-                            {
-                                "name": "外向",
-                                "percentage": null,
-                                "type": "E",
-                                "value": 3
-                            },
-                            {
-                                "name": "内向",
-                                "percentage": null,
-                                "type": "I",
-                                "value": 8
-                            }
-                        ],
-                        'JPLabels': [
-                            {
-                                "name": "随性",
-                                "percentage": null,
-                                "type": "P",
-                                "value": 4
-                            },
-                            {
-                                "name": "判断",
-                                "percentage": null,
-                                "type": "J",
-                                "value": 7
-                            }
-                        ],
-                        'SNLabels': [
-                            {
-                                "name": "实感",
-                                "percentage": null,
-                                "type": "S",
-                                "value": 7
-                            },
-                            {
-                                "name": "直觉",
-                                "percentage": null,
-                                "type": "N",
-                                "value": 4
-                            }
-                        ],
-                        'TFLabels': [
-                            {
-                                "name": "理智",
-                                "percentage": null,
-                                "type": "T",
-                                "value": 7
-                            },
-                            {
-                                "name": "情感",
-                                "percentage": null,
-                                "type": "F",
-                                "value": 4
-                            }
-                        ]
-                    }
-                    Object.keys(data).map((res, index) => {
+                if (preferenceRef?.current?.length > 0 && chartList?.otherGraph) {
+                    Object.keys(chartList?.otherGraph || {})?.slice(0, 4)?.map((res, index) => {
                         preferenceRef.current[index].innerHTML = '';
-                        renderTeamProportion(preferenceRef.current[index], data[res])
+                        renderTeamProportion(preferenceRef.current[index], chartList?.otherGraph[res])
                     })
-                    const abilityPercentageMap: { [key: string]: any[] } = {
-                        "责任心": [
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 9
-                            },
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 0
-                            }
-                        ],
-                        "耐心程度": [
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 0
-                            },
-                        ],
-                        "判断能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 5
-                            }
-                        ],
-                        "沟通能力": [
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 8
-                            }
-                        ],
-                        "忠诚度": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 3
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 3
-                            }
-                        ],
-                        "分析能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 1
-                            }
-                        ],
-                        "创新力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 10
-                            }
-                        ],
-                        "抗压能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 3
-                            }
-                        ],
-                        "适应能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 1
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 4
-                            }
-                        ],
-                        "洞察力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 5
-                            }
-                        ]
-                    }
                     const arr: any[] = []
-                    Object.keys(abilityPercentageMap).forEach(res => {
-                        abilityPercentageMap[res].forEach(item => {
+                    Object.keys(chartList?.otherGraph?.abilityPercentageMap)?.forEach(res => {
+                        chartList?.otherGraph?.abilityPercentageMap[res].forEach((item: characterProportions) => {
                             arr.push({
                                 name: res,
                                 value: item.value,
@@ -233,196 +47,14 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             },
             'MBTI_O': () => {
                 // 倾向偏好占比
-                if (preferenceRef?.current?.length > 0) {
-                    const data: any = {
-                        'EILabels': [
-                            {
-                                "name": "外向",
-                                "percentage": null,
-                                "type": "E",
-                                "value": 3
-                            },
-                            {
-                                "name": "内向",
-                                "percentage": null,
-                                "type": "I",
-                                "value": 8
-                            }
-                        ],
-                        'JPLabels': [
-                            {
-                                "name": "随性",
-                                "percentage": null,
-                                "type": "P",
-                                "value": 4
-                            },
-                            {
-                                "name": "判断",
-                                "percentage": null,
-                                "type": "J",
-                                "value": 7
-                            }
-                        ],
-                        'SNLabels': [
-                            {
-                                "name": "实感",
-                                "percentage": null,
-                                "type": "S",
-                                "value": 7
-                            },
-                            {
-                                "name": "直觉",
-                                "percentage": null,
-                                "type": "N",
-                                "value": 4
-                            }
-                        ],
-                        'TFLabels': [
-                            {
-                                "name": "理智",
-                                "percentage": null,
-                                "type": "T",
-                                "value": 7
-                            },
-                            {
-                                "name": "情感",
-                                "percentage": null,
-                                "type": "F",
-                                "value": 4
-                            }
-                        ]
-                    }
-                    Object.keys(data).map((res, index) => {
+                if (preferenceRef?.current?.length > 0 && chartList?.otherGraph) {
+                    Object.keys(chartList?.otherGraph).slice(0, 4).map((res, index) => {
                         preferenceRef.current[index].innerHTML = '';
-                        renderTeamProportion(preferenceRef.current[index], data[res])
+                        renderTeamProportion(preferenceRef.current[index], chartList?.otherGraph[res])
                     })
-                    const abilityPercentageMap: { [key: string]: any[] } = {
-                        "责任心": [
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 9
-                            },
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 0
-                            }
-                        ],
-                        "耐心程度": [
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 0
-                            },
-                        ],
-                        "判断能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 5
-                            }
-                        ],
-                        "沟通能力": [
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 8
-                            }
-                        ],
-                        "忠诚度": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 3
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 3
-                            }
-                        ],
-                        "分析能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 1
-                            }
-                        ],
-                        "创新力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 10
-                            }
-                        ],
-                        "抗压能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 3
-                            }
-                        ],
-                        "适应能力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 1
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 4
-                            }
-                        ],
-                        "洞察力": [
-                            {
-                                "name": "潜力低",
-                                "percentage": null,
-                                "type": null,
-                                "value": 2
-                            },
-                            {
-                                "name": "潜力高",
-                                "percentage": null,
-                                "type": null,
-                                "value": 5
-                            }
-                        ]
-                    }
                     const arr: any[] = []
-                    Object.keys(abilityPercentageMap).forEach(res => {
-                        abilityPercentageMap[res].forEach(item => {
+                    Object.keys(chartList?.otherGraph?.abilityPercentageMap).forEach(res => {
+                        chartList?.otherGraph?.abilityPercentageMap[res].forEach((item: characterProportions) => {
                             arr.push({
                                 name: res,
                                 value: item.value,
@@ -437,55 +69,11 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             'PDP': () => {
                 // 各项能力折线图
                 if (eachRef?.current?.length > 0) {
-                    const data1: any = {
-                        "决策能力": {
-                            "1": 0,
-                            "2": 3,
-                            "3": 2,
-                            "4": 1,
-                            "5": 1,
-                        },
-                        "创新能力": {
-                            "1": 0,
-                            "2": 1,
-                            "3": 5,
-                            "4": 1,
-                            "5": 0,
-                        },
-                        "协作能力": {
-                            "1": 0,
-                            "2": 4,
-                            "3": 2,
-                            "4": 1,
-                            "5": 0,
-                        },
-                        "沟通能力": {
-                            "1": 1,
-                            "2": 1,
-                            "3": 4,
-                            "4": 1,
-                            "5": 0,
-                        },
-                        "分析能力": {
-                            "1": 0,
-                            "2": 1,
-                            "3": 1,
-                            "4": 1,
-                            "5": 4,
-                        },
-                        "应变能力": {
-                            "1": 0,
-                            "2": 6,
-                            "3": 0,
-                            "4": 1,
-                            "5": 0,
-                        }
-                    }
                     abilityText.forEach((res, index) => {
                         eachRef.current[index].innerHTML = '';
                         const arr: LineChart[] = []
-                        Object.keys(data1[res]).forEach(item => {
-                            arr.push({ fraction: item, people: data1[res][item] })
+                        Object.keys(chartList?.otherGraph?.personalityTagChart[res]).forEach(item => {
+                            arr.push({ fraction: item, people: chartList?.otherGraph?.personalityTagChart[res][item] })
                         })
                         renderLineChart(index, arr)
                     })
@@ -610,7 +198,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
                         }
                     ]
                     averageRef.current[0].innerHTML = '';
-                    renderAverage(data)
+                    renderAverage(chartList?.otherGraph?.resultScores)
                 }
             },
             'DISC': () => {
@@ -619,60 +207,14 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
                     teamRef.current[0].innerHTML = '';
                     teamRef.current[1].innerHTML = '';
                     teamRef.current[2].innerHTML = '';
-                    const data: TeamAnalysis[] = [
-                        {
-                            "name": "稳健支持型",
-                            "type": "S",
-                            "value": 2
-                        },
-                        {
-                            "name": "支配掌握性",
-                            "type": "D",
-                            "value": 1
-                        },
-                        {
-                            "name": "支配掌握性",
-                            "type": "D",
-                            "value": 1
-                        },
-                        {
-                            "name": "社交影响型",
-                            "type": "I",
-                            "value": 2
-                        }
-                    ]
-                    const dcAndIsLabels: TeamAnalysis[] = [
-                        {
-                            "name": "任务导向",
-                            "type": "DC",
-                            "value": 345
-                        },
-                        {
-                            "name": "人际导向",
-                            "type": "IS",
-                            "value": 0
-                        }
-                    ]
-                    const diAndScLabels: TeamAnalysis[] = [
-                        {
-                            "name": "外倾",
-                            "type": "DI",
-                            "value": 0
-                        },
-                        {
-                            "name": "内倾",
-                            "type": "SC",
-                            "value": 188
-                        }
-                    ]
-                    renderTeamAnalysis(data)
-                    renderTeamProportion(teamRef.current[1], dcAndIsLabels)
-                    renderTeamProportion(teamRef.current[2], diAndScLabels)
+                    renderTeamAnalysis(chartList?.otherGraph?.DISCLabels)
+                    renderTeamProportion(teamRef.current[1], chartList?.otherGraph?.dcAndIsLabels)
+                    renderTeamProportion(teamRef.current[2], chartList?.otherGraph?.diAndScLabels)
                 }
             },
         }
-        props.type && currEleType[props.type]()
-    }, [chartList])
+        type && currEleType[type]()
+    }, [chartList, type])
     // 查看所有tags
     const onMagnifyClick = () => {
         lookAllTagsRef?.current?.openModal(chartList?.characterProportions)
@@ -765,6 +307,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
     }
     // 各项能力折线图
     const renderLineChart = (index: number, data: LineChart[]) => {
+        const maxNum = Math.max(...data.map(res => res.people))
         const line = new Line(eachRef.current[index], {
             data,
             width: 160,
@@ -772,7 +315,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             xField: 'fraction',
             yField: 'people',
             label: {
-                formatter: '',
+                formatter: () => '',
             },
             point: {
                 size: 3,
@@ -782,8 +325,14 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
                 },
             },
             yAxis: {
+                // min: 0,
+                tickCount: maxNum < 5 ? maxNum + 1 : 6,
                 grid: {
-                    line: undefined
+                    line: {
+                        style: {
+                            opacity: 0
+                        }
+                    }
                 }
             },
             xAxis: {
@@ -916,6 +465,7 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
     }
     // 潜在能力分析
     const renderPotential = (data: TeamAnalysis[]) => {
+        const maxNum = Math.max(...data.map(res => res.value))
         const stackedColumnPlot = new Column(preferenceRef.current[4], {
             data,
             isStack: true,
@@ -925,6 +475,10 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
             // 分组柱状图 组内柱子间的间距 (像素级别)
             dodgePadding: 5,
             columnWidthRatio: 0.3,
+            yAxis: {
+                min: 0,
+                tickCount: maxNum < 5 ? maxNum + 1 : 6,
+            },
             tooltip: {
                 showTitle: false,
                 formatter: (datum) => {
@@ -1010,11 +564,11 @@ const OverviewStatistics = memo((props: IOverviewStatistics) => {
                     <div className={styles.average_div} ref={el => averageRef.current[0] = el}></div>
                 </div>
         }
-        return curType[props.type]
+        return curType[type]
     }
     // 查看全部
     const onLookAllClick = () => {
-        props.onTabChange('2')
+        onTabChange('2')
     }
     // 查看全部
     return (

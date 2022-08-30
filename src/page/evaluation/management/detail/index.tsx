@@ -9,7 +9,7 @@ import LookResult from '@/components/lookResult'
 import LookIntroduce from './lookintroduce'
 import OverviewStatistics from './overviewStatistics';
 import PeopleStatistics from './peopleStatistics'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import { EvalDetail } from '@/store'
 
 const Detail = observer(() => {
@@ -17,8 +17,9 @@ const Detail = observer(() => {
   const { corpId, appId } = getAllUrlParam()
   const [measurement, setMeasurement] = useState<IMeasurement>(); //测评信息
   const [department, setDepartment] = useState<IOption[]>([]); // 部门option
-  const [deptId, setDeptId] = useState<string>(); // 选中的部门deptId
+  const [deptId, setDeptId] = useState<number>(); // 选中的部门deptId
   const lookResultRef: any = useRef();
+  const peopleStatisticsRef: any = useRef();
   const lookIntroduceRef: any = useRef();
   const { TabPane } = Tabs;
   const [curTab, setCurTab] = useState<string>('1')
@@ -36,6 +37,7 @@ const Detail = observer(() => {
     const item = await getChart({ tpf: 1, appId, corpId, examId: params.id || '0', deptId: from?.deptId || deptId })
     if (item.code === 1) {
       EvalDetail.setEvalDetailInfo(item.data)
+      // EvalDetail.evalDetailInfo = item.data
     }
     // getTableList({ ...from, curPage: current, pageSize })
   }
@@ -54,10 +56,10 @@ const Detail = observer(() => {
     }
   }
   // 选中部门
-  const onSelectChange = (value: string) => {
+  const onSelectChange = (value: number) => {
     EvalDetail.setDepartmentId(value)
-    // setDeptId(value)
-    // getDetailList({ ...form.getFieldsValue(), deptId: value })
+    getDetailList({ deptId: value })
+    curTab != '1' && peopleStatisticsRef.current.getTableList({ deptId: value })
   }
   // 查看介绍
   const onLookIntroduceClick = () => {
@@ -75,12 +77,12 @@ const Detail = observer(() => {
     {
       id: 1,
       name: '概览统计',
-      component: <OverviewStatistics onTabChange={onTabChange} type={measurement?.examTemplateType || ''} />
+      component: <OverviewStatistics chartList={EvalDetail.evalDetailInfo} onTabChange={onTabChange} type={measurement?.examTemplateType || ''} />
     },
     {
       id: 2,
       name: '人员统计',
-      component: <PeopleStatistics type={measurement?.examTemplateType || ''} />
+      component: <PeopleStatistics ref={peopleStatisticsRef} chartList={EvalDetail.evalDetailInfo} type={measurement?.examTemplateType || ''} />
     }
   ]
   return (
@@ -124,6 +126,7 @@ const Detail = observer(() => {
         </div>
       </nav>
       <Tabs activeKey={curTab} onChange={onTabChange}>
+        {deptId}
         {
           detailTab.map(res => (
             <TabPane key={res.id} tab={res.name}>

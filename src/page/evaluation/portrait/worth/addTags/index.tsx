@@ -64,8 +64,12 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     }))
     // 弹窗打开事件
     const onOpenClick = (item: IObjType) => {
-        setIsModalVisible(true);
         seyTagsMap(item)
+        const name = Object.keys(item)[0]
+        setIsModalVisible(true);
+        setIndeterminate(Object.keys(item).length != filterList[0].tags.length);
+        setCheckAll(Object.keys(item).length == filterList[0].tags.length);
+        setCurSelectTagIndex(0)
         // setCurSelectTags(item)
     };
     // 确认
@@ -118,6 +122,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         if (isCurSelectIdx > -1) {
             if (e.target.checked) {
                 tagsMap[name].push({
+                    groupName: name,
                     name: e.target.value.name,
                     id: e.target.value.id,
                     checked: e.target.checked
@@ -127,6 +132,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
             }
         } else {
             tagsMap[name].push({
+                groupName: name,
                 name: e.target.value.name,
                 id: e.target.value.id,
                 checked: e.target.checked
@@ -158,6 +164,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         item.tags.map(res => {
             if (!curMap.has(res.id)) {
                 tagsMap[item.groupName].push({
+                    groupName: item.groupName,
                     name: res.name,
                     id: res.id,
                     checked: true
@@ -173,7 +180,6 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         setIndeterminate(false);
         setCheckAll(e.target.checked);
     }
-    console.log('tagsMap', tagsMap)
     return (
         <Modal width={980} title="添加标签" visible={isModalVisible} onOk={handleOk} onCancel={onCloseCallback}>
             <div className={styles.modal_wrapper}>
@@ -212,7 +218,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                                                                 <Checkbox
                                                                     onChange={(e: CheckboxChangeEvent) => onCheckboxClick(e, index, res.groupName)}
                                                                     value={item}
-                                                                    checked={tagsMap[index]?.filter((res: any) => res?.id == item.id)[0]?.checked}
+                                                                    checked={tagsMap[res?.groupName]?.filter((res: any) => res?.id == item.id)[0]?.checked}
                                                                 >{item.name}</Checkbox>
                                                             </Col>
                                                         ))

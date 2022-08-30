@@ -3,7 +3,7 @@ import { observable, action } from "mobx";
 
 const EvalDetail = observable({
     evalDetailInfo: <IChartList>{},// 图表数据
-    departmentId: '',// 部门id
+    departmentId: -1,// 部门id
     measurementObj: <IMeasurement>{},// 测评信息
     // 设置图表数据
     setEvalDetailInfo<T extends IChartList>(evalDetailInfo: T) {
@@ -13,7 +13,7 @@ const EvalDetail = observable({
         return this.evalDetailInfo
     },
     // 设置部门id
-    setDepartmentId(id: string) {
+    setDepartmentId(id: number) {
         this.departmentId = id;
     },
     // 设置测评信息

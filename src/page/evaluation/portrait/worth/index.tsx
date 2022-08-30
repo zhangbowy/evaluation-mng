@@ -4,7 +4,7 @@ import styles from './index.module.less'
 import { PlusCircleOutlined, CloseOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import AddTags from './addTags'
 import TextArea from 'antd/lib/input/TextArea';
-import { ICurList, ICurSelectTag, IFilterList, IFormItem, IWorth } from './type';
+import { ICurList, ICurSelectTag, IFilterList, IFormItem, IPortraitList, IWorth } from './type';
 import { portraitConfig } from '@/config/portrait.config';
 import { getPortraitList, getPostList, portraitPublish, postPublish } from '@/api/api';
 
@@ -29,16 +29,25 @@ const Worth = ({ isWorth = true }: IWorth) => {
     const getList = async () => {
         const res = isWorth ? await getPortraitList() : await getPostList()
         if (res.code == 1) {
-            const arr = res.data.length > 0 ? res.data : [{
-                name: '',
-                description: '',
-                tagIds: []
-            }]
-            arr.forEach((item: IFilterList) => {
-                !tagsList[item.groupName || ''] && (tagsList[item.groupName || ''] = [])
-                tagsList[item.groupName || ''].push(item)
-            })
-            setTagsList({ ...tagsList })
+            let arr = [];
+            if (res.data.length > 0) {
+                arr = res.data.map((item: IPortraitList) => {
+                    return {
+                        id: item.id,
+                        name: item.name,
+                        description: item.description,
+                        tagIds: item.tags.map((list: IFilterList) => list.id),
+                        tags: item.tags.map((list: IFilterList) => ({ groupName: list.groupName, name: list.name, id: list.id, checked: true }))
+                    }
+                })
+            } else {
+                arr = [{
+                    name: '',
+                    description: '',
+                    tagIds: [],
+                    tags: []
+                }]
+            }
             setFieldsValue({ positions: arr });
         }
     }
@@ -69,32 +78,33 @@ const Worth = ({ isWorth = true }: IWorth) => {
         });
     }
     // 删除标签
-    const deleteTag = (e: MouseEvent<HTMLElement>, key: number, curIndex: string) => {
+    const deleteTag = (e: MouseEvent<HTMLElement>, key: number, curIndex: number) => {
         e.preventDefault();
-        tagsList[key].splice(curIndex, 1)
-        setTagsList({ ...tagsList })
-        const fields = getFieldsValue()
-        const { positions } = fields
-        Object.assign(positions[key], { tagIds: positions[key].tagIds.splice(curIndex, 1) })
+        const { positions } = getFieldsValue()
+        Object.assign(positions[key], { tagIds: positions[key].tagIds.splice(curIndex, 1), tags: positions[key].tags.splice(curIndex, 1) })
         setFieldsValue({ positions })
     }
     // 获取选中的标签
     const getSelectTags = (obj: IObjType) => {
         console.log('obj', obj)
         transferredData[curKey] = obj
-        tagsList[curKey] = Object.values(obj).flat(Infinity)
-        setTagsList({ ...tagsList })
         setTransferredData({ ...transferredData })
         const tagIds = Object.values(obj).flat(Infinity).map(res => res.id)
-        const fields = getFieldsValue()
-        const { positions } = fields
-        Object.assign(positions[curKey], { tagIds })
+        const { positions } = getFieldsValue()
+        !positions[curKey].tags && (positions[curKey].tags = [])
+        Object.assign(positions[curKey], { tagIds, tags: [...Object.values(obj).flat(Infinity)] })
         setFieldsValue({ positions })
     }
     // 新增标签
     const addTag = (key: number) => {
         setCurKey(key)
-        AddTagsRef.current.onOpenClick(transferredData[key] || {})
+        const { positions } = getFieldsValue()
+        const obj: any = {}
+        !positions[key].tags && (positions[key].tags = [])
+        positions[key].tags.forEach((list: IFilterList) => {
+            obj[list.groupName || ''] = positions[key].tags
+        })
+        AddTagsRef.current.onOpenClick(obj || {})
     }
     // 获取列
     const getColumns = (remove: (key: number) => void) => {
@@ -102,7 +112,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             {
                 title: config.tableHeader[0],
                 dataIndex: 'name',
-                render: (text: any, field: any, index: number) => {
+                render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: `请输入${config.tableHeader[0]}` }]}>
                             <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[0]}`} />
@@ -113,7 +123,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             {
                 title: config.tableHeader[1],
                 dataIndex: 'description',
-                render: (text: any, field: any, index: number) => {
+                render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}}描述` }]}>
                             <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[1]}`} />
@@ -127,15 +137,16 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any, index: number) => {
                     const { name, key } = field
                     const record = (getFieldValue('positions') || [])?.[index] || {}
+                    const { tags } = record
                     return (
                         <Form.Item name={[field.name, 'tagIds']} rules={[{ required: true, message: `请选择${config.tableHeader[2]}标签` }]}>
                             <div className={styles.tagWrapper}>
                                 <Button disabled={!isEdit} type="dashed" onClick={() => addTag(key)} icon={<PlusOutlined />}>标签</Button>
                                 <div>
                                     {
-                                        Object.keys(tagsList[key] || {}).map(tag => (
-                                            <Tag key={tagsList[key][tag]?.id} className={styles.tagSty} closable onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, tag)}>
-                                                {tagsList[key][tag]?.name}
+                                        tags?.map((tag: IFilterList, index: number) => (
+                                            <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, index)}>
+                                                {tag.name}
                                             </Tag>
                                         ))
                                     }

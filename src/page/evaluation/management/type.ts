@@ -12,6 +12,9 @@ export interface IChartList {
     finishNum: number;
     personalityProportions: characterProportions[];
     totalNum: number;
+    otherGraph: {
+        [key: string]: any
+    }
 }
 export interface IResultTable {
     curPage: number;
@@ -44,7 +47,7 @@ export interface IFromName {
     status?: string;
     tags?: string;
     resultType?: string;
-    deptId?: string;
+    deptId?: number;
 }
 export interface ITableParams extends IFromName {
     curPage?: number;
