@@ -1,31 +1,34 @@
 .overviewSta {
+    &>h1 {
+        grid-area: header;
+        font-size: 14px;
+        font-weight: 500;
+        color: #464C5B;
+        margin-top: 8px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+
+        &::before {
+            content: '';
+            width: 3px;
+            height: 15px;
+            background: #2B85FF;
+            border-radius: 3px;
+            margin-right: 6px;
+            display: inline-block;
+        }
+    }
 
     .overviewEval {
         display: grid;
-        gap: 25px;
+        gap: 24px 25px;
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
             'header header'
             'menu main'
             'nav footer';
 
-        &>h1 {
-            grid-area: header;
-            font-size: 14px;
-            font-weight: 500;
-            color: #464C5B;
-            line-height: 20px;
-
-            &::before {
-                content: '';
-                width: 3px;
-                height: 15px;
-                background: #2B85FF;
-                border-radius: 3px;
-                margin-right: 6px;
-                display: inline-block;
-            }
-        }
 
         &>div {
             padding: 12px 24px;
@@ -198,6 +201,29 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
+            }
+
+            .detail_proportion_empty {
+                width: 100px;
+                height: 100px;
+                background-color: #E3EFFF;
+                border-radius: 50%;
+                margin: 0 auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    height: 70px;
+                    width: 70px;
+                    display: block;
+                    background-color: #fff;
+                    border-radius: 50%;
+                }
             }
         }
 
@@ -237,7 +263,6 @@
     }
 
     .detailed {
-        margin-top: 24px;
 
         h1 {
             font-size: 14px;
@@ -245,6 +270,7 @@
             color: #464C5B;
             display: flex;
             align-items: center;
+            margin-bottom: 16px;
 
             &::before {
                 content: '';
@@ -317,12 +343,11 @@
         }
 
         .team {
-            margin-top: 24px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-areas:
                 'analysis proportion';
-            gap: 0 20px;
+            gap: 0 24px;
 
             &>div {
                 padding: 12px 24px;
@@ -346,12 +371,13 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                position: relative;
+                // position: relative;
 
                 p {
+                    margin-bottom: 20px;
                     display: block;
-                    position: absolute;
-                    top: 12px;
+                    // position: absolute;
+                    // top: 12px;
                 }
 
                 .teamProportionWrapper {

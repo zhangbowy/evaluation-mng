@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Row, Select } from 'antd';
 import React, { useState, useEffect, FC } from 'react';
 import { queryDept } from '@/api/api';
 import { getAllUrlParam } from '@/utils/utils';
-import {deptList, formType} from './type'
+import { deptList, formType } from './type'
 import styles from './index.module.less';
 
 const { Option } = Select;
@@ -11,7 +11,7 @@ interface face {
     setSearchForm: (searchForm: formType) => void
 }
 
-const AdvancedSearchForm = ({setSearchForm}:face) => {
+const AdvancedSearchForm = ({ setSearchForm }: face) => {
     const [departmentList, setDepartmentList] = useState<Array<deptList>>([]);
     const { corpId, appId } = getAllUrlParam()
     const [form] = Form.useForm();
@@ -25,7 +25,7 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
         const res = await queryDept({ corpId, appId })
         if (res.code == 1) {
             setDepartmentList((departmentList) => {
-                let arr: Array<deptList> = [];
+                const arr: Array<deptList> = [];
                 res.data.resultList.forEach((el: deptList) => {
                     let item = {
                         value: 0,
@@ -95,31 +95,33 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
         formData.map((el, index) => {
             if (el.type == 'input') {
                 children.push(
-                    <Col span={8} key={index}>
-                        <Form.Item
-                            name={`${el.name}`}
-                            label={`${el.title}`}
-                            labelAlign='right'
-                        >
-                            <Input style={{width: 280}} placeholder="请输入" />
-                        </Form.Item>
-                    </Col>,
+                    // <Col span={8} key={index}>
+                    <Form.Item
+                        key={index}
+                        name={`${el.name}`}
+                        label={`${el.title}`}
+                        labelAlign='right'
+                    >
+                        <Input style={{ width: 200 }} placeholder="请输入" />
+                    </Form.Item>
+                    // </Col>,
                 );
             }
             if (el.type == 'select') {
                 children.push(
-                    <Col span={8} key={index}>
-                        <Form.Item
-                            name={`${el.name}`}
-                            label={`${el.title}`}
-                        >
-                            <Select style={{width: 280}} placeholder="请选择" showSearch={el.name === 'deptId'} optionFilterProp="children">
-                                {el.option?.map((i, val) => {
-                                    return <Option value={i.value} key={val}>{i.name}</Option>
-                                })}
-                            </Select>
-                        </Form.Item>
-                    </Col>,
+                    // <Col span={8} key={index}>
+                    <Form.Item
+                        key={index}
+                        name={`${el.name}`}
+                        label={`${el.title}`}
+                    >
+                        <Select style={{ width: 200 }} placeholder="请选择" showSearch={el.name === 'deptId'} optionFilterProp="children">
+                            {el.option?.map((i, val) => {
+                                return <Option value={i.value} key={val}>{i.name}</Option>
+                            })}
+                        </Select>
+                    </Form.Item>
+                    // </Col>,
                 );
             }
         })
@@ -134,28 +136,32 @@ const AdvancedSearchForm = ({setSearchForm}:face) => {
     const onReset = () => {
         form.resetFields();
         setSearchForm(form.getFieldsValue())
-        
+
     };
 
     return (
-        <Form
-            form={form}
-            name="advanced_search"
-            className="ant-advanced-search-form"
-            onFinish={onFinish}
-        >
-            <Row gutter={24}>{getFields()}
+        <div className={styles.form}>
+            <Form
+                form={form}
+                name="advanced_search"
+                className={styles.form_wrapper}
+                onFinish={onFinish}
+            >
+                {getFields()}
+            </Form>
+            <div className={styles.form_btn}>
                 <Button
                     style={{ margin: '0 8px', marginLeft: 'auto' }}
                     onClick={onReset}
                 >
                     重置
                 </Button>
-                <Button type="primary" htmlType="submit" style={{marginRight: 12}}>
+                <Button type="primary" htmlType="submit" style={{ marginRight: 12 }}>
                     搜索
                 </Button>
-            </Row>
-        </Form>
+            </div>
+        </div>
+
     );
 };
 

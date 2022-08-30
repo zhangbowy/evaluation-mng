@@ -68,7 +68,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             'PDP': () => {
                 // 各项能力折线图
-                if (eachRef?.current?.length > 0) {
+                if (eachRef?.current?.length > 0 && chartList?.otherGraph) {
                     abilityText.forEach((res, index) => {
                         eachRef.current[index].innerHTML = '';
                         const arr: LineChart[] = []
@@ -81,7 +81,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             'CA': () => {
                 // 团队平均分和人群批评均分
-                if (averageRef?.current?.length > 0) {
+                if (averageRef?.current?.length > 0 && chartList?.otherGraph) {
                     const data: Average[] = [
                         {
                             "fullScore": null,
@@ -203,7 +203,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             'DISC': () => {
                 // 团队偏好
-                if (teamRef?.current?.length > 0) {
+                if (teamRef?.current?.length > 0 && chartList?.otherGraph) {
                     teamRef.current[0].innerHTML = '';
                     teamRef.current[1].innerHTML = '';
                     teamRef.current[2].innerHTML = '';
@@ -271,6 +271,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 },
             },
             legend: {
+                hoverable: false,
                 offsetX: -80,
                 // itemWidth: 300,
                 itemName: {
@@ -300,9 +301,13 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
         })
         piePlot.chart.removeInteraction('legend-filter');
-        piePlot.on('element:click', (ev: any) => {
+        piePlot.on('legend-item:mouseenter', (ev: any) => {
+            console.log('ev', ev)
             // getTableList({ resultType: ev.data.data.name })
         })
+        piePlot.off('element:click')
+        piePlot.off('legend-item-name:mouseover');
+        piePlot.off('legend-item:mouseenter');
         piePlot.render()
     }
     // 各项能力折线图
@@ -500,27 +505,37 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 <ul className={styles.team}>
                     <div className={`${styles.teamAnalysis} ${styles.border}`}>
                         <p>团队偏好分析</p>
-                        <div ref={el => teamRef.current[0] = el}></div>
+                        {chartList?.otherGraph?.DISCLabels?.length > 0 ?
+                            <div ref={el => teamRef.current[0] = el} />
+                            : <Empty description={'暂无偏好分析'} />}
                     </div>
                     <div className={`${styles.teamProportion} ${styles.border}`}>
                         <p>团队偏好占比</p>
-                        <div className={styles.teamProportionWrapper}>
-                            <span ref={el => teamRef.current[1] = el}></span>
-                            <span ref={el => teamRef.current[2] = el}></span>
-                        </div>
+                        {
+                            chartList?.otherGraph?.dcAndIsLabels?.length > 0 ?
+                                <div className={styles.teamProportionWrapper}>
+                                    <span ref={el => teamRef.current[1] = el}></span>
+                                    <span ref={el => teamRef.current[2] = el}></span>
+                                </div>
+                                : <Empty description={'暂无偏好占比'} />
+                        }
                     </div>
                 </ul>,
             "MBTI_O":
                 <Fragment>
                     <div className={`${styles.preference} ${styles.border}`}>
                         <p>倾向偏好占比</p>
-                        <div className={styles.chartList}>
-                            {
-                                [0, 1, 2, 3].map(res => (
-                                    <div key={res} ref={el => preferenceRef.current[res] = el} />
-                                ))
-                            }
-                        </div>
+                        {
+                            Object.keys(chartList?.otherGraph || {}).length > 0 ?
+                                <div className={styles.chartList}>
+                                    {
+                                        [0, 1, 2, 3].map(res => (
+                                            <div key={res} ref={el => preferenceRef.current[res] = el} />
+                                        ))
+                                    }
+                                </div>
+                                : <Empty description={'暂无偏好占比'} />
+                        }
                     </div>
                     <div className={`${styles.potential} ${styles.border}`}>
                         <p>潜在能力分析 </p>
@@ -531,17 +546,25 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 <Fragment>
                     <div className={`${styles.preference} ${styles.border}`}>
                         <p>倾向偏好占比</p>
-                        <div className={styles.chartList}>
-                            {
-                                [0, 1, 2, 3].map(res => (
-                                    <div key={res} ref={el => preferenceRef.current[res] = el} />
-                                ))
-                            }
-                        </div>
+                        {
+                            Object.keys(chartList?.otherGraph || {}).length > 0 ?
+                                <div className={styles.chartList}>
+                                    {
+                                        [0, 1, 2, 3].map(res => (
+                                            <div key={res} ref={el => preferenceRef.current[res] = el} />
+                                        ))
+                                    }
+                                </div>
+                                : <Empty description={'暂无偏好占比'} />
+                        }
                     </div>
                     <div className={`${styles.potential} ${styles.border}`}>
-                        <p>潜在能力分析 </p>
-                        <div ref={el => preferenceRef.current[4] = el} className={styles.chartList} />
+                        <p>潜在能力分析</p>
+                        {
+                            Object.keys(chartList?.otherGraph || {}).length > 0 ?
+                                <div ref={el => preferenceRef.current[4] = el} className={styles.chartList} />
+                                : <Empty description={'暂无潜在能力分析'} />
+                        }
                     </div>
                 </Fragment>,
             "PDP":
@@ -560,8 +583,13 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 </div>,
             "CA":
                 <div className={`${styles.average} ${styles.border}`}>
-                    <p>团队平均分和人群批评均分 </p>
-                    <div className={styles.average_div} ref={el => averageRef.current[0] = el}></div>
+                    <p>团队平均分和人群批评均分</p>
+                    {
+                        chartList?.otherGraph?.resultScores?.length > 0 ?
+                            <div className={styles.average_div} ref={el => averageRef.current[0] = el} />
+                            : <Empty description={'团队平均分和人群批评均分'} />
+                    }
+
                 </div>
         }
         return curType[type]
@@ -574,8 +602,8 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     return (
         <Fragment>
             <div className={styles.overviewSta}>
+                <h1>测评概览 </h1>
                 <div className={styles.overviewEval}>
-                    <h1>测评概览 </h1>
                     <div className={`${styles.allPeople} ${styles.border}`}>
                         <div className={styles.top}>
                             <div className={styles.left}>
@@ -615,7 +643,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     <div className={`${styles.proportion} ${styles.border}`}>
                         <p>人格分布占比</p>
                         <div className={styles.detail_proportion_wrapper}>
-                            <div ref={(el) => visualRef.current[1] = el} />
+                            <div className={`${(chartList?.personalityProportions || []).length < 1 && styles.detail_proportion_empty}`} ref={(el) => visualRef.current[1] = el} />
                         </div>
                     </div>
                     <div className={`${styles.tags} ${styles.border}`}>

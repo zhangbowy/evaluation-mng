@@ -1,5 +1,5 @@
 import { createExam, getAllPeople, isGuide, queryExamUserIds, updateExam } from "@/api/api";
-import { handleStep } from "@/components/Steps";
+import { handleStep } from "@/components/steps";
 import { Modal } from "antd";
 import dd from "dingtalk-jsapi";
 

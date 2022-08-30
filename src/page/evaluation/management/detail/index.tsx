@@ -125,7 +125,7 @@ const Detail = observer(() => {
           </div>
         </div>
       </nav>
-      <Tabs activeKey={curTab} onChange={onTabChange}>
+      <Tabs activeKey={curTab} className={styles.tabs} onChange={onTabChange}>
         {deptId}
         {
           detailTab.map(res => (

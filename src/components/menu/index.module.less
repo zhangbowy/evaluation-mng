@@ -127,7 +127,6 @@
     }
 
     footer {
-        padding-bottom: 20px;
 
         .menu_recharge {
             width: 176px;
@@ -160,7 +159,33 @@
 
         .packUp {
             margin-left: 40px;
+            margin-bottom: 15px;
             cursor: pointer;
+        }
+
+        :global {
+            .ant-divider {
+                margin: 15px 0;
+            }
+        }
+
+        .bottomImg {
+            width: 194px;
+            height: 93px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+
+            img {
+                width: 194px;
+                height: 93px;
+                transition: all .75s ease;
+
+                &:hover {
+                    transform: scale(1.2);
+                    cursor: pointer;
+                }
+            }
         }
     }
 
@@ -277,8 +302,6 @@
     }
 
     footer {
-        padding-bottom: 20px;
-
         .menu_recharge {
             width: 64px;
             height: 56px;
@@ -312,9 +335,27 @@
 
         .packUp {
             margin-left: 40px;
+            margin-bottom: 15px;
             cursor: pointer;
             font-size: 12px;
         }
+
+        .bottomImg {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto;
+            border-radius: 8px;
+
+            img {
+                width: 66px;
+                height: 66px;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
     }
 }
 

@@ -107,6 +107,8 @@ const Menu = (props: IMenuProps) => {
     }, [authMenuKey]);
     const couponsIcon = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_coupons.svg'
     const logo = '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
+    const largeImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img4_large.png';
+    const smallImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img4_small.png';
     const navigate = useNavigate()
     const { state, dispatch } = useContext(MyContext)
     const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
@@ -135,7 +137,7 @@ const Menu = (props: IMenuProps) => {
         })
     }, []);
     const resizeFn = (e: Event) => {
-        document.body.clientWidth < 1025 && onPackUpClick()
+        document.body.clientWidth < 1280 && onPackUpClick()
     }
     // 节点点击
     const oneElementClick = (item: IMenuItem) => {
@@ -216,13 +218,17 @@ const Menu = (props: IMenuProps) => {
             </div>
             <footer>
                 {
-                    appId.split('_')[0] === '1' &&
-                    <div className={styles.menu_recharge} onClick={goRecharge}>
-                        <div className={styles.footer_couponsIcon}>
-                            <img src={couponsIcon} />
+                    appId.split('_')[0] === '1' ?
+                        <div className={styles.menu_recharge} onClick={goRecharge}>
+                            <div className={styles.footer_couponsIcon}>
+                                <img src={couponsIcon} />
+                            </div>
+                            <span>点券充值</span>
                         </div>
-                        <span>点券充值</span>
-                    </div>
+                        : <div className={styles.bottomImg}>
+                            <img src={!state ? largeImg : smallImg} alt="" />
+                        </div>
+
                 }
                 <Divider />
                 <MenuFoldOutlined onClick={onPackUpClick} className={styles.packUp} />

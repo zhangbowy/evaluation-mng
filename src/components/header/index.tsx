@@ -12,20 +12,25 @@ const Header = memo(() => {
   const history = useNavigate()
   const { state } = useContext(CountContext)
   const { appId } = getAllUrlParam()
-  
+
   // 去充值
   const goRecharge = () => {
     history('/evaluation/recharge')
+  }
+  // 大屏点击
+  const largeScreen = () => {
+    console.log(111);
   }
   return (
     <div className={styles.header_layout}>
       <div className={styles.header_left}>
         {
-          appId.split('_')[0] === '1' && <>
+          appId.split('_')[0] === '1' ? <>
             <label>可用点券</label>
             <label>{state}</label>
             <Button type='primary' onClick={goRecharge}>去充值</Button>
           </>
+            : <Button type='primary' onClick={largeScreen}>团队测评分析</Button>
         }
       </div>
       <div className={styles.header_right}>
@@ -36,5 +41,5 @@ const Header = memo(() => {
     </div>
   )
 })
-
+Header.displayName = 'Header'
 export default Header

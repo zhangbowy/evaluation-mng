@@ -17,10 +17,10 @@ const index = () => {
   const [current, setCurrent] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [form] = Form.useForm();
+  let timer: any;
   useEffect(() => {
     getUser()
     getDepartment()
-    let timer: any;
     timer = setTimeout(() => {
       currentStep()
     }, 1000);
@@ -155,7 +155,7 @@ const index = () => {
       <nav>
         <Form form={form} layout="inline">
           <Form.Item name="name" label="姓名">
-            <Input placeholder="请输入" style={{ width: 240 }} />
+            <Input placeholder="请输入" style={{ width: 200 }} />
           </Form.Item>
           <Form.Item name="deptId" label="部门">
             <Select
@@ -167,7 +167,7 @@ const index = () => {
               }
               placeholder="请选择"
               showSearch
-              style={{ width: 240 }} >
+              style={{ width: 200 }} >
               {
                 departmentList.map((item: IDept) => <Select.Option key={item.deptId} value={item.deptId}>{item.name}</Select.Option>)
               }
@@ -181,7 +181,10 @@ const index = () => {
       </nav>
       <Divider />
       <main>
-        <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
+        <div className={styles.detail_main_title}>
+          <span>账号列表</span>
+          <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
+        </div>
         <Table loading={tableLoading}
           pagination={paginationObj}
           columns={columns}

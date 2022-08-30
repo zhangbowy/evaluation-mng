@@ -25,8 +25,9 @@
                 margin-left: 16px;
             }
         }
-        :global{
-            .ant-form-item{
+
+        :global {
+            .ant-form-item {
                 margin-bottom: 7px;
             }
         }
@@ -34,15 +35,29 @@
 
     main {
         width: 100%;
+
+        .detail_main_title {
+            display: flex;
+            justify-content: space-between;
+
+            &>span {
+                display: inline-block;
+                font-size: 16px;
+            }
+
+            button {
+                margin-bottom: 16px;
+                font-size: 14px;
+            }
+        }
+
         // display: flex;
         // flex-direction: column;
         // align-items: flex-end;
 
-        &>button {
-            margin-bottom: 16px;
-        }
+
         :global {
-            .ant-pagination  {
+            .ant-pagination {
                 position: sticky;
                 bottom: 0;
                 margin: 0;
@@ -50,7 +65,8 @@
                 z-index: 2;
                 background-color: #fff;
             }
-            .ant-table-tbody > tr > td{
+
+            .ant-table-tbody>tr>td {
                 color: #647180;
             }
         }
