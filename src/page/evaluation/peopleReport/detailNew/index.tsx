@@ -327,8 +327,8 @@ const Detail = () => {
               {
                 isHidden && <>
                   {
-                    isOpen ? <UpOutlined onClick={closeTag} className={styles.detail_left_tag_content_icon} />
-                      : <DownOutlined onClick={openTag} className={styles.detail_left_tag_content_icon} />
+                    isOpen ? <i className='iconfont icon-jiantoushang' onClick={closeTag} style={{ color: '#657180', position: 'absolute', bottom: '30px', right: '-6px' }} />
+                      : <i className='iconfont icon-jiantoushang' onClick={openTag} style={{ color: '#657180', position: 'absolute', bottom: '30px', right: '-6px' }} />
                   }
                 </>
               }
@@ -430,9 +430,13 @@ const Detail = () => {
                     }
                     {
                       valueData?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
-                      {
+                      {/* {
                         isOpenWorth ? <UpOutlined onClick={closeWorth} className={styles.detail_content_right_summary_consult_left_icon} />
                           : <DownOutlined onClick={openWorth} className={styles.detail_content_right_summary_consult_left_icon} />
+                      } */}
+                      {
+                        isOpenWorth ? <i className='iconfont icon-jiantoushang' onClick={closeWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                        : <i className='iconfont icon-jiantoushang' onClick={openWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                       }
                       </div>
                     }
@@ -480,9 +484,13 @@ const Detail = () => {
                     }
                     {
                       positionData?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
-                      {
+                      {/* {
                         isOpenPosition ? <UpOutlined onClick={closePosition} className={styles.detail_content_right_summary_consult_right_icon} />
                           : <DownOutlined onClick={openPosition} className={styles.detail_content_right_summary_consult_right_icon} />
+                      } */}
+                      {
+                        isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                        : <i className='iconfont icon-jiantoushang' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                       }
                       </div>
                     }
