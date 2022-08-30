@@ -261,7 +261,7 @@ const Detail = () => {
   }
   const goShare = () => {
     openLink({
-      url: `${window.location.origin}/?corpId=${corpId}&addId=${appId}&clientId=${clientId}#/share?ddtab=true`
+      url: `${window.location.origin}/admin/?corpId=${corpId}&addId=${appId}&clientId=${clientId}#/share?ddtab=true`
     }, true)
   }
   return (
