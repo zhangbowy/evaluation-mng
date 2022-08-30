@@ -136,11 +136,11 @@ const CA = ({ resultDetail = {} }: any) => {
                   <p className={styles.pro}>Professional personality assessment</p>
               </div>
         </div>
-        {/* <div className={styles['user-info']}>
+        <div className={styles['user-info']}>
             <p className={styles.title}>{resultList?.user?.name}</p>
             <p className={styles['sub-title']}>{resultList?.user?.gender === 1 ? '男' : '女'}</p>
-            <p className={styles['sub-title']}>{dayjs(resultList?.created).format('YYYY-MM-DD')}</p>
-        </div> */}
+            <p className={styles['sub-title']}>{resultList?.created}</p>
+        </div>
         <div className={styles.footerImg}>
             <div className={styles.image}>
                 <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_disc_bg2.png" />
