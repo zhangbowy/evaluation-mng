@@ -7,20 +7,26 @@
         justify-content: space-between;
 
         .detail_main_filter_left {
-            width: 70%;
 
             .from_wrapper {
                 display: flex;
                 flex-flow: row wrap;
-                justify-content: space-between;
 
-                .ant-form-item {
-                    margin-right: 10px;
+                :global {
+                    .ant-form-item-label {
+                        width: 80px;
+                    }
+
+                    .ant-form-item {
+                        margin-bottom: 16px;
+                    }
                 }
             }
         }
 
         .detail_main_filter_right {
+            display: flex;
+
             button {
                 margin-right: 20px;
             }
@@ -28,12 +34,23 @@
     }
 
     .detail_main_table {
-        text-align: right;
+        // text-align: right;
         background-color: var(--white-color);
 
-        button {
-            margin-bottom: 12px;
+        .detail_main_title {
+            display: flex;
+            justify-content: space-between;
+
+            &>span {
+                display: inline-block;
+                font-size: 16px;
+            }
+
+            button {
+                margin-bottom: 12px;
+            }
         }
+
 
         .table_list_tags {
             display: flex;

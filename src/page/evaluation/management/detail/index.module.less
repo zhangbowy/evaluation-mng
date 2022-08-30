@@ -23,6 +23,7 @@
         width: 100%;
 
 
+
         .detail_titleCard {
             padding: 16px;
             background-color: var(--bg-color-1);
@@ -78,6 +79,7 @@
                 }
 
                 .detail_bottom {
+                    width: 100%;
                     font-size: 14px;
                     font-family: PingFangSC-Regular, PingFang SC;
                     font-weight: 400;
@@ -88,8 +90,15 @@
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 3;
                     overflow: hidden;
-                    white-space: wrap;
                 }
+            }
+        }
+    }
+
+    .tabs {
+        :global {
+            .ant-tabs-tab-btn {
+                font-size: 16px;
             }
         }
     }

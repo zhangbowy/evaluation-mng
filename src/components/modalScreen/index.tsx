@@ -50,7 +50,7 @@ const ModalScreen = (props: propsType) => {
         <img className={styles.screen_img} src="https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy_LargeScreen.png" alt="" />
         <div className={styles.screen_footer}>
           <Button onClick={goScreen} disabled={isAction} className={styles.screen_footer_go} type='primary'>已完成，立即前往</Button>
-          <span className={styles.screen_footer_back}>暂不前往</span>
+          <span onClick={close} className={styles.screen_footer_back}>暂不前往</span>
         </div>
       </div>
     </Modal>

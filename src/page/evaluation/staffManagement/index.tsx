@@ -2,6 +2,7 @@ import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
 import { formType } from './form/type';
 import { SYNC_CONTACTS, CONTACTS_DETAIL } from '@/api/api';
+import { Divider } from 'antd'
 import styles from './index.module.less';
 import AdvancedSearchForm from './form';
 import Tables from './table';
@@ -85,8 +86,10 @@ const staff: FC = () => {
                 </div>
                 <div className={styles.Staff_form}>
                     <AdvancedSearchForm setSearchForm={setSearchForm} />
+                    <Divider style={{ margin: '8px 0 24px' }} />
                 </div>
                 <div className={styles.Staff_operation}>
+                    <span>员工列表</span>
                     <Button type="primary" style={{ marginLeft: 'auto' }} onClick={handleUpload}>
                         批量操作
                     </Button>

@@ -117,7 +117,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             render: (text: number, record, index: number) => {
                 // 查看报告
                 const onLookResult = () => {
-                    navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}~${measurement?.examTemplateType}`);
+                    navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}~${type}`);
                 }
                 // 解锁查看
                 const onUnlockClick = async () => {
@@ -300,17 +300,17 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                 <div className={styles.detail_main_filter}>
                     <div className={styles.detail_main_filter_left}>
                         <Form className={styles.from_wrapper} form={form}  >
-                            <Form.Item label="姓名" labelCol={{ span: 6 }} name="name">
-                                <Input placeholder="请输入姓名" style={{ width: 240 }} />
+                            <Form.Item label="姓名" name="name">
+                                <Input placeholder="请输入姓名" style={{ width: 200 }} />
                             </Form.Item>
                             <Form.Item label="完成情况" name="status">
-                                <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(doneCondition, 1)}</Select>
+                                <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 200 }}>{backFilterEle(doneCondition, 1)}</Select>
                             </Form.Item>
                             <Form.Item label="性格类型" name="tags">
-                                <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
+                                <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 200 }}>{backFilterEle(chartList?.characterProportions as characterProportions[])}</Select>
                             </Form.Item>
                             <Form.Item label="人格类型" name="resultType">
-                                <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 240 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
+                                <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 200 }}>{backFilterEle(chartList?.personalityProportions as characterProportions[])}</Select>
                             </Form.Item>
                         </Form>
                     </div>
@@ -319,8 +319,12 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         <Button type="primary" onClick={onSearchClick}>搜索</Button>
                     </div>
                 </div>
+                <Divider style={{ margin: '8px 0 24px' }} />
                 <div className={styles.detail_main_table}>
-                    <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
+                    <div className={styles.detail_main_title}>
+                        <span>测评列表</span>
+                        <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
+                    </div>
                     <Table pagination={paginationObj} scroll={{ x: 1500, }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
                 </div>
             </div>

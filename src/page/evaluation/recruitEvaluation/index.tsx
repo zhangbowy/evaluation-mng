@@ -425,12 +425,24 @@ const RecruitEvaluation = () => {
       <div className={styles.recruitEvaluation_content}>
         <h1>招聘测评</h1>
         <nav>
-          <Form form={form} layout="inline">
+          <Form form={form} className={styles.from_wrapper} labelAlign={'right'}>
             <Form.Item name="candidateName" label="候选人">
-              <Input placeholder="请输入" style={{ width: 240 }} />
+              <Input placeholder="请输入" style={{ width: 200 }} />
             </Form.Item>
-            <Form.Item name="job" label="应聘岗位">
-              <Input placeholder="请输入" style={{ width: 240 }} />
+            <Form.Item name="job" label="应聘岗位" >
+              <Input placeholder="请输入" style={{ width: 200 }} />
+            </Form.Item>
+            <Form.Item name="job" label="应聘岗位" >
+              <Input placeholder="请输入" style={{ width: 200 }} />
+            </Form.Item>
+            <Form.Item name="job" label="应聘岗位" >
+              <Input placeholder="请输入" style={{ width: 200 }} />
+            </Form.Item>
+            <Form.Item name="job" label="应聘岗位" >
+              <Input placeholder="请输入" style={{ width: 200 }} />
+            </Form.Item>
+            <Form.Item name="job" label="应聘岗位" >
+              <Input placeholder="请输入" style={{ width: 200 }} />
             </Form.Item>
             <Form.Item name="examStatus" label="测评状态">
               <Select
@@ -442,7 +454,7 @@ const RecruitEvaluation = () => {
                 }
                 placeholder="请选择"
                 showSearch
-                style={{ width: 240 }} >
+                style={{ width: 200 }} >
                 {
                   recruitStatusList.map((item: RecruitStatus) => <Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>)
                 }
@@ -463,7 +475,7 @@ const RecruitEvaluation = () => {
             </Button>
           </div >
         </nav >
-        <Divider />
+        <Divider style={{ margin: '8px 0 24px' }} />
         <main>
           <section>
             <span>候选人表</span>

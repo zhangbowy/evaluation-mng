@@ -23,7 +23,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
     // 取消
     const cancelClick = () => {
         setIsEdit(false)
-        resetFields()
+        getList()
     }
     // 获取列表
     const getList = async () => {
@@ -48,7 +48,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                     tags: []
                 }]
             }
-            setFieldsValue({ positions: arr });
+            setFieldsValue({ [config.fieldName]: arr });
         }
     }
     // 发布
@@ -80,9 +80,13 @@ const Worth = ({ isWorth = true }: IWorth) => {
     // 删除标签
     const deleteTag = (e: MouseEvent<HTMLElement>, key: number, curIndex: number) => {
         e.preventDefault();
-        const { positions } = getFieldsValue()
-        Object.assign(positions[key], { tagIds: positions[key].tagIds.splice(curIndex, 1), tags: positions[key].tags.splice(curIndex, 1) })
-        setFieldsValue({ positions })
+        const curObj = getFieldsValue()
+        const curVal = curObj[config.fieldName]
+        Object.assign(curVal[key], {
+            tagIds: curVal[key].tagIds.splice(0, 1),
+            tags: curVal[key].tags.splice(0, 1)
+        })
+        setFieldsValue({ [config.fieldName]: curVal })
     }
     // 获取选中的标签
     const getSelectTags = (obj: IObjType) => {
@@ -90,25 +94,27 @@ const Worth = ({ isWorth = true }: IWorth) => {
         transferredData[curKey] = obj
         setTransferredData({ ...transferredData })
         const tagIds = Object.values(obj).flat(Infinity).map(res => res.id)
-        const { positions } = getFieldsValue()
-        !positions[curKey].tags && (positions[curKey].tags = [])
-        Object.assign(positions[curKey], { tagIds, tags: [...Object.values(obj).flat(Infinity)] })
-        setFieldsValue({ positions })
+        const curObj = getFieldsValue()
+        const curVal = curObj[config.fieldName]
+        !curVal[curKey].tags && (curVal[curKey].tags = [])
+        Object.assign(curVal[curKey], { tagIds, tags: [...Object.values(obj).flat(Infinity)] })
+        setFieldsValue({ [config.fieldName]: curVal })
     }
     // 新增标签
-    const addTag = (key: number) => {
-        setCurKey(key)
-        const { positions } = getFieldsValue()
+    const addTag = (index: number) => {
+        setCurKey(index)
+        const curObj = getFieldsValue()
+        const curVal = curObj[config.fieldName]
         const obj: any = {}
-        !positions[key].tags && (positions[key].tags = [])
-        positions[key].tags.forEach((list: IFilterList) => {
-            obj[list.groupName || ''] = positions[key].tags
+        !curVal[index]?.tags && (curVal[index].tags = [])
+        curVal[index].tags.forEach((list: IFilterList) => {
+            obj[list.groupName || ''] = curVal[index].tags
         })
         AddTagsRef.current.onOpenClick(obj || {})
     }
     // 获取列
     const getColumns = (remove: (key: number) => void) => {
-        return [
+        const arr = [
             {
                 title: config.tableHeader[0],
                 dataIndex: 'name',
@@ -136,39 +142,41 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 dataIndex: 'tagIds',
                 render: (text: any, field: any, index: number) => {
                     const { name, key } = field
-                    const record = (getFieldValue('positions') || [])?.[index] || {}
+                    const record = (getFieldValue(config.fieldName) || [])?.[index] || {}
                     const { tags } = record
                     return (
                         <Form.Item name={[field.name, 'tagIds']} rules={[{ required: true, message: `请选择${config.tableHeader[2]}标签` }]}>
                             <div className={styles.tagWrapper}>
-                                <Button disabled={!isEdit} type="dashed" onClick={() => addTag(key)} icon={<PlusOutlined />}>标签</Button>
-                                <div>
-                                    {
-                                        tags?.map((tag: IFilterList, index: number) => (
-                                            <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, index)}>
-                                                {tag.name}
-                                            </Tag>
-                                        ))
-                                    }
-                                </div>
+                                {
+                                    isEdit && <Button size='small' type="dashed" onClick={() => addTag(index)} icon={<PlusOutlined />}>标签</Button>
+                                }
+                                {
+                                    tags?.map((tag: IFilterList, idx: number) => (
+                                        <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, idx)}>
+                                            {tag.name}
+                                        </Tag>
+                                    ))
+                                }
                             </div>
                         </Form.Item>
                     )
                 }
             },
-            {
-                title: config.tableHeader[3],
-                dataIndex: 'operate',
-                render: (text: any, field: any, index: number) => {
-                    const record = (getFieldValue('positions') || [])
-                    return (
-                        <Button
-                            onClick={() => deleteWorth(remove, index)}
-                            disabled={record.length < 2} danger type="link" >删除</Button>
-                    )
-                }
-            }
         ]
+        const list = {
+            title: config.tableHeader[3],
+            dataIndex: 'operate',
+            render: (text: any, field: any, index: number) => {
+                const record = (getFieldValue(config.fieldName) || [])
+                return (
+                    <Button
+                        onClick={() => deleteWorth(remove, index)}
+                        disabled={record.length < 2} danger type="link" >删除</Button>
+                )
+            }
+        }
+        isEdit && arr.push(list)
+        return arr
     }
     return (
         <Fragment>
@@ -184,7 +192,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 <main>
                 </main>
                 <Form form={form} >
-                    <Form.List name="positions" >
+                    <Form.List name={config.fieldName} >
                         {(fields, { add, remove }) => (
                             <>
                                 <Table
@@ -195,9 +203,9 @@ const Worth = ({ isWorth = true }: IWorth) => {
                                     columns={getColumns(remove)}
                                     pagination={false} />
                                 <div className={styles.worth_add} >
-                                    <Button className={styles.worth_addWorth} onClick={() => add()} icon={<PlusCircleOutlined />} type="dashed" block>
+                                    {isEdit && <Button className={styles.worth_addWorth} onClick={() => add()} icon={<PlusCircleOutlined />} type="dashed" block>
                                         {config.addText}
-                                    </Button>
+                                    </Button>}
                                     {/* <Button type="link">下载模板</Button>
                                     <Button type="link">批量导入</Button> */}
                                 </div>

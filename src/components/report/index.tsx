@@ -70,6 +70,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
                                 abilityList: newList,
                             }
                         })
+                        setResultDetial(newData);
                         return;
                     }
 

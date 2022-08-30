@@ -7,6 +7,7 @@ import { MenuFoldOutlined } from '@ant-design/icons';
 import { MyContext } from '@/utils/context'
 import { getMenu } from '@/api/api'
 import { getAllUrlParam, getAppIdType } from '@/utils/utils';
+import ModalScreen from '@/components/modalScreen';
 
 type IMenuProps = {
     handelPackUp: () => void
@@ -17,6 +18,7 @@ type IPackUpStyleBack = {
 }
 const Menu = (props: IMenuProps) => {
     const [authMenuKey, setAuthMenuKey] = useState<string[]>([]);
+    const [visible, setVisible] = useState<boolean>(false);
     const { appId } = getAllUrlParam()
     const appType = getAppIdType();
     const menuList: IMenuItem[] = [
@@ -110,6 +112,8 @@ const Menu = (props: IMenuProps) => {
     const logo = appType === '2'
         ? '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
         : '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
+    const largeImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img4_large.png';
+    const smallImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img4_small.png';
     const navigate = useNavigate()
     const { state, dispatch } = useContext(MyContext)
     const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
@@ -138,7 +142,7 @@ const Menu = (props: IMenuProps) => {
         })
     }, []);
     const resizeFn = (e: Event) => {
-        document.body.clientWidth < 1025 && onPackUpClick()
+        document.body.clientWidth < 1280 && onPackUpClick()
     }
     // 节点点击
     const oneElementClick = (item: IMenuItem) => {
@@ -197,12 +201,20 @@ const Menu = (props: IMenuProps) => {
             </div>
         )
     }
+    // 打开大屏弹窗
+    const openModal = () => {
+        setVisible(true);
+    }
+    // 关闭大屏弹窗
+    const closeModal = () => {
+        setVisible(false);
+    }
     return (
         <div className={!state ? styles.menu_default_layout : styles.menu_packUp_layout}>
             <div>
                 <header>
                     <img src={logo} alt="" />
-                    <span>{appType === '1' ? '趣测评管理狗太' : '招才选将'}</span>
+                    <span>{appType === '1' ? '趣测评管理后台' : '招才选将'}</span>
                 </header>
                 <main>
                     {
@@ -219,17 +231,22 @@ const Menu = (props: IMenuProps) => {
             </div>
             <footer>
                 {
-                    appType === '1' &&
-                    <div className={styles.menu_recharge} onClick={goRecharge}>
-                        <div className={styles.footer_couponsIcon}>
-                            <img src={couponsIcon} />
+                    appId.split('_')[0] === '1' ?
+                        <div className={styles.menu_recharge} onClick={goRecharge}>
+                            <div className={styles.footer_couponsIcon}>
+                                <img src={couponsIcon} />
+                            </div>
+                            <span>点券充值</span>
                         </div>
-                        <span>点券充值</span>
-                    </div>
+                        : <div className={styles.bottomImg} onClick={openModal}>
+                            <img src={!state ? largeImg : smallImg} alt="" />
+                        </div>
+
                 }
                 <Divider />
                 <MenuFoldOutlined onClick={onPackUpClick} className={styles.packUp} />
             </footer>
+            <ModalScreen visible={visible} closeModal={closeModal} />
         </div>
     )
 }

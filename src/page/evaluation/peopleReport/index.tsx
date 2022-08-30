@@ -28,7 +28,7 @@ const PeopleReport = () => {
     defaultPageSize: 10,
     total: totalNum,
     current: current,
-    showTotal: () =>`共 ${totalNum} 条数据`,
+    showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
       getUserReport({ curPage: page, pageSize, ...form.getFieldsValue() })
     }
@@ -91,11 +91,11 @@ const PeopleReport = () => {
    */
   const handleExportReport = async () => {
     setExportLoading(true)
-    const {code, data} = await EXPORT_TALENT_REPORT({
+    const { code, data } = await EXPORT_TALENT_REPORT({
       ...form.getFieldsValue()
     });
-    if(code === 1) {
-      let url = data.domain + '/' + data.path;
+    if (code === 1) {
+      const url = data.domain + '/' + data.path;
       handleDDDownload(url);
     }
   };
@@ -104,18 +104,15 @@ const PeopleReport = () => {
    * handle dd download
    * @param url report url
    */
-  const handleDDDownload = (url:string) => {
+  const handleDDDownload = (url: string) => {
     setExportLoading(false)
     dd.biz.util.downloadFile({
       url: url, //要下载的文件的url
       name: `人才报告${returnCurDate()}.xlsx`, //定义下载文件名字
       onProgress: function (msg: any) {
-          // 文件下载进度回调
+        // 文件下载进度回调
       },
-      onSuccess: function (result: any) {
-      },
-      onFail: function () { }
-  })
+    })
   }
 
   const columns: ColumnsType<IReportList> = [
@@ -174,8 +171,11 @@ const PeopleReport = () => {
         </div>
       </nav>
       <Divider />
-      <Button type="primary" style={{marginBottom: '24px'}} loading={exportLoading} onClick={handleExportReport}>导出</Button>
       <main>
+        <div className={styles.detail_main_title}>
+          <span>人才列表</span>
+          <Button type="primary" style={{ marginBottom: '24px' }} loading={exportLoading} onClick={handleExportReport}>导出</Button>
+        </div>
         <Table loading={tableLoading}
           pagination={paginationObj}
           columns={columns}
