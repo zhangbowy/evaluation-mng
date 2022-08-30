@@ -5,7 +5,6 @@ import { propsType } from './type';
 
 const MatchingArea = ({ totalData, reportDetailList }: propsType) => {
   const {x, y} = useMemo(() => {
-    console.log(totalData, 'totalData');
     return {
       x: totalData?.positionMatchDTO?.totalMatch || 0,
       y: totalData?.valuesMatchDTO?.totalMatch || 0

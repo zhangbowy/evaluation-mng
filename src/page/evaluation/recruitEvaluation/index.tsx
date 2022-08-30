@@ -133,7 +133,6 @@ const RecruitEvaluation = () => {
   const polling = async () => {
     const item = await getSelectPdfStatus(tasksPdf.current.map((res: SelectPdfStatus) => res.taskId))
     const obj = (new Function("return " + item))();
-    console.log(obj, 'obj');
     if (obj.code == 1) {
       tasksPdf.current.forEach((taskObj: SelectPdfStatus) => {
         if (obj.data[taskObj.taskId][0].oss_url) {

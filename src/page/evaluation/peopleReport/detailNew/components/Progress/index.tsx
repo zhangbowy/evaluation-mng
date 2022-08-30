@@ -3,7 +3,6 @@ import { propsType } from './type';
 import styles from './index.module.less';
 
 const Progress = (props: propsType) => {
-  console.log(props, 'props');
   const {
     width,
     height,
@@ -16,7 +15,6 @@ const Progress = (props: propsType) => {
     left = 4
   } = props;
   const percent = useMemo(() => {
-    console.log(score, totalScore);
     return (Number((score / totalScore).toFixed(2)) * 100)
   }, [score, totalScore]);
   return (

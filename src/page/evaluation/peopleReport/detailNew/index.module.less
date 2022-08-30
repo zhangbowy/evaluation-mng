@@ -43,6 +43,10 @@
           margin-top: 16px;
           display: flex;
           align-items: center;
+          .detail_left_info_name_text {
+            font-weight: 600;
+            font-size: 16px;
+          }
           div[class^="_detail_gender"] {
             border-radius: 4px;
             width: 18px;
@@ -185,6 +189,9 @@
             &:nth-child(Odd) {
               margin-right: 15px;
             }
+            &.no {
+              background-color: #E3E8EE;
+            }
             .detail_left_evaluation_content_item_icon {
               width: 20px;
               height: 20px;
@@ -305,6 +312,7 @@
                   .detail_content_right_summary_consult_left_header_title_question {
                     color: #689af3;
                     margin-left: 5px;
+                    cursor: pointer;
                   }
                 }
                 .detail_content_right_summary_consult_left_header_precent {
@@ -392,6 +400,7 @@
                   .detail_content_right_summary_consult_right_header_title_question {
                     color: #EC9108;
                     margin-left: 5px;
+                    cursor: pointer;
                   }
                 }
                 .detail_content_right_summary_consult_right_header_precent {
@@ -423,6 +432,7 @@
                   background-color: rgba(255, 255, 255, .5);
                   z-index: 1;
                   backdrop-filter: blur(3px);
+                  -webkit-backdrop-filter: blur(3px);
                   font-size: 14px;
                   font-weight: 400;
                   color: #3E4043;
@@ -523,32 +533,40 @@
                     position: absolute;
                     top: 0;
                     right: 0;
-                    padding: 2px 5px 2px 9px;
                     background-color: #FF9900;
                     border-radius: 1px 4px 1px 4px;
+                    width: 88px;
+                    height: 24px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     span {
-                      font-size: 14px;
                       font-weight: 400;
                       color: #fff;
                       line-height: 20px;
+                      font-size: 12px;
                     }
                   }
                   .detail_card_num_no {
                     position: absolute;
                     top: 0;
                     right: 0;
-                    padding: 2px 5px 2px 9px;
                     background-color: #9EA7B4;
                     border-radius: 1px 4px 1px 4px;
                     font-size: 14px;
                     font-weight: 400;
                     color: #fff;
                     line-height: 20px;
+                    width: 88px;
+                    height: 24px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     span {
-                      font-size: 14px;
                       font-weight: 400;
                       color: #fff;
                       line-height: 20px;
+                      font-size: 12px;
                     }
                   }
                   .detail_card_num_status {

@@ -1,5 +1,5 @@
 import { getAllExam, UnLockReport, getUserAllExamResultSummaryGraph, getWorthMatch, notification } from '@/api/api';
-import { Breadcrumb, Button, Divider, Tooltip } from 'antd';
+import { Breadcrumb, Button, Divider, Tooltip, message } from 'antd';
 import React, { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import styles from './index.module.less';
@@ -26,6 +26,8 @@ import PdpResult from './components/PdpResult';
 import DiscResult from './components/DiscResult';
 import CaResult from './components/CaResult';
 import { getAllUrlParam, openLink } from "@/utils/utils";
+import cs from 'classnames';
+// import ModalScreen from '@/components/modalScreen';
 
 const tagsData = ['自信', '决断力高', '竞争性强', '企图心强', '勇于冒险', '热心', '乐观', '活泼', '社交能力强']
 const data1 = [
@@ -116,7 +118,6 @@ const Detail = () => {
   const getUserReport = async () => {
     const res = await getAllExam({ userId })
     if (res.code === 1) {
-      console.log(res.data);
       const str = res.data.deptList.map((v: any) => v.name).join(',');
       const totalNum = res.data.successNum + res.data.remainingNum;
       setTotalNum(totalNum);
@@ -129,7 +130,6 @@ const Detail = () => {
   const getChartsData = async () => {
     const res = await getUserAllExamResultSummaryGraph({ userId })
     if (res.code === 1) {
-      console.log(res, '图表数据');
       setChartsData(res.data);
     }
   }
@@ -137,7 +137,6 @@ const Detail = () => {
   const getTotalData = async () => {
     const res = await getWorthMatch({ userId })
     if (res.code === 1) {
-      console.log(res, '总结数据');
       setTotalData(res.data);
     }
   }
@@ -180,7 +179,6 @@ const Detail = () => {
 
   }, [totalData, isOpenWorth, isOpenPosition, reportDetailList]);
   useEffect(() => {
-    console.log(reportDetailList, tagRef?.current?.clientHeight, tagRef?.current?.scrollHeight );
     if (tagRef.current) {
       if (tagRef?.current?.scrollHeight > tagRef?.current?.clientHeight) {
         setIsHidden(true);
@@ -191,11 +189,12 @@ const Detail = () => {
   }, [reportDetailList, tagRef]);
   // 发送通知
   const sendNotice = (examPaperId: string | number) => {
-    console.log(examPaperId, 'examPaperId');
     notification({
       examPaperIds: [examPaperId]
     }).then(res => {
-      console.log(res)
+      if (res.code === 1) {
+        message.success('通知测评成功');
+      }
     })
   };
 
@@ -270,12 +269,6 @@ const Detail = () => {
       url: `${window.location.origin}/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/share?ddtab=true`
     }, true)
   }
-  const goShare1 = () => {
-    const a = 'https://share.shanhaibi.com/62f5c17d88fe0?ddtab=true'
-    openLink({
-      url: a
-    }, true)
-  }
   return (
     <div className={styles.detail_layout}>
       <Breadcrumb separator=">" className={styles.detail_nav}>
@@ -283,8 +276,7 @@ const Detail = () => {
         <Breadcrumb.Item>{reportDetailList?.name}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
-      <Button onClick={goShare}>点击跳转</Button>
-      <Button onClick={goShare1}>点击跳转1</Button>
+      {/* <Button onClick={goShare}>点击跳转</Button> */}
 
       <div className={styles.detail_content}>
         <div className={styles.detail_content_left}>
@@ -298,7 +290,7 @@ const Detail = () => {
                   </div>
               }
               <div className={styles.detail_left_info_name}>
-                <span>{reportDetailList?.name}</span>
+                <span className={styles.detail_left_info_name_text}>{reportDetailList?.name}</span>
                 <Tooltip placement="top" title={`性别：${reportDetailList?.sex == 1 ? '男' : '女'}`}>
                   <div className={reportDetailList?.sex == 1 ? styles.detail_gender_1 : styles.detail_gender_2}>
                     {reportDetailList?.sex == 1 ? <ManOutlined /> : <WomanOutlined />}
@@ -354,7 +346,10 @@ const Detail = () => {
               <div className={styles.detail_left_evaluation_content}>
                 {
                   reportDetailList?.evaluationVoList.map((item) => (
-                    <div key={item?.examPaperId} className={styles.detail_left_evaluation_content_item}>
+                    <div
+                      key={item?.examPaperId}
+                      className={item.answerStatus === 0 ? cs(styles.detail_left_evaluation_content_item, styles.no) : styles.detail_left_evaluation_content_item}
+                    >
                       <div
                         className={cx({
                           'detail_left_evaluation_content_item_icon': true,
@@ -404,10 +399,12 @@ const Detail = () => {
                         <i className="iconfont icon-jiazhi" style={{ fontSize: '12px', color: '#fff' }} />
                       </span>
                       <span>价值观匹配参考</span>
-                      <QuestionCircleFilled className={styles.detail_content_right_summary_consult_left_header_title_question} />
+                      <Tooltip title='测评全部完成后会给出价值观匹配参考依据，具体请结合线下该员工一系列行为综合评判。'>
+                        <QuestionCircleFilled className={styles.detail_content_right_summary_consult_left_header_title_question} />
+                      </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_left_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : totalData?.valuesMatchDTO?.totalMatch}%
+                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.valuesMatchDTO?.totalMatch}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_left_content}>
@@ -448,10 +445,12 @@ const Detail = () => {
                         <i className="iconfont icon-gangwei" style={{ fontSize: '12px', color: '#fff' }} />
                       </span>
                       <span>岗位潜力匹配参考</span>
-                      <QuestionCircleFilled className={styles.detail_content_right_summary_consult_right_header_title_question} />
+                      <Tooltip title='测评全部完成后会给出价值观匹配参考依据，具体请结合线下该员工一系列行为综合评判。'>
+                        <QuestionCircleFilled className={styles.detail_content_right_summary_consult_right_header_title_question} />
+                      </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_right_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : totalData?.positionMatchDTO?.totalMatch}%
+                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.positionMatchDTO?.totalMatch}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_right_content}>
@@ -538,6 +537,7 @@ const Detail = () => {
         </div>
       </div>
       <LookResult ref={lookResultRef} />
+      {/* <ModalScreen visible={true} /> */}
     </div>
 
   )

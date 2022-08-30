@@ -140,7 +140,7 @@ const routes: RouteObject[] = [
         element: <PDF />,
     },
     {
-        path: '/share',
+        path: '/share/:url',
         element: <Share />
     },
     {

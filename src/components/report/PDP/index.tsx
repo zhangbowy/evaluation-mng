@@ -27,7 +27,6 @@ const CA = ({ resultDetail = {} }: any) => {
 
   useEffect(() => {
     const result: any = resultDetail;
-    console.log(result, 'result');
     setResultList(result);
     const { tags = [], results = [], htmlDescList = [] } = result;
     let str = '';

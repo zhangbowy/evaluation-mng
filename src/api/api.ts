@@ -262,3 +262,7 @@ export const getWorthMatch = async (params: UserAllExamResultSummaryGraphParams)
 export const notification = async (params: NotificationParams) => {
     return request('/api/spf-cc/b/notice/onclickNotification', { params, method: 'POST' })
 }
+// 获取大屏链接
+export const getDataScreenUrl = async (params: any) => {
+    return request('/api/spf-cc/data/screen/getDataScreenUrl', { params, method: 'GET' })
+}

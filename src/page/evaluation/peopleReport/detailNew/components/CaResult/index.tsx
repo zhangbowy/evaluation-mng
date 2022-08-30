@@ -10,9 +10,7 @@ function CaResult({ chartsData = {}, sendNotice }: any) {
     radarMap(chartsData);
   }, [chartsData]);
   const radarMap = (chartsData: any) => {
-    console.log(1111, chartsData);
     const { chartData, resultType } = chartsData || {};
-    console.log(chartData, 'chartData');
     const dataColumn = chartData ? Object.keys(chartData).map((key) => ({
       type: chartData[key].resultType?.split('：')[1],
       value: chartData[key].score,
@@ -26,7 +24,6 @@ function CaResult({ chartsData = {}, sendNotice }: any) {
       { type: '服务型', value: 0 },
       { type: '技术/职能型', value: 0 },
     ];
-    console.log(dataColumn, 'dataColumn');
     pieRef.current.innerHTML = ''
     const radarPlot = new Pie(pieRef.current, {
         data: dataColumn,
@@ -37,8 +34,7 @@ function CaResult({ chartsData = {}, sendNotice }: any) {
         radius: 0.65,
         legend: false,
         color: (data) => {
-          console.log(data, 'color');
-          if (data.type === resultType?.split('：')[1]) {
+          if (data.type.indexOf(resultType) > -1) {
             return '#5EA3FF'
           }
           return '#B1D2FF'
