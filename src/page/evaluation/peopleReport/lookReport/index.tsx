@@ -61,6 +61,7 @@ const LookReport = () => {
                 userId={userId}
                 examPaperId={examPaperId}
                 templateType={templateType}
+                isRecruit={true}
             />
         </div>
     );

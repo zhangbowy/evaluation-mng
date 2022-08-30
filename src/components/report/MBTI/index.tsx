@@ -2,10 +2,13 @@ import { Button, Divider, Modal, Tabs } from 'antd';
 import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle } from 'react';
 import './index.less';
 import print from "@/utils/print";
+import { getAppIdType } from '@/utils/utils'
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
 const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
     const { resultDetail, childStyle } = props;
+    console.log(resultDetail, 'resultDetail');
+    const appType = getAppIdType()
     useImperativeHandle(ref, () => {
         return {
             exportPDF: toExportPdf,
@@ -122,8 +125,15 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
             {/*封面*/}
             <div className="pdf-cover">
                 <div className="logo">
-                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt="" />
-                    <span className="name">趣测评</span>
+                <img
+                    src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
+                    alt=""
+                    />
+                <span className="name">
+                    {
+                    appType === '1' ? '趣测评' : '招才选将'
+                    }
+                </span>
                 </div>
                 <div className="main-title">
                     <p className="title">MBTI</p>

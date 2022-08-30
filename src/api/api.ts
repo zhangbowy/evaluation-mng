@@ -1,5 +1,29 @@
 import request from './http';
-import { IGetAllPeopleParams, IBResultParams, IUnLockParams, IExamUsers, ICreteExamParams, IExamListParams, IPointAssetParams, IRechargeFlow, IRechargeUrl, IConsumeFlow, IRecruitmentExam, IRecruitmentExamList, IUpdateRecruitment, IUserExamResult, IUnlockItem, IPDFDownLoadParams, IsHasPdfParams, IPortraitPublish, MenuParams, UserRoleParams, PermissionUserListParams, UserAllExamResultSummaryGraphParams } from './type';
+import {
+    IGetAllPeopleParams,
+    IBResultParams,
+    IUnLockParams,
+    IExamUsers,
+    ICreteExamParams,
+    IExamListParams,
+    IPointAssetParams,
+    IRechargeFlow,
+    IRechargeUrl,
+    IConsumeFlow,
+    IRecruitmentExam,
+    IRecruitmentExamList,
+    IUpdateRecruitment,
+    IUserExamResult,
+    IUnlockItem,
+    IPDFDownLoadParams,
+    IsHasPdfParams,
+    IPortraitPublish,
+    MenuParams,
+    UserRoleParams,
+    PermissionUserListParams,
+    UserAllExamResultSummaryGraphParams,
+    NotificationParams
+} from './type';
 
 export const login = async (data: any) => {
     return request('/api/member/login/qcp/dt', { method: 'POST', data })
@@ -233,4 +257,12 @@ export const getUserAllExamResultSummaryGraph = async (params: UserAllExamResult
 // 获取人才详情页总结数据
 export const getWorthMatch = async (params: UserAllExamResultSummaryGraphParams) => {
     return request('/api/spf-cc/b/evaluation/report/getWorthMatch', { params, method: 'GET' })
+}
+// 通知测试
+export const notification = async (params: NotificationParams) => {
+    return request('/api/spf-cc/b/notice/onclickNotification', { params, method: 'POST' })
+}
+// 获取大屏链接
+export const getDataScreenUrl = async (params: any) => {
+    return request('/api/spf-cc/data/screen/getDataScreenUrl', { params, method: 'GET' })
 }

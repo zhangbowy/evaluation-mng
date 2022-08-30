@@ -9,7 +9,7 @@ const App = () => {
   const token = sessionStorage.getItem('QCP_B_TOKEN')
 
   useEffect(() => {
-    if (!token && locationInfo.pathname !== '/402' && !locationInfo.pathname.includes('/pdf')) {
+    if (!token && locationInfo.pathname !== '/402' && !locationInfo.pathname.includes('/pdf') && !locationInfo.pathname.includes('/share')) {
       navigate(`/login`, { replace: true })
     }
   }, [locationInfo.pathname])

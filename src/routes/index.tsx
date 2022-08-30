@@ -26,6 +26,7 @@ const LookReport = lazy(() => import('@/page/evaluation/management/detail/lookRe
 const WorthPortrait = lazy(() => import('@/page/evaluation/portrait/worth'));
 const PostPortrait = lazy(() => import('@/page/evaluation/portrait/post'));
 const Employee = lazy(() => import('@/page/evaluation/staffManagement'))
+const Share = lazy(() => import('@/page/share'))
 
 const routes: RouteObject[] = [
     {
@@ -137,6 +138,10 @@ const routes: RouteObject[] = [
     {
         path: '/pdf/:type/:userId/:examPaperId',
         element: <PDF />,
+    },
+    {
+        path: '/share/:url',
+        element: <Share />
     },
     {
         path: '/login',

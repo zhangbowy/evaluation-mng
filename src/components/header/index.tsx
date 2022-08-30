@@ -5,9 +5,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getPointAsset } from '@/api/api'
 import { CountContext } from '@/utils/context';
 import { getAllUrlParam } from '@/utils/utils';
+import ModalScreen from '../modalScreen';
 
 
 const Header = memo(() => {
+  const [visible, setVisible] = useState(false);
   const user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const history = useNavigate()
   const { state } = useContext(CountContext)
@@ -19,7 +21,10 @@ const Header = memo(() => {
   }
   // 大屏点击
   const largeScreen = () => {
-    console.log(111);
+    setVisible(true);
+  }
+  const closeModal = () => {
+    setVisible(false);
   }
   return (
     <div className={styles.header_layout}>
@@ -38,6 +43,7 @@ const Header = memo(() => {
           user?.avatar ? <img src={user?.avatar} alt="" /> : <div>{user?.name?.slice(0, 1)}</div>
         }
       </div>
+      <ModalScreen visible={visible} closeModal={closeModal} />
     </div>
   )
 })

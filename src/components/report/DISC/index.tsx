@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import cs from 'classnames';
 import styles from './index.module.less';
 import { Gender } from '../MBTI/type';
+import { getAppIdType } from '@/utils/utils'
 
 const numToStr: any = {
     0: '一',
@@ -12,6 +13,7 @@ const numToStr: any = {
 };
 const DISCDetail = (props: any) => {
     const { resultDetail } = props;
+    const appType = getAppIdType()
     useEffect(() => {
         if (resultDetail?.discData) {
             columnChart(resultDetail?.discData || []);
@@ -145,8 +147,15 @@ const DISCDetail = (props: any) => {
         <div className={styles.details}>
             <div className={styles.home}>
                 <div className={styles.logo}>
-                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt="" />
-                    <span className="name">趣测评</span>
+                <img
+                    src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
+                    alt=""
+                    />
+                <span className="name">
+                    {
+                    appType === '1' ? '趣测评' : '招才选将'
+                    }
+                </span>
                 </div>
                 <div className={styles.pdfPro}>
                     <div className={styles.image}>

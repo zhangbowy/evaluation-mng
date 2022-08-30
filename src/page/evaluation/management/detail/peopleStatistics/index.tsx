@@ -117,7 +117,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             render: (text: number, record, index: number) => {
                 // 查看报告
                 const onLookResult = () => {
-                    navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}~${measurement?.examTemplateType}`);
+                    navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}~${type}`);
                 }
                 // 解锁查看
                 const onUnlockClick = async () => {
