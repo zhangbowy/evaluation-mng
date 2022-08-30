@@ -257,6 +257,9 @@ const Detail = () => {
   if (detailLoading) {
     return <Loading />
   }
+  const goShare = () => {
+    navigator('/share')
+  }
   return (
     <div className={styles.detail_layout}>
       <Breadcrumb separator=">" className={styles.detail_nav}>
@@ -264,6 +267,8 @@ const Detail = () => {
         <Breadcrumb.Item>{reportDetailList?.name}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
+      <Button onClick={goShare}>点击跳转</Button>
+
       <div className={styles.detail_content}>
         <div className={styles.detail_content_left}>
           <div className={styles.detail_content_left_wrap}>
@@ -516,7 +521,6 @@ const Detail = () => {
         </div>
       </div>
       <LookResult ref={lookResultRef} />
-      <iframe style={{ width: '100%', height: '100%' }} src="https://share.shanhaibi.com/62f5c17d88fe0/" frameBorder="0"></iframe>
     </div>
 
   )
