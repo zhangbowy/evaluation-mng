@@ -617,7 +617,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                         </div>
                         <div className={styles.bottom}>
                             <div className={styles.card}>
-                                <p>{chartList.totalNum || 0}</p>
+                                <p>{chartList.finishNum || 0}</p>
                                 <p>已完成</p>
                             </div>
                             <div className={styles.card}>

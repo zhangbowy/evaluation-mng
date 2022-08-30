@@ -67,8 +67,8 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         seyTagsMap(item)
         const name = Object.keys(item)[0]
         setIsModalVisible(true);
-        setIndeterminate(Object.keys(item).length != filterList[0].tags.length);
-        setCheckAll(Object.keys(item).length == filterList[0].tags.length);
+        setIndeterminate((item[name] || []).length != (filterList[0].tags || []).length);
+        setCheckAll((item[name] || []).length == (filterList[0].tags || []).length);
         setCurSelectTagIndex(0)
         // setCurSelectTags(item)
     };
