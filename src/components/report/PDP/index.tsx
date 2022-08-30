@@ -16,9 +16,9 @@ import * as dayjs from 'dayjs'
 //     '沟通能力': 5,
 //   }
 // }
-const CA = ({ resultDetail }: any) => {
+const CA = ({ resultDetail = {} }: any) => {
   const containerRef: any = useRef();
-  const [resultList, setResultList] = useState<any>();
+  const [resultList, setResultList] = useState<any>({});
   const [resultType, setResultType] = useState<string>('');
   const [tags, setTags] = useState<any>([]);
   const [descList, setDescList] = useState<any>([]);
@@ -27,7 +27,7 @@ const CA = ({ resultDetail }: any) => {
     const result: any = resultDetail;
     console.log(result, 'result');
     setResultList(result);
-    const { tags, results = [], htmlDescList } = result;
+    const { tags = [], results = [], htmlDescList = [] } = result;
     let str = '';
     results?.map((v: any) => {
       str += `${v.type},`;
@@ -35,16 +35,20 @@ const CA = ({ resultDetail }: any) => {
     str = str.substring(0, str.length - 1);
     setResultType(str);
     setTags(tags);
-    setDescList(htmlDescList);
+    const htmlDescListData: any = htmlDescList?.map((v: any) => ({
+      ...v,
+      styleList: v.style
+    }))
+    setDescList(htmlDescListData);
   }, [resultDetail]);
   useEffect(() => {
     if (containerRef.current && resultList?.status) {
-        radarMap()
+        radarMap(resultList)
     }
   }, [containerRef.current, resultList])
-  const radarMap = () => {
+  const radarMap = (dataRadar: any) => {
     containerRef.current.innerHTML = ''
-    const json = JSON.parse(resultList?.polygon);
+    const json = JSON.parse(dataRadar?.polygon);
     const data = Object.keys(json).map((key) => ({
         item: key,
         a: json[key],
@@ -135,7 +139,7 @@ const CA = ({ resultDetail }: any) => {
         <div className={styles['user-info']}>
             <p className={styles.title}>{resultList?.user?.name}</p>
             <p className={styles['sub-title']}>{resultList?.user?.gender === 1 ? '男' : '女'}</p>
-            <p className={styles['sub-title']}>{dayjs(resultList?.created).format('YYYY-MM-DD')}</p>
+            <p className={styles['sub-title']}>{resultList?.created}</p>
         </div>
         <div className={styles.footerImg}>
             <div className={styles.image}>
@@ -266,7 +270,7 @@ const CA = ({ resultDetail }: any) => {
                 <div className={cs(styles['page-three-adv-title'])}>工作风格</div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.style.map((item: any) => (
+                    v.styleList.map((item: any) => (
                       <div key={item} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{item}</span>

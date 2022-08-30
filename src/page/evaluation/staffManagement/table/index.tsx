@@ -75,10 +75,11 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
   const [tableList, setTableList] = useState<DataType[]>([]); //save user list
   const [totalItem, setTotalItem] = useState<number>(0); //save total item
   const [tableLoading, setTableLoading] = useState<boolean>(false); //control table loading
+  const [curPage, setCurPage] = useState<number>(1); //save current page
 
   useEffect(() => {
     queryList()
-  },[searchForm]);
+  },[searchForm, curPage]);
 
   useEffect(() => {
     if(isReload) {
@@ -92,9 +93,10 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
    */
   const queryList = async () => {
     setTableLoading(true);
+    
     const {code, data} = await USER_LIST({
       ...searchForm,
-      curPage:1,
+      curPage: curPage,
       pageSize: 10
     });
     if(code === 1) {
@@ -112,22 +114,30 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
    * reload list
    */
   const reloadList = () => {
-    queryList();
+    setCurPage(1);
   }
 
+  /**
+   * handle change position
+   * @param item 
+   */
   const handlePosition = (item: DataType) => {
     setModalVisible(true)
     setItem(item);
   };
 
+  /**
+   * handle change page
+   * @param page 
+   * @param pageSize 
+   */
   const handlePaging = (page:number,pageSize:number) => {
-    console.log(page);
-    
-  }
+    setCurPage(page);
+  };
 
   return (
     <Fragment>
-      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: totalItem, onChange: handlePaging }} />
+      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: totalItem, current: curPage, onChange: handlePaging }} />
       <ModalEdit visible={modalVisible} item={item as DataType} setModalVisible={setModalVisible} reloadList={reloadList} />
     </Fragment>
   )

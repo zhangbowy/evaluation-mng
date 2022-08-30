@@ -11,6 +11,7 @@ import DISCDetail from './DISC';
 import PDPDetail from './PDP';
 import CADetail from './CA';
 import { abilityList, discData } from '@/assets/data';
+import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 
 /**
  * 查看报告
@@ -112,7 +113,9 @@ const ReportDetail = forwardRef((props: any, ref) => {
                         resultDetail={resultDetial}
                     />
             } */}
-            <Com resultDetail={resultDetial} />
+            <ErrorBoundary>
+                <Com resultDetail={resultDetial} />
+            </ErrorBoundary>
         </div>
     );
 })

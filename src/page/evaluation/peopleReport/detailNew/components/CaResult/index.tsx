@@ -3,55 +3,69 @@ import styles from './index.module.less';
 import { Pie } from '@antv/g2plot';
 import { Button } from 'antd';
 
-function CaResult(props: any) {
+function CaResult({ chartsData = {}, sendNotice }: any) {
   const pieRef: any = useRef();
 
   useEffect(() => {
-    radarMap();
-  }, []);
-  const radarMap = () => {
-    console.log(pieRef.current);
+    radarMap(chartsData);
+  }, [chartsData]);
+  const radarMap = (chartsData: any) => {
+    console.log(1111, chartsData);
+    const { chartData, resultType } = chartsData || {};
+    console.log(chartData, 'chartData');
+    const dataColumn = chartData ? Object.keys(chartData).map((key) => ({
+      type: chartData[key].resultType?.split('：')[1],
+      value: chartData[key].score,
+    })) : [
+      { type: '自主/独立型', value: 0 },
+      { type: '挑战型', value: 0 },
+      { type: '创造/创业型', value: 0 },
+      { type: '管理型', value: 0 },
+      { type: '生活型', value: 0 },
+      { type: '安全/稳定型', value: 0 },
+      { type: '服务型', value: 0 },
+      { type: '技术/职能型', value: 0 },
+    ];
+    console.log(dataColumn, 'dataColumn');
     pieRef.current.innerHTML = ''
     const radarPlot = new Pie(pieRef.current, {
-      data: [
-        { type: '分类一', value: 27 },
-        { type: '分类二', value: 25 },
-        { type: '分类三', value: 18 },
-        { type: '分类四', value: 15 },
-        { type: '分类五', value: 10 },
-        { type: '其他', value: 5 },
-      ],
-      appendPadding: 10,
-      height: 200,
-      angleField: 'value',
-      colorField: 'type',
-      radius: 0.65,
-      legend: false,
-      color: (data) => {
-        console.log(data, 'color');
-        if (data.type === '分类一') {
-          return '#5EA3FF'
-        }
-        return '#B1D2FF'
-      },
-      label: {
-        type: 'spider',
-        labelHeight: 28,
-        content: '{name}',
-        style: {
-          fill: '#9EA7B4'
-        }
-      },
-      interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
+        data: dataColumn,
+        appendPadding: 10,
+        height: 200,
+        angleField: 'value',
+        colorField: 'type',
+        radius: 0.65,
+        legend: false,
+        color: (data) => {
+          console.log(data, 'color');
+          if (data.type === resultType?.split('：')[1]) {
+            return '#5EA3FF'
+          }
+          return '#B1D2FF'
+        },
+        label: {
+          type: 'spider',
+          labelHeight: 28,
+          content: '{name}',
+          style: {
+            fill: '#9EA7B4'
+          }
+        },
+        interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
     })
     radarPlot.render();
   }
+  const sendInfo = () => {
+    sendNotice && sendNotice(chartsData?.examPaperId);
+  };
   return (
     <div className={styles.ca_result}>
       <div className={styles.ca_result_header}>
-        <div className={styles.ca_result_header_title}>管理型</div>
-        <div className={styles.ca_result_header_tips}>适合掌控整个居民</div>
-        <Button className={styles.ca_result_header_action} type='primary'>通知测评</Button>
+        <div className={styles.ca_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
+        <div className={styles.ca_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        {
+          (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.ca_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
+        }
       </div>
       <div className={styles.ca_result_content}>
         <div ref={pieRef}></div>

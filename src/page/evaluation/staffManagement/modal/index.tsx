@@ -1,4 +1,4 @@
-import { Button, Modal, Spin, Upload } from 'antd';
+import { Button, message, Modal, Spin, Upload } from 'antd';
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import type { UploadProps } from 'antd';
@@ -30,7 +30,6 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
     const [opacity, setOpacity] = useState<number>(1);
 
     const customUpload = async (option: any) => {
-        console.log(option);
         const { onSuccess, onError, file, onProgress } = option;
         setFileName(file.name);
         const fmData = new FormData();
@@ -118,7 +117,7 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
         } else {
             if (loadStep === 4 && opacity != 0) {
                 setStep(1);
-                setLoadStep(3);
+                setLoadStep(1);
             } else {
                 if (loadStep === 5) {
                     setLoadStep(4);
@@ -210,8 +209,8 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
                 return (
                     <>
                         <div className={styles.Upload_download_box} style={{ opacity: opacity, zIndex: opacity }}>
-                            <Upload {...props} maxCount={1} accept='.xlsx' showUploadList={false}>
-                                <Button type="primary">导入人岗匹配明细</Button>
+                            <Upload {...props} maxCount={1} showUploadList={false} beforeUpload={beforeUpload}>
+                                <Button type="primary" style={{marginBottom: '10px'}}>导入人岗匹配明细</Button>
                             </Upload>
                             <p className={styles.Upload_p}>支持拓展名：.xlsx</p>
                         </div>
@@ -250,30 +249,37 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
      * dd download event
      */
     const handleDownloadExcel = () => {
-        setDownloadDis(true);
-        setLoadStep(2)
-        // window.open(url);
-        // setTimeout(() => {
-        //     setDownloadDis(false);
-        //     setLoadStep(3);
-        // }, 3000);
         dd.biz.util.downloadFile({
             url: url, //要下载的文件的url
-            name: '员工人员岗位匹配数据', //定义下载文件名字
+            name: '员工人员岗位匹配数据.xlsx', //定义下载文件名字
             onProgress: function (msg: any) {
-                // 文件下载进度回调
+                setDownloadDis(true);
+                setLoadStep(2);
+                console.log('msg',msg);
+                if(msg === true) {
+                    setDownloadDis(false);
+                    setLoadStep(3);
+                }
             },
-            onSuccess: function (result: any) {
-                setDownloadDis(false);
-                setLoadStep(3);
-            },
+            onSuccess: function (result: any) {},
             onFail: function () { }
         })
-    }
+    };
+
+    const beforeUpload = (file:File) => {
+        let index = file.name.lastIndexOf('.');
+        let type = file.name.substring(index);
+
+        if(type !== '.xlsx') {
+            message.error('请上传后缀名为.xlsx的文件');
+            return false
+        }
+        return true
+    };
 
     return (
         <>
-            <Modal title="批量编辑" className={styles.Upload_modal} visible={uploadVisible} footer={null} onCancel={handleCancel} afterClose={afterClose}>
+            <Modal title="批量编辑" className={styles.Upload_modal} visible={uploadVisible} footer={null} maskClosable={false} keyboard={false} onCancel={handleCancel} afterClose={afterClose}>
                 <main className={styles.Modal_main}>
                     {DownloadExcel()}
                 </main>

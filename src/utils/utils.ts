@@ -231,4 +231,23 @@ export const deepClone = <T>(origin: T, target?: Record<string, any> | T): T => 
     }
 
     return tar as T
+};
+
+/**
+ * return current date
+ * yy-mm-dd
+ */
+export const returnCurDate = () => {
+    let date = new Date();
+    let nowMonth = date.getMonth() + 1;
+    let strDate = date.getDate();
+    if (nowMonth >= 1 && nowMonth <= 9) {
+        nowMonth = Number("0" + nowMonth);
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = Number("0" + strDate);
+    }
+
+    let nowDate = date.getFullYear() + '-' + nowMonth + '-' + strDate;
+    return nowDate
 }
