@@ -1,3 +1,4 @@
 export interface propsType {
-  totalData: any
+  totalData: any;
+  reportDetailList: any
 }

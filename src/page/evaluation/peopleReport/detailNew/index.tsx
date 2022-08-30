@@ -372,7 +372,7 @@ const Detail = () => {
             </div>
             <div className={styles.detail_content_right_summary_content}>
               <div className={styles.detail_content_right_summary_content_area}>
-                <MatchingArea totalData={totalData} />
+                <MatchingArea reportDetailList={reportDetailList} totalData={totalData} />
               </div>
               <div className={styles.detail_content_right_summary_consult}>
                 <div className={styles.detail_content_right_summary_consult_left}>
@@ -384,7 +384,9 @@ const Detail = () => {
                       <span>价值观匹配参考</span>
                       <QuestionCircleFilled className={styles.detail_content_right_summary_consult_left_header_title_question} />
                     </span>
-                    <span className={styles.detail_content_right_summary_consult_left_header_precent}>{totalData?.valuesMatchDTO?.totalMatch}%</span>
+                    <span className={styles.detail_content_right_summary_consult_left_header_precent}>
+                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : totalData?.valuesMatchDTO?.totalMatch}%
+                    </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_left_content}>
                     {
@@ -426,7 +428,9 @@ const Detail = () => {
                       <span>岗位潜力匹配参考</span>
                       <QuestionCircleFilled className={styles.detail_content_right_summary_consult_right_header_title_question} />
                     </span>
-                    <span className={styles.detail_content_right_summary_consult_right_header_precent}>{totalData?.positionMatchDTO?.totalMatch}%</span>
+                    <span className={styles.detail_content_right_summary_consult_right_header_precent}>
+                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : totalData?.positionMatchDTO?.totalMatch}%
+                    </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_right_content}>
                     {
@@ -512,6 +516,7 @@ const Detail = () => {
         </div>
       </div>
       <LookResult ref={lookResultRef} />
+      <iframe style={{ width: '100%', height: '100%' }} src="https://share.shanhaibi.com/62f5c17d88fe0/" frameBorder="0"></iframe>
     </div>
 
   )

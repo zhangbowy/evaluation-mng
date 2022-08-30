@@ -3,7 +3,7 @@ import styles from './index.module.less';
 import cs from 'classnames';
 import { propsType } from './type';
 
-const MatchingArea = ({ totalData }: propsType) => {
+const MatchingArea = ({ totalData, reportDetailList }: propsType) => {
   const {x, y} = useMemo(() => {
     console.log(totalData, 'totalData');
     return {
@@ -20,10 +20,12 @@ const MatchingArea = ({ totalData }: propsType) => {
           <tfoot>
             <div className={styles.matching_area_table_single_right}></div>
             <div className={styles.matching_area_table_single_top}></div>
-            <div
-              style={{ left: `calc(${x}% - 10px)`, bottom: `calc(${y}% - 10px)` }}
-              className={styles.matching_area_table_point}
-            />
+            {
+              (reportDetailList?.remainingNum ? reportDetailList?.remainingNum : 0) == 0 && <div
+                style={{ left: `calc(${x}% - 10px)`, bottom: `calc(${y}% - 10px)` }}
+                className={styles.matching_area_table_point}
+              />
+            }
           </tfoot>
           <tr className={styles.matching_area_table_tr}>
             <td></td>
