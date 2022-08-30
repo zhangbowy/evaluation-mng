@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './index.module.less';
 import { Radar } from '@antv/g2plot';
 import cs from 'classnames';
+import { getAppIdType } from '@/utils/utils'
 // import { ReportStore } from '@/store'
 // import { toJS } from "mobx"
 import * as dayjs from 'dayjs'
@@ -22,6 +23,7 @@ const CA = ({ resultDetail = {} }: any) => {
   const [resultType, setResultType] = useState<string>('');
   const [tags, setTags] = useState<any>([]);
   const [descList, setDescList] = useState<any>([]);
+  const appType = getAppIdType()
 
   useEffect(() => {
     const result: any = resultDetail;
@@ -122,8 +124,15 @@ const CA = ({ resultDetail = {} }: any) => {
     <div className={styles.details}>
       <div className={styles.home}>
         <div className={styles.logo}>
-          <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt="" />
-          <span className="name">趣测评</span>
+          <img
+            src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
+            alt=""
+            />
+          <span className="name">
+            {
+              appType === '1' ? '趣测评' : '招才选将'
+            }
+          </span>
         </div>
         <div className={styles.pdfPro}>
               <div className={styles.image}>

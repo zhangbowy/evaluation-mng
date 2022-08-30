@@ -6,7 +6,7 @@ import { Divider } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
 import { MyContext } from '@/utils/context'
 import { getMenu } from '@/api/api'
-import { getAllUrlParam } from '@/utils/utils';
+import { getAllUrlParam, getAppIdType } from '@/utils/utils';
 
 type IMenuProps = {
     handelPackUp: () => void
@@ -18,6 +18,7 @@ type IPackUpStyleBack = {
 const Menu = (props: IMenuProps) => {
     const [authMenuKey, setAuthMenuKey] = useState<string[]>([]);
     const { appId } = getAllUrlParam()
+    const appType = getAppIdType();
     const menuList: IMenuItem[] = [
         {
             id: 6,
@@ -106,7 +107,9 @@ const Menu = (props: IMenuProps) => {
         return [];
     }, [authMenuKey]);
     const couponsIcon = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_coupons.svg'
-    const logo = '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
+    const logo = appType === '2'
+        ? '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
+        : '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
     const navigate = useNavigate()
     const { state, dispatch } = useContext(MyContext)
     const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
@@ -199,7 +202,7 @@ const Menu = (props: IMenuProps) => {
             <div>
                 <header>
                     <img src={logo} alt="" />
-                    <span>招才选将</span>
+                    <span>{appType === '1' ? '趣测评管理狗太' : '招才选将'}</span>
                 </header>
                 <main>
                     {
@@ -216,7 +219,7 @@ const Menu = (props: IMenuProps) => {
             </div>
             <footer>
                 {
-                    appId.split('_')[0] === '1' &&
+                    appType === '1' &&
                     <div className={styles.menu_recharge} onClick={goRecharge}>
                         <div className={styles.footer_couponsIcon}>
                             <img src={couponsIcon} />

@@ -187,3 +187,7 @@ export interface PermissionUserListParams {
 export interface UserAllExamResultSummaryGraphParams {
     userId?: string;
 }
+
+export interface NotificationParams {
+    examPaperIds: (string | number)[]
+}

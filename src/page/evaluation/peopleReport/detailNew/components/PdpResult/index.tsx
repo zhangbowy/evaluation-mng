@@ -29,7 +29,6 @@ function PdpResult({ chartsData = {}, sendNotice }: any) {
         { item: '沟通能力', a: 0 },
       ]
     }
-    console.log(data, 'data111')
     const radarPlot = new Radar(containerRef.current, {
         data,
         width: 250,

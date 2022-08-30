@@ -1,4 +1,4 @@
-import { getAllExam, UnLockReport, getUserAllExamResultSummaryGraph, getWorthMatch } from '@/api/api';
+import { getAllExam, UnLockReport, getUserAllExamResultSummaryGraph, getWorthMatch, notification } from '@/api/api';
 import { Breadcrumb, Button, Divider, Tooltip } from 'antd';
 import React, { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router';
@@ -192,6 +192,11 @@ const Detail = () => {
   // 发送通知
   const sendNotice = (examPaperId: string | number) => {
     console.log(examPaperId, 'examPaperId');
+    notification({
+      examPaperIds: [examPaperId]
+    }).then(res => {
+      console.log(res)
+    })
   };
 
   // 返回按钮

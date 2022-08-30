@@ -53,7 +53,11 @@ export const getAllUrlParam = () => {
     }
     return theRequest;
 }
-
+// 返回appId前面的类型
+export const getAppIdType = () => {
+    const { appId } = getAllUrlParam();
+    return appId.split('_')[0];
+};
 // 钉钉打开链接
 export const openLink = (payload: any, silence: any) => new Promise((resolve, reject) => {
     if (dd.env.platform !== 'notInDingTalk') {
