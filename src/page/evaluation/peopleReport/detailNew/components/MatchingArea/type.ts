@@ -1,4 +1,5 @@
 export interface propsType {
   totalData: any;
-  reportDetailList: any
+  reportDetailList: any;
+  isFinish: boolean;
 }

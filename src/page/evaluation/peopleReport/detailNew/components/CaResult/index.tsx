@@ -34,8 +34,17 @@ function CaResult({ chartsData = {}, sendNotice }: any) {
         radius: 0.65,
         legend: false,
         color: (data) => {
-          if (data.type.indexOf(resultType) > -1) {
+          console.log(data)
+          let value = 0;
+          for(let i = 0; i < dataColumn.length; i++) {
+            if (dataColumn[i].type?.indexOf(data.type) > -1) {
+              value = dataColumn[i].value;
+            }
+          }
+          if (resultType?.indexOf(data.type) > -1) {
             return '#5EA3FF'
+          } else if (value === 0) {
+            return '#E3EFFF'
           }
           return '#B1D2FF'
         },

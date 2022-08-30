@@ -126,6 +126,10 @@ const Detail = () => {
       setDetailLoading(false)
     }
   }
+  const isFinish = useMemo(() => {
+    const data = reportDetailList?.evaluationVoList.filter((v: any) => v.answerStatus === 10);
+    return data?.length === 4;
+  }, [reportDetailList])
   // 获取图表数据
   const getChartsData = async () => {
     const res = await getUserAllExamResultSummaryGraph({ userId })
@@ -155,7 +159,7 @@ const Detail = () => {
     let a = [];
     let b = [];
     const num = reportDetailList?.remainingNum || 0;
-    if (num > 0) {
+    if (!isFinish) {
       return {
         valueData: data1,
         positionData: data2,
@@ -177,7 +181,7 @@ const Detail = () => {
       }
     }
 
-  }, [totalData, isOpenWorth, isOpenPosition, reportDetailList]);
+  }, [totalData, isOpenWorth, isOpenPosition, reportDetailList, isFinish]);
   useEffect(() => {
     if (tagRef.current) {
       if (tagRef?.current?.scrollHeight > tagRef?.current?.clientHeight) {
@@ -389,7 +393,7 @@ const Detail = () => {
             </div>
             <div className={styles.detail_content_right_summary_content}>
               <div className={styles.detail_content_right_summary_content_area}>
-                <MatchingArea reportDetailList={reportDetailList} totalData={totalData} />
+                <MatchingArea isFinish={isFinish} reportDetailList={reportDetailList} totalData={totalData} />
               </div>
               <div className={styles.detail_content_right_summary_consult}>
                 <div className={styles.detail_content_right_summary_consult_left}>
@@ -404,12 +408,12 @@ const Detail = () => {
                       </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_left_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.valuesMatchDTO?.totalMatch}%`}
+                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.valuesMatchDTO?.totalMatch ? totalData?.valuesMatchDTO?.totalMatch : '0'}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_left_content}>
                     {
-                      (reportDetailList?.remainingNum ? reportDetailList?.remainingNum : 0) > 0 && <div className={styles.detail_content_right_summary_consult_left_content_filter}>
+                      !isFinish && <div className={styles.detail_content_right_summary_consult_left_content_filter}>
                         <p>请先完成所有测评</p>
                         <p>再查看结果</p>
                       </div>
@@ -454,12 +458,12 @@ const Detail = () => {
                       </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_right_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.positionMatchDTO?.totalMatch}%`}
+                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.positionMatchDTO?.totalMatch ? totalData?.positionMatchDTO?.totalMatch : '0'}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_right_content}>
                     {
-                      (reportDetailList?.remainingNum ? reportDetailList?.remainingNum : 0) > 0 && <div className={styles.detail_content_right_summary_consult_right_content_filter}>
+                      !isFinish && <div className={styles.detail_content_right_summary_consult_right_content_filter}>
                         <div>请先完成所有测评</div>
                         <div>再查看结果</div>
                       </div>
@@ -511,7 +515,7 @@ const Detail = () => {
           </div>
           <div className={styles.detail_content_right_report}>
             <div className={styles.detail_content_right_report_header}>
-              <span className={styles.detail_content_right_report_header_title}>测评报告（4/4）</span>
+              <span className={styles.detail_content_right_report_header_title}>测评报告（{reportDetailList?.successNum}/{totalNum}）</span>
             </div>
             <div className={styles.detail_content_right_report_content}>
               <div className={styles.detail_card_wrapper}>
