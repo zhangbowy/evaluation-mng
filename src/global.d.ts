@@ -21,7 +21,7 @@ interface chartDate {
     corpId: string;
     userId?: string | undefined;
     examId: string;
-    deptId?: string;
+    deptId?: number;
 }
 interface DataType {
     completion: number;

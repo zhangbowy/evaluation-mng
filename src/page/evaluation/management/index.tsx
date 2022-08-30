@@ -195,7 +195,7 @@ const Management = () => {
               getEvaluationList();
               dispatch()
             },
-            failFn: () => { },
+            failFn: () => null,
             availableBalance: state,
             pointPrice: item?.paperPrice
           }

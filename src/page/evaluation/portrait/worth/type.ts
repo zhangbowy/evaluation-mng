@@ -30,3 +30,9 @@ export interface ICurList {
     description: string,
     tagIds: number[]
 }
+export interface IPortraitList {
+    id: number;
+    description: string;
+    name: string;
+    tags: IFilterList[]
+}

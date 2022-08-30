@@ -4,25 +4,23 @@ import { doneCondition, tagsColor } from '@/config/management.config';
 import { useCallbackState } from '@/utils/hook';
 import { Button, Divider, Form, Input, Modal, Select, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table';
-import React, { Fragment, memo, useEffect, useRef, useState } from 'react'
+import React, { Fragment, memo, useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react'
 import { useNavigate, useParams } from 'react-router';
-import { characterProportions, IDepartment, IisDimission, IResultList, IResultTable, ISex, ITableParams } from '../../type';
+import { characterProportions, IChartList, IDepartment, IisDimission, IResultList, IResultTable, ISex, ITableParams } from '../../type';
 import styles from './index.module.less'
 import { EvalDetail } from '@/store';
-import { toJS } from 'mobx';
 import { LockOutlined } from '@ant-design/icons'
 import LookAllTags from '../lookAllTags';
 import { downloadFile } from '@/components/dd';
 import { IColumns, ISelectPdfStatusBack, SelectPdfStatus } from '@/page/evaluation/recruitEvaluation/type';
 
-type IPeopleStatistics = { type: string }
-const PeopleStatistics = memo((props: IPeopleStatistics) => {
+type IPeopleStatistics = { chartList: IChartList, type: string }
+const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref) => {
     const [form] = Form.useForm();
     const params = useParams() as { id: string }
-    const chartList = toJS(EvalDetail.getEvalDetailInfo())
     const measurement = EvalDetail.measurementObj
-    const navigator = useNavigate()
     const deptId = EvalDetail.departmentId
+    const navigator = useNavigate()
     const [exportLoading, setExportLoading] = useState<boolean>(false) // 导出loading
     const [tableLoading, setTableLoading] = useState<boolean>(true);
     const [tableList, setTableList] = useState<IResultTable>() // 表格数据
@@ -35,6 +33,9 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
     const lookAllTagsRef: any = useRef()
     const tasksPdf: any = useRef([]); //下载储存的人任务
     let timer: any;
+    useImperativeHandle(ref, () => ({
+        getTableList
+    }))
     useEffect(() => {
         getTableList()
         return () => {
@@ -86,7 +87,7 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
                 const tagsArr = tags.length > 3 ? tags.splice(0, 3) : tags
                 // 查看所有tags
                 const onMagnifyClick = () => {
-                    lookAllTagsRef?.current?.openModal(tags)
+                    lookAllTagsRef?.current?.openModal(text)
                 }
                 return (
                     <div className={styles.table_list_tags}>
@@ -148,7 +149,6 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
                                 onClick={onUnlockClick} type="link">
                                 {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
                         case 10:
-                            console.log('record', record)
                             return (
                                 <>
                                     <Button type="link" onClick={onLookResult}>查看报告</Button>
@@ -215,7 +215,7 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
         setExportLoading(true)
         const res = await measurementExport(params.id)
         if (res.code == 1) {
-            let a = document.createElement('a')
+            const a = document.createElement('a')
             a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
             a.download = res.data.cname
             a.click()
@@ -231,7 +231,6 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
     const polling = async () => {
         const item = await getSelectPdfStatus(tasksPdf.current.map((res: SelectPdfStatus) => res.taskId))
         const obj = (new Function("return " + item))();
-        console.log(obj, 'obj');
         if (obj.code == 1) {
             tasksPdf.current.forEach((taskObj: SelectPdfStatus) => {
                 if (obj.data[taskObj.taskId][0].oss_url) {
@@ -239,6 +238,7 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
                     onCloseLoading(taskObj.examPaperId)
                     const curIndex = tasksPdf.current.findIndex((res: SelectPdfStatus) => taskObj.taskId == res.taskId)
                     tasksPdf.current.splice(curIndex, 1)
+
                 }
             })
             if (!timer && tasksPdf.current.length > 0) {
@@ -272,7 +272,7 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
             } else {
                 const obj = {
                     // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-                    url: `${window.location.origin}/admin/#/pdf/${props.type.toUpperCase()}/${record.userId}/${record.examPaperId}`,
+                    url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}`,
                     examPaperId: record.examPaperId,
                     userId: record.userId,
                     templateType: 2
@@ -328,5 +328,5 @@ const PeopleStatistics = memo((props: IPeopleStatistics) => {
         </Fragment>
     )
 })
-
+PeopleStatistics.displayName = 'PeopleStatistics'
 export default PeopleStatistics

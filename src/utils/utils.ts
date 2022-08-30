@@ -7,7 +7,7 @@ export const isTrue = (text: any) => {
     return text === 'true' || text == 1
 }
 // 防抖
-export const debounce = (fn: (value: any) => void, time: number = 800) => {
+export const debounce = (fn: (value: any) => void, time = 800) => {
     let timer: any;
     return (args?: any) => {
         if (timer) {
@@ -62,15 +62,15 @@ export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 
         if (data.length > 0) {
             if (appId.split('_')[0] === '1') {
                 type == 'add' ?
-                Modal.confirm({
-                    title: '温馨提示',
-                    content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
-                    okText: '确认',
-                    cancelText: '取消',
-                    onOk() {
-                        item.successFn(data)
-                    },
-                }) : item.successFn(data)
+                    Modal.confirm({
+                        title: '温馨提示',
+                        content: `本次测评预计最多消耗${(item?.pointPrice || 0) * data.length}点券，当前可用点券：${item?.availableBalance || 0}`,
+                        okText: '确认',
+                        cancelText: '取消',
+                        onOk() {
+                            item.successFn(data)
+                        },
+                    }) : item.successFn(data)
             } else if (appId.split('_')[0] === '2') {
                 item.successFn(data)
             }
