@@ -1,5 +1,5 @@
 import { createExam, getAllPeople, isGuide, queryExamUserIds, updateExam } from "@/api/api";
-import { handleStep } from "@/components/steps";
+import { handleStep } from "@/components/Steps";
 import { Modal } from "antd";
 import dd from "dingtalk-jsapi";
 
@@ -228,13 +228,13 @@ export const downLoad = (url: string, name: string) => {
 
 // 判断是否为数组
 const isArr = (origin: any): boolean => {
-    let str = '[object Array]'
+    const str = '[object Array]'
     return Object.prototype.toString.call(origin) == str ? true : false
 }
 
 // 深拷贝
 export const deepClone = <T>(origin: T, target?: Record<string, any> | T): T => {
-    let tar = target || {}
+    const tar = target || {}
 
     for (const key in origin) {
         if (Object.prototype.hasOwnProperty.call(origin, key)) {
@@ -256,7 +256,7 @@ export const deepClone = <T>(origin: T, target?: Record<string, any> | T): T => 
  * yy-mm-dd
  */
 export const returnCurDate = () => {
-    let date = new Date();
+    const date = new Date();
     let nowMonth = date.getMonth() + 1;
     let strDate = date.getDate();
     if (nowMonth >= 1 && nowMonth <= 9) {
@@ -266,6 +266,6 @@ export const returnCurDate = () => {
         strDate = Number("0" + strDate);
     }
 
-    let nowDate = date.getFullYear() + '-' + nowMonth + '-' + strDate;
+    const nowDate = date.getFullYear() + '-' + nowMonth + '-' + strDate;
     return nowDate
 }
