@@ -260,8 +260,15 @@ const Detail = () => {
     return <Loading />
   }
   const goShare = () => {
+    const a = 'https://share.shanhaibi.com/62f5c17d88fe0?ddtab=true'
     openLink({
-      url: `${window.location.origin}/admin/?corpId=${corpId}&addId=${appId}&clientId=${clientId}#/share?ddtab=true`
+      url: `${window.location.origin}/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/share?ddtab=true`
+    }, true)
+  }
+  const goShare1 = () => {
+    const a = 'https://share.shanhaibi.com/62f5c17d88fe0?ddtab=true'
+    openLink({
+      url: a
     }, true)
   }
   return (
@@ -272,6 +279,7 @@ const Detail = () => {
       </Breadcrumb>
       <Divider />
       <Button onClick={goShare}>点击跳转</Button>
+      <Button onClick={goShare1}>点击跳转1</Button>
 
       <div className={styles.detail_content}>
         <div className={styles.detail_content_left}>
