@@ -54,6 +54,20 @@ export const getAllUrlParam = () => {
     return theRequest;
 }
 
+// 钉钉打开链接
+export const openLink = (payload: any, silence: any) => new Promise((resolve, reject) => {
+    if (dd.env.platform !== 'notInDingTalk') {
+        dd.biz.util.openLink({
+        ...payload,
+        onSuccess: (result: any) => resolve(result),
+        onFail: (error: any) => reject(error)
+        });
+      return;
+    }
+    window.open ? window.open(payload.url) : window.location = payload.url;
+    silence ? resolve('success') : reject(new Error('当前功能只支持钉钉环境执行'));
+  })
+
 // 钉钉选人
 export const ddSelectPeople = (item: IDDSelectPeopleParams, type: CurrentType = 'add') => {
     const { appId } = getAllUrlParam();

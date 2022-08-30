@@ -25,7 +25,7 @@ import MbtiResult from './components/MbtiResult';
 import PdpResult from './components/PdpResult';
 import DiscResult from './components/DiscResult';
 import CaResult from './components/CaResult';
-import { getAllUrlParam } from "@/utils/utils";
+import { getAllUrlParam, openLink } from "@/utils/utils";
 
 const tagsData = ['自信', '决断力高', '竞争性强', '企图心强', '勇于冒险', '热心', '乐观', '活泼', '社交能力强']
 const data1 = [
@@ -260,7 +260,9 @@ const Detail = () => {
     return <Loading />
   }
   const goShare = () => {
-    window.open(`${window.location.origin}/?corpId=${corpId}&addId=${appId}&clientId=${clientId}#/share?ddtab=true`)
+    openLink({
+      url: `${window.location.origin}/?corpId=${corpId}&addId=${appId}&clientId=${clientId}#/share?ddtab=true`
+    }, true)
   }
   return (
     <div className={styles.detail_layout}>
