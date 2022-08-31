@@ -52,9 +52,9 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
     },
     {
       title: '在职情况',
-      dataIndex: 'isDimission',
+      dataIndex: 'isDimissionStr',
       width: 100,
-      render: text => <p>{text == 0 ? '离职' : '在职'}</p>
+      render: text => <p>{text}</p>
     },
     {
       title: '入职时间',
@@ -120,11 +120,12 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
    * reload list
    */
   const reloadList = () => {
-    if(curPage === 1) {
-      setIsReload(true)
-    } else {
-      setCurPage(1);
-    }
+    // if(curPage === 1) {
+    //   setIsReload(true)
+    // } else {
+    //   setCurPage(1);
+    // }
+    queryList()
   }
 
   /**

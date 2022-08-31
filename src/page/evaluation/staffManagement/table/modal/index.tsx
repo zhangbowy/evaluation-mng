@@ -1,6 +1,7 @@
 import { Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { POSITION_SELECT, RENEW_POSITION } from '@/api/api';
+import { message } from 'antd';
 import styles from './index.module.less';
 
 interface Props {
@@ -88,6 +89,7 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
         if (code === 1) {
             setModalVisible(false);
             reloadList();
+            message.success("职位修改成功")
         }
     }
 
