@@ -419,11 +419,13 @@ const Detail = () => {
                         <p>再查看结果</p>
                       </div>
                     }
-                    <div className={styles.detail_content_right_summary_consult_left_content_under}>
+                    <div className={!isFinish ? styles.detail_content_right_summary_consult_left_content_under : styles.detail_content_right_summary_consult_left_content_down}>
                       {
                         valueData?.map((v: any) => (
                           <div key={v.valueId} className={styles.detail_content_right_summary_consult_left_content_item}>
-                            <span className={styles.detail_content_right_summary_consult_left_content_item_text}>{v.valueName}</span>
+                            <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
+                              <span className={styles.detail_content_right_summary_consult_left_content_item_text}>{v.valueName}</span>
+                            </Tooltip>
                             <Progress
                               width={37}
                               height={6}
@@ -471,11 +473,13 @@ const Detail = () => {
                         <div>再查看结果</div>
                       </div>
                     }
-                    <div className={styles.detail_content_right_summary_consult_right_content_under}>
+                    <div className={!isFinish ? styles.detail_content_right_summary_consult_right_content_under : styles.detail_content_right_summary_consult_right_content_up}>
                       {
                         positionData?.map((v: any) => (
                           <div key={v.valueId} className={styles.detail_content_right_summary_consult_right_content_item}>
-                            <span className={styles.detail_content_right_summary_consult_right_content_item_text}>{v.valueName}</span>
+                            <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
+                              <span className={styles.detail_content_right_summary_consult_right_content_item_text}>{v.valueName}</span>
+                            </Tooltip>
                             <div className={styles.detail_content_right_summary_consult_right_content_item_wrap}>
                               {
                                 v.isExist ? <CheckCircleFilled style={{ color: '#6BC881' }} />
