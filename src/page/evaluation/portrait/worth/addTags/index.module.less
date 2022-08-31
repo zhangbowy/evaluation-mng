@@ -18,7 +18,7 @@
 
             .modal_leftOne {
                 height: 370px;
-                overflow-y: scroll;
+                overflow-y: auto;
                 width: 25%;
                 background-color: #F5F7F9;
                 border-radius: 4px;
@@ -40,6 +40,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    cursor: pointer;
 
                     span {
                         &:nth-child(1) {
@@ -76,8 +77,31 @@
             .modal_leftTwo {
                 width: 75%;
                 padding: 0 30px 20px;
+                height: 370px;
+                overflow-y: auto;
+
                 // height: 405px;
                 // overflow-y: scroll;
+                .selectAllSty {
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #8F969E;
+                    display: inline-block;
+                    margin-left: 3px;
+
+                    span {
+                        color: #2B85FF;
+                    }
+                }
+
+                .headlight {
+                    :global {
+
+                        span:nth-child(2) {
+                            color: red;
+                        }
+                    }
+                }
             }
 
         }
@@ -85,6 +109,8 @@
 
     .modal_right {
         width: 30%;
+        height: 399px;
+        overflow-y: auto;
 
         .modal_rightContent {
             margin-left: 24px;
@@ -94,4 +120,8 @@
             line-height: 24px;
         }
     }
+}
+
+.modal_addTag {
+    top: 50px;
 }

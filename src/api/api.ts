@@ -239,8 +239,8 @@ export const delPost = async (params?: { id: number }) => {
     return request('/api/member/position/checkDelete', { method: 'GET', params })
 }
 // 价值观画像标签
-export const getAllList = async () => {
-    return request('/api/member/b/tag/getGroupTags', { method: 'GET' })
+export const getAllList = async (params?: { type: number }) => {
+    return request('/api/member/b/tag/getGroupTags', { method: 'GET', params })
 }
 // 获取菜单
 export const getMenu = async (params: MenuParams) => {
