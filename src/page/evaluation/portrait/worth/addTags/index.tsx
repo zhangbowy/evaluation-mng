@@ -1,10 +1,9 @@
 import { getAllList } from '@/api/api';
-import { debounce, deepClone } from '@/utils/utils';
+import { debounce } from '@/utils/utils';
 import { Input, Modal, Checkbox, Col, Row, Tag, Empty } from 'antd';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import React, { useState, forwardRef, useImperativeHandle, MouseEvent, useRef, ChangeEvent, useEffect, Fragment } from 'react'
-import { ICurList, ICurSelectTag, IFilterList, ITagsList } from '../type';
+import React, { useState, forwardRef, useImperativeHandle, MouseEvent, ChangeEvent, useEffect, Fragment } from 'react'
+import { IFilterList, ITagsList } from '../type';
 import styles from './index.module.less'
 
 type IPropsParams = {
@@ -40,31 +39,28 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     const [filterList, setFilterList] = useState<ITagsList[]>([])   // 所有数据
     const [inputValue, setInputValue] = useState<string>('') //搜索内容
     const [curSelectTagIndex, setCurSelectTagIndex] = useState<number>(0) // 当前一级tab的索引
-    const [curSelectTagName, setCurSelectTagName] = useState<string>('') // 当前一级tab标题
     const [indeterminate, setIndeterminate] = useState(true);  // 全选样式
     const [checkAll, setCheckAll] = useState(false); // 全选按钮是否选中
     const [tagsMap, seyTagsMap] = useState<IObjType>({}) // 标签集合
-    useEffect(() => {
-        getTags()
-    }, [])
     // 获取标签
-    const getTags = async () => {
-        const res = await getAllList()
+    const getTags = async (isWorth: boolean) => {
+        const res = await getAllList({ type: isWorth ? 0 : 1 })
         if (res.code == 1) {
             setFilterList(res.data)
         }
+        return res.data
     }
     useImperativeHandle(ref, () => ({
         onOpenClick
     }))
     // 弹窗打开事件
-    const onOpenClick = (item: IObjType) => {
+    const onOpenClick = async (item: IObjType, isWorth: boolean) => {
+        const data = await getTags(isWorth)
         seyTagsMap(item)
         setIsModalVisible(true);
-        setIndeterminate(!!(item[filterList[0].groupName] || []).length && (item[filterList[0].groupName] || []).length != (filterList[0].tags || []).length);
-        setCheckAll((item[filterList[0].groupName] || []).length == (filterList[0].tags || []).length);
+        setIndeterminate(!!(item[data[0]?.groupName] || []).length && (item[data[0]?.groupName] || []).length != (data[0]?.tags || []).length);
+        setCheckAll((item[data[0]?.groupName] || []).length == (data[0]?.tags || []).length);
         setCurSelectTagIndex(0)
-        // setCurSelectTags(item)
     };
     // 确认
     const handleOk = () => {
@@ -105,7 +101,6 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         })
         const list = arr.filter((res: any) => res.name.indexOf(e.target.value) > -1)
         setCurSelectTagIndex(list[0]?.index)
-        // setCurSelectTagName(list[0]?.groupName)
         setAllStyle(list[0]?.index, list[0]?.groupName)
     })
     // checked
@@ -142,7 +137,6 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     // 一级tab点击
     const onOneTitleClick = (index: number, name: string) => {
         setCurSelectTagIndex(index)
-        // setCurSelectTagName(name)
         setAllStyle(index, name)
     }
     // 全选
@@ -174,12 +168,12 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
         setCheckAll(e.target.checked);
     }
     return (
-        <Modal width={980} title="添加标签" visible={isModalVisible} onOk={handleOk} onCancel={onCloseCallback}>
+        <Modal width={980} className={styles.modal_addTag} title="添加标签" visible={isModalVisible} onOk={handleOk} onCancel={onCloseCallback}>
             <div className={styles.modal_wrapper}>
                 <div className={styles.modal_left}>
-                    <div className={styles.modal_lefHeader}>
+                    {/* <div className={styles.modal_lefHeader}>
                         <Input value={inputValue} onChange={(e) => { setInputValue(e.target.value); search(e) }} allowClear placeholder="搜索标签" />
-                    </div>
+                    </div> */}
                     <div className={styles.modal_leftContent}>
                         <div className={styles.modal_leftOne}>
                             {
@@ -202,7 +196,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                                                 <>
                                                     <Col span={24}>
                                                         <Checkbox indeterminate={indeterminate} onChange={(e: CheckboxChangeEvent) => onCheckAllChange(e, res)} checked={checkAll}>
-                                                            全选(已选{<span>{tagsMap[res.groupName]?.length || 0}</span>}/{filterList[curSelectTagIndex]?.tags.length}个)
+                                                            全选<div className={styles.selectAllSty}>(已选{<span>{tagsMap[res.groupName]?.length || 0}</span>}/{filterList[curSelectTagIndex]?.tags.length}个)</div>
                                                         </Checkbox>
                                                     </Col>
                                                     {
@@ -228,7 +222,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                 </div>
                 <div className={styles.modal_right}>
                     <div className={styles.modal_rightContent}>
-                        {Object.keys(tagsMap).length > 0 ?
+                        {Object.values(tagsMap).flat(Infinity).length > 0 ?
                             Object.values(tagsMap).flat(Infinity).map((item: IFilterList) => (
                                 <Tag key={item?.id}
                                     closable

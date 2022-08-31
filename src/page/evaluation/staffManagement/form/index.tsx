@@ -151,7 +151,7 @@ const AdvancedSearchForm = ({ setSearchForm }: face) => {
                 >
                     重置
                 </Button>
-                <Button type="primary" htmlType="submit" style={{ marginRight: 12 }} onClick={onFinish}>
+                <Button type="primary" htmlType="submit" onClick={onFinish}>
                     搜索
                 </Button>
             </div>

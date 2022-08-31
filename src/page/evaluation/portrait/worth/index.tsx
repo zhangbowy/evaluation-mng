@@ -22,10 +22,16 @@ const Worth = ({ isWorth = true }: IWorth) => {
     }, [])
     // 取消
     const cancelClick = () => {
-        setIsEdit(false)
-        const obj: any = {}
-        !isWorth && (obj.publish = 1)
-        getList(obj)
+        Modal.confirm({
+            title: '取消后修改内容将不会被保存',
+            icon: <ExclamationCircleOutlined />,
+            async onOk() {
+                setIsEdit(false)
+                const obj: any = {}
+                !isWorth && (obj.publish = 1)
+                getList(obj)
+            },
+        });
     }
     // 编辑
     const edit = () => {
@@ -64,8 +70,10 @@ const Worth = ({ isWorth = true }: IWorth) => {
             const res = isWorth ? await portraitPublish(values) : await postPublish(values)
             if (res.code == 1) {
                 message.success('发布成功');
-                cancelClick()
-                getList()
+                setIsEdit(false)
+                const obj: any = {}
+                !isWorth && (obj.publish = 1)
+                getList(obj)
             }
         }).catch((err) => {
             console.log(err, 'err')
@@ -119,7 +127,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             !obj[list.groupName || ''] && (obj[list.groupName || ''] = [])
             obj[list.groupName || ''].push(list)
         })
-        AddTagsRef.current.onOpenClick(obj || {})
+        AddTagsRef.current.onOpenClick(obj || {}, isWorth)
     }
     // 获取列
     const getColumns = (remove: (key: number) => void) => {
@@ -142,7 +150,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 width: 300,
                 render: (text: any, field: any) => {
                     return (
-                        <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}}描述` }]}>
+                        <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}` }]}>
                             <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[1]}`} />
                         </Form.Item>
                     )
