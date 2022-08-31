@@ -332,8 +332,8 @@ const Detail = () => {
               {
                 isHidden && <>
                   {
-                    isOpen ? <i className='iconfont icon-jiantoushang' onClick={closeTag} style={{ color: '#657180', position: 'absolute', bottom: '30px', right: '-6px' }} />
-                      : <i className='iconfont icon-jiantoushang' onClick={openTag} style={{ color: '#657180', position: 'absolute', bottom: '30px', right: '-6px' }} />
+                    isOpen ? <i className='iconfont icon-jiantoushang' onClick={closeTag} style={{ color: '#657180', position: 'absolute', bottom: '30px', right: '-6px', cursor: 'pointer' }} />
+                      : <i className='iconfont icon-jiantouxia' onClick={openTag} style={{ color: '#657180', position: 'absolute', bottom: '30px', right: '-6px', cursor: 'pointer' }} />
                   }
                 </>
               }
@@ -419,29 +419,33 @@ const Detail = () => {
                         <p>再查看结果</p>
                       </div>
                     }
+                    <div className={!isFinish ? styles.detail_content_right_summary_consult_left_content_under : styles.detail_content_right_summary_consult_left_content_down}>
+                      {
+                        valueData?.map((v: any) => (
+                          <div key={v.valueId} className={styles.detail_content_right_summary_consult_left_content_item}>
+                            <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
+                              <span className={styles.detail_content_right_summary_consult_left_content_item_text}>{v.valueName}</span>
+                            </Tooltip>
+                            <Progress
+                              width={37}
+                              height={6}
+                              totalScore={100}
+                              score={v.match}
+                              fontSize={14}
+                            />
+                          </div>
+                        ))
+                      }
+                    </div>
                     {
-                      valueData?.map((v: any) => (
-                        <div key={v.valueId} className={styles.detail_content_right_summary_consult_left_content_item}>
-                          <span className={styles.detail_content_right_summary_consult_left_content_item_text}>{v.valueName}</span>
-                          <Progress
-                            width={37}
-                            height={6}
-                            totalScore={100}
-                            score={v.match}
-                            fontSize={14}
-                          />
-                        </div>
-                      ))
-                    }
-                    {
-                      valueData?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
+                      totalData?.valuesMatchDTO?.valuePointMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
                       {/* {
                         isOpenWorth ? <UpOutlined onClick={closeWorth} className={styles.detail_content_right_summary_consult_left_icon} />
                           : <DownOutlined onClick={openWorth} className={styles.detail_content_right_summary_consult_left_icon} />
                       } */}
                       {
                         isOpenWorth ? <i className='iconfont icon-jiantoushang' onClick={closeWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                        : <i className='iconfont icon-jiantoushang' onClick={openWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                        : <i className='iconfont icon-jiantouxia' onClick={openWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                       }
                       </div>
                     }
@@ -469,33 +473,37 @@ const Detail = () => {
                         <div>再查看结果</div>
                       </div>
                     }
-                    {
-                      positionData?.map((v: any) => (
-                        <div key={v.valueId} className={styles.detail_content_right_summary_consult_right_content_item}>
-                          <span className={styles.detail_content_right_summary_consult_right_content_item_text}>{v.valueName}</span>
-                          <div className={styles.detail_content_right_summary_consult_right_content_item_wrap}>
-                            {
-                              v.isExist ? <CheckCircleFilled style={{ color: '#6BC881' }} />
-                                : <CloseCircleFilled style={{ color: '#EF6544' }} />
-                            }
-                            <span className={styles.detail_content_right_summary_consult_right_content_item_status}>
+                    <div className={!isFinish ? styles.detail_content_right_summary_consult_right_content_under : styles.detail_content_right_summary_consult_right_content_up}>
+                      {
+                        positionData?.map((v: any) => (
+                          <div key={v.valueId} className={styles.detail_content_right_summary_consult_right_content_item}>
+                            <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
+                              <span className={styles.detail_content_right_summary_consult_right_content_item_text}>{v.valueName}</span>
+                            </Tooltip>
+                            <div className={styles.detail_content_right_summary_consult_right_content_item_wrap}>
                               {
-                                v.isExist ? '匹配' : '不匹配'
+                                v.isExist ? <CheckCircleFilled style={{ color: '#6BC881' }} />
+                                  : <CloseCircleFilled style={{ color: '#EF6544' }} />
                               }
-                            </span>
+                              <span className={styles.detail_content_right_summary_consult_right_content_item_status}>
+                                {
+                                  v.isExist ? '匹配' : '不匹配'
+                                }
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))
-                    }
+                        ))
+                      }
+                    </div>
                     {
-                      positionData?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
+                      totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
                       {/* {
                         isOpenPosition ? <UpOutlined onClick={closePosition} className={styles.detail_content_right_summary_consult_right_icon} />
                           : <DownOutlined onClick={openPosition} className={styles.detail_content_right_summary_consult_right_icon} />
                       } */}
                       {
                         isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                        : <i className='iconfont icon-jiantoushang' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                        : <i className='iconfont icon-jiantouxia' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                       }
                       </div>
                     }

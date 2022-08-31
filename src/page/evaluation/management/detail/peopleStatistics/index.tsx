@@ -13,6 +13,7 @@ import { LockOutlined } from '@ant-design/icons'
 import LookAllTags from '../lookAllTags';
 import { downloadFile } from '@/components/dd';
 import { IColumns, ISelectPdfStatusBack, SelectPdfStatus } from '@/page/evaluation/recruitEvaluation/type';
+import { getAllUrlParam } from '@/utils/utils';
 
 type IPeopleStatistics = { chartList: IChartList, type: string }
 const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref) => {
@@ -32,6 +33,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
     const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
     const lookAllTagsRef: any = useRef()
     const tasksPdf: any = useRef([]); //下载储存的人任务
+    const { appId } = getAllUrlParam();
     let timer: any;
     useImperativeHandle(ref, () => ({
         getTableList
@@ -273,6 +275,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                     polling()
                 }
             } else {
+                console.log(`${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`, 'ddd');
                 const obj = {
                     // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
                     url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true`,

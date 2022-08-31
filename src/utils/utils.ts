@@ -42,7 +42,7 @@ type CurrentType = 'add' | 'update'
 
 // 获取连接上的参数
 export const getAllUrlParam = () => {
-    const url = location.search; //获取url中"?"符后的字串  
+    const url = location.search || `?${location.hash.split('?')[1]}`; //获取url中"?"符后的字串 
     const theRequest: any = new Object();
     if (url.indexOf("?") != -1) {
         const str = url.substr(1);

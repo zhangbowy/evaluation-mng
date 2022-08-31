@@ -15,7 +15,7 @@ const Progress = (props: propsType) => {
     left = 4
   } = props;
   const percent = useMemo(() => {
-    return (Number((score / totalScore).toFixed(2)) * 100)
+    return (Number((score / totalScore)) * 100).toFixed(0)
   }, [score, totalScore]);
   return (
     <div className={styles['progress-wrap']}>
