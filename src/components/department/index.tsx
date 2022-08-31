@@ -3,6 +3,7 @@ import { getAllUrlParam } from "@/utils/utils";
 import { Form, Select } from "antd"
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import React from "react";
 
 
 
@@ -30,7 +31,7 @@ const Department = () => {
                 }
                 placeholder="请选择"
                 showSearch
-                style={{ width: 230 }} >
+                style={{ width: 200 }} >
                 {
                     departmentList.map((item: IDept) => <Select.Option key={item.deptId} value={item.deptId}>{item.name}</Select.Option>)
                 }

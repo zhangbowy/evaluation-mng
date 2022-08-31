@@ -42,6 +42,8 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
     useEffect(() => {
         if (visible) {
             setModalData(item);
+            console.log(item);
+            
         }
     }, [visible]);
 
@@ -93,12 +95,12 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
      * return select dom
      * @returns select dom
      */
-    const SelectBox = () => {
+    const SelectBox = (item:TableType) => {
         return (
-            <Select placeholder='请选择' style={{ width: '100%' }} onChange={handleChange}>
-                {selectList?.map((el) => {
-                    return <Option value={el.id} key={el.id}>{el.name}</Option>
-                })}
+            <Select placeholder='请选择' style={{ width: '100%' }} defaultValue={item?.positionId} onChange={handleChange}>
+                {selectList?.map((el) => (
+                    <Option value={el.id} key={el.id}>{el.name}</Option>
+                ))}
             </Select>
         )
     };
@@ -113,9 +115,9 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
 
     return (
         <>
-            <Modal title="编辑职位" wrapClassName='Edit_modal' bodyStyle={{ padding: '15px 24px' }} visible={visible} onOk={handleOk} onCancel={handleCancel} maskClosable={false} okButtonProps={{ disabled: !Boolean(selectVal) }}>
+            <Modal title="编辑职位" wrapClassName='Edit_modal' centered={true} bodyStyle={{ padding: '15px 24px 58px 24px' }} visible={visible} destroyOnClose={true} onOk={handleOk} onCancel={handleCancel} maskClosable={false} okButtonProps={{ disabled: !Boolean(selectVal) }}>
                 <p className={styles.Edit_title}>{modalData?.name}的职位</p>
-                {SelectBox()}
+                {SelectBox(item)}
             </Modal>
         </>
     );
