@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle, us
 import styles from './index.module.less';
 import PdfDetailMBTI from '@/components/report/MBTI';
 import { useParams } from 'react-router';
-import { getExamResult, getUserExamResult } from '@/api/api';
+import { getExamResult, getUserExamResult, getPDFResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import DISCDetail from './DISC';
@@ -29,7 +29,7 @@ const typeFlag: any = {
     'CA': false,
 }
 const ReportDetail = forwardRef((props: any, ref) => {
-    const { userId, examPaperId, isRecruit, templateType } = props;
+    const { userId, examPaperId, isRecruit, templateType, isPeople } = props;
     const [resultDetial, setResultDetial] = useState({ examTemplateType: '' });
     const pdfDetail: any = useRef();
 
@@ -38,7 +38,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
     }, []);
 
     const getResult = async () => {
-        const examResultRequest = isRecruit ? getUserExamResult : getExamResult;
+        const examResultRequest = isRecruit ? getUserExamResult : isPeople ? getPDFResult : getExamResult;
         const res = await examResultRequest({ examPaperId, userId, major: typeFlag[templateType] })
         if (res.code === 1) {
             const newData = { ...res.data };
