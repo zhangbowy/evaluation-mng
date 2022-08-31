@@ -272,7 +272,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             } else {
                 const obj = {
                     // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-                    url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}`,
+                    url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true`,
                     examPaperId: record.examPaperId,
                     userId: record.userId,
                     templateType: 2
