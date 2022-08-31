@@ -76,10 +76,16 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
   const [totalItem, setTotalItem] = useState<number>(0); //save total item
   const [tableLoading, setTableLoading] = useState<boolean>(false); //control table loading
   const [curPage, setCurPage] = useState<number>(1); //save current page
+  const [pageSize, setPageSize] = useState<number>(10); //save current page size
+
+  useEffect(() => {
+    setCurPage(1)
+    queryList()
+  },[searchForm]);
 
   useEffect(() => {
     queryList()
-  },[searchForm, curPage]);
+  },[curPage, pageSize]);
 
   useEffect(() => {
     if(isReload) {
@@ -97,12 +103,12 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
     const {code, data} = await USER_LIST({
       ...searchForm,
       curPage: curPage,
-      pageSize: 10
+      pageSize: pageSize
     });
     if(code === 1) {
       let arr = data.resultList;
       arr.forEach((el:DataType, index:number) => {
-        el.index = index + 1;
+        el.index = (curPage - 1)*pageSize + index + 1;
       });
       setTotalItem(data.totalItem)
       setTableList(arr);
@@ -137,14 +143,15 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
    */
   const handlePaging = (page:number,pageSize:number) => {
     setCurPage(page);
+    setPageSize(pageSize)
   };
 
   return (
     <Fragment>
-      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} scroll={{ y: height - 120 }} pagination={{ showQuickJumper: true, showSizeChanger: false, total: totalItem, current: curPage, onChange: handlePaging }} />
+      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} pagination={{ showQuickJumper: true, pageSize: pageSize, total: totalItem, current: curPage, showTotal: () => `共 ${totalItem} 条数据`, pageSizeOptions: ["10", "20", "50", "100"], onChange: handlePaging }} />
       <ModalEdit visible={modalVisible} item={item as DataType} setModalVisible={setModalVisible} reloadList={reloadList} />
     </Fragment>
   )
 };
-
+// scroll={{ y: height - 140 }}
 export default Tables;
