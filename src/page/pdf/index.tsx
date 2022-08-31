@@ -69,6 +69,7 @@ const PDF = () => {
                                 abilityList: newList,
                             }
                         })
+                        setResultDetail(newData);
                         return;
                     }
 

@@ -32,7 +32,7 @@ import { abilityList, TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
 import { majorType, recruitStatusList } from '@/assets/data';
-import { downLoad } from '@/utils/utils';
+import { downLoad, getAllUrlParam } from '@/utils/utils';
 import dd from 'dingtalk-jsapi';
 import { downloadFile } from '@/components/dd';
 
@@ -57,6 +57,7 @@ const RecruitEvaluation = () => {
   const lookResultRef: any = useRef();
   const pdfDetail: any = useRef();
   const tasksPdf: any = useRef([]); //下载储存的人任务
+  const { appId } = getAllUrlParam();
   let timer: any;
   useEffect(() => {
     return () => {
@@ -173,7 +174,7 @@ const RecruitEvaluation = () => {
       } else {
         const obj = {
           // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-          url: `${window.location.origin}/admin/#/pdf/${record.templateType}/${record.userId}/${record.examPaperId}?isRecruit=true`,
+          url: `${window.location.origin}/admin/#/pdf/${record.templateType}/${record.userId}/${record.examPaperId}?isRecruit=true&appId=${appId}`,
           examPaperId: record.examPaperId,
           userId: record.userId,
           templateType: 2
