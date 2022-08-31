@@ -438,7 +438,7 @@ const Detail = () => {
                       }
                     </div>
                     {
-                      valueData?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
+                      totalData?.valuesMatchDTO?.valuePointMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
                       {/* {
                         isOpenWorth ? <UpOutlined onClick={closeWorth} className={styles.detail_content_right_summary_consult_left_icon} />
                           : <DownOutlined onClick={openWorth} className={styles.detail_content_right_summary_consult_left_icon} />
@@ -496,7 +496,7 @@ const Detail = () => {
                       }
                     </div>
                     {
-                      positionData?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
+                      totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
                       {/* {
                         isOpenPosition ? <UpOutlined onClick={closePosition} className={styles.detail_content_right_summary_consult_right_icon} />
                           : <DownOutlined onClick={openPosition} className={styles.detail_content_right_summary_consult_right_icon} />
