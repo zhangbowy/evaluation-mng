@@ -22,7 +22,6 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
     const [downloadDis, setDownloadDis] = useState<boolean>(false); //download btn disable status
     const [step, setStep] = useState<number>(1); //modal step
     const [loadStep, setLoadStep] = useState<number>(1); //save download excel step
-    const [url, setUrl] = useState<string>(''); //save current excel url
     const [fileName, setFileName] = useState<string>(''); //save file name
     const [progress, setProgress] = useState<number>(0); //save upload progress
     const [iconSrc, setIconSrc] = useState<string>(''); //save current status icon
@@ -84,12 +83,6 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
             setDownloadDis(false);
         }
     }, [loadStep]);
-
-    useEffect(() => {
-        if (uploadVisible) {
-            queryExcel()
-        }
-    }, [uploadVisible])
 
     /**
      * handle ok btn event
@@ -172,7 +165,7 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
         });
         if (code === 1) {
             setDownloadBtn(false);
-            setUrl(data.domain + '/' + data.path);
+            handleDownloadExcel(data.domain + '/' + data.path);
         }
     }
 
@@ -185,9 +178,9 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
             case 1:
                 return (
                     <div className={styles.Upload_download_box}>
-                        <img className={styles.Upload_excel_img} src="https://daily-static-file.oss-cn-shanghai.aliyuncs.com/evaluation-web/imgs/xdjy/excel-icon.png" alt="" />
+                        <img className={styles.Upload_excel_img} src="https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy_excel.svg" alt="" />
                         <p className={styles.Upload_p}>备份员工导出数据</p>
-                        <Button type="primary" disabled={downloadDis} loading={downloadBtn} onClick={handleDownloadExcel}>立即下载</Button>
+                        <Button type="primary" disabled={downloadDis} loading={downloadBtn} onClick={queryExcel}>立即下载</Button>
                     </div>
                 );
             case 2:
@@ -237,9 +230,9 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
             default:
                 return (
                     <div className={styles.Upload_download_box}>
-                        <img className={styles.Upload_excel_img} src="https://daily-static-file.oss-cn-shanghai.aliyuncs.com/evaluation-web/imgs/xdjy/excel-icon.png" alt="" />
+                        <img className={styles.Upload_excel_img} src="https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy_excel.svg" alt="" />
                         <p className={styles.Upload_p}>备份员工导出数据</p>
-                        <Button type="primary" disabled={downloadDis} loading={downloadBtn} onClick={handleDownloadExcel}>立即下载</Button>
+                        <Button type="primary" disabled={downloadDis} loading={downloadBtn} onClick={queryExcel}>立即下载</Button>
                     </div>
                 );
         }
@@ -248,7 +241,7 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
     /**
      * dd download event
      */
-    const handleDownloadExcel = () => {
+    const handleDownloadExcel = (url:string) => {
         dd.biz.util.downloadFile({
             url: url, //要下载的文件的url
             name: '员工人员岗位匹配数据.xlsx', //定义下载文件名字
