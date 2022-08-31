@@ -306,11 +306,15 @@ const Detail = () => {
             <div className={styles.detail_left_position}>
               <div className={styles.detail_left_position_content}>
                 <span className={styles.detail_left_position_content_title}>所在部门</span>
-                <span className={styles.detail_left_position_content_text}>{deptName}</span>
+                <Tooltip title={deptName}>
+                  <span className={styles.detail_left_position_content_text}>{deptName}</span>
+                </Tooltip>
               </div>
               <div className={styles.detail_left_position_content}>
                 <span className={styles.detail_left_position_content_title}>职位</span>
-                <span className={styles.detail_left_position_content_text}>{reportDetailList?.position ? reportDetailList?.position : '-'}</span>
+                <Tooltip title={reportDetailList?.position ? reportDetailList?.position : ''}>
+                  <span className={styles.detail_left_position_content_text}>{reportDetailList?.position ? reportDetailList?.position : '-'}</span>
+                </Tooltip>
               </div>
             </div>
             <div className={styles.detail_left_line}></div>
