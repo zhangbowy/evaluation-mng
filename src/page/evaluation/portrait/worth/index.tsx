@@ -6,7 +6,7 @@ import AddTags from './addTags'
 import TextArea from 'antd/lib/input/TextArea';
 import { ICurList, ICurSelectTag, IFilterList, IFormItem, IPortraitList, IWorth } from './type';
 import { portraitConfig } from '@/config/portrait.config';
-import { getPortraitList, getPostList, portraitPublish, postPublish } from '@/api/api';
+import { delPost, getPortraitList, getPostList, portraitPublish, postPublish } from '@/api/api';
 
 const Worth = ({ isWorth = true }: IWorth) => {
     const [form] = Form.useForm();
@@ -18,16 +18,23 @@ const Worth = ({ isWorth = true }: IWorth) => {
     const [transferredData, setTransferredData] = useState<IObjType>({})
     const config = isWorth ? portraitConfig.worth : portraitConfig.post // 配置
     useEffect(() => {
-        getList()
+        getList({ publish: 1 })
     }, [])
     // 取消
     const cancelClick = () => {
         setIsEdit(false)
-        getList()
+        const obj: any = {}
+        !isWorth && (obj.publish = 1)
+        getList(obj)
+    }
+    // 编辑
+    const edit = () => {
+        setIsEdit(true)
+        !isWorth && getList()
     }
     // 获取列表
-    const getList = async () => {
-        const res = isWorth ? await getPortraitList() : await getPostList()
+    const getList = async (params?: { publish: number }) => {
+        const res = isWorth ? await getPortraitList() : await getPostList(params)
         if (res.code == 1) {
             let arr = [];
             if (res.data.length > 0) {
@@ -66,11 +73,15 @@ const Worth = ({ isWorth = true }: IWorth) => {
         })
     }
     // 删除
-    const deleteWorth = (fn: (key: number) => void, key: number) => {
+    const deleteWorth = (fn: (key: number) => void, key: number, record: any) => {
         Modal.confirm({
             title: '确认要删除此行数据吗？',
             icon: <ExclamationCircleOutlined />,
-            onOk() {
+            async onOk() {
+                if (!isWorth && record[key]?.id) {
+                    const res = await delPost({ id: record[key].id })
+                    if (res.code != 1) return;
+                }
                 delete transferredData[key]
                 setTransferredData({ ...transferredData })
                 fn(key)
@@ -82,15 +93,12 @@ const Worth = ({ isWorth = true }: IWorth) => {
         e.preventDefault();
         const curObj = getFieldsValue()
         const curVal = curObj[config.fieldName]
-        Object.assign(curVal[key], {
-            tagIds: curVal[key].tagIds.splice(0, 1),
-            tags: curVal[key].tags.splice(0, 1)
-        })
+        curVal[key].tagIds.splice(curIndex, 1)
+        curVal[key].tags.splice(curIndex, 1)
         setFieldsValue({ [config.fieldName]: curVal })
     }
     // 获取选中的标签
     const getSelectTags = (obj: IObjType) => {
-        console.log('obj', obj)
         transferredData[curKey] = obj
         setTransferredData({ ...transferredData })
         const tagIds = Object.values(obj).flat(Infinity).map(res => res.id)
@@ -108,7 +116,8 @@ const Worth = ({ isWorth = true }: IWorth) => {
         const obj: any = {}
         !curVal[index]?.tags && (curVal[index].tags = [])
         curVal[index].tags.forEach((list: IFilterList) => {
-            obj[list.groupName || ''] = curVal[index].tags
+            !obj[list.groupName || ''] && (obj[list.groupName || ''] = [])
+            obj[list.groupName || ''].push(list)
         })
         AddTagsRef.current.onOpenClick(obj || {})
     }
@@ -118,6 +127,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             {
                 title: config.tableHeader[0],
                 dataIndex: 'name',
+                width: 233,
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: `请输入${config.tableHeader[0]}` }]}>
@@ -129,6 +139,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             {
                 title: config.tableHeader[1],
                 dataIndex: 'description',
+                width: 300,
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}}描述` }]}>
@@ -172,7 +183,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 const record = (getFieldValue(config.fieldName) || [])
                 return (
                     <Button
-                        onClick={() => deleteWorth(remove, index)}
+                        onClick={() => deleteWorth(remove, index, record)}
                         disabled={record.length < 2} danger type="link" >删除</Button>
                 )
             }
@@ -187,7 +198,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                     <h1>{config.title}</h1>
                     <div className={styles.worth_headerRight}>
                         {isEdit && <Button onClick={cancelClick}>取消</Button>}
-                        {!isEdit && <Button type="primary" onClick={() => setIsEdit(true)}>编辑</Button>}
+                        {!isEdit && <Button type="primary" onClick={edit}>编辑</Button>}
                         {isEdit && <Button type="primary" onClick={publishClick}>发布</Button>}
                     </div>
                 </header>

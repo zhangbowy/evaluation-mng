@@ -129,7 +129,7 @@ export type Average = {
     resultSimpleType: string;
     resultType: string;
     score: number;
-    name: string;
+    groupName: string;
 }
 
 export type TeamAnalysis = {

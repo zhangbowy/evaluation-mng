@@ -231,8 +231,12 @@ export const getPortraitList = async () => {
     return request('/api/spf-cc/values/getList', { method: 'GET' })
 }
 // 岗位列表
-export const getPostList = async () => {
-    return request('/api/member/position/getList', { method: 'GET' })
+export const getPostList = async (params?: { publish: number }) => {
+    return request('/api/member/position/getList', { method: 'GET', params })
+}
+// 删除岗位
+export const delPost = async (params?: { id: number }) => {
+    return request('/api/member/position/checkDelete', { method: 'GET', params })
 }
 // 价值观画像标签
 export const getAllList = async () => {

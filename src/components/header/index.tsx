@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import React, { memo, useContext, useEffect, useState } from 'react'
+import React, { Fragment, memo, useContext, useEffect, useState } from 'react'
 import styles from './index.module.less';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getPointAsset } from '@/api/api'
@@ -27,7 +27,8 @@ const Header = memo(() => {
     setVisible(false);
   }
   return (
-    <div className={styles.header_layout}>
+    // <div className={styles.header_layout}>
+    <Fragment>
       <div className={styles.header_left}>
         {
           appId.split('_')[0] === '1' ? <>
@@ -44,7 +45,9 @@ const Header = memo(() => {
         }
       </div>
       <ModalScreen visible={visible} closeModal={closeModal} />
-    </div>
+    </Fragment>
+
+    // </div>
   )
 })
 Header.displayName = 'Header'

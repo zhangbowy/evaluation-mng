@@ -176,9 +176,12 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         current: current,
         showTotal: () => `共 ${totalNum} 条数据`,
         onChange: (page: number, pageSize: number) => {
-            getTableList({ curPage: page, pageSize, ...form.getFieldsValue(), deptId })
+            const obj = { curPage: page, pageSize, ...form.getFieldsValue(), deptId }
+            obj.deptId == -1 && delete obj.deptId
+            getTableList(obj)
         }
-    } // 获取表格数据
+    }
+    // 获取表格数据
     const getTableList = async (item?: ITableParams) => {
         const obj = {
             examid: params.id,
