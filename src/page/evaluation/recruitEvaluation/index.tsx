@@ -432,18 +432,6 @@ const RecruitEvaluation = () => {
             <Form.Item name="job" label="应聘岗位" >
               <Input placeholder="请输入" style={{ width: 200 }} />
             </Form.Item>
-            <Form.Item name="job" label="应聘岗位" >
-              <Input placeholder="请输入" style={{ width: 200 }} />
-            </Form.Item>
-            <Form.Item name="job" label="应聘岗位" >
-              <Input placeholder="请输入" style={{ width: 200 }} />
-            </Form.Item>
-            <Form.Item name="job" label="应聘岗位" >
-              <Input placeholder="请输入" style={{ width: 200 }} />
-            </Form.Item>
-            <Form.Item name="job" label="应聘岗位" >
-              <Input placeholder="请输入" style={{ width: 200 }} />
-            </Form.Item>
             <Form.Item name="examStatus" label="测评状态">
               <Select
                 getPopupContainer={(triggerNode) => triggerNode.parentNode}

@@ -25,6 +25,7 @@ const PDF = () => {
     const { type, userId, examPaperId } = query as { type: templateType, userId: string, examPaperId: string };
     const [search] = useSearchParams();
     const isRecruit = search.get('isRecruit');
+    const isPeople = search.get('isPeople');
     useEffect(() => {
         getResultDetail()
     }, [])
@@ -36,7 +37,7 @@ const PDF = () => {
     }
     // 获取pdf的数据
     const getResultDetail = async () => {
-        const examResultRequest = isRecruit ? getUserExamResult : getExamResult;
+        const examResultRequest = isRecruit ? getUserExamResult : isPeople ? getPDFResult : getExamResult;
         const res = await examResultRequest({ examPaperId, userId, major: typeFlag[type] })
         if (res.code === 1) {
             const newData = { ...res.data };
