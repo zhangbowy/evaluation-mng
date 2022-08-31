@@ -82,121 +82,6 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             'CA': () => {
                 // 团队平均分和人群批评均分
                 if (averageRef?.current?.length > 0 && chartList?.otherGraph) {
-                    const data: Average[] = [
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "SE型：安全/稳定型",
-                            "resultType": "SE",
-                            "score": 17.5,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "TF型：技术/职能型",
-                            "resultType": "TF",
-                            "score": 16.75,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "SV型：服务型",
-                            "resultType": "SV",
-                            "score": 17.8125,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "AU型：自主/独立型",
-                            "resultType": "AU",
-                            "score": 16.25,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "CH型：挑战型",
-                            "resultType": "CH",
-                            "score": 19.5625,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "GM型：管理型",
-                            "resultType": "GM",
-                            "score": 16.3125,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "LS型：生活型",
-                            "resultType": "LS",
-                            "score": 19.1875,
-                            'name': '团队平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "EC型：创造/创业型",
-                            "resultType": "EC",
-                            "score": 16.625,
-                            'name': '团队平均分'
-                        },
-
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "SE型：安全/稳定型",
-                            "resultType": "SE1",
-                            "score": 17.5,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "TF型：技术/职能型",
-                            "resultType": "TF2",
-                            "score": 13.75,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "SV型：服务型",
-                            "resultType": "SV3",
-                            "score": 20,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "AU型：自主/独立型",
-                            "resultType": "AU4",
-                            "score": 16.25,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "CH型：挑战型",
-                            "resultType": "CH5",
-                            "score": 90.5625,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "GM型：管理型",
-                            "resultType": "GM6",
-                            "score": 26.3125,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "LS型：生活型",
-                            "resultType": "LS7",
-                            "score": 39.1875,
-                            'name': '人群平均分'
-                        },
-                        {
-                            "fullScore": null,
-                            "resultSimpleType": "EC型：创造/创业型",
-                            "resultType": "EC8",
-                            "score": 48.625,
-                            'name': '人群平均分'
-                        }
-                    ]
                     averageRef.current[0].innerHTML = '';
                     renderAverage(chartList?.otherGraph?.resultScores)
                 }
@@ -366,17 +251,86 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     }
     // 团队平均分和人群批评均分
     const renderAverage = (data: Average[]) => {
+        const list: Average[] = [
+            {
+                "fullScore": null,
+                "resultSimpleType": "SE型：安全/稳定型",
+                "resultType": "SE1",
+                "score": 18,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "TF型：技术/职能型",
+                "resultType": "TF2",
+                "score": 19,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "SV型：服务型",
+                "resultType": "SV3",
+                "score": 18,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "AU型：自主/独立型",
+                "resultType": "AU4",
+                "score": 19,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "CH型：挑战型",
+                "resultType": "CH5",
+                "score": 19,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "GM型：管理型",
+                "resultType": "GM6",
+                "score": 17,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "LS型：生活型",
+                "resultType": "LS7",
+                "score": 18,
+                'groupName': '人群平均分'
+            },
+            {
+                "fullScore": null,
+                "resultSimpleType": "EC型：创造/创业型",
+                "resultType": "EC8",
+                "score": 18,
+                'groupName': '人群平均分'
+            }
+        ]
         const plot = new Column(averageRef.current[0], {
-            data,
+            data: data.concat(list),
             isGroup: true,
+            height: 258,
             xField: 'resultSimpleType',
             yField: 'score',
-            seriesField: 'name',
+            seriesField: 'groupName',
             // 分组柱状图 组内柱子间的间距 (像素级别)
             dodgePadding: 5,
             columnWidthRatio: 0.3,
             tooltip: {
                 showTitle: false,
+                formatter: (datum) => {
+                    return { name: datum.groupName, value: Math.round(datum.score) + '分' };
+                },
+            },
+            meta: {
+                score: {
+                    formatter: (v: any) => {
+                        return `${v || 0}分`
+                    },
+                },
             },
             legend: {
                 position: 'top'
@@ -395,7 +349,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             yField: 'value',
             height: 200,
             label: undefined,
-            columnWidthRatio: 0.2,
+            columnWidthRatio: 0.15,
             xAxis: {
                 label: {
                     autoHide: true,
@@ -473,13 +427,14 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
         const maxNum = Math.max(...data.map(res => res.value))
         const stackedColumnPlot = new Column(preferenceRef.current[4], {
             data,
+            height: 258,
             isStack: true,
             xField: 'name',
             yField: 'value',
             seriesField: 'type',
             // 分组柱状图 组内柱子间的间距 (像素级别)
             dodgePadding: 5,
-            columnWidthRatio: 0.3,
+            columnWidthRatio: 0.2,
             yAxis: {
                 min: 0,
                 tickCount: maxNum < 5 ? maxNum + 1 : 6,

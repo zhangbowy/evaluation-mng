@@ -155,11 +155,11 @@ const PeopleReport = () => {
       <nav>
         <Form form={form} layout="inline">
           <Form.Item name="name" label="姓名">
-            <Input placeholder="请输入" style={{ width: 230 }} />
+            <Input placeholder="请输入" style={{ width: 200 }} />
           </Form.Item>
           {Department()}
           <Form.Item name="isDimission" label="是否在职">
-            <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 230 }} >
+            <Select getPopupContainer={(triggerNode) => triggerNode.parentNode} placeholder="请选择" style={{ width: 200 }} >
               <Select.Option value="0">在职</Select.Option>
               <Select.Option value="1">离职</Select.Option>
             </Select>
@@ -170,7 +170,7 @@ const PeopleReport = () => {
           <Button type="primary" onClick={onSearchClick}>搜索</Button>
         </div>
       </nav>
-      <Divider />
+      <Divider style={{ margin: '8px 0 24px' }} />
       <main>
         <div className={styles.detail_main_title}>
           <span>人才列表</span>
