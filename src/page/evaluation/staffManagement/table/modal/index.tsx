@@ -109,6 +109,7 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
      */
     const handleChange = (val: number) => {
         setSelectVal(val);
+        console.log(val);
     }
 
     return (

@@ -95,7 +95,6 @@ const AdvancedSearchForm = ({ setSearchForm }: face) => {
         formData.map((el, index) => {
             if (el.type == 'input') {
                 children.push(
-                    // <Col span={8} key={index}>
                     <Form.Item
                         key={index}
                         name={`${el.name}`}
@@ -104,33 +103,29 @@ const AdvancedSearchForm = ({ setSearchForm }: face) => {
                     >
                         <Input style={{ width: 200 }} placeholder="请输入" />
                     </Form.Item>
-                    // </Col>,
                 );
             }
             if (el.type == 'select') {
                 children.push(
-                    // <Col span={8} key={index}>
                     <Form.Item
                         key={index}
                         name={`${el.name}`}
                         label={`${el.title}`}
                     >
-                        <Select style={{ width: 200 }} placeholder="请选择" showSearch={el.name === 'deptId'} optionFilterProp="children">
+                        <Select style={{ width: 200 }} placeholder="请选择" allowClear={true} showSearch={el.name === 'deptId'} optionFilterProp="children">
                             {el.option?.map((i, val) => {
                                 return <Option value={i.value} key={val}>{i.name}</Option>
                             })}
                         </Select>
                     </Form.Item>
-                    // </Col>,
                 );
             }
         })
         return children;
     };
 
-    const onFinish = (values: formType) => {
-        // console.log('Received values of form: ', values);
-        setSearchForm(values)
+    const onFinish = () => {
+        setSearchForm(form.getFieldsValue())
     };
 
     const onReset = () => {
@@ -156,7 +151,7 @@ const AdvancedSearchForm = ({ setSearchForm }: face) => {
                 >
                     重置
                 </Button>
-                <Button type="primary" htmlType="submit" style={{ marginRight: 12 }}>
+                <Button type="primary" htmlType="submit" style={{ marginRight: 12 }} onClick={onFinish}>
                     搜索
                 </Button>
             </div>
