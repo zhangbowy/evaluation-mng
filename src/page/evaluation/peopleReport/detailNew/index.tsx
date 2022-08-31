@@ -208,6 +208,7 @@ const Detail = () => {
     const onDetailClick = (item: IEvaluationVoList) => {
       if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC' || item.examTemplateType === 'PDP' || item.examTemplateType === 'CA') {
         navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}~${item.examTemplateType}`);
+        return;
       } 
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
