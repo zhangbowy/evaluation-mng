@@ -150,13 +150,15 @@ const Worth = ({ isWorth = true }: IWorth) => {
                                 {
                                     isEdit && <Button size='small' type="dashed" onClick={() => addTag(index)} icon={<PlusOutlined />}>标签</Button>
                                 }
-                                {
-                                    tags?.map((tag: IFilterList, idx: number) => (
-                                        <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, idx)}>
-                                            {tag.name}
-                                        </Tag>
-                                    ))
-                                }
+                                <div>
+                                    {
+                                        tags?.map((tag: IFilterList, idx: number) => (
+                                            <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, idx)}>
+                                                {tag.name}
+                                            </Tag>
+                                        ))
+                                    }
+                                </div>
                             </div>
                         </Form.Item>
                     )

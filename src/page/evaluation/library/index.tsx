@@ -222,12 +222,15 @@ const Library = (props: { type?: number }) => {
                 {
                   item.isBuy ?
                     <div className={styles.Library_btn_right}>
-                      <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={(visible) => onVisibleChange(visible, index)} title={() => tooltip(item)}>
-                        <div className={styles.Library_select_group}>
-                          <span>酷测评</span>
-                          <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${isSelectShow[index] ? '180deg' : '0deg'})` }} />
-                        </div>
-                      </Tooltip>
+                      {
+                        appId.split('_')[0] === '1' &&
+                        <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={(visible) => onVisibleChange(visible, index)} title={() => tooltip(item)}>
+                          <div className={styles.Library_select_group}>
+                            <span>酷测评</span>
+                            <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${isSelectShow[index] ? '180deg' : '0deg'})` }} />
+                          </div>
+                        </Tooltip>
+                      }
                       <Button type="primary" className={`addPeople${index} ${styles.Library_appPeople}`}
                         onClick={() => handleClick(item)} >
                         添加人员

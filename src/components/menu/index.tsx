@@ -25,35 +25,35 @@ const Menu = (props: IMenuProps) => {
         {
             id: 6,
             name: '招聘测评',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_icon_people.svg',
+            icon: 'icon-zhaopinceping',
             path: '/evaluation/recruitEvaluation',
             authKey: 'EVAL_RECRUITMENT'
         },
         {
             id: 0,
             name: '盘点测评',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_evaluation.svg',
+            icon: 'icon-cepingguanli',
             path: '/evaluation/management',
             authKey: 'EVAL_EXAM'
         },
         {
             id: 1,
             name: '人才报告',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_people.svg',
+            icon: 'icon-rencaibaogao',
             path: '/evaluation/peopleReport',
             authKey: 'EVAL_REPORT'
         },
         {
             id: 2,
             name: '测评库',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
+            icon: 'icon-cepingku',
             path: '/evaluation/library',
             authKey: 'EVAL_TEMPLATE'
         },
         {
             id: 7,
             name: '人才画像',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
+            icon: 'icon-yonghuhuaxiang',
             path: '/evaluation/portrait',
             authKey: 'EVAL_TALENT_PORTRAIT',
             children: [
@@ -61,33 +61,27 @@ const Menu = (props: IMenuProps) => {
                     id: 8,
                     name: '价值观画像',
                     path: '/evaluation/portrait/worth',
-                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg',
+                    icon: 'icon-jiazhiguan',
                 },
                 {
                     id: 9,
                     name: '岗位画像',
                     path: '/evaluation/portrait/post',
-                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg',
+                    icon: 'icon-gangweihuaxiang',
                 },
             ]
         },
         {
             id: 10,
             name: '员工管理',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
+            icon: 'icon-quanxianguanli',
             path: '/evaluation/employee',
             authKey: 'EVAL_USER_MANT',
         },
         {
             id: 3,
-            name: '员工管理',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_library.svg',
-            path: '/evaluation/staff'
-        },
-        {
-            id: 4,
             name: '权限管理',
-            icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_jurisdiction.svg',
+            icon: 'icon-quanxianguanli',
             path: '/evaluation/userAuthority',
             authKey: 'EVAL_AUTH',
             children: [
@@ -95,7 +89,7 @@ const Menu = (props: IMenuProps) => {
                     id: 4,
                     name: '账号管理',
                     path: '/evaluation/userAuthority/account',
-                    icon: '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_menu_setting.svg',
+                    icon: 'icon-shezhi',
                     authKey: 'EVAL_AUTH_MNG'
                 }
             ]
@@ -176,9 +170,10 @@ const Menu = (props: IMenuProps) => {
     const oneElement = (item: IMenuItem) => {
         return (
             <div onClick={() => oneElementClick(item)} className={`${styles.menu_level}  ${isHighLight(item) && styles.menu_level_active}`}>
-                <div className={styles.menu_icon}>
-                    <img src={item.icon} className={styles.menu_icon_color} />
-                </div>
+                {/* <div className={styles.menu_icon}> */}
+                <i className={`iconfont ${item.icon}`} />
+                {/* <img src={item.icon} className={styles.menu_icon_color} /> */}
+                {/* </div> */}
                 <span className={styles.menu_title}>{item.name}</span>
             </div>
         )
@@ -189,9 +184,10 @@ const Menu = (props: IMenuProps) => {
             // <div className={styles.menu_twoWrapper} style={{ overflow: curIsRotate[item.id] ? 'visible' : 'hidden' }}></div>
             <div className={styles.menu_twoWrapper} >
                 <div className={`${styles.menu_level}`} onClick={() => handleClick(item)}>
-                    <div className={styles.menu_icon}>
-                        <img src={item.icon} className={styles.menu_icon_color} />
-                    </div>
+                    {/* <div className={styles.menu_icon}> */}
+                    {/* <img src={item.icon} className={styles.menu_icon_color} /> */}
+                    <i className={`iconfont ${item.icon}`} />
+                    {/* </div> */}
                     <span className={styles.menu_title}>{item.name}</span>
                     <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${curIsRotate[item.id] ? '180deg' : '0deg'})` }} />
                 </div>

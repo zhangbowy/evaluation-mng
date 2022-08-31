@@ -114,7 +114,11 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
    * reload list
    */
   const reloadList = () => {
-    setCurPage(1);
+    if(curPage === 1) {
+      setIsReload(true)
+    } else {
+      setCurPage(1);
+    }
   }
 
   /**
