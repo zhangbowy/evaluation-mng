@@ -34,7 +34,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                         renderTeamProportion(preferenceRef.current[index], chartList?.otherGraph[res])
                     })
                     const arr: any[] = []
-                    Object.keys(chartList?.otherGraph?.abilityPercentageMap)?.forEach(res => {
+                    Object.keys(chartList?.otherGraph?.abilityPercentageMap || {})?.forEach(res => {
                         chartList?.otherGraph?.abilityPercentageMap[res].forEach((item: characterProportions) => {
                             arr.push({
                                 name: res,
@@ -50,12 +50,12 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             'MBTI_O': () => {
                 // 倾向偏好占比
                 if (preferenceRef?.current?.length > 0 && chartList?.otherGraph) {
-                    Object.keys(chartList?.otherGraph).slice(0, 4).map((res, index) => {
+                    Object.keys(chartList?.otherGraph || {}).slice(0, 4).map((res, index) => {
                         preferenceRef.current[index].innerHTML = '';
                         renderTeamProportion(preferenceRef.current[index], chartList?.otherGraph[res])
                     })
                     const arr: any[] = []
-                    Object.keys(chartList?.otherGraph?.abilityPercentageMap).forEach(res => {
+                    Object.keys(chartList?.otherGraph?.abilityPercentageMap || {}).forEach(res => {
                         chartList?.otherGraph?.abilityPercentageMap[res].forEach((item: characterProportions) => {
                             arr.push({
                                 name: res,
@@ -74,7 +74,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     abilityText.forEach((res, index) => {
                         eachRef.current[index].innerHTML = '';
                         const arr: LineChart[] = []
-                        Object.keys(chartList?.otherGraph?.personalityTagChart[res]).forEach(item => {
+                        Object.keys(chartList?.otherGraph?.personalityTagChart[res] || {}).forEach(item => {
                             arr.push({ fraction: item, people: chartList?.otherGraph?.personalityTagChart[res][item] })
                         })
                         renderLineChart(index, arr)
