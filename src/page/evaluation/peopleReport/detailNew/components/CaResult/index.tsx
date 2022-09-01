@@ -34,7 +34,6 @@ function CaResult({ chartsData = {}, sendNotice }: any) {
         radius: 0.65,
         legend: false,
         color: (data) => {
-          console.log(data)
           let value = 0;
           for(let i = 0; i < dataColumn.length; i++) {
             if (dataColumn[i].type?.indexOf(data.type) > -1) {

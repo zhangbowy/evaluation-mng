@@ -14,7 +14,6 @@ const ModalScreen = (props: propsType) => {
   useEffect(() => {
     if (visible) {
       getDataScreenUrl({}).then(res => {
-        console.log(res);
         const { data, code } = res;
         if (code === 1) {
           setIsAction(false);

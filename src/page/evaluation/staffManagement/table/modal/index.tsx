@@ -43,8 +43,6 @@ const ModalEdit: React.FC<Props> = ({ visible, item, setModalVisible, reloadList
     useEffect(() => {
         if (visible) {
             setModalData(item);
-            console.log(item);
-            
         }
     }, [visible]);
 
