@@ -118,7 +118,7 @@ const index = () => {
     },
     {
       title: '操作', key: 'option', render: (text, record) => {
-        const roleKeys = record.roles ? record.roles.map(v => v.roleKey) : [];
+        const roleKeys = record.roles?.map(v => v?.roleKey);
         const onOpenClick = async (checked: boolean) => {
           if (appId.split('_')[0] === '1') {
             const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }

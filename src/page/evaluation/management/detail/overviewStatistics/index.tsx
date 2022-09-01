@@ -109,7 +109,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             } else {
                 setIsHiddenMore(false);
             }
-          }
+        }
     }, [distributionRef, chartList?.characterProportions]);
     // 查看所有tags
     const onMagnifyClick = () => {
@@ -410,10 +410,10 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     },
                 },
             },
-            // tooltip: {
+            tooltip: {
 
 
-            // },
+            },
             legend: {
                 // itemName: {
                 //     formatter: (text: string,  item: any, index: number) => {
