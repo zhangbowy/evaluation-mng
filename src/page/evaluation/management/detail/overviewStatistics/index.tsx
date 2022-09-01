@@ -381,7 +381,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             radius: 1,
             innerRadius: 0.6,
             pieStyle: {
-                lineWidth: 7,
+                lineWidth: 1,
             },
             label: false,
             meta: {
@@ -391,9 +391,13 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     },
                 },
             },
+            // tooltip: {
+
+
+            // },
             legend: {
                 // itemName: {
-                //     formatter: (text: string, item: any, index: number) => {
+                //     formatter: (text: string,  item: any, index: number) => {
                 //         console.log(text, item)
                 //         return `${text}`;
                 //     },
@@ -409,6 +413,9 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 // },
             },
             statistic: {
+                // formatter:(text: string, item: any, index: number)=>{
+                //     return ''
+                // },
                 title: false,
                 content: {
                     style: {

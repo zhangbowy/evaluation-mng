@@ -121,13 +121,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
         setCurKey(index)
         const curObj = getFieldsValue()
         const curVal = curObj[config.fieldName]
-        const obj: any = {}
-        !curVal[index]?.tags && (curVal[index].tags = [])
-        curVal[index].tags.forEach((list: IFilterList) => {
-            !obj[list.groupName || ''] && (obj[list.groupName || ''] = [])
-            obj[list.groupName || ''].push(list)
-        })
-        AddTagsRef.current.onOpenClick(obj || {}, isWorth)
+        AddTagsRef.current.onOpenClick(curVal[index].tags || [], isWorth)
     }
     // 获取列
     const getColumns = (remove: (key: number) => void) => {
@@ -164,7 +158,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                     const record = (getFieldValue(config.fieldName) || [])?.[index] || {}
                     const { tags } = record
                     return (
-                        <Form.Item name={[field.name, 'tagIds']} rules={[{ required: true, message: `请选择${config.tableHeader[2]}标签` }]}>
+                        <Form.Item name={[field.name, 'tagIds']} rules={[{ required: true, message: `请选择${config.tableHeader[2]}` }]}>
                             <div className={styles.tagWrapper}>
                                 {
                                     isEdit && <Button size='small' type="dashed" onClick={() => addTag(index)} icon={<PlusOutlined />}>标签</Button>

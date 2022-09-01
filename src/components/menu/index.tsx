@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext, useEffect, useRef, useMemo } fro
 import styles from './index.module.less'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { AppstoreAddOutlined, DownOutlined } from '@ant-design/icons';
-import { Divider } from 'antd';
+import { Button, Divider, Popover } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
 import { MyContext } from '@/utils/context'
 import { getMenu } from '@/api/api'
@@ -52,7 +52,7 @@ const Menu = (props: IMenuProps) => {
         },
         {
             id: 7,
-            name: '人才画像',
+            name: '画像管理',
             icon: 'icon-yonghuhuaxiang',
             path: '/evaluation/portrait',
             authKey: 'EVAL_TALENT_PORTRAIT',
@@ -121,23 +121,24 @@ const Menu = (props: IMenuProps) => {
         backgroundColor: '#2B85FF'
     }
     useEffect(() => {
+        getCurMenu()
         window.addEventListener('resize', resizeFn)
         return () => window.removeEventListener('resize', resizeFn)
     }, [])
-    useEffect(() => {
-        getMenu({
+    // 获取当前侧边栏数据
+    const getCurMenu = async () => {
+        const res = await getMenu({
             tpf: 1,
             appId: appId
-        }).then(res => {
-            const { code, data } = res;
-            if (code === 1) {
-                const keys = data.map((v: any) => v.authKey);
-                setAuthMenuKey(keys);
-            } else {
-                setAuthMenuKey([]);
-            }
         })
-    }, []);
+        const { code, data } = res;
+        if (code === 1) {
+            const keys = data.map((v: any) => v.authKey);
+            setAuthMenuKey(keys);
+        } else {
+            setAuthMenuKey([]);
+        }
+    }
     const resizeFn = (e: Event) => {
         document.body.clientWidth < 1280 && onPackUpClick()
     }
@@ -147,17 +148,17 @@ const Menu = (props: IMenuProps) => {
     }
     // 是否高亮
     const isHighLight = (item: IMenuItem) => {
-        return item.path == locationInfo.pathname
+        return locationInfo.pathname.indexOf(item.path) > -1
     }
     // 下拉菜单
     const handleClick = (item: IMenuItem) => {
-        if (state) {
-            const path: string = (item.children as IMenuItem[])[0].path
-            navigate(path)
-        } else {
-            // setIsRotate(!isRotate);
-            setCurIsRotate({ ...curIsRotate, [item.id]: !curIsRotate[item.id] })
-        }
+        // if (state) {
+        //     const path: string = (item.children as IMenuItem[])[0].path
+        //     navigate(path)
+        // } else {
+        // setIsRotate(!isRotate);
+        !state && setCurIsRotate({ ...curIsRotate, [item.id]: !curIsRotate[item.id] })
+        // }
     }
     // 去充值
     const goRecharge = () => {
@@ -185,15 +186,30 @@ const Menu = (props: IMenuProps) => {
     const twoElement = (item: IMenuItem) => {
         return (
             // <div className={styles.menu_twoWrapper} style={{ overflow: curIsRotate[item.id] ? 'visible' : 'hidden' }}></div>
-            <div className={styles.menu_twoWrapper} >
-                <div className={`${styles.menu_level}`} onClick={() => handleClick(item)}>
-                    {/* <div className={styles.menu_icon}> */}
-                    {/* <img src={item.icon} className={styles.menu_icon_color} /> */}
-                    <i className={`iconfont ${item.icon}`} />
-                    {/* </div> */}
-                    <span className={styles.menu_title}>{item.name}</span>
-                    <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${curIsRotate[item.id] ? '180deg' : '0deg'})` }} />
-                </div>
+            <div className={`${styles.menu_twoWrapper}  ${isHighLight(item) && state && styles.menu_level_active}`} >
+                <Popover
+                    content={
+                        <Fragment>
+                            {state && item.children!.map((item: IMenuItem) =>
+                                <div className={styles.menu_hoverName} onClick={() => oneElementClick(item)} key={item.id}>
+                                    <i className={`iconfont ${item.icon}`} />{item.name}
+                                </div>)
+                            }
+                        </Fragment>
+                    }
+                    trigger='hover'
+                    placement='right'
+                >
+                    <div className={`${styles.menu_level}`} onClick={() => handleClick(item)}>
+                        {/* <div className={styles.menu_icon}> */}
+                        {/* <img src={item.icon} className={styles.menu_icon_color} /> */}
+                        <i className={`iconfont ${item.icon}`} />
+                        {/* </div> */}
+                        <span className={styles.menu_title}>{item.name}</span>
+
+                        <i className={`iconfont icon-jiantouxia ${styles.menu_down}`} style={{ transform: `translateY(-50%) rotate(${curIsRotate[item.id] ? '180deg' : '0deg'})` }} />
+                    </div>
+                </Popover>
                 <div className={styles.menu_twoTitle} style={{ height: curIsRotate[item.id] ? '100%' : '0' }}>
                     {item.children!.map((res: IMenuItem) => <Fragment key={res.id}>{oneElement(res)}</Fragment>)}
                 </div>

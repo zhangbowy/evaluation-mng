@@ -67,8 +67,6 @@ export const getSign = async (url: string) => {
     return request('/api/member/dt/app/token/jsapiTicketSign', { data: { url }, method: 'POST' })
 }
 
-
-
 export const updateExam = async (data: any) => {
     return request('/api/spf-cc/b/evaluation/management/updateExamInformation', { data, method: 'POST' })
 }

@@ -85,6 +85,7 @@ interface ILogin {
         gender: IGender,
         name: string,
         userId: string
+        roles: string[]
     }
 }
 

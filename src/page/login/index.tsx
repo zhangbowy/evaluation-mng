@@ -14,7 +14,9 @@ const Login = () => {
   const handleLogin = (item: ILogin) => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
-    navigate(`/evaluation/management`);
+    const roles: any = item.user.roles?.length > 0 ? item.user.roles.map((v: any) => v?.roleKey) : []
+    const authFlag = roles.includes('SUPERVISOR') || roles.includes('ADMIN');
+    authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
   }
   useEffect(() => {
     if (authCode) {
@@ -51,9 +53,7 @@ const Login = () => {
           window.sessionStorage.setItem('QCP_B_TOKEN', res.data.token);
           window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(res.data.user));
           // 已经授权则免登进入系统
-          const roles: any = res.data.user.roles.map((v: any) => v.roleKey)
-          const authFlag = roles.includes('SUPERVISOR') || roles.includes('ADMIN');
-          authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
+          handleLogin(res.data)
         }
       } else {
         // 免登失败，提示进入403

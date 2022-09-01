@@ -377,3 +377,40 @@
         opacity: 1;
     }
 }
+
+.menu_hoverName {
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+
+    i {
+        margin-right: 3px;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        background-color: #E3E8EE;
+    }
+}
+
+:global {
+    .ant-popover-inner {
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.12);
+        border-radius: 6px;
+
+    }
+
+    .ant-popover-inner-content {
+        padding: 3px;
+    }
+
+    .ant-popover-arrow {
+        display: none;
+    }
+}
