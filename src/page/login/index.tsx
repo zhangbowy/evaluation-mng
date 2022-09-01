@@ -14,8 +14,11 @@ const Login = () => {
   const handleLogin = (item: ILogin) => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
-    const roles: any = item.user.roles?.length > 0 ? item.user.roles.map((v: any) => v?.roleKey) : []
+    console.log(item.user.roles, item.user.roles.length > 0, item.user.roles.map((v: any) => v.roleKey), 'item.user.roles')
+    const roles: any = item.user.roles.length > 0 ? item.user.roles.map((v: any) => v.roleKey) : []
+    console.log(roles, 'roles')
     const authFlag = roles.includes('SUPERVISOR') || roles.includes('ADMIN');
+    console.log(authFlag, 'authFlag')
     authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
   }
   useEffect(() => {
