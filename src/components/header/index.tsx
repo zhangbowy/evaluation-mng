@@ -36,7 +36,7 @@ const Header = memo(() => {
             <label>{state}</label>
             <Button type='primary' onClick={goRecharge}>去充值</Button>
           </>
-            : <Button type='primary' onClick={largeScreen}>团队测评分析</Button>
+            : <Button type='primary' onClick={largeScreen}>团队数字大屏</Button>
         }
       </div>
       <div className={styles.header_right}>

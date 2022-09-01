@@ -118,7 +118,9 @@ const Menu = (props: IMenuProps) => {
         height: curIsRotate[id] ? '100%' : '40px'
     })
     const imgStyle = {
-        backgroundColor: '#2B85FF'
+        backgroundColor: '#2B85FF',
+        borderRadius: '5px',
+        padding: '3px'
     }
     useEffect(() => {
         window.addEventListener('resize', resizeFn)
@@ -212,6 +214,7 @@ const Menu = (props: IMenuProps) => {
         <div className={!state ? styles.menu_default_layout : styles.menu_packUp_layout}>
             <div>
                 <header>
+
                     <img style={appType === '1' ? imgStyle : {}} src={logo} alt="" />
                     <span>{appType === '1' ? '趣测评管理后台' : '招才选将'}</span>
                 </header>

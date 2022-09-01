@@ -7,7 +7,6 @@ import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
 const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
     const { resultDetail, childStyle } = props;
-    console.log(resultDetail, 'resultDetail');
     const appType = getAppIdType()
     useImperativeHandle(ref, () => {
         return {

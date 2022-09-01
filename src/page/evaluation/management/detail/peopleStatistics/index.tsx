@@ -258,7 +258,6 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
     }
     // 下载MBTI专业版    
     const onDownLoad = async (record: IResultList) => {
-        console.log(`${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`, 'ddd');
 
         setDownLoading([...downLoading, record.examPaperId])
         const urlData = await getIsHasPdf({ examPaperId: record.examPaperId, templateType: 2 })

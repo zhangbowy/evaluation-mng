@@ -357,7 +357,7 @@ const Detail = () => {
                   reportDetailList?.evaluationVoList.map((item) => (
                     <div
                       key={item?.examPaperId}
-                      className={item.answerStatus === 0 ? cs(styles.detail_left_evaluation_content_item, styles.no) : styles.detail_left_evaluation_content_item}
+                      className={item.answerStatus === 10 ? styles.detail_left_evaluation_content_item : cs(styles.detail_left_evaluation_content_item, styles.no)}
                     >
                       <div
                         className={cx({
@@ -377,7 +377,7 @@ const Detail = () => {
                           {item.examTemplateType === 'CA' ? '职业锚' : item.examTemplateType}
                         </span>
                         {
-                          item.answerStatus === 0 && <span className={styles.detail_left_evaluation_content_item_name_pend}>
+                          item.answerStatus !== 10 && <span className={styles.detail_left_evaluation_content_item_name_pend}>
                             待测评
                           </span>
                         }
