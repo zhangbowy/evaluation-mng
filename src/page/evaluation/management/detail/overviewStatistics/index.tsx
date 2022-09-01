@@ -28,7 +28,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
         const currEleType: IObjType = {
             'MBTI': () => {
                 // 倾向偏好占比
-                if (preferenceRef?.current?.length > 0 && chartList?.otherGraph) {
+                if (preferenceRef?.current?.length > 0) {
                     Object.keys(chartList?.otherGraph || {})?.slice(0, 4)?.map((res, index) => {
                         preferenceRef.current[index].innerHTML = '';
                         renderTeamProportion(preferenceRef.current[index], chartList?.otherGraph[res])
@@ -49,7 +49,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             'MBTI_O': () => {
                 // 倾向偏好占比
-                if (preferenceRef?.current?.length > 0 && chartList?.otherGraph) {
+                if (preferenceRef?.current?.length > 0) {
                     Object.keys(chartList?.otherGraph || {}).slice(0, 4).map((res, index) => {
                         preferenceRef.current[index].innerHTML = '';
                         renderTeamProportion(preferenceRef.current[index], chartList?.otherGraph[res])
@@ -70,7 +70,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             'PDP': () => {
                 // 各项能力折线图
-                if (eachRef?.current?.length > 0 && chartList?.otherGraph) {
+                if (eachRef?.current?.length > 0) {
                     abilityText.forEach((res, index) => {
                         eachRef.current[index].innerHTML = '';
                         const arr: LineChart[] = []
@@ -83,14 +83,14 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             'CA': () => {
                 // 团队平均分和人群批评均分
-                if (averageRef?.current?.length > 0 && chartList?.otherGraph) {
+                if (averageRef?.current?.length > 0) {
                     averageRef.current[0].innerHTML = '';
                     renderAverage(chartList?.otherGraph?.resultScores)
                 }
             },
             'DISC': () => {
                 // 团队偏好
-                if (teamRef?.current?.length > 0 && chartList?.otherGraph) {
+                if (teamRef?.current?.length > 0) {
                     teamRef.current[0].innerHTML = '';
                     teamRef.current[1].innerHTML = '';
                     teamRef.current[2].innerHTML = '';
@@ -394,7 +394,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             height: 130,
             width: 200,
             data,
-            angleField: 'value',
+            angleField: 'number',
             colorField: 'name',
             color: ['#73A0FA', '#F6BD16'],
             radius: 1,
@@ -404,37 +404,22 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             label: false,
             meta: {
-                value: {
-                    formatter: (v: any) => {
-                        return `${v || 0}人`
-                    },
+                number: {
+                    alias: '人数',
+                    formatter: (v: any) => `${v || 0}人`,
+                },
+                numberProportion: {
+                    alias: '占比',
+                    formatter: (val) => `${val || 0}%`,
                 },
             },
             tooltip: {
-
-
+                fields: ["number", "numberProportion"],
             },
             legend: {
-                // itemName: {
-                //     formatter: (text: string,  item: any, index: number) => {
-                //         console.log(text, item)
-                //         return `${text}`;
-                //     },
-                // },
                 position: 'bottom'
-                // itemValue: {
-                //   formatter: (text, item) => {
-                //     return ``;
-                //   },
-                //   style: {
-                //     fontSize: 12
-                //   },
-                // },
             },
             statistic: {
-                // formatter:(text: string, item: any, index: number)=>{
-                //     return ''
-                // },
                 title: false,
                 content: {
                     style: {

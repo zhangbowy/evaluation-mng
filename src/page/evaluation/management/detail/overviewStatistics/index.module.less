@@ -23,9 +23,11 @@
     .overviewEval {
         display: grid;
         gap: 24px 25px;
-        grid-template-areas:
-            'menu main'
-            'nav footer';
+        grid-template-columns: minmax(550px, 1fr) minmax(550px, 1fr);
+        grid-template-rows: auto auto;
+        // grid-template-areas:
+        //     'menu main'
+        //     'nav footer';
 
         &>div {
             padding: 12px 24px 24px 24px;
@@ -193,6 +195,7 @@
         }
 
         .proportion {
+
             .detail_proportion_wrapper {
                 margin-top: 29px;
                 display: flex;
@@ -264,6 +267,7 @@
     }
 
     .detailed {
+        margin-top: 20px;
 
         h1 {
             font-size: 14px;
@@ -306,6 +310,8 @@
         }
 
         .each {
+            min-width: 1020px;
+
             .chartList {
                 // display: flex;
                 // justify-content: space-between;
@@ -345,9 +351,8 @@
 
         .team {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-areas:
-                'analysis proportion';
+            grid-template-columns: minmax(550px, 1fr) minmax(550px, 1fr);
+            grid-template-rows: auto auto;
             gap: 0 24px;
 
             &>div {
