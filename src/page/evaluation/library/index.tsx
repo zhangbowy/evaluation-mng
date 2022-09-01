@@ -47,7 +47,7 @@ const Library = (props: { type?: number }) => {
     if (addIndex == -1) return
     if (arr.length > 0) {
       const setsArr: StepsType[] = [{
-        element: `.addIndex${addIndex}`,
+        element: `.addPeople${addIndex}`,
         intro: "第一次创建测评，需要先在此添加人员哦～",
         position: "bottom",
       }]

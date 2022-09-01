@@ -22,9 +22,11 @@ const index = () => {
   useEffect(() => {
     getUser()
     getDepartment()
-    timer = setTimeout(() => {
-      currentStep()
-    }, 1000);
+    if (appType === '1') {
+      timer = setTimeout(() => {
+        currentStep()
+      }, 1000);
+    }
     () => {
       clearTimeout(timer)
     }

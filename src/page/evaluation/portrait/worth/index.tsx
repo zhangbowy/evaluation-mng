@@ -12,7 +12,6 @@ const Worth = ({ isWorth = true }: IWorth) => {
     const [form] = Form.useForm();
     const AddTagsRef: any = useRef()
     const { getFieldsValue, getFieldValue, setFieldsValue, validateFields, resetFields } = form
-    const [tagsList, setTagsList] = useState<{ [key: string]: any }>({}) // 所有选中的标签
     const [curKey, setCurKey] = useState<number>(0) // 当前点击添加标签的所欲
     const [isEdit, setIsEdit] = useState<boolean>(false) // 是否可以修改
     const [transferredData, setTransferredData] = useState<IObjType>({})
@@ -133,7 +132,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: `请输入${config.tableHeader[0]}` }]}>
-                            <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[0]}`} />
+                            <TextArea maxLength={256} bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[0]}`} />
                         </Form.Item>
                     )
                 }
@@ -145,7 +144,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}` }]}>
-                            <TextArea bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[1]}`} />
+                            <TextArea maxLength={256} bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[1]}`} />
                         </Form.Item>
                     )
                 }
