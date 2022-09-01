@@ -177,7 +177,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 itemWidth: 100,
                 itemName: {
                     formatter: (text: string, item: any, index: number) => {
-                        return `${text}     ${chartList?.personalityProportions[index]?.value}ddddd人`;
+                        return `${text}     ${chartList?.personalityProportions[index]?.value}人`;
                     },
                 },
                 // itemValue: {
