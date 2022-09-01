@@ -106,8 +106,8 @@ const Menu = (props: IMenuProps) => {
     const logo = appType === '2'
         ? '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
         : '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_logo.svg'
-    const largeImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img4_large.png';
-    const smallImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img4_small.png';
+    const largeImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img5_largeScreen_large.png';
+    const smallImg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/xjdy_img5_largeScreen_small.png';
     const navigate = useNavigate()
     const { state, dispatch } = useContext(MyContext)
     const [isRotate, setIsRotate] = useState<boolean>(false); // 是否旋转
