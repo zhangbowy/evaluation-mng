@@ -258,6 +258,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
     }
     // 下载MBTI专业版    
     const onDownLoad = async (record: IResultList) => {
+
         setDownLoading([...downLoading, record.examPaperId])
         const urlData = await getIsHasPdf({ examPaperId: record.examPaperId, templateType: 2 })
         if (urlData.code == 1) {
@@ -275,10 +276,10 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                     polling()
                 }
             } else {
-                console.log(`${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`, 'ddd');
+                // console.log(`${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`, 'ddd');
                 const obj = {
                     // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-                    url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true`,
+                    url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`,
                     examPaperId: record.examPaperId,
                     userId: record.userId,
                     templateType: 2

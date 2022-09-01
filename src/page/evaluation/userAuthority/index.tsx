@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import { IUserParams, IColumns, IUserObj, IUserNewParams, IColumnsNew } from './type'
 import { ColumnsType } from 'antd/lib/table'
 import dd from 'dingtalk-jsapi'
-import { getIsGuide, getAllUrlParam } from '@/utils/utils'
+import { getIsGuide, getAllUrlParam, getAppIdType } from '@/utils/utils'
 
 const index = () => {
   const [userList, setUserList] = useState<IColumnsNew[]>([]);
@@ -18,6 +18,7 @@ const index = () => {
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [form] = Form.useForm();
   let timer: any;
+  const appType = getAppIdType();
   useEffect(() => {
     getUser()
     getDepartment()
@@ -117,7 +118,7 @@ const index = () => {
     },
     {
       title: '操作', key: 'option', render: (text, record) => {
-        const roleKeys = record.roles.map(v => v.roleKey);
+        const roleKeys = record.roles ? record.roles.map(v => v.roleKey) : [];
         const onOpenClick = async (checked: boolean) => {
           if (appId.split('_')[0] === '1') {
             const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
@@ -183,7 +184,13 @@ const index = () => {
       <main>
         <div className={styles.detail_main_title}>
           <span>账号列表</span>
-          <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
+          <div>
+            {
+              appType === '1'
+                ? <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
+                : null
+            }
+          </div>
         </div>
         <Table loading={tableLoading}
           pagination={paginationObj}

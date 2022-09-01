@@ -1,5 +1,5 @@
 import { Button, Empty } from 'antd'
-import React, { Fragment, memo, ReactElement, useEffect, useRef } from 'react'
+import React, { Fragment, memo, ReactElement, useEffect, useRef, useState } from 'react'
 import styles from './index.module.less'
 import { abilityText } from '@/config/management.config'
 import { Liquid, Pie, Line, Column } from '@antv/g2plot';
@@ -16,6 +16,8 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     const averageRef: any = useRef([]) // 团队平均分和人群批评均分     
     const teamRef: any = useRef([]) // 团队偏好
     const lookAllTagsRef: any = useRef()
+    const distributionRef: any = useRef();
+    const [isHiddenMore, setIsHiddenMore] = useState<boolean>(false);
     useEffect(() => {
         if (visualRef?.current?.length > 0) {
             visualRef.current[0].innerHTML = '';
@@ -100,6 +102,15 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
         }
         type && currEleType[type]()
     }, [chartList, type])
+    useEffect(() => {
+        if (distributionRef.current) {
+            if (distributionRef?.current?.scrollHeight > distributionRef?.current?.clientHeight) {
+                setIsHiddenMore(true);
+            } else {
+                setIsHiddenMore(false);
+            }
+          }
+    }, [distributionRef, chartList?.characterProportions]);
     // 查看所有tags
     const onMagnifyClick = () => {
         lookAllTagsRef?.current?.openModal(chartList?.characterProportions)
@@ -108,15 +119,17 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     const completionList = () => {
         const liquidPlot = new Liquid(visualRef.current[0], {
             percent: (Number(chartList?.finishDegree) || 0) / 100,
-            height: 88,
-            width: 88,
+            height: 120,
+            width: 120,
             outline: {
                 border: 2,
                 style: {
-                    stroke: '#F1F7FF',
+                    stroke: '#2B85FF',
                     // strokeOpacity: 0.9
                 },
                 distance: 4,
+            },
+            liquidStyle: {
             },
             statistic: {
                 content: {
@@ -134,10 +147,11 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     }
     // 人格占比图
     const personalityList = () => {
+        const data = chartList?.personalityProportions || [];
         const piePlot = new Pie(visualRef.current[1], {
-            height: 88,
+            height: 120,
             // width: 88,
-            data: chartList?.personalityProportions || [],
+            data: data,
             angleField: 'value',
             colorField: 'name',
             color: ['#5B8FF9', '#5AD8A6', '#F6BD16', '#E8684A', '#6DC8EC', '#9270CA', '#FF9D4D', '#269A99', '#FF99C3', '#5D7092',
@@ -145,7 +159,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             radius: 1,
             innerRadius: 0.6,
             pieStyle: {
-                lineWidth: 7,
+                lineWidth: 1,
             },
             label: false,
             meta: {
@@ -157,8 +171,10 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             },
             legend: {
                 hoverable: false,
-                offsetX: -80,
-                // itemWidth: 300,
+                flipPage: data.length > 10,
+                maxRow: 2,
+                offsetX: -120,
+                itemWidth: 100,
                 itemName: {
                     formatter: (text: string, item: any, index: number) => {
                         return `${text}     ${chartList?.personalityProportions[index]?.value}人`;
@@ -172,6 +188,9 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 //     fontSize: 12
                 //   },
                 // },
+            },
+            tooltip: {
+                showTitle: false
             },
             statistic: {
                 title: false,
@@ -580,15 +599,15 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                         <div className={styles.bottom}>
                             <div className={styles.card}>
                                 <p>{chartList.finishNum || 0}</p>
-                                <p>已完成</p>
+                                <p>已完成(人)</p>
                             </div>
                             <div className={styles.card}>
                                 <p>{(chartList.totalNum - chartList.finishNum) || 0}</p>
-                                <p>未完成</p>
+                                <p>未完成(人)</p>
                             </div>
                             <div className={styles.card} >
                                 <p>{(chartList.totalNum - chartList.finishNum) || 0}</p>
-                                <p>测评中</p>
+                                <p>测评中(人)</p>
                             </div>
                         </div>
                     </div>
@@ -605,16 +624,16 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     <div className={`${styles.proportion} ${styles.border}`}>
                         <p>人格分布占比</p>
                         <div className={styles.detail_proportion_wrapper}>
-                            <div className={`${(chartList?.personalityProportions || []).length < 1 && styles.detail_proportion_empty}`} ref={(el) => visualRef.current[1] = el} />
+                            <div className={`${(chartList?.personalityProportions || []).length < 1 ? styles.detail_proportion_empty : styles.detail_proportion_pie}`} ref={(el) => visualRef.current[1] = el} />
                         </div>
                     </div>
                     <div className={`${styles.tags} ${styles.border}`}>
                         <p>性格标签分布</p>
                         {
-                            (chartList?.characterProportions || []).length > 0 &&
+                            (chartList?.characterProportions || []).length > 0 && isHiddenMore &&
                             <Button type='link' className={styles.more} onClick={onMagnifyClick}>更多</Button>
                         }
-                        <div className={styles.detail_distribution_wrapper}>
+                        <div className={styles.detail_distribution_wrapper} ref={distributionRef}>
                             {
                                 (chartList?.characterProportions || []).length > 0 ?
                                     chartList?.characterProportions.map((item: characterProportions, index) => {

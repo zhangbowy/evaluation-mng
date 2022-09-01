@@ -7,6 +7,7 @@ import Evaluation from '@/page/evaluation';
 import NeedPay from '@/page/402';
 import NotJurisdiction from '@/page/403';
 import PDF from '@/page/pdf';
+import { getAppIdType } from '@/utils/utils';
 const Management = lazy(() => import('@/page/evaluation/management'));
 // const PdfDetail  = lazy(() => import('@/page/evaluation/pdf'));
 const PeopleLookReport = lazy(() => import('@/page/evaluation/peopleReport/lookReport'));
@@ -16,7 +17,8 @@ const UserAuthority = lazy(() => import('@/page/evaluation/userAuthority'));
 const NoFind = lazy(() => import('@/page/404'));
 const Recharge = lazy(() => import('@/page/evaluation/recharge'));
 const ManagementDetail = lazy(() => import('@/page/evaluation/management/detail'));
-const PeopleReportDetail = lazy(() => import('@/page/evaluation/peopleReport/detailNew'));
+const PeopleReportDetailNew = lazy(() => import('@/page/evaluation/peopleReport/detailNew'));
+const PeopleReportDetail = lazy(() => import('@/page/evaluation/peopleReport/detail'));
 const Layout = lazy(() => import('@/components/layout'));
 const ManagementLibrary = lazy(() => import('@/page/evaluation/management/library'));
 const RecruitEvaluation = lazy(() => import('@/page/evaluation/recruitEvaluation'));
@@ -27,6 +29,8 @@ const WorthPortrait = lazy(() => import('@/page/evaluation/portrait/worth'));
 const PostPortrait = lazy(() => import('@/page/evaluation/portrait/post'));
 const Employee = lazy(() => import('@/page/evaluation/staffManagement'))
 const Share = lazy(() => import('@/page/share'))
+
+const appType = getAppIdType();
 
 const routes: RouteObject[] = [
     {
@@ -69,7 +73,7 @@ const routes: RouteObject[] = [
                     },
                     {
                         path: 'detail/:userId',
-                        element: <PeopleReportDetail />
+                        element: appType === '1' ? <PeopleReportDetail /> : <PeopleReportDetailNew />
                     },
                     {
                         path: 'lookReport/:userId/:people',

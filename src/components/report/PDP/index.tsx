@@ -330,11 +330,11 @@ const CA = ({ resultDetail = {} }: any) => {
           </div>
         ))
       }
-      <div className={styles['end-wrap']}>
+      {/* <div className={styles['end-wrap']}>
         <div className={styles['end-line']}></div>
         <div className={styles['end-text']}>END</div>
         <div className={styles['end-line']}></div>
-      </div>
+      </div> */}
     </div>
   )
 }
