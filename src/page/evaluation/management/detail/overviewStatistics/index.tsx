@@ -172,9 +172,11 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             legend: {
                 hoverable: false,
                 flipPage: data.length > 10,
+                maxWidthRatio: (data.length > 10 || data.length < 6) ? 250 : undefined,
+                maxHeightRatio: (data.length > 10 || data.length < 6) ? 250 : undefined,
                 maxRow: 2,
-                offsetX: -120,
-                itemWidth: 100,
+                offsetX: (data.length > 10 || data.length < 6) ? -50 : -100,
+                itemWidth: (data.length > 10 || data.length < 6) ? undefined : 100,
                 itemName: {
                     formatter: (text: string, item: any, index: number) => {
                         return `${text}     ${chartList?.personalityProportions[index]?.value}人`;
