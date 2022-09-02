@@ -15,6 +15,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
     const [curKey, setCurKey] = useState<number>(0) // 当前点击添加标签的所欲
     const [isEdit, setIsEdit] = useState<boolean>(false) // 是否可以修改
     const [transferredData, setTransferredData] = useState<IObjType>({})
+    const [loading, setLoading] = useState<boolean>(true)
     const config = isWorth ? portraitConfig.worth : portraitConfig.post // 配置
     useEffect(() => {
         getList({ publish: 1 })
@@ -61,6 +62,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 }]
             }
             setFieldsValue({ [config.fieldName]: arr });
+            setLoading(false)
         }
     }
     // 发布
@@ -213,6 +215,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                                     bordered
                                     rowKey='key'
                                     columns={getColumns(remove)}
+                                    loading={loading}
                                     pagination={false} />
                                 <div className={styles.worth_add} >
                                     {isEdit && <Button className={styles.worth_addWorth} onClick={() => add()} icon={<PlusCircleOutlined />} type="dashed" block>

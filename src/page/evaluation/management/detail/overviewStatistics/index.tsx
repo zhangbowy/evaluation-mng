@@ -95,8 +95,8 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     teamRef.current[1].innerHTML = '';
                     teamRef.current[2].innerHTML = '';
                     renderTeamAnalysis(chartList?.otherGraph?.DISCLabels)
-                    renderTeamProportion(teamRef.current[1], chartList?.otherGraph?.dcAndIsLabels)
-                    renderTeamProportion(teamRef.current[2], chartList?.otherGraph?.diAndScLabels)
+                    renderTeamProportion(teamRef.current[1], chartList?.otherGraph?.dcAndIsLabels, false)
+                    renderTeamProportion(teamRef.current[2], chartList?.otherGraph?.diAndScLabels, false)
                 }
             },
         }
@@ -389,7 +389,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
         columnPlot.render();
     }
     // 团队偏好占比
-    const renderTeamProportion = (el: HTMLElement, data: any[]) => {
+    const renderTeamProportion = (el: HTMLElement, data: any[], isPeo = true) => {
         const piePlot = new Pie(el, {
             height: 130,
             width: 200,
@@ -405,8 +405,8 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             label: false,
             meta: {
                 number: {
-                    alias: '人数',
-                    formatter: (v: any) => `${v || 0}人`,
+                    alias: isPeo ? '人数' : '分数',
+                    formatter: (v: any) => `${v || 0}${isPeo ? '人' : '分'}`,
                 },
                 numberProportion: {
                     alias: '占比',
@@ -564,7 +564,6 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     const onLookAllClick = () => {
         onTabChange('2')
     }
-    // 查看全部
     return (
         <Fragment>
             <div className={styles.overviewSta}>
@@ -636,10 +635,13 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                         </div>
                     </div>
                 </div>
-                <div className={styles.detailed}>
-                    <h1>详细分析 </h1>
-                    {renderChart()}
-                </div>
+                {
+                    type != 'CPI' &&
+                    <div className={styles.detailed}>
+                        <h1>详细分析 </h1>
+                        {renderChart()}
+                    </div>
+                }
             </div>
             <LookAllTags ref={lookAllTagsRef} />
         </Fragment>
