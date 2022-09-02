@@ -81,7 +81,7 @@ const Detail = () => {
     current: current,
     showTotal: () => `共 ${totalNum} 条数据`,
     onChange: (page: number, pageSize: number) => {
-     console.log({ curPage: page, pageSize, ...form.getFieldsValue(), deptId });
+      console.log({ curPage: page, pageSize, ...form.getFieldsValue(), deptId });
       getTableList({ curPage: page, pageSize, ...form.getFieldsValue(), deptId })
     }
   }
@@ -111,7 +111,7 @@ const Detail = () => {
   }
   // 获取部门
   const getDepartment = async () => {
-    const res = await queryDept({ corpId, appId })
+    const res = await queryDept({ corpId, appId, curPage: 1, pageSize: 10000 })
     if (res.code == 1) {
       setDepartment(res.data.resultList)
     }
@@ -246,7 +246,7 @@ const Detail = () => {
     setExportLoading(true)
     const res = await measurementExport(params.id)
     if (res.code == 1) {
-      let a = document.createElement('a')
+      const a = document.createElement('a')
       a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
       a.download = res.data.cname
       a.click()

@@ -3,7 +3,7 @@ import { getAllUrlParam } from "@/utils/utils";
 import { Form, Select } from "antd"
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
+import React from "react";
 
 
 const Department = () => {
@@ -15,7 +15,7 @@ const Department = () => {
     }, [])
     // 获取部门
     const getDepartment = async () => {
-        const res = await queryDept({ corpId, appId })
+        const res = await queryDept({ corpId, appId, curPage: 1, pageSize: 10000 })
         if (res.code == 1) {
             setDepartmentList(res.data.resultList)
         }

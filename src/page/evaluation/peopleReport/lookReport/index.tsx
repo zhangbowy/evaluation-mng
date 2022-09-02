@@ -24,17 +24,16 @@ const LookReport = () => {
 
     useEffect(() => {
         getUserReport();
-        return () => {};
     }, [])
 
-     // 获取列表
-  const getUserReport = async () => {
-    const res = await getAllExam({ userId })
-    if (res.code === 1) {
-      setReportDetailList(res.data)
+    // 获取列表
+    const getUserReport = async () => {
+        const res = await getAllExam({ userId })
+        if (res.code === 1) {
+            setReportDetailList(res.data)
+        }
     }
-  }
-    
+
 
     return (
         <div className={styles.detail_layout}>

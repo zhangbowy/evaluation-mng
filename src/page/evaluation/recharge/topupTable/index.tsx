@@ -56,7 +56,7 @@ const TopUpTable = () => {
         {
             title: '充值金额（元）',
             dataIndex: 'amount',
-            render: (text: number = 0) => text / 100
+            render: (text = 0) => text / 100
         },
         {
             title: '新增点券（点券）',

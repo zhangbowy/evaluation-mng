@@ -17,10 +17,6 @@ const LookReport = () => {
     const userId = arr[1];
     const templateType = arr[2];
 
-    useEffect(() => {
-        return () => {};
-    }, [])
-
     return (
         <div className={styles.detail_layout}>
             <header>

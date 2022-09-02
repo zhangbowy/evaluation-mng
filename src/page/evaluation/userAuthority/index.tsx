@@ -17,10 +17,10 @@ const index = () => {
   const [current, setCurrent] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [form] = Form.useForm();
+  let timer: any;
   useEffect(() => {
     getUser()
     getDepartment()
-    let timer: any;
     timer = setTimeout(() => {
       currentStep()
     }, 1000);
@@ -71,7 +71,7 @@ const index = () => {
   }
   // 获取部门
   const getDepartment = async () => {
-    const res = await queryDept({ corpId, appId })
+    const res = await queryDept({ corpId, appId, curPage: 1, pageSize: 10000 })
     if (res.code == 1) {
       setDepartmentList(res.data.resultList)
     }
