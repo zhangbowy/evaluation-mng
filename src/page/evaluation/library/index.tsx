@@ -198,8 +198,8 @@ const Library = (props: { type?: number }) => {
               <p>{item.includeText}</p>
               <div className={styles.Library_topicInfo}>
                 <div className={styles.Library_topicInfoLeft}>
-                  <label>作答时间<span>{item.durationDesc}</span></label>
-                  <label>题目数量<span>{item.examLibrarySum}</span></label>
+                  <label>作答时间<span>{item.durationDesc}分钟</span></label>
+                  <label>题目数量<span>{item.examLibrarySum}题</span></label>
                 </div>
                 {!item.isBuy && <img src={notUnlockedImg} alt="" />}
                 <div className={styles.Library_topicInfoRight}>
