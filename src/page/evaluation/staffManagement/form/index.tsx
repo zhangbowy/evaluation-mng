@@ -22,7 +22,7 @@ const AdvancedSearchForm = ({ setSearchForm }: face) => {
 
     // 获取部门
     const getDepartment = async () => {
-        const res = await queryDept({ corpId, appId })
+        const res = await queryDept({ corpId, appId, pageSize: 10000, curPage: 1 })
         if (res.code == 1) {
             setDepartmentList((departmentList) => {
                 const arr: Array<deptList> = [];

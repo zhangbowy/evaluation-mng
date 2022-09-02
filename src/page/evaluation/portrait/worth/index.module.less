@@ -169,6 +169,8 @@
                     textarea {
                         padding-left: 0;
                         color: #657180;
+                        padding-left: 8px;
+                        max-height: 120px !important;
                     }
 
                     .ant-input[disabled] {
@@ -192,14 +194,17 @@
         .tagWrapper {
             display: flex;
 
+
             button {
                 margin-right: 5px;
+                color: #1890ff;
+                border-color: #1890ff;
 
-                &:active,
-                &:focus {
-                    color: rgba(0, 0, 0, 0.85);
-                    border-color: #d9d9d9;
-                }
+            }
+
+            &>div {
+                max-height: 205px;
+                overflow: auto;
             }
         }
     }

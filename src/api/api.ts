@@ -59,10 +59,6 @@ export const getAllExam = async (params: any) => {
 }
 
 
-export const queryUser = async (corpId: string, appId: string, fuzzyName?: string) => {
-    return request('/api/member/user/aggr/fuzzy', { params: { corpId, appId, fuzzyName, curPage: 1, pageSize: 10 } })
-}
-
 export const getSign = async (url: string) => {
     return request('/api/member/dt/app/token/jsapiTicketSign', { data: { url }, method: 'POST' })
 }
