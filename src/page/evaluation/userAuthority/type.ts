@@ -15,12 +15,12 @@ export interface IUserNewParams {
     deptId?: number | undefined;
 }
 
-
 export interface IUserObj {
     curPage?: number;
     pageSize?: number;
     fuzzyName?: string | undefined;
     deptId?: number | undefined;
+    name?: string;
 }
 
 

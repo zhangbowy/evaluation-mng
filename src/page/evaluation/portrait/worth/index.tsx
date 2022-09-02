@@ -134,7 +134,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: `请输入${config.tableHeader[0]}` }]}>
-                            <TextArea maxLength={256} bordered={true} disabled={!isEdit} placeholder={`请输入${config.tableHeader[0]}`} />
+                            <TextArea maxLength={256} autoSize={{ minRows: 2, maxRows: 5 }} bordered={isEdit} disabled={!isEdit} placeholder={`请输入${config.tableHeader[0]}`} />
                         </Form.Item>
                     )
                 }
@@ -146,7 +146,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}` }]}>
-                            <TextArea maxLength={256} bordered={true} disabled={!isEdit} placeholder={`请输入${config.tableHeader[1]}`} />
+                            <TextArea maxLength={256} autoSize={{ minRows: 2, maxRows: 5 }} bordered={isEdit} disabled={!isEdit} placeholder={`请输入${config.tableHeader[1]}`} />
                         </Form.Item>
                     )
                 }
