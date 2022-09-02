@@ -74,8 +74,8 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     abilityText.forEach((res, index) => {
                         eachRef.current[index].innerHTML = '';
                         const arr: LineChart[] = []
-                        Object.keys(chartList?.otherGraph?.personalityTagChart[res] || {}).forEach(item => {
-                            arr.push({ fraction: item, people: chartList?.otherGraph?.personalityTagChart[res][item] })
+                        Object.keys(chartList?.otherGraph?.personalityTagChart?.[res] || {}).forEach(item => {
+                            arr.push({ fraction: item, people: chartList?.otherGraph?.personalityTagChart?.[res][item] })
                         })
                         renderLineChart(index, arr)
                     })
@@ -505,7 +505,11 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     </div>
                     <div className={`${styles.potential} ${styles.border}`}>
                         <p>潜在能力分析 </p>
-                        <div ref={el => preferenceRef.current[4] = el} className={styles.chartList} />
+                        {
+                            Object.keys(chartList?.otherGraph || {}).length > 0 ?
+                                <div ref={el => preferenceRef.current[4] = el} className={styles.chartList} />
+                                : <Empty description={'暂无潜在能力分析'} />
+                        }
                     </div>
                 </Fragment>,
             "MBTI":
