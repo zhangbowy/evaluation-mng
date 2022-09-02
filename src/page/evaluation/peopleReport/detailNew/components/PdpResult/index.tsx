@@ -31,8 +31,8 @@ function PdpResult({ chartsData = {}, sendNotice }: any) {
     }
     const radarPlot = new Radar(containerRef.current, {
         data,
-        width: 250,
-        height: 180,
+        // width: 250,
+        height: 170,
         xField: 'item',
         yField: 'a',
         tooltip: false,
