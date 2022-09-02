@@ -248,7 +248,6 @@ const UploadModal: React.FC<Props> = ({ uploadVisible, setUploadVisible, searchF
             onProgress: function (msg: any) {
                 setDownloadDis(true);
                 setLoadStep(2);
-                console.log('msg',msg);
                 if(msg === true) {
                     setDownloadDis(false);
                     setLoadStep(3);

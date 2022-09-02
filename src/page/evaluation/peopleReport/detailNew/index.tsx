@@ -443,10 +443,6 @@ const Detail = () => {
                     </div>
                     {
                       totalData?.valuesMatchDTO?.valuePointMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
-                      {/* {
-                        isOpenWorth ? <UpOutlined onClick={closeWorth} className={styles.detail_content_right_summary_consult_left_icon} />
-                          : <DownOutlined onClick={openWorth} className={styles.detail_content_right_summary_consult_left_icon} />
-                      } */}
                       {
                         isOpenWorth ? <i className='iconfont icon-jiantoushang' onClick={closeWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                         : <i className='iconfont icon-jiantouxia' onClick={openWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
@@ -501,10 +497,6 @@ const Detail = () => {
                     </div>
                     {
                       totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
-                      {/* {
-                        isOpenPosition ? <UpOutlined onClick={closePosition} className={styles.detail_content_right_summary_consult_right_icon} />
-                          : <DownOutlined onClick={openPosition} className={styles.detail_content_right_summary_consult_right_icon} />
-                      } */}
                       {
                         isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                         : <i className='iconfont icon-jiantouxia' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />

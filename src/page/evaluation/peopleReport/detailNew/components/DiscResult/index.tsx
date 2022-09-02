@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import styles from './index.module.less';
 import { Button } from 'antd';
 import cs from 'classnames';
+import { Tooltip } from 'antd';
 
 function DiscResult({ chartsData, sendNotice }: any) {
   const isHaveData = useMemo(() => {
@@ -20,7 +21,9 @@ function DiscResult({ chartsData, sendNotice }: any) {
     <div className={styles.disc_result}>
       <div className={styles.disc_result_header}>
         <div className={styles.disc_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
-        <div className={styles.disc_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        <Tooltip title={chartsData?.introduction ? chartsData?.introduction : ''}>
+          <div className={styles.disc_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        </Tooltip>
         {
           (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.disc_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
         }

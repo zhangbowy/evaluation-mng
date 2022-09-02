@@ -276,7 +276,6 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                     polling()
                 }
             } else {
-                // console.log(`${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`, 'ddd');
                 const obj = {
                     // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
                     url: `${window.location.origin}/admin/#/pdf/${type.toUpperCase()}/${record.userId}/${record.examPaperId}?isPeople=true&appId=${appId}`,

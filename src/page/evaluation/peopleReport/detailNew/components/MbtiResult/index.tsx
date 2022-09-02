@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.less';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 const MbtiResult = ({ chartsData, sendNotice }: any) => {
   const sendInfo = () => {
@@ -10,7 +10,9 @@ const MbtiResult = ({ chartsData, sendNotice }: any) => {
     <div className={styles.mbti_result}>
       <div className={styles.mbti_result_header}>
         <div className={styles.mbti_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
-        <div className={styles.mbti_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        <Tooltip title={chartsData?.introduction ? chartsData?.introduction : ''}>
+          <div className={styles.mbti_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        </Tooltip>
         {
           (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.mbti_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
         }
