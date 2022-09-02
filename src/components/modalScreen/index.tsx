@@ -26,9 +26,10 @@ const ModalScreen = (props: propsType) => {
   }, [visible])
   const goScreen = () => {
     if (screenUrl) {
-      openLink({
-        url: `${window.location.origin}/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/share/${encodeURIComponent(screenUrl)}?ddtab=true`
-      }, true)
+      window.open(screenUrl);
+      // openLink({
+      //   url: `${window.location.origin}/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/share/${encodeURIComponent(screenUrl)}?ddtab=true`
+      // }, true)
     } else {
       message.error('大屏数据暂未配置');
     }

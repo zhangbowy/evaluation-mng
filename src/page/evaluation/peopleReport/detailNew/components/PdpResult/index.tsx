@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './index.module.less';
 import { Radar } from '@antv/g2plot';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 function PdpResult({ chartsData = {}, sendNotice }: any) {
   const containerRef: any = useRef();
@@ -108,7 +108,9 @@ function PdpResult({ chartsData = {}, sendNotice }: any) {
     <div className={styles.pdp_result}>
       <div className={styles.pdp_result_header}>
         <div className={styles.pdp_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
-        <div className={styles.pdp_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        <Tooltip title={chartsData?.introduction ? chartsData?.introduction : ''}>
+          <div className={styles.pdp_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+        </Tooltip>
         {
           (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.pdp_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
         }

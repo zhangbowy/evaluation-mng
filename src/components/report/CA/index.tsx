@@ -7,6 +7,7 @@ import styles from './index.module.less';
 import { Column, Pie, Funnel } from '@antv/g2plot';
 import cs from 'classnames';
 import { getAppIdType } from '@/utils/utils'
+import { Gender } from '../MBTI/type';
 import * as dayjs from 'dayjs'
 
 const groupData = [
@@ -390,7 +391,10 @@ const CA = ({ resultDetail }: any) => {
         </div>
         <div className={styles['user-info']}>
           <p className={styles.title}>{resultDetail?.user?.name}</p>
-          <p className={styles['sub-title']}>{resultDetail?.user?.gender === 1 ? '男' : '女'}</p>
+          <p className={styles['sub-title']}>
+            {resultDetail?.user && Gender[resultDetail?.user?.gender]}
+            {/* {resultDetail?.user?.gender === 1 ? '男' : '女'} */}
+          </p>
           <p className={styles['sub-title']}>{resultDetail?.created}</p>
         </div>
         <div className={styles.footerImg}>

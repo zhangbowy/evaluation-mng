@@ -3,7 +3,7 @@
   // min-height: 100vh;
   height: 100%;
   overflow-y: scroll;
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
 
   .detail_nav {
       padding: 25px 32px 0;
@@ -11,7 +11,7 @@
   }
   .detail_content {
     display: flex;
-    padding: 0 32px 24px;
+    padding: 0 26px 24px 32px;
     overflow: auto;
     .detail_content_left {
       width: 300px;
@@ -252,7 +252,7 @@
     }
     .detail_content_right {
       background-color: #F5F7F9;
-      flex: 1;
+      flex: auto;
       padding: 24px;
       .detail_content_right_summary {
         padding: 16px 24px;
@@ -503,6 +503,7 @@
         margin-top: 24px;
         .detail_content_right_result_wrap {
           display: flex;
+          min-width: none;
         }
       }
       .detail_content_right_report {
