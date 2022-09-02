@@ -4,7 +4,7 @@ export interface IOption {
 }
 export interface characterProportions {
     name: string;
-    number: number | string;
+    number?: number | string;
     value: number | string;
 }
 export interface IChartList {

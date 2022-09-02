@@ -192,7 +192,7 @@ const Management = () => {
             corpId,
             successFn: () => {
               message.success('修改成功');
-              getEvaluationList();
+              getEvaluationList({ curPage: current, pageSize, isFinishType: radioValue });
               dispatch()
             },
             failFn: () => null,
