@@ -241,7 +241,7 @@ const Management = () => {
         <ConfigProvider renderEmpty={customizeRenderEmpty}>
           <Table loading={tableLoading} rowKey={(row) => row.id}
             showHeader={false} columns={columns}
-            scroll={{ x: 1100, }}
+            scroll={evaluationList.length > 0 ? { x: 1100, } : {}}
             pagination={paginationObj}
             dataSource={evaluationList}>
           </Table>
