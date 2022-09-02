@@ -38,7 +38,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                         chartList?.otherGraph?.abilityPercentageMap[res].forEach((item: characterProportions) => {
                             arr.push({
                                 name: res,
-                                value: item.value,
+                                number: item.number,
                                 type: item.name
                             })
                         })
@@ -59,7 +59,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                         chartList?.otherGraph?.abilityPercentageMap[res].forEach((item: characterProportions) => {
                             arr.push({
                                 name: res,
-                                value: item.value,
+                                number: item.number,
                                 type: item.name
                             })
                         })
@@ -100,7 +100,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 }
             },
         }
-        type && currEleType[type]()
+        type && chartList?.otherGraph && currEleType[type]()
     }, [chartList, type])
     useEffect(() => {
         if (distributionRef.current) {
@@ -361,11 +361,11 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     }
     // 团队偏好分析
     const renderTeamAnalysis = (data: TeamAnalysis[]) => {
-        const maxNum = Math.max(...data.map(res => res.value))
+        const maxNum = Math.max(...data.map(res => res.number))
         const columnPlot = new Column(teamRef.current[0], {
             data,
             xField: 'name',
-            yField: 'value',
+            yField: 'number',
             height: 200,
             label: undefined,
             columnWidthRatio: 0.15,
@@ -382,7 +382,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             tooltip: {
                 showTitle: false,
                 formatter: (datum) => {
-                    return { name: datum.name, value: datum.value + '人' };
+                    return { name: datum.name, value: datum.number + '人' };
                 },
             },
         });
@@ -435,13 +435,13 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     }
     // 潜在能力分析
     const renderPotential = (data: TeamAnalysis[]) => {
-        const maxNum = Math.max(...data.map(res => res.value))
+        const maxNum = Math.max(...data.map(res => res.number))
         const stackedColumnPlot = new Column(preferenceRef.current[4], {
             data,
             height: 258,
             isStack: true,
             xField: 'name',
-            yField: 'value',
+            yField: 'number',
             seriesField: 'type',
             // 分组柱状图 组内柱子间的间距 (像素级别)
             dodgePadding: 5,
@@ -453,7 +453,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
             tooltip: {
                 showTitle: false,
                 formatter: (datum) => {
-                    return { name: datum.name, value: datum.value + '人' };
+                    return { name: datum.name, value: (datum.number || 0) + '人' };
                 },
             },
             legend: {

@@ -132,7 +132,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'name']} rules={[{ required: true, message: `请输入${config.tableHeader[0]}` }]}>
-                            <TextArea maxLength={256} bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[0]}`} />
+                            <TextArea maxLength={256} bordered={true} disabled={!isEdit} placeholder={`请输入${config.tableHeader[0]}`} />
                         </Form.Item>
                     )
                 }
@@ -144,7 +144,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                 render: (text: any, field: any) => {
                     return (
                         <Form.Item name={[field.name, 'description']} rules={[{ required: true, message: `请输入${config.tableHeader[1]}` }]}>
-                            <TextArea maxLength={256} bordered={false} disabled={!isEdit} autoSize={{ minRows: 1, maxRows: 100 }} placeholder={`请输入${config.tableHeader[1]}`} />
+                            <TextArea maxLength={256} bordered={true} disabled={!isEdit} placeholder={`请输入${config.tableHeader[1]}`} />
                         </Form.Item>
                     )
                 }
@@ -203,8 +203,6 @@ const Worth = ({ isWorth = true }: IWorth) => {
                         {isEdit && <Button type="primary" onClick={publishClick}>发布</Button>}
                     </div>
                 </header>
-                <main>
-                </main>
                 <Form form={form} >
                     <Form.List name={config.fieldName} >
                         {(fields, { add, remove }) => (
