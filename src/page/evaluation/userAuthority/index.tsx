@@ -16,6 +16,7 @@ const index = () => {
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
+  const [deptId, setDeptId] = useState<number>()
   const [form] = Form.useForm();
   let timer: any;
   const appType = getAppIdType();
@@ -80,8 +81,9 @@ const index = () => {
     }
   }
   // 选中部门
-  const onSelectChange = (value: string) => {
+  const onSelectChange = (value: number) => {
     // getUser(value)
+    setDeptId(value)
   }
   // 搜索
   const onSearchClick = () => {
@@ -91,6 +93,15 @@ const index = () => {
   const onResetClick = () => {
     form.resetFields()
     getUser()
+  }
+  // 回车搜索
+  const onPressEnter = (e: any) => {
+    const obj = {
+      name: e.target.value,
+      deptId
+    }
+    !!obj.deptId && delete obj.deptId
+    getUser(obj)
   }
   // 新增权限
   const onAddPeopleClick = async () => {
@@ -158,7 +169,7 @@ const index = () => {
       <nav>
         <Form form={form} layout="inline">
           <Form.Item name="name" label="姓名">
-            <Input placeholder="请输入" style={{ width: 200 }} />
+            <Input onPressEnter={onPressEnter} placeholder="请输入" style={{ width: 200 }} />
           </Form.Item>
           <Form.Item name="deptId" label="部门">
             <Select
