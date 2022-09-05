@@ -148,10 +148,12 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
     // 人格占比图
     const personalityList = () => {
         const data = chartList?.personalityProportions || [];
+        const offsetNum = (visualRef.current[1].offsetWidth * 0.1 ) * -1;
         const piePlot = new Pie(visualRef.current[1], {
-            height: 120,
+            height: 130,
             // width: 88,
             data: data,
+            autoFit: true,
             angleField: 'value',
             colorField: 'name',
             color: ['#5B8FF9', '#5AD8A6', '#F6BD16', '#E8684A', '#6DC8EC', '#9270CA', '#FF9D4D', '#269A99', '#FF99C3', '#5D7092',
@@ -170,12 +172,11 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 },
             },
             legend: {
-                hoverable: false,
+                // hoverable: false,
                 flipPage: data.length > 10,
-                maxWidthRatio: (data.length > 10 || data.length < 6) ? 250 : undefined,
-                maxHeightRatio: (data.length > 10 || data.length < 6) ? 250 : undefined,
-                maxRow: 2,
-                offsetX: (data.length > 10 || data.length < 6) ? -50 : -100,
+                maxWidthRatio: (data.length > 10 || data.length < 6) ? 0.4 : undefined,
+                // maxHeightRatio: (data.length > 10 || data.length < 6) ? 250 : undefined,
+                offsetX: (data.length > 10 || data.length < 6) ? offsetNum : offsetNum * 2,
                 itemWidth: (data.length > 10 || data.length < 6) ? undefined : 100,
                 itemName: {
                     formatter: (text: string, item: any, index: number) => {

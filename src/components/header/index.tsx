@@ -31,12 +31,12 @@ const Header = memo(() => {
     <Fragment>
       <div className={styles.header_left}>
         {
-          appId.split('_')[0] === '1' ? <>
+          appId.split('_')[0] === '1' && <>
             <label>可用点券</label>
             <label>{state}</label>
             <Button type='primary' onClick={goRecharge}>去充值</Button>
           </>
-            : <Button type='primary' onClick={largeScreen}>团队数字大屏</Button>
+            // : <Button type='primary' onClick={largeScreen}>团队数字大屏</Button>
         }
       </div>
       <div className={styles.header_right}>
