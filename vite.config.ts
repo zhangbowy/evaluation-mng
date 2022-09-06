@@ -29,13 +29,13 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     build: {
       target: ['es2015'],
-      minify: "terser",
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true
-        }
-      }
+      // minify: "terser",
+      // terserOptions: {
+      //   compress: {
+      //     drop_console: true,
+      //     drop_debugger: true
+      //   }
+      // }
     },
     resolve: {
       // 配置路径别名
