@@ -14,7 +14,7 @@
 		"cz": "git-cz"
 	},
 	"dependencies": {
-		"@ant-design/icons": "^4.7.0",.
+		"@ant-design/icons": "^4.7.0",
 		"@antv/g2plot": "^2.4.20",
 		"@antv/util": "^3.2.5",
 		"antd": "^4.21.7",
