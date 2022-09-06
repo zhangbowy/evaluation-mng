@@ -8,7 +8,6 @@ import { Column, Pie, Funnel } from '@antv/g2plot';
 import cs from 'classnames';
 import { getAppIdType } from '@/utils/utils'
 import { Gender } from '../MBTI/type';
-import * as dayjs from 'dayjs'
 
 const groupData = [
   {
@@ -62,7 +61,7 @@ const colorMap: any = {
   TF: '#6A9EC5',
   GM: '#7666AF'
 }
-echarts.use([CanvasRenderer, BarChart, FunnelChart, LegendComponent ]);
+echarts.use([CanvasRenderer, BarChart, FunnelChart, LegendComponent]);
 const CA = ({ resultDetail }: any) => {
   const containerRef: any = useRef();
   const columnsRef: any = useRef();
@@ -73,10 +72,10 @@ const CA = ({ resultDetail }: any) => {
   const appType = getAppIdType()
 
   const getOptions = () => {
-    const json = resultDetail?.scoreDetail? resultDetail?.scoreDetail : {};
+    const json = resultDetail?.scoreDetail ? resultDetail?.scoreDetail : {};
     let dataFunnel = Object.keys(json).map((key) => ({
-        name: json[key].resultType.split('：')[1],
-        score: json[key].score,
+      name: json[key].resultType.split('：')[1],
+      score: json[key].score,
     }));
     dataFunnel = dataFunnel.sort((a: any, b: any) => a.score - b.score).map((v, index) => ({
       ...v,
@@ -144,13 +143,13 @@ const CA = ({ resultDetail }: any) => {
   };
   useEffect(() => {
     if (resultDetail) {
-        radarMap()
-        columnMap()
-        groupColumnMap();
-        // funnelMap();
-        const myChart = echarts.init(document.getElementById('pyramid') as HTMLElement);
-        const options = getOptions();
-        myChart.setOption(options);
+      radarMap()
+      columnMap()
+      groupColumnMap();
+      // funnelMap();
+      const myChart = echarts.init(document.getElementById('pyramid') as HTMLElement);
+      const options = getOptions();
+      myChart.setOption(options);
     }
   }, [containerRef.current, resultDetail])
   useEffect(() => {
@@ -171,32 +170,32 @@ const CA = ({ resultDetail }: any) => {
   }, [resultDetail]);
   const radarMap = () => {
     containerRef.current.innerHTML = ''
-    const json = resultDetail?.scoreDetail? resultDetail?.scoreDetail : {};
+    const json = resultDetail?.scoreDetail ? resultDetail?.scoreDetail : {};
     const dataPie = Object.keys(json).map((key) => ({
-        item: json[key].resultType,
-        a: json[key].fullScore,
+      item: json[key].resultType,
+      a: json[key].fullScore,
     }));
     const radarPlot = new Pie(containerRef.current, {
-        data: dataPie,
-        appendPadding: 10,
-        height: 250,
-        angleField: 'a',
-        colorField: 'item',
-        radius: 0.65,
-        legend: false,
-        color: ['#65BBA8', '#6A9EC5', '#69B8D7', '#D18857', '#A6CA80', '#C16E6E', '#D18857', '#B7A36C'],
-        label: {
-          type: 'spider',
-          labelHeight: 28,
-          content: '{name}\n{percentage}',
-        },
-        interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
+      data: dataPie,
+      appendPadding: 10,
+      height: 250,
+      angleField: 'a',
+      colorField: 'item',
+      radius: 0.65,
+      legend: false,
+      color: ['#65BBA8', '#6A9EC5', '#69B8D7', '#D18857', '#A6CA80', '#C16E6E', '#D18857', '#B7A36C'],
+      label: {
+        type: 'spider',
+        labelHeight: 28,
+        content: '{name}\n{percentage}',
+      },
+      interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
     })
     radarPlot.render();
   }
   const columnMap = () => {
     columnsRef.current.innerHTML = ''
-    const json = resultDetail?.scoreDetail? resultDetail?.scoreDetail : {};
+    const json = resultDetail?.scoreDetail ? resultDetail?.scoreDetail : {};
     const dataColumn = Object.keys(json).map((key) => ({
       type: json[key].resultType.split('：')[1],
       value: json[key].score,
@@ -210,102 +209,102 @@ const CA = ({ resultDetail }: any) => {
       height: 250,
       columnWidthRatio: 0.3,
       color: ({ type }) => {
-          if (type === '管理型') {
-              return '#7666AF';
-          }
-          if (type === '技术/职能型') {
-              return '#6A9EC5';
-          }
-          if (type === '安全/稳定型') {
-              return '#69B8D7';
-          }
-          if (type === '创造/创业型') {
-            return '#65BBA8';
-          }
-          if (type === '自主/独立型') {
-            return '#A6CA80';
-          }
-          if (type === '服务型') {
-            return '#B7A36C';
-          }
-          if (type === '挑战型') {
-            return '#D18857';
-          }
-          if (type === '生活型') {
-            return '#C16E6E';
-          }
-          return '#F77E70';
+        if (type === '管理型') {
+          return '#7666AF';
+        }
+        if (type === '技术/职能型') {
+          return '#6A9EC5';
+        }
+        if (type === '安全/稳定型') {
+          return '#69B8D7';
+        }
+        if (type === '创造/创业型') {
+          return '#65BBA8';
+        }
+        if (type === '自主/独立型') {
+          return '#A6CA80';
+        }
+        if (type === '服务型') {
+          return '#B7A36C';
+        }
+        if (type === '挑战型') {
+          return '#D18857';
+        }
+        if (type === '生活型') {
+          return '#C16E6E';
+        }
+        return '#F77E70';
       },
       label: {
-          position: 'top',
-          // 可配置附加的布局方法
-          layout: [
-              // 柱形图数据标签位置自动调整
-              // { type: 'interval-adjust-position' },
-              // 数据标签防遮挡
-              { type: 'interval-hide-overlap' },
-              // 数据标签文颜色自动调整
-              // { type: 'adjust-color' },
-          ],
-          style: {
-              fill: 'rgba(155, 161, 168, 1)',
-              fontSize: 12
-          },
+        position: 'top',
+        // 可配置附加的布局方法
+        layout: [
+          // 柱形图数据标签位置自动调整
+          // { type: 'interval-adjust-position' },
+          // 数据标签防遮挡
+          { type: 'interval-hide-overlap' },
+          // 数据标签文颜色自动调整
+          // { type: 'adjust-color' },
+        ],
+        style: {
+          fill: 'rgba(155, 161, 168, 1)',
+          fontSize: 12
+        },
       },
       yAxis: {
-          label: {
-              style: {
-                  fill: 'rgba(155, 161, 168, 1)',
-                  fontSize: 12,
-                  color: '#8F969E'
-              },
+        label: {
+          style: {
+            fill: 'rgba(155, 161, 168, 1)',
+            fontSize: 12,
+            color: '#8F969E'
           },
+        },
+        line: {
+          style: {
+            stroke: 'rgba(209, 216, 231, 1)',
+            lineWidth: 1
+          }
+        },
+        grid: {
+          alternateColor: 'rgba(247, 247, 247, 1)',
           line: {
-              style: {
-                  stroke: 'rgba(209, 216, 231, 1)',
-                  lineWidth: 1
-              }
+            style: {
+              stroke: 'rgba(209, 216, 231, 1)',
+              lineWidth: 0
+            }
           },
-          grid: {
-              alternateColor: 'rgba(247, 247, 247, 1)',
-              line: {
-                  style: {
-                      stroke: 'rgba(209, 216, 231, 1)',
-                      lineWidth: 0
-                  }
-              },
-          },
+        },
       },
       legend: false,
       tooltip: false,
       padding: [30, 25, 30, 25],
       xAxis: {
-          line: {
-              style: {
-                  stroke: 'rgba(209, 216, 231, 1)',
-                  lineWidth: 1,
-                  color: '#8F969E'
-              }
+        line: {
+          style: {
+            stroke: 'rgba(209, 216, 231, 1)',
+            lineWidth: 1,
+            color: '#8F969E'
+          }
+        },
+        label: {
+          style: {
+            fill: 'rgba(155, 161, 168, 1)',
+            fontSize: 12
           },
-          label: {
-              style: {
-                  fill: 'rgba(155, 161, 168, 1)',
-                  fontSize: 12
-              },
-              autoHide: true,
-              autoRotate: false,
-          },
+          autoHide: true,
+          autoRotate: false,
+        },
       },
     })
     columnPlot.render();
   }
   const groupColumnMap = () => {
     groupRef.current.innerHTML = ''
-    const json = resultDetail?.scoreDetail? resultDetail?.scoreDetail : {};
+    const json = resultDetail?.scoreDetail ? resultDetail?.scoreDetail : {};
     let data = Object.keys(json).map((key) => ({
-        name: "得分",
-        type: json[key].resultType.split('：')[1],
-        score: json[key].score
+      name: "得分",
+      type: json[key].resultType.split('：')[1],
+      score: json[key].score
     }));
     data = data.concat(groupData);
     const columnPlot = new Column(groupRef.current, {
@@ -338,28 +337,28 @@ const CA = ({ resultDetail }: any) => {
       },
       yAxis: {
         label: {
-            style: {
-                fill: 'rgba(155, 161, 168, 1)',
-                fontSize: 12,
-                color: '#8F969E'
-            },
+          style: {
+            fill: 'rgba(155, 161, 168, 1)',
+            fontSize: 12,
+            color: '#8F969E'
+          },
         },
         line: {
-            style: {
-                stroke: 'rgba(209, 216, 231, 1)',
-                lineWidth: 1
-            }
+          style: {
+            stroke: 'rgba(209, 216, 231, 1)',
+            lineWidth: 1
+          }
         },
         grid: {
-            alternateColor: 'rgba(247, 247, 247, 1)',
-            line: {
-                style: {
-                    stroke: 'rgba(209, 216, 231, 1)',
-                    lineWidth: 0
-                }
-            },
+          alternateColor: 'rgba(247, 247, 247, 1)',
+          line: {
+            style: {
+              stroke: 'rgba(209, 216, 231, 1)',
+              lineWidth: 0
+            }
+          },
         },
-    },
+      },
     })
     columnPlot.render();
   }
@@ -371,7 +370,7 @@ const CA = ({ resultDetail }: any) => {
           <img
             src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
             alt=""
-            />
+          />
           <span className="name">
             {
               appType === '1' ? '趣测评' : '招才选将'
@@ -380,13 +379,13 @@ const CA = ({ resultDetail }: any) => {
         </div>
         <div className={styles.pdfPro}>
           <div className={styles.image}>
-              <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon1.png" />
+            <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon1.png" />
           </div>
           <div className={styles.header}>
-              <p>[职业锚]</p>
-              <p className={styles.fw_600}>人才匹配测评</p>
-              <p className={styles.title}>测评报告</p>
-              <p className={styles.pro}>careeranchor</p>
+            <p>[职业锚]</p>
+            <p className={styles.fw_600}>人才匹配测评</p>
+            <p className={styles.title}>测评报告</p>
+            <p className={styles.pro}>careeranchor</p>
           </div>
         </div>
         <div className={styles['user-info']}>
@@ -399,7 +398,7 @@ const CA = ({ resultDetail }: any) => {
         </div>
         <div className={styles.footerImg}>
           <div className={styles.image}>
-              <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon2.png" />
+            <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon2.png" />
           </div>
         </div>
         <div className={styles.footer}>鑫蜂维网络科技有限公司 版权所有</div>
@@ -438,21 +437,21 @@ const CA = ({ resultDetail }: any) => {
             </div>
             <div className={styles['page-two-bottom']}>
               <div className={styles.title}>你的职业锚类型是</div>
-                <div className={styles['page-two-bottom-type']}>
-                  <div className={styles['page-two-bottom-type-detail']}>
-                    <p className={styles['page-two-bottom-type-detail-text']}>
-                      {typeStr}
-                    </p>
-                    {/* <p className={styles['page-two-bottom-type-detail-tip']}>General Managerial Competence</p> */}
-                  </div>
-                  {
-                    resultDetail?.results?.map((item: any, index: number) => (
-                      <div key={item.simpleType} className={styles['page-two-bottom-type-position']}>
-                        <span>{item.type.split('：')[1]}岗位匹配：{resultDetail?.htmlDescList[index].matching}</span>
-                      </div>
-                    ))
-                  }
+              <div className={styles['page-two-bottom-type']}>
+                <div className={styles['page-two-bottom-type-detail']}>
+                  <p className={styles['page-two-bottom-type-detail-text']}>
+                    {typeStr}
+                  </p>
+                  {/* <p className={styles['page-two-bottom-type-detail-tip']}>General Managerial Competence</p> */}
                 </div>
+                {
+                  resultDetail?.results?.map((item: any, index: number) => (
+                    <div key={item.simpleType} className={styles['page-two-bottom-type-position']}>
+                      <span>{item.type.split('：')[1]}岗位匹配：{resultDetail?.htmlDescList[index].matching}</span>
+                    </div>
+                  ))
+                }
+              </div>
             </div>
           </div>
         </div>
@@ -489,7 +488,7 @@ const CA = ({ resultDetail }: any) => {
                         style={{ width: `${item.percentageScore}%`, backgroundColor: colorMap[item.simpleType] }}
                         className={styles['page-four-bottom-progress-inner']}
                       >
-                        {item.percentageScore}% 
+                        {item.percentageScore}%
                       </div>
                     </div>
                   </div>
