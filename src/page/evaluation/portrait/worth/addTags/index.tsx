@@ -50,7 +50,6 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     // 删除标签
     const preventDefault = (e: MouseEvent<HTMLElement>, id: number) => {
         e.preventDefault()
-        console.log('id', id)
         const curIndex = tagsArr.findIndex((item: IFilterList) => item.id == id)
         const curClassifyIndex = filterList[curSelectTagIndex].tags.findIndex((item: IFilterList) => item.id == id)
         tagsArr.splice(curIndex, 1)

@@ -28,14 +28,26 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       },
     },
     build: {
-      target: ['es2015']
+      target: ['es2015'],
+      terserOptions: {
+        compress: {
+          // warnings: false,
+          drop_console: true, //打包时删除console
+          drop_debugger: true, //打包时删除 debugger
+          pure_funcs: ['console.log'],
+        },
+        format: {
+          // 去掉注释内容
+          comments: false,
+        },
+      },
     },
     resolve: {
       // 配置路径别名
       alias: {
         '@': resolve(__dirname, './src')//设置别名
       },
-      extensions: [".js", ".json", ".ts", ".tsx"],
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
     },
     css: {
       preprocessorOptions: {

@@ -6,9 +6,10 @@ import { Department } from '@/components/department'
 import { getJoinExamUsers, EXPORT_TALENT_REPORT } from '@/api/api'
 import { IReportParams, IReportList, IDeptAggregationDTOS, ISex, IisDimission } from './type'
 import { ColumnsType } from 'antd/lib/table'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { getIsGuide, returnCurDate } from '@/utils/utils'
 import dd from "dingtalk-jsapi";
+import { SearchData } from '@/store'
 
 const PeopleReport = () => {
   const [tableLoading, setTableLoading] = useState<boolean>(true);
@@ -19,8 +20,14 @@ const PeopleReport = () => {
   const [exportLoading, setExportLoading] = useState<boolean>(false);
   const navigator = useNavigate()
   const [form] = Form.useForm();
+  const { setFieldValue } = form
   useEffect(() => {
-    getUserReport()
+    if (Object.keys(SearchData.searchObj).length > 0) {
+      setFieldValue('name', SearchData.searchObj.name)
+      setFieldValue('isDimission', SearchData.searchObj.isDimission)
+      setFieldValue('deptId', SearchData.searchObj.deptId)
+    }
+    getUserReport(Object.keys(SearchData.searchObj).length > 0 ? SearchData.searchObj : {})
   }, [])
   // 分页配置
   const paginationObj = {
@@ -141,6 +148,11 @@ const PeopleReport = () => {
       dataIndex: 'option',
       render: (text, record, index) => {
         const onReportClick = () => {
+          SearchData.setSearchObj({
+            current,
+            pageSize,
+            ...form.getFieldsValue()
+          })
           navigator(`/evaluation/peopleReport/detail/${record.userId}`)
         }
         return (

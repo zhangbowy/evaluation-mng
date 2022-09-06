@@ -2,7 +2,7 @@ import React, { createContext, FC, Fragment, Suspense, useCallback, useEffect, u
 import { Layout, message } from 'antd';
 import styles from './index.module.less'
 import Menu from '../../components/menu'
-import { Outlet, useLocation, useNavigate } from 'react-router';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Headers from '../../components/header'
 import Loading from '@/components/loading';
 import { useSearchParams } from 'react-router-dom';

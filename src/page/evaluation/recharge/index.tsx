@@ -86,5 +86,5 @@ const Recharge = memo(() => {
     </div>
   )
 })
-
+Recharge.displayName = 'Recharge'
 export default Recharge

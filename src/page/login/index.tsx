@@ -4,7 +4,7 @@ import { getAllUrlParam } from '@/utils/utils'
 import { message } from 'antd'
 import dd from 'dingtalk-jsapi'
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 
 const Login = () => {

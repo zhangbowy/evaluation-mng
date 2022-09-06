@@ -173,7 +173,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                 hoverable: false,
                 flipPage: data.length > 10,
                 maxRow: 2,
-                offsetX: -120,
+                offsetX: -50,
                 itemWidth: 100,
                 itemName: {
                     formatter: (text: string, item: any, index: number) => {
@@ -206,7 +206,6 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
         })
         piePlot.chart.removeInteraction('legend-filter');
         piePlot.on('legend-item:mouseenter', (ev: any) => {
-            console.log('ev', ev)
             // getTableList({ resultType: ev.data.data.name })
         })
         piePlot.off('element:click')

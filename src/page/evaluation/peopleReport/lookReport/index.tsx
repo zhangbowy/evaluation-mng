@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Breadcrumb, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.module.less';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import ReportDetail from '@/components/report';
 import { IReportDetail } from '../type';
 import { getAllExam } from '@/api/api';
@@ -24,17 +24,16 @@ const LookReport = () => {
 
     useEffect(() => {
         getUserReport();
-        return () => {};
     }, [])
 
-     // 获取列表
-  const getUserReport = async () => {
-    const res = await getAllExam({ userId })
-    if (res.code === 1) {
-      setReportDetailList(res.data)
+    // 获取列表
+    const getUserReport = async () => {
+        const res = await getAllExam({ userId })
+        if (res.code === 1) {
+            setReportDetailList(res.data)
+        }
     }
-  }
-    
+
 
     return (
         <div className={styles.detail_layout}>

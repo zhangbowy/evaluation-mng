@@ -40,17 +40,24 @@
         .detail_main_title {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 12px;
 
             &>span {
                 display: inline-block;
                 font-size: 16px;
             }
 
-            button {
-                margin-bottom: 12px;
+            &>div {
+                button:first-child {
+                    margin-right: 5px;
+                }
             }
+
         }
 
+        .urgeBtn {
+            margin-left: 5px;
+        }
 
         .table_list_tags {
             display: flex;
@@ -61,7 +68,7 @@
                 border-radius: 2px;
                 padding: 2px 4px;
                 font-size: 12px;
-                
+
                 font-weight: 400;
                 display: inline-block;
                 margin-right: 8px;

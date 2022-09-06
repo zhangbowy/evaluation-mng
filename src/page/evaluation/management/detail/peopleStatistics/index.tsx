@@ -5,10 +5,10 @@ import { useCallbackState } from '@/utils/hook';
 import { Button, Divider, Form, Input, Modal, Select, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table';
 import React, { Fragment, memo, useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react'
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 import { characterProportions, IChartList, IDepartment, IisDimission, IResultList, IResultTable, ISex, ITableParams } from '../../type';
 import styles from './index.module.less'
-import { EvalDetail } from '@/store';
+import { EvalDetail, SearchData } from '@/store';
 import { LockOutlined } from '@ant-design/icons'
 import LookAllTags from '../lookAllTags';
 import { downloadFile } from '@/components/dd';
@@ -39,7 +39,8 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         getTableList
     }))
     useEffect(() => {
-        getTableList()
+        getTableList(SearchData.searchObj)
+        form.setFieldsValue(SearchData.searchObj)
         return () => {
             clearInterval(timer)
         }
@@ -119,6 +120,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             render: (text: number, record, index: number) => {
                 // 查看报告
                 const onLookResult = () => {
+                    SearchData.setSearchObj({ ...SearchData.searchObj, ...form.getFieldsValue(), current, pageSize })
                     navigator(`/evaluation/management/detail/${params.id}/lookReport/${record.examPaperId}~${record.userId}~${type}`);
                 }
                 // 解锁查看
@@ -139,11 +141,17 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         setUnlockFail([...unlockFail])
                     }
                 }
-
+                // 一键催办
+                const onUrgeClick = () => {
+                    console.log('催版')
+                }
                 const getText = (key: number) => {
                     switch (key) {
                         case 0:
-                            return <Button type='text' disabled>未参加测评</Button>
+                            return <>
+                                <Button type='text' disabled>未参加测评</Button>
+                                {/* <Button type='link' onClick={onUrgeClick} className={styles.urgeBtn}>一键催办</Button> */}
+                            </>
                         case 1 || 2 || 3:
                             return <Button type='text' disabled>测评中</Button>
                         case 5:
@@ -329,7 +337,10 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                 <div className={styles.detail_main_table}>
                     <div className={styles.detail_main_title}>
                         <span>测评列表</span>
-                        <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
+                        <div>
+                            {/* <Button type="primary">批量催办</Button> */}
+                            <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
+                        </div>
                     </div>
                     <Table pagination={paginationObj} scroll={{ x: 1500, }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
                 </div>

@@ -70,9 +70,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
         fnLineChart(eleDots);
         //    toExportPdf();
     }, [resultDetail])
-    const buildPdfFile = () => {
-        console.log(2112);
-    }
+    // const buildPdfFile = () => {
+    //     console.log(2112);
+    // }
 
     const fnLineChart = function (eles: any) {
         const oldEle = eles;
@@ -124,15 +124,15 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
             {/*封面*/}
             <div className="pdf-cover">
                 <div className="logo">
-                <img
-                    src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
-                    alt=""
+                    <img
+                        src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
+                        alt=""
                     />
-                <span className="name">
-                    {
-                    appType === '1' ? '趣测评' : '招才选将'
-                    }
-                </span>
+                    <span className="name">
+                        {
+                            appType === '1' ? '趣测评' : '招才选将'
+                        }
+                    </span>
                 </div>
                 <div className="main-title">
                     <p className="title">MBTI</p>

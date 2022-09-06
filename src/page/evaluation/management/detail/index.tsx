@@ -2,7 +2,7 @@ import { getAllInfo, getChart, queryDept, } from '@/api/api'
 import { Breadcrumb, Button, Select, Tabs, Tooltip } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './index.module.less'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { getAllUrlParam, } from '@/utils/utils'
 import { IOption, IEvaluation, IFromName, } from '../type'
 import LookResult from '@/components/lookResult'
@@ -10,7 +10,7 @@ import LookIntroduce from './lookintroduce'
 import OverviewStatistics from './overviewStatistics';
 import PeopleStatistics from './peopleStatistics'
 import { observer } from 'mobx-react-lite'
-import { EvalDetail } from '@/store'
+import { EvalDetail, SearchData } from '@/store'
 
 const Detail = observer(() => {
   const params = useParams() as { id: string }
@@ -22,7 +22,7 @@ const Detail = observer(() => {
   const peopleStatisticsRef: any = useRef();
   const lookIntroduceRef: any = useRef();
   const { TabPane } = Tabs;
-  const [curTab, setCurTab] = useState<string>('1')
+  const [curTab, setCurTab] = useState<string>(SearchData.searchObj.curTab ?? '1')
 
   useEffect(() => {
     lookIntroduceRef
@@ -30,7 +30,6 @@ const Detail = observer(() => {
     getDetailList()
     getDepartment()
   }, [])
-
   // 获取列表
   const getDetailList = async (from?: IFromName) => {
     // 获取图表数据
@@ -72,6 +71,7 @@ const Detail = observer(() => {
   // tab点击
   const onTabChange = (key: string) => {
     setCurTab(key)
+    SearchData.setSearchObj({ ...SearchData.searchObj, curTab: key })
   }
   const detailTab = [
     {
@@ -126,7 +126,6 @@ const Detail = observer(() => {
         </div>
       </nav>
       <Tabs activeKey={curTab} className={styles.tabs} onChange={onTabChange}>
-        {deptId}
         {
           detailTab.map(res => (
             <TabPane key={res.id} tab={res.name}>

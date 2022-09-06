@@ -68,9 +68,9 @@ const ExportPdfDetailMBTIHTML = memo(forwardRef((props: any, ref) => {
         fnLineChart(eleDots);
         //    toExportPdf();
     }, [resultDetail])
-    const buildPdfFile = () => {
-        console.log(2112);
-    }
+    // const buildPdfFile = () => {
+    //     console.log(2112);
+    // }
 
     const fnLineChart = function (eles: any) {
         const oldEle = eles;

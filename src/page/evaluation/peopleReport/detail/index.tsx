@@ -1,13 +1,12 @@
 import { getAllExam, UnLockReport } from '@/api/api';
 import { Breadcrumb, Button, Divider, Progress, Tooltip } from 'antd';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
 import styles from './index.module.less';
 import { IReportDetail, IUserTagVoList, ISex, IEvaluationVoList } from '../type';
 import LookResult from '@/components/lookResult'
 import Loading from '@/components/loading'
 import { LockOutlined, ManOutlined, WomanOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router-dom'
 import { majorType } from '@/assets/data';
 
 const Detail = () => {
@@ -46,7 +45,7 @@ const Detail = () => {
     const onDetailClick = (item: IEvaluationVoList) => {
       if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC' || item.examTemplateType === 'PDP' || item.examTemplateType === 'CA') {
         navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}~${item.examTemplateType}`);
-      } 
+      }
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
     // 解锁查看

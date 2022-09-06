@@ -1,7 +1,6 @@
 
 import React, { lazy } from 'react'
-import { RouteObject, useRoutes } from 'react-router';
-import { Navigate } from 'react-router-dom'
+import { Navigate, RouteObject, useRoutes } from 'react-router-dom'
 import Login from '@/page/login';
 import Evaluation from '@/page/evaluation';
 import NeedPay from '@/page/402';

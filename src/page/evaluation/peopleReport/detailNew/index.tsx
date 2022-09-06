@@ -1,7 +1,7 @@
 import { getAllExam, UnLockReport, getUserAllExamResultSummaryGraph, getWorthMatch, notification } from '@/api/api';
 import { Breadcrumb, Button, Divider, Tooltip, message } from 'antd';
 import React, { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './index.module.less';
 import { IReportDetail, IUserTagVoList, ISex, IEvaluationVoList } from '../type';
 import LookResult from '@/components/lookResult'
@@ -15,8 +15,7 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   QuestionCircleFilled
- } from '@ant-design/icons'
-import { useNavigate } from 'react-router'
+} from '@ant-design/icons'
 import { majorType } from '@/assets/data';
 import Progress from './components/Progress';
 import MatchingArea from './components/MatchingArea';
@@ -155,7 +154,7 @@ const Detail = () => {
     return arr.includes(status)
   }
   // 获取匹配数据
-  const {valueData, positionData} = useMemo(() => {
+  const { valueData, positionData } = useMemo(() => {
     let a = [];
     let b = [];
     const num = reportDetailList?.remainingNum || 0;
@@ -209,7 +208,7 @@ const Detail = () => {
       if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC' || item.examTemplateType === 'PDP' || item.examTemplateType === 'CA') {
         navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}~${item.examTemplateType}`);
         return;
-      } 
+      }
       lookResultRef.current.onOpenDrawer({ examPaperId: item.examPaperId, userId })
     }
     // 解锁查看
@@ -367,7 +366,7 @@ const Detail = () => {
                           'is_ca': item.examTemplateType === 'CA',
                           'is_cpi': item.examTemplateType === 'CPI',
                           'is_disc': item.examTemplateType === 'DISC',
-                          'is_mbti_o': item.examTemplateType === 'MBTI_O' 
+                          'is_mbti_o': item.examTemplateType === 'MBTI_O'
                         })}
                       >
                         {item.examTemplateType === 'CA' ? '职' : item.examTemplateType.slice(0, 1)}
@@ -381,7 +380,7 @@ const Detail = () => {
                             待测评
                           </span>
                         }
-                        
+
                       </div>
                     </div>
                   ))
@@ -443,10 +442,10 @@ const Detail = () => {
                     </div>
                     {
                       totalData?.valuesMatchDTO?.valuePointMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_left_icon_wrap}>
-                      {
-                        isOpenWorth ? <i className='iconfont icon-jiantoushang' onClick={closeWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                        : <i className='iconfont icon-jiantouxia' onClick={openWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                      }
+                        {
+                          isOpenWorth ? <i className='iconfont icon-jiantoushang' onClick={closeWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                            : <i className='iconfont icon-jiantouxia' onClick={openWorth} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                        }
                       </div>
                     }
                   </div>
@@ -497,10 +496,10 @@ const Detail = () => {
                     </div>
                     {
                       totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
-                      {
-                        isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                        : <i className='iconfont icon-jiantouxia' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                      }
+                        {
+                          isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                            : <i className='iconfont icon-jiantouxia' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
+                        }
                       </div>
                     }
                   </div>

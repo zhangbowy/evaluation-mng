@@ -5,12 +5,12 @@ import styles from './index.module.less'
 import { ColumnsType } from 'antd/lib/table';
 import { getExamList, editExam, getAllPeople, queryExamUserIds, updateExam } from '@/api/api'
 import * as dd from 'dingtalk-jsapi';
-import { useNavigate } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ddAddPeople, getIsGuide, getAllUrlParam } from '@/utils/utils'
 import Loading from '@/components/loading';
 import { IOptions, IExamListParams } from './type'
 import { CountContext } from '@/utils/context';
+import { SearchData } from '@/store'
 
 const Management = () => {
   const defaultImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_nodata.png'
@@ -42,7 +42,8 @@ const Management = () => {
     }
   }
   useEffect(() => {
-    getEvaluationList()
+    setRadioValue(SearchData?.searchObj?.isFinishType ?? -1)
+    getEvaluationList(Object.keys(SearchData.searchObj).length > 0 ? SearchData.searchObj : {})
   }, [])
   useEffect(() => {
     let timer: any;
@@ -182,6 +183,11 @@ const Management = () => {
         }
         // 查看详情
         const onLookDetail = () => {
+          SearchData.setSearchObj({
+            current,
+            pageSize,
+            isFinishType: radioValue
+          })
           navigator(`/evaluation/management/detail/${record.id}`)
         }
         // 添加人员

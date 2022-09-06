@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
 import styles from './index.module.less';
 import PdfDetailMBTI from '@/components/report/MBTI';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { getExamResult, getUserExamResult, getPDFResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';

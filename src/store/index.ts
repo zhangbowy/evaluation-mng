@@ -1,3 +1,4 @@
 import EvalDetail from './evalDetail'
+import { SearchData } from './searchBack'
 
-export { EvalDetail }
+export { EvalDetail, SearchData }
