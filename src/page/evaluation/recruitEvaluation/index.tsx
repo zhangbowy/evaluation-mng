@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames/bind';
-import copy from 'copy-to-clipboard';
 import {
   Button,
   Divider,
@@ -27,12 +26,10 @@ import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
 import PdfDetailMBTI from '@/components/report/MBTI';
 import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult, getUserExamResult, getPDFDownLoad, getIsHasPdf, getSelectPdfStatus } from '@/api/api';
-import moment from 'moment';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
-import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
 import { majorType, recruitStatusList } from '@/assets/data';
-import { downLoad, getAllUrlParam } from '@/utils/utils';
+import { copy, downLoad, formatTime, getAllUrlParam } from '@/utils/utils';
 import dd from 'dingtalk-jsapi';
 import { downloadFile } from '@/components/dd';
 
@@ -55,7 +52,7 @@ const RecruitEvaluation = () => {
   const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
-  const pdfDetail: any = useRef();
+  // const pdfDetail: any = useRef();
   const tasksPdf: any = useRef([]); //下载储存的人任务
   const { appId } = getAllUrlParam();
   let timer: any;
@@ -264,7 +261,8 @@ const RecruitEvaluation = () => {
       title: '创建时间',
       dataIndex: 'created',
       width: 200,
-      render: text => <span className={styles.table_column_text}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>
+      render: text =>
+        <span className={styles.table_column_text}>{text ? formatTime(text) : '-'}</span>
     },
     {
       title: '操作',
@@ -510,7 +508,7 @@ const RecruitEvaluation = () => {
       />
       <LookResult ref={lookResultRef} isRecruit={true} />
       <PdfDetailMBTI
-        ref={pdfDetail}
+        // ref={pdfDetail}
         resultDetail={resultDetial}
         childStyle={{
           'width': '800px',
