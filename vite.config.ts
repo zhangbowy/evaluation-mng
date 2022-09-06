@@ -29,15 +29,26 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     build: {
       target: ['es2015'],
-      minify: "terser",
+      sourcemap: false,
+      minify: 'terser',
+      chunkSizeWarningLimit: 3000,
       terserOptions: {
         compress: {
-          drop_console: true, //打包时删除console
-          drop_debugger: true, //打包时删除 debugger
-        },
-        format: {
-          // 去掉注释内容
-          comments: false,
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString();
+          }
         },
       }
     },

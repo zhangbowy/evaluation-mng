@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
 import styles from './index.module.less';
-import PdfDetailMBTI from '@/components/report/MBTI';
-import { useParams } from 'react-router-dom';
 import { getExamResult, getUserExamResult, getPDFResult } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
 import { sortBy } from '@antv/util';
 import DISCDetail from './DISC';
 import PDPDetail from './PDP';
 import CADetail from './CA';
+import MBTIDetail from './MBTI'
 import { abilityList, discData } from '@/assets/data';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 
@@ -17,7 +16,7 @@ import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
  * 查看报告
  */
 const typeMap: any = {
-    'MBTI': PdfDetailMBTI,
+    'MBTI': MBTIDetail,
     'DISC': DISCDetail,
     'PDP': PDPDetail,
     'CA': CADetail
@@ -28,10 +27,10 @@ const typeFlag: any = {
     'PDP': false,
     'CA': false,
 }
-const ReportDetail = forwardRef((props: any, ref) => {
+const ReportDetail = (props: any) => {
     const { userId, examPaperId, isRecruit, templateType, isPeople } = props;
     const [resultDetial, setResultDetial] = useState({ examTemplateType: '' });
-    const pdfDetail: any = useRef();
+    // const pdfDetail: any = useRef();
 
     useEffect(() => {
         getResult();
@@ -119,7 +118,7 @@ const ReportDetail = forwardRef((props: any, ref) => {
             </ErrorBoundary>
         </div>
     );
-})
+}
 
 // #endregion
 ReportDetail.displayName = 'ReportDetail'

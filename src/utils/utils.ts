@@ -20,6 +20,20 @@ export const debounce = (fn: (value: any) => void, time = 800) => {
         }, time)
     }
 }
+// 时间戳格式化
+export const formatTime = (datetime: number) => {
+    const date = new Date(datetime);//时间戳为10位需*1000，时间戳为13位的话不需乘1000 
+    const year = date.getFullYear(),
+        month = ("0" + (date.getMonth() + 1)).slice(-2),
+        sdate = ("0" + date.getDate()).slice(-2),
+        hour = ("0" + date.getHours()).slice(-2),
+        minute = ("0" + date.getMinutes()).slice(-2),
+        second = ("0" + date.getSeconds()).slice(-2);
+    // 拼接
+    const result = year + "-" + month + "-" + sdate + " " + hour + ":" + minute + ":" + second;
+    // 返回
+    return result;
+}
 
 
 //  随机rgba颜色
@@ -250,6 +264,17 @@ export const deepClone = <T>(origin: T, target?: Record<string, any> | T): T => 
 
     return tar as T
 };
+// 复制
+export const copy = (text: string) => {
+    const textareaC = document.createElement('textarea');
+    textareaC.setAttribute('readonly', 'readonly'); //设置只读属性防止手机上弹出软键盘
+    textareaC.value = text;
+    document.body.appendChild(textareaC); //将textarea添加为body子元素
+    textareaC.select();
+    const res = document.execCommand('copy');
+    document.body.removeChild(textareaC);//移除DOM元素
+    return res;
+}
 
 /**
  * return current date

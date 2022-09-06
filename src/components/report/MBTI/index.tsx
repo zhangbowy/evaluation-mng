@@ -1,18 +1,12 @@
 import { Button, Divider, Modal, Tabs } from 'antd';
-import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle } from 'react';
+import React, { Fragment, memo, useEffect, } from 'react';
 import './index.less';
-import print from "@/utils/print";
 import { getAppIdType } from '@/utils/utils'
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
-const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
+const PdfDetailMBTI = (props: any) => {
     const { resultDetail, childStyle } = props;
     const appType = getAppIdType()
-    useImperativeHandle(ref, () => {
-        return {
-            exportPDF: toExportPdf,
-        };
-    });
     const charactertype = [
         {
             startText: '外向',
@@ -102,23 +96,6 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
             eleLine.style.transform = 'rotate(' + radius + 'rad)';
         });
     }
-    const toExportPdf = (callback: () => void) => {
-        print(
-            "Pdf_Body",
-            "MBTI性格与岗位匹配度",
-            () => {
-
-            },
-            () => {
-                callback && callback();
-                // 查看详情按钮显示
-                // const doms = document.getElementsByClassName("operaction-action");
-                // doms.forEach((dom) => {
-                //     dom.style.opacity = 1;
-                // });
-            }
-        );
-    };
     return (
         <div id="Pdf_Body" className="pdfdetail-layout" style={childStyle}>
             {/*封面*/}
@@ -1077,6 +1054,5 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
             </div>
         </div>
     );
-}));
-PdfDetailMBTI.displayName = 'PdfDetailMBTI'
+};
 export default PdfDetailMBTI;
