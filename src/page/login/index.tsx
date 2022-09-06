@@ -40,6 +40,8 @@ const Login = () => {
     }
     dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
       const result = await dd.runtime.permission.requestAuthCode({ corpId });
+      console.log(result,'result')
+      debugger
       const res = await login({ code: result.code, corpId, appId });
       if (res.code === 1) {
         if (!res.data.authLogin) {
