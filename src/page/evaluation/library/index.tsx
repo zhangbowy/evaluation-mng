@@ -13,7 +13,6 @@ import Loading from '@/components/loading';
 import { getAllUrlParam, getIsGuide } from '@/utils/utils';
 import { CountContext } from '@/utils/context'
 import { ddSelectPeople } from '@/utils/utils'
-import process from 'process';
 
 const Library = (props: { type?: number }) => {
   const libraryImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_coupons.png'
