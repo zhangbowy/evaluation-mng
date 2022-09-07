@@ -24,18 +24,18 @@ const Library = (props: { type?: number }) => {
   const { corpId, appId, clientId } = getAllUrlParam()
   const addPeopleRef = useRef<IAddPeopleRef | null>(null)
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
+  let timer: any;
 
   useEffect(() => {
     getLibraryList()
   }, [])
   useEffect(() => {
-    let timer: any;
     if (!libraryLoading) {
       timer = setTimeout(() => {
         currentStep(libraryList)
       }, 1000)
     }
-    () => {
+    return () => {
       clearTimeout(timer)
     }
   }, [libraryLoading])
