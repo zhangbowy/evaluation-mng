@@ -39,6 +39,8 @@ export interface IEvaluationVoList {
     examTemplateType: string;
     logoImage: string;
     includeText: string;
+    finishQuestionCount: number;
+    totalQuestionCount: number;
 }
 export interface IUserTagVoList {
     id: number;
@@ -54,4 +56,5 @@ export interface IReportDetail {
     successNum: number;
     userTagVoList: IUserTagVoList[];
     avatar: string;
+    position: string
 }

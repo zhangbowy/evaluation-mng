@@ -1,0 +1,26 @@
+.form {
+  display: flex;
+  justify-content: space-between;
+
+  .form_wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    // background-color: red;
+
+    :global {
+      .ant-form-item-label {
+        width: 120px;
+      }
+
+      .ant-form-item {
+        margin-bottom: 16px;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .form_btn {
+    display: flex;
+    margin-left: auto;
+  }
+}

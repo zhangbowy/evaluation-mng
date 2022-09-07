@@ -13,7 +13,6 @@ import Loading from '@/components/loading';
 import { getAllUrlParam, getIsGuide } from '@/utils/utils';
 import { CountContext } from '@/utils/context'
 import { ddSelectPeople } from '@/utils/utils'
-import process from 'process';
 
 const Library = (props: { type?: number }) => {
   const libraryImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcp_coupons.png'
@@ -25,18 +24,18 @@ const Library = (props: { type?: number }) => {
   const { corpId, appId, clientId } = getAllUrlParam()
   const addPeopleRef = useRef<IAddPeopleRef | null>(null)
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}')
+  let timer: any;
 
   useEffect(() => {
     getLibraryList()
   }, [])
   useEffect(() => {
-    let timer: any;
     if (!libraryLoading) {
       timer = setTimeout(() => {
         currentStep(libraryList)
       }, 1000)
     }
-    () => {
+    return () => {
       clearTimeout(timer)
     }
   }, [libraryLoading])
@@ -47,7 +46,7 @@ const Library = (props: { type?: number }) => {
     if (addIndex == -1) return
     if (arr.length > 0) {
       const setsArr: StepsType[] = [{
-        element: `.addIndex${addIndex}`,
+        element: `.addPeople${addIndex}`,
         intro: "第一次创建测评，需要先在此添加人员哦～",
         position: "bottom",
       }]
@@ -198,8 +197,8 @@ const Library = (props: { type?: number }) => {
               <p>{item.includeText}</p>
               <div className={styles.Library_topicInfo}>
                 <div className={styles.Library_topicInfoLeft}>
-                  <label>作答时间<span>{item.durationDesc}</span></label>
-                  <label>题目数量<span>{item.examLibrarySum}</span></label>
+                  <label>作答时间<span>{item.durationDesc}分钟</span></label>
+                  <label>题目数量<span>{item.examLibrarySum}题</span></label>
                 </div>
                 {!item.isBuy && <img src={notUnlockedImg} alt="" />}
                 <div className={styles.Library_topicInfoRight}>
@@ -212,18 +211,25 @@ const Library = (props: { type?: number }) => {
               </div>
               <footer>
                 <div className={styles.Library_footerLeft}>
-                  <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
-                  <span>{item.isBuy ? ` ${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
+                  {
+                    appId.split('_')[0] === '1' && <>
+                      <img src={libraryImg} className={styles.Library_footerIcon} alt="" />
+                      <span>{item.isBuy ? ` ${item.examCouponCommodityDetail.pointPrice}点券/人` : '待解锁'}</span>
+                    </>
+                  }
                 </div>
                 {
                   item.isBuy ?
                     <div className={styles.Library_btn_right}>
-                      <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={(visible) => onVisibleChange(visible, index)} title={() => tooltip(item)}>
-                        <div className={styles.Library_select_group}>
-                          <span>酷测评</span>
-                          <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${isSelectShow[index] ? '180deg' : '0deg'})` }} />
-                        </div>
-                      </Tooltip>
+                      {
+                        appId.split('_')[0] === '1' &&
+                        <Tooltip overlayClassName={styles.Library_tooltip} color={'#fff'} placement="bottom" onVisibleChange={(visible) => onVisibleChange(visible, index)} title={() => tooltip(item)}>
+                          <div className={styles.Library_select_group}>
+                            <span>酷测评</span>
+                            <DownOutlined className={styles.menu_down} style={{ transform: `translateY(-50%) rotate(${isSelectShow[index] ? '180deg' : '0deg'})` }} />
+                          </div>
+                        </Tooltip>
+                      }
                       <Button type="primary" className={`addPeople${index} ${styles.Library_appPeople}`}
                         onClick={() => handleClick(item)} >
                         添加人员

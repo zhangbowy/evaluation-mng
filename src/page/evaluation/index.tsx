@@ -2,8 +2,8 @@ import React, { createContext, FC, Fragment, Suspense, useCallback, useEffect, u
 import { Layout, message } from 'antd';
 import styles from './index.module.less'
 import Menu from '../../components/menu'
-import { Outlet, useLocation, useNavigate } from 'react-router';
-import Header from '../../components/header'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import Headers from '../../components/header'
 import Loading from '@/components/loading';
 import { useSearchParams } from 'react-router-dom';
 import { getPointAsset, getSign } from '@/api/api';
@@ -12,7 +12,7 @@ import { MyContext, CountContext } from '@/utils/context'
 import { getAllUrlParam } from '@/utils/utils';
 
 
-const { Sider, Content } = Layout;
+const { Sider, Content, Header } = Layout;
 const EvaluationLayout: FC = () => {
   const [ddConfig, setDdConfig] = useState<boolean>(false)
   const [isPackUp, setIsPackUp] = useState<boolean>(false)
@@ -57,14 +57,16 @@ const EvaluationLayout: FC = () => {
       appId,
       corpId
     }
-    const res = await getPointAsset(params)
-    if (res.code == 1) {
-      setCouponsNum(res.data.amount)
+    if (appId.split('_')[0] === '1') {
+      const res = await getPointAsset(params)
+      if (res.code == 1) {
+        setCouponsNum(res.data.amount)
+      }
     }
   }
   return (
     <div className={styles.evaluation_layout}>
-      <Layout style={{ height: '100%' }}>
+      <Layout>
         <Sider width={`${!isPackUp ? 240 : 80}px`} className={styles.evaluation_sider}>
           <MyContext.Provider value={{ state: isPackUp, dispatch: setIsPackUp }}>
             <Menu handelPackUp={() => setIsPackUp(!isPackUp)} />
@@ -72,7 +74,9 @@ const EvaluationLayout: FC = () => {
         </Sider>
         <Layout>
           <CountContext.Provider value={{ state: couponsNum, dispatch: getAllCoupons }}>
-            <Header />
+            <Header className={styles.evaluation_header}>
+              <Headers />
+            </Header>
             <Content className={styles.evaluation_content}>
               <Suspense fallback={<Loading />}>
                 <Outlet />

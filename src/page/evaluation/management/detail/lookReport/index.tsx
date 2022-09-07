@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, forwardRef } from 'react';
 import { Breadcrumb, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.module.less';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import ReportDetail from '@/components/report';
 
 /**

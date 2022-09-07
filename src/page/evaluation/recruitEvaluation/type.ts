@@ -17,6 +17,8 @@ export interface IColumns {
   userId: string;
 }
 
+
+
 export enum rectuitMap {
   '待答题' = 0,
   '进行中' = 1,

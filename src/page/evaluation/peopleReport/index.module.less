@@ -10,24 +10,31 @@
 
     h1 {
         font-size: 20px;
-        font-family: PingFangSC-Medium, PingFang SC;
+        
         font-weight: 500;
         color: #464C5B;
         margin-bottom: 32px;
+        display: inline-block;
     }
 
     nav {
         display: flex;
-        align-items: center;
+        // align-items: center;
         justify-content: space-between;
-        :global{
-            .ant-form-item{
+
+        :global {
+            .ant-form-item {
                 margin-bottom: 10px;
             }
+
+            .ant-form-item-label {
+                width: 70px;
+            }
         }
+
         .nav_right {
             display: flex;
-            align-items: center;
+            // align-items: center;
             margin-bottom: 10px;
 
             button {
@@ -38,15 +45,27 @@
 
     main {
         width: 100%;
-        // display: flex;
-        // flex-direction: column;
-        // align-items: flex-end;
+
+        .detail_main_title {
+            display: flex;
+            justify-content: space-between;
+
+            &>span {
+                display: inline-block;
+                font-size: 16px;
+            }
+
+            button {
+                margin-bottom: 12px;
+            }
+        }
 
         &>button {
             margin-bottom: 16px;
         }
+
         :global {
-            .ant-pagination  {
+            .ant-pagination {
                 position: sticky;
                 bottom: 0;
                 margin: 0;
@@ -54,11 +73,13 @@
                 z-index: 2;
                 background-color: #fff;
             }
-            .ant-table-tbody > tr > td{
+
+            .ant-table-tbody>tr>td {
                 color: #647180;
             }
-            .ant-table-tbody > tr > td{
-                button{
+
+            .ant-table-tbody>tr>td {
+                button {
                     padding-left: 0;
                 }
             }

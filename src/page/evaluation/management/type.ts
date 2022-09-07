@@ -4,6 +4,7 @@ export interface IOption {
 }
 export interface characterProportions {
     name: string;
+    number?: number | string;
     value: number | string;
 }
 export interface IChartList {
@@ -12,6 +13,9 @@ export interface IChartList {
     finishNum: number;
     personalityProportions: characterProportions[];
     totalNum: number;
+    otherGraph: {
+        [key: string]: any
+    }
 }
 export interface IResultTable {
     curPage: number;
@@ -21,7 +25,8 @@ export interface IResultTable {
     totalPage: number;
 }
 export interface IResultList {
-    examPaperId: number;
+    examPaperId: number
+    examTemplateTitle: string;
     deptAggregationDTOS: {
         name: string;
     }[],
@@ -43,7 +48,7 @@ export interface IFromName {
     status?: string;
     tags?: string;
     resultType?: string;
-    deptId?: string;
+    deptId?: number;
 }
 export interface ITableParams extends IFromName {
     curPage?: number;
@@ -98,7 +103,7 @@ export enum IEvaluation {
     DISC = 'DISC'
 }
 export interface ITagsProps {
-    onTagClick: (name: string) => void;
+    onTagClick?: (name: string) => void;
 }
 export interface IOptions {
     label: string;
@@ -114,4 +119,22 @@ export interface ScoreParams {
     fullScore: string,
     resultType: string,
     score: string,
+}
+
+export type LineChart = {
+    fraction: string;
+    people: number
+}
+export type Average = {
+    fullScore: null;
+    resultSimpleType: string;
+    resultType: string;
+    score: number;
+    groupName: string;
+}
+
+export type TeamAnalysis = {
+    name: string;
+    type: string;
+    number: number
 }

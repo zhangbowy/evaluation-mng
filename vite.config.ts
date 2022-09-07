@@ -28,14 +28,36 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       },
     },
     build: {
-      target: ['es2015']
+      target: ['es2015'],
+      sourcemap: false,
+      minify: 'terser',
+      chunkSizeWarningLimit: 3000,
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id
+              .toString()
+              .split('node_modules/')[1]
+              .split('/')[0]
+              .toString();
+          }
+        },
+      }
     },
     resolve: {
       // 配置路径别名
       alias: {
         '@': resolve(__dirname, './src')//设置别名
       },
-      extensions: [".js", ".json", ".ts", ".tsx"],
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
     },
     css: {
       preprocessorOptions: {

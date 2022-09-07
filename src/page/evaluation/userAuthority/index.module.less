@@ -6,7 +6,6 @@
 
     h1 {
         font-size: 20px;
-        font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: #464C5B;
         margin-bottom: 32px;
@@ -25,8 +24,9 @@
                 margin-left: 16px;
             }
         }
-        :global{
-            .ant-form-item{
+
+        :global {
+            .ant-form-item {
                 margin-bottom: 7px;
             }
         }
@@ -34,15 +34,29 @@
 
     main {
         width: 100%;
+
+        .detail_main_title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+
+            &>span {
+                display: inline-block;
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+
         // display: flex;
         // flex-direction: column;
         // align-items: flex-end;
 
-        &>button {
-            margin-bottom: 16px;
-        }
+
         :global {
-            .ant-pagination  {
+            .ant-pagination {
                 position: sticky;
                 bottom: 0;
                 margin: 0;
@@ -50,7 +64,8 @@
                 z-index: 2;
                 background-color: #fff;
             }
-            .ant-table-tbody > tr > td{
+
+            .ant-table-tbody>tr>td {
                 color: #647180;
             }
         }

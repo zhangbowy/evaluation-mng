@@ -1,16 +1,12 @@
 import { Button, Divider, Modal, Tabs } from 'antd';
-import React, { forwardRef, Fragment, memo, useEffect, useImperativeHandle } from 'react';
+import React, { Fragment, memo, useEffect, } from 'react';
 import './index.less';
-import print from "@/utils/print";
+import { getAppIdType } from '@/utils/utils'
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 
-const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
+const PdfDetailMBTI = (props: any) => {
     const { resultDetail, childStyle } = props;
-    useImperativeHandle(ref, () => {
-        return {
-            exportPDF: toExportPdf,
-        };
-    });
+    const appType = getAppIdType()
     const charactertype = [
         {
             startText: '外向',
@@ -68,9 +64,9 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
         fnLineChart(eleDots);
         //    toExportPdf();
     }, [resultDetail])
-    const buildPdfFile = () => {
-        console.log(2112);
-    }
+    // const buildPdfFile = () => {
+    //     console.log(2112);
+    // }
 
     const fnLineChart = function (eles: any) {
         const oldEle = eles;
@@ -100,30 +96,20 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
             eleLine.style.transform = 'rotate(' + radius + 'rad)';
         });
     }
-    const toExportPdf = (callback: () => void) => {
-        print(
-            "Pdf_Body",
-            "MBTI性格与岗位匹配度",
-            () => {
-
-            },
-            () => {
-                callback && callback();
-                // 查看详情按钮显示
-                // const doms = document.getElementsByClassName("operaction-action");
-                // doms.forEach((dom) => {
-                //     dom.style.opacity = 1;
-                // });
-            }
-        );
-    };
     return (
         <div id="Pdf_Body" className="pdfdetail-layout" style={childStyle}>
             {/*封面*/}
             <div className="pdf-cover">
                 <div className="logo">
-                    <img src="https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" alt="" />
-                    <span className="name">趣测评</span>
+                    <img
+                        src={appType === '1' ? "https://qzz-static.forwe.store/public-assets/qcp-logo.png?x-oss-process=image/resize,m_fill,w_24,h_24" : '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'}
+                        alt=""
+                    />
+                    <span className="name">
+                        {
+                            appType === '1' ? '趣测评' : '招才选将'
+                        }
+                    </span>
                 </div>
                 <div className="main-title">
                     <p className="title">MBTI</p>
@@ -1068,6 +1054,5 @@ const PdfDetailMBTI = memo(forwardRef((props: any, ref) => {
             </div>
         </div>
     );
-}));
-PdfDetailMBTI.displayName = 'PdfDetailMBTI'
+};
 export default PdfDetailMBTI;

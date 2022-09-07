@@ -1,0 +1,71 @@
+.Staff_layout {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    overflow-y: auto;
+
+    .Staff_title {
+        padding: 24px 35px;
+
+        .Staff_header {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #464C5B;
+        }
+
+        .Staff_time {
+            font-size: 14px;
+            font-weight: 400;
+            margin-right: 12px;
+            color: #9EA7B4;
+        }
+
+        .Staff_sync_btn {
+            font-size: 14px;
+            font-weight: 400;
+            color: #2B85FF;
+            cursor: pointer;
+        }
+
+        .Staff_syncing_btn {
+            .Staff_sync_btn;
+            color: #9EA7B4;
+        }
+    }
+
+    .Staff_form {
+        // border-bottom: 1px solid #E3E8EE;
+        padding: 0 35px;
+
+        :global {
+            .ant-form {
+                .ant-row {
+                    .ant-col-8 {
+                        display: flex;
+
+                        .ant-form-item {
+                            margin-left: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .Staff_operation {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 35px 24px;
+
+        &>span {
+            font-size: 16px;
+        }
+    }
+
+    .Staff_table {
+        height: calc(100% - 276px);
+        width: 100%;
+        padding: 0 35px;
+    }
+}

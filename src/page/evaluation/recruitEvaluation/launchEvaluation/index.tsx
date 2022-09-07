@@ -4,6 +4,7 @@ import { Breadcrumb, Button, message, Form, Input } from 'antd';
 import styles from './index.module.less';
 import Scale from './components/scale';
 import { addRecruitmentExam } from '@/api/api';
+import { getAllUrlParam } from '@/utils/utils';
 
 const LaunchEvaluation = () => {
   const [form] = Form.useForm();
@@ -11,6 +12,7 @@ const LaunchEvaluation = () => {
   const [stampsId, setStampsId] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { appId } = getAllUrlParam();
 
   const goBackList = () => {
     navigate('/evaluation/recruitEvaluation');
@@ -84,10 +86,11 @@ const LaunchEvaluation = () => {
           <Form.Item
             name="phone"
             label="手机号"
+            rules={[{ validator: validatorPhone, required: true }]}
           >
             <Input type='tel' placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
-          <Form.Item name="email" label="邮箱">
+          <Form.Item name="email" rules={[{ type: 'email', message: '请输入正确的邮箱' }, { required: true, message: '请输入邮箱' }]} label="邮箱">
             <Input type='email' placeholder="请输入" style={{ width: 375 }} />
           </Form.Item>
         </Form>
@@ -96,10 +99,12 @@ const LaunchEvaluation = () => {
         <h1>选择量表</h1>
         <Scale setStampsNum={setStampsNum} />
       </section>
-      <section className={styles.launch_evaluation_cost}>
-        <h1>预计消耗点券</h1>
-        <span>{stamps}</span>
-      </section>
+      {
+        appId.split('_')[0] === '1' && <section className={styles.launch_evaluation_cost}>
+          <h1>预计消耗点券</h1>
+          <span>{stamps}</span>
+        </section>
+      }
     </main>
     <footer>
       <Button onClick={goBackList}>

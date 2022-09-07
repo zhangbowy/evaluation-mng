@@ -148,12 +148,46 @@ export interface IUserExamResultBack {
 
 export interface IPDFDownLoadParams {
     url: string;
-    examPaperId: string;
+    examPaperId: string | number;
     userId: string;
     templateType: number;
 }
 
 export interface IsHasPdfParams {
-    examPaperId: string;
+    examPaperId: string | number;
     templateType: number;
+}
+
+export interface IPortraitPublish {
+    positions: {
+        id: number;
+        name: string;
+        description: string;
+        tagIds: number[]
+    }[]
+}
+
+export interface MenuParams {
+    tpf: 1,
+    appId: string
+}
+
+export interface UserRoleParams {
+    userIds: string[];
+    roleKeys: string[];
+}
+export interface PermissionUserListParams {
+    name?: string;
+    roleName?: string;
+    deptId?: number;
+    pageSize: number;
+    curPage: number
+}
+
+export interface UserAllExamResultSummaryGraphParams {
+    userId?: string;
+}
+
+export interface NotificationParams {
+    examPaperIds: (string | number)[]
 }

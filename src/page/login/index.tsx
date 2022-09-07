@@ -4,7 +4,7 @@ import { getAllUrlParam } from '@/utils/utils'
 import { message } from 'antd'
 import dd from 'dingtalk-jsapi'
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.less'
 
 const Login = () => {
@@ -14,7 +14,9 @@ const Login = () => {
   const handleLogin = (item: ILogin) => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
-    navigate(`/evaluation/management`);
+    const roles: any = item.user.roles.length > 0 ? item.user.roles.map((v: any) => v.roleKey) : []
+    const authFlag = roles.includes('SUPERVISOR') || roles.includes('ADMIN');
+    authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
   }
   useEffect(() => {
     if (authCode) {
@@ -38,6 +40,8 @@ const Login = () => {
     }
     dd.env.platform != 'notInDingTalk' && dd.ready(async () => {
       const result = await dd.runtime.permission.requestAuthCode({ corpId });
+      console.log(result,'result')
+      debugger
       const res = await login({ code: result.code, corpId, appId });
       if (res.code === 1) {
         if (!res.data.authLogin) {
@@ -51,7 +55,7 @@ const Login = () => {
           window.sessionStorage.setItem('QCP_B_TOKEN', res.data.token);
           window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(res.data.user));
           // 已经授权则免登进入系统
-          res.data.user.auths.includes('admin') ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
+          handleLogin(res.data)
         }
       } else {
         // 免登失败，提示进入403

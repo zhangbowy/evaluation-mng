@@ -5,12 +5,12 @@ import styles from './index.module.less'
 import { ColumnsType } from 'antd/lib/table';
 import { getExamList, editExam, getAllPeople, queryExamUserIds, updateExam } from '@/api/api'
 import * as dd from 'dingtalk-jsapi';
-import { useNavigate } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ddAddPeople, getIsGuide, getAllUrlParam } from '@/utils/utils'
 import Loading from '@/components/loading';
 import { IOptions, IExamListParams } from './type'
 import { CountContext } from '@/utils/context';
+import { SearchData } from '@/store'
 
 const Management = () => {
   const defaultImg = '//qzz-static.forwe.store/evaluation-mng/imgs/qcc_mng_nodata.png'
@@ -30,6 +30,7 @@ const Management = () => {
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const { state, dispatch } = useContext(CountContext)
   const { corpId, appId } = getAllUrlParam()
+  let timer: any;
   const paginationObj = {
     showQuickJumper: true,
     defaultPageSize: 10,
@@ -42,16 +43,16 @@ const Management = () => {
     }
   }
   useEffect(() => {
-    getEvaluationList()
+    setRadioValue(SearchData?.searchObj?.isFinishType ?? -1)
+    getEvaluationList(Object.keys(SearchData.searchObj).length > 0 ? SearchData.searchObj : {})
   }, [])
   useEffect(() => {
-    let timer: any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(evaluationList)
       }, 1000)
     }
-    () => {
+    return () => {
       clearTimeout(timer)
     }
   }, [tableLoading])
@@ -182,6 +183,11 @@ const Management = () => {
         }
         // 查看详情
         const onLookDetail = () => {
+          SearchData.setSearchObj({
+            current,
+            pageSize,
+            isFinishType: radioValue
+          })
           navigator(`/evaluation/management/detail/${record.id}`)
         }
         // 添加人员
@@ -192,7 +198,7 @@ const Management = () => {
             corpId,
             successFn: () => {
               message.success('修改成功');
-              getEvaluationList();
+              getEvaluationList({ curPage: current, pageSize, isFinishType: radioValue });
               dispatch()
             },
             failFn: () => null,
@@ -241,7 +247,7 @@ const Management = () => {
         <ConfigProvider renderEmpty={customizeRenderEmpty}>
           <Table loading={tableLoading} rowKey={(row) => row.id}
             showHeader={false} columns={columns}
-            scroll={{ x: 1100, }}
+            scroll={evaluationList.length > 0 ? { x: 1100, } : {}}
             pagination={paginationObj}
             dataSource={evaluationList}>
           </Table>

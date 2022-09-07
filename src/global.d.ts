@@ -7,6 +7,7 @@ interface IMenuItem {
     name: string;
     icon?: string;
     path: string;
+    authKey?: string;
     children?: IMenuItem[];
 }
 interface shareType {
@@ -20,7 +21,7 @@ interface chartDate {
     corpId: string;
     userId?: string | undefined;
     examId: string;
-    deptId?: string;
+    deptId?: number;
 }
 interface DataType {
     completion: number;
@@ -48,7 +49,7 @@ interface IMeasurement {
     finishValue: string;
     examTitle: string;
     introduction: string;
-    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI' | 'DISC';
+    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI' | 'DISC' | 'MBTI_O';
     introductionImage: {
         admin: string;
         mobile: {
@@ -84,6 +85,7 @@ interface ILogin {
         gender: IGender,
         name: string,
         userId: string
+        roles: string[]
     }
 }
 
@@ -151,6 +153,9 @@ interface ImportMetaEnv {
 }
 
 
+interface IObjType {
+    [key: string]: any;
+}
 // interface IBackResult<T> {
 //     code: number;
 //     data: T;

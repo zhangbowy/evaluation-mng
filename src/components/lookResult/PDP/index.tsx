@@ -40,24 +40,10 @@ const PDP = forwardRef((props: { resultList: IResult }, ref) => {
             },
             xAxis: {
                 tickLine: null,
-                line: {
-                    style: {
-                        stroke: '#D2D2D2',
-                        lineDash: null,
-                    }
-                },
             },
             yAxis: {
                 tickLine: null,
-                label: false,
-                min: 0,
-                max: 5,
-                line: {
-                    type: 'circle',
-                    style: {
-                        stroke: '#D2D2D2',
-                    }
-                },
+                tickCount: 5,
             },
         })
         radarPlot.render();

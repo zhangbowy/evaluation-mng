@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames/bind';
-import copy from 'copy-to-clipboard';
 import {
   Button,
   Divider,
@@ -27,12 +26,10 @@ import ModalLink from './components/modalLink';
 import LookResult from '@/components/lookResult';
 import PdfDetailMBTI from '@/components/report/MBTI';
 import { queryRecruitmentExamList, updateRecruitment, recruitmentUnlockItem, getExamResult, getUserExamResult, getPDFDownLoad, getIsHasPdf, getSelectPdfStatus } from '@/api/api';
-import moment from 'moment';
 import { abilityList, TagSort } from '@/components/report/MBTI/type';
-import { sortBy } from '@antv/util';
 import { useCallbackState } from '@/utils/hook';
 import { majorType, recruitStatusList } from '@/assets/data';
-import { downLoad } from '@/utils/utils';
+import { copy, downLoad, formatTime, getAllUrlParam } from '@/utils/utils';
 import dd from 'dingtalk-jsapi';
 import { downloadFile } from '@/components/dd';
 
@@ -55,8 +52,9 @@ const RecruitEvaluation = () => {
   const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
-  const pdfDetail: any = useRef();
+  // const pdfDetail: any = useRef();
   const tasksPdf: any = useRef([]); //下载储存的人任务
+  const { appId } = getAllUrlParam();
   let timer: any;
   useEffect(() => {
     return () => {
@@ -120,10 +118,10 @@ const RecruitEvaluation = () => {
   // 查看报告
   const showReport = (record: IColumns) => {
     if (majorType.includes(record.templateType)) {
-      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.phone}~${record.templateType}`);
+      history(`/evaluation/recruitEvaluation/report/${record.id}/lookReport/${record.examPaperId}~${record.userId}~${record.templateType}`);
       return;
     }
-    lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.phone })
+    lookResultRef.current.onOpenDrawer({ examPaperId: record.examPaperId, userId: record.userId })
   }
   const onCloseLoading = (examPaperId: string) => {
     const curIndex = downLoading.findIndex(res => examPaperId == res)
@@ -173,7 +171,7 @@ const RecruitEvaluation = () => {
       } else {
         const obj = {
           // url: `http//daily-eval.sunmeta.top/#/pdf?examPaperId=${record.examPaperId}&userId=${record.userId}`,
-          url: `${window.location.origin}/admin/#/pdf/${record.templateType}/${record.phone}/${record.examPaperId}?isRecruit=true`,
+          url: `${window.location.origin}/admin/#/pdf/${record.templateType}/${record.userId}/${record.examPaperId}?isRecruit=true&appId=${appId}`,
           examPaperId: record.examPaperId,
           userId: record.userId,
           templateType: 2
@@ -263,7 +261,8 @@ const RecruitEvaluation = () => {
       title: '创建时间',
       dataIndex: 'created',
       width: 200,
-      render: text => <span className={styles.table_column_text}>{text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'}</span>
+      render: text =>
+        <span className={styles.table_column_text}>{text ? formatTime(text) : '-'}</span>
     },
     {
       title: '操作',
@@ -425,12 +424,12 @@ const RecruitEvaluation = () => {
       <div className={styles.recruitEvaluation_content}>
         <h1>招聘测评</h1>
         <nav>
-          <Form form={form} layout="inline">
+          <Form form={form} className={styles.from_wrapper} labelAlign={'right'}>
             <Form.Item name="candidateName" label="候选人">
-              <Input placeholder="请输入" style={{ width: 240 }} />
+              <Input placeholder="请输入" style={{ width: 200 }} />
             </Form.Item>
-            <Form.Item name="job" label="应聘岗位">
-              <Input placeholder="请输入" style={{ width: 240 }} />
+            <Form.Item name="job" label="应聘岗位" >
+              <Input placeholder="请输入" style={{ width: 200 }} />
             </Form.Item>
             <Form.Item name="examStatus" label="测评状态">
               <Select
@@ -442,7 +441,7 @@ const RecruitEvaluation = () => {
                 }
                 placeholder="请选择"
                 showSearch
-                style={{ width: 240 }} >
+                style={{ width: 200 }} >
                 {
                   recruitStatusList.map((item: RecruitStatus) => <Select.Option key={item.value} value={item.value}>{item.label}</Select.Option>)
                 }
@@ -463,7 +462,7 @@ const RecruitEvaluation = () => {
             </Button>
           </div >
         </nav >
-        <Divider />
+        <Divider style={{ margin: '8px 0 24px' }} />
         <main>
           <section>
             <span>候选人表</span>
@@ -509,7 +508,7 @@ const RecruitEvaluation = () => {
       />
       <LookResult ref={lookResultRef} isRecruit={true} />
       <PdfDetailMBTI
-        ref={pdfDetail}
+        // ref={pdfDetail}
         resultDetail={resultDetial}
         childStyle={{
           'width': '800px',

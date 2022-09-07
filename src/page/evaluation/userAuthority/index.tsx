@@ -1,32 +1,34 @@
 import { Button, Divider, Form, Input, message, Select, Switch, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './index.module.less'
-import { getUserList, queryDept, setAuths } from '@/api/api'
+import { getUserList, queryDept, setAuths, setUserRole, queryPermissionUserList } from '@/api/api'
 import { useSearchParams } from 'react-router-dom'
-import { IUserParams, IColumns, IUserObj } from './type'
+import { IUserParams, IColumns, IUserObj, IUserNewParams, IColumnsNew } from './type'
 import { ColumnsType } from 'antd/lib/table'
 import dd from 'dingtalk-jsapi'
-import { getIsGuide, getAllUrlParam } from '@/utils/utils'
+import { getIsGuide, getAllUrlParam, getAppIdType } from '@/utils/utils'
 
 const index = () => {
-  const [userList, setUserList] = useState<IColumns[]>([]);
+  const [userList, setUserList] = useState<IColumnsNew[]>([]);
   const { corpId, appId } = getAllUrlParam()
   const [tableLoading, setTableLoading] = useState<boolean>(true);
   const [departmentList, setDepartmentList] = useState<IDept[]>([]);
   const [totalNum, setTotalNum] = useState<number>(0);
   const [current, setCurrent] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
+  const [deptId, setDeptId] = useState<number>()
   const [form] = Form.useForm();
   let timer: any;
+  const appType = getAppIdType();
   useEffect(() => {
     getUser()
     getDepartment()
-    timer = setTimeout(() => {
-      currentStep()
-    }, 1000);
-    () => {
-      clearTimeout(timer)
-    }
+    // timer = setTimeout(() => {
+    //   currentStep()
+    // }, 1000);
+    // return () => {
+    //   clearTimeout(timer)
+    // }
   }, [])
   // 分页配置
   const paginationObj = {
@@ -52,15 +54,15 @@ const index = () => {
   // 获取用户列表
   const getUser = async (obj?: IUserObj) => {
     setTableLoading(true)
-    const params: IUserParams = {
-      corpId,
-      appId,
-      authPoint: 'admin',
+    const params: IUserNewParams = {
+      // corpId,
+      // appId,
+      // authPoint: appId.split('_')[0] == 1 ? 'admin' : 'EVAL_USER_LIST',
       pageSize: obj?.pageSize || pageSize,
       curPage: obj?.curPage || 1,
       ...obj
     }
-    const res = await getUserList(params)
+    const res = await queryPermissionUserList(params)
     if (res.code == 1) {
       setUserList(res.data.resultList)
       setTableLoading(false)
@@ -71,14 +73,15 @@ const index = () => {
   }
   // 获取部门
   const getDepartment = async () => {
-    const res = await queryDept({ corpId, appId, curPage: 1, pageSize: 10000 })
+    const res = await queryDept({ corpId, appId, pageSize: 10000, curPage: 1 })
     if (res.code == 1) {
       setDepartmentList(res.data.resultList)
     }
   }
   // 选中部门
-  const onSelectChange = (value: string) => {
+  const onSelectChange = (value: number) => {
     // getUser(value)
+    setDeptId(value)
   }
   // 搜索
   const onSearchClick = () => {
@@ -88,6 +91,15 @@ const index = () => {
   const onResetClick = () => {
     form.resetFields()
     getUser()
+  }
+  // 回车搜索
+  const onPressEnter = (e: any) => {
+    const obj = {
+      name: e.target.value,
+      deptId
+    }
+    !!obj.deptId && delete obj.deptId
+    getUser(obj)
   }
   // 新增权限
   const onAddPeopleClick = async () => {
@@ -109,28 +121,41 @@ const index = () => {
       }
     }
   }
-  const columns: ColumnsType<IColumns> = [
+  const columns: ColumnsType<IColumnsNew> = [
     { title: '序号', key: 'index', render: (text, record, index) => <div>{index + 1}</div> },
     { title: '姓名', dataIndex: 'name' },
     {
-      title: '部门', dataIndex: 'depts', width: 500, render: (text: IDept[], record) => <div>{text.map(res => res.name).join(',')}</div>
+      title: '部门', dataIndex: 'deptName', width: 500,
     },
     {
       title: '操作', key: 'option', render: (text, record) => {
+        const roleKeys = record.roles?.map(v => v?.roleKey);
         const onOpenClick = async (checked: boolean) => {
-          const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
-          const res = await setAuths(data);
+          // if (appId.split('_')[0] === '1') {
+          //   const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
+          //   const res = await setAuths(data);
+          //   if (res.code === 1) {
+          //     getUser({ curPage: current })
+          //     message.success('操作成功');
+          //   }
+          // } else if (appId.split('_')[0] === '2') {
+          const data = {
+            userIds: [record.userId],
+            roleKeys: [checked ? 'ADMIN' : 'BROWSER']
+          };
+          const res = await setUserRole(data);
           if (res.code === 1) {
             getUser({ curPage: current })
             message.success('操作成功');
           }
+          // }
         }
         return <Switch
           key="switch"
           checkedChildren="开"
           unCheckedChildren="关"
           onClick={(checked) => onOpenClick(checked)}
-          checked={record.auths?.includes('admin')}
+          checked={roleKeys?.includes('ADMIN')}
         />
       }
     }
@@ -141,8 +166,8 @@ const index = () => {
       <h1>账号管理 </h1>
       <nav>
         <Form form={form} layout="inline">
-          <Form.Item name="fuzzyName" label="姓名">
-            <Input placeholder="请输入" style={{ width: 240 }} />
+          <Form.Item name="name" label="姓名">
+            <Input onPressEnter={onPressEnter} placeholder="请输入" style={{ width: 200 }} />
           </Form.Item>
           <Form.Item name="deptId" label="部门">
             <Select
@@ -154,7 +179,7 @@ const index = () => {
               }
               placeholder="请选择"
               showSearch
-              style={{ width: 240 }} >
+              style={{ width: 200 }} >
               {
                 departmentList.map((item: IDept) => <Select.Option key={item.deptId} value={item.deptId}>{item.name}</Select.Option>)
               }
@@ -168,7 +193,12 @@ const index = () => {
       </nav>
       <Divider />
       <main>
-        <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
+        <div className={styles.detail_main_title}>
+          <span>账号列表</span>
+          <div>
+            {/* <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button> */}
+          </div>
+        </div>
         <Table loading={tableLoading}
           pagination={paginationObj}
           columns={columns}

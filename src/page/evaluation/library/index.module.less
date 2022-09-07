@@ -10,22 +10,21 @@
 
     h1 {
         font-size: 20px;
-        font-family: PingFangSC-Medium, PingFang SC;
+
         font-weight: 500;
         color: #464C5B;
         margin-bottom: 24px;
     }
 
     main {
-        display: flex;
-        flex-flow: row wrap;
-        // gap: 20px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 260px);
+        // justify-content: space-between;
+        gap: 24px;
 
         .Library_card_wrapper {
-            width: 23%;
-            min-width: 260px;
             border-radius: 4px;
-            margin-right: 20px;
             overflow: hidden;
             border: 1px solid #D7DDE4;
             background-color: #FFFFFF;
@@ -35,7 +34,7 @@
             flex-direction: column;
             justify-content: space-between;
             transition: all .5s ease;
-            margin-bottom: 20px;
+            // margin-bottom: 20px;
 
             // &:nth-child(4n) {
             //     margin-right: 0px;
@@ -62,7 +61,7 @@
 
             p {
                 font-size: 12px;
-                font-family: PingFangSC-Regular, PingFang SC;
+
                 font-weight: 400;
                 color: #657180;
                 line-height: 17px;
@@ -86,7 +85,6 @@
 
                     label {
                         font-size: 12px;
-                        font-family: PingFangSC-Regular, PingFang SC;
                         font-weight: 400;
                         color: #9EA7B4;
                         line-height: 17px;
@@ -94,7 +92,6 @@
 
                         span {
                             font-size: 12px;
-                            font-family: PingFangSC-Regular, PingFang SC;
                             font-weight: 400;
                             color: #464C5B;
                             line-height: 17px;

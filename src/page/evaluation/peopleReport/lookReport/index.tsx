@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Breadcrumb, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.module.less';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import ReportDetail from '@/components/report';
 import { IReportDetail } from '../type';
 import { getAllExam } from '@/api/api';
@@ -60,6 +60,7 @@ const LookReport = () => {
                 userId={userId}
                 examPaperId={examPaperId}
                 templateType={templateType}
+                isPeople={true}
             />
         </div>
     );
