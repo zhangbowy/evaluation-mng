@@ -30,27 +30,6 @@ const Detail = observer(() => {
     getDetailList()
     getDepartment()
   }, [])
-  const paginationObj = {
-    showQuickJumper: true,
-    defaultPageSize: 10,
-    total: totalNum,
-    showSizeChanger: true,
-    pageSizeOptions: ["10", "20", "50", "100"],
-    current: current,
-    showTotal: () => `共 ${totalNum} 条数据`,
-    onChange: (page: number, pageSize: number) => {
-      console.log({ curPage: page, pageSize, ...form.getFieldsValue(), deptId });
-      getTableList({ curPage: page, pageSize, ...form.getFieldsValue(), deptId })
-    }
-  }
-  useEffect(() => {
-    if (visualRef?.current?.length > 0) {
-      visualRef.current[0].innerHTML = '';
-      visualRef.current[1].innerHTML = '';
-      completionList()
-      personalityList()
-    }
-  }, [tableList])
   // 获取列表
   const getDetailList = async (from?: IFromName) => {
     // 获取图表数据
@@ -70,7 +49,7 @@ const Detail = observer(() => {
   }
   // 获取部门
   const getDepartment = async () => {
-    const res = await queryDept({ corpId, appId, curPage: 1, pageSize: 10000 })
+    const res = await queryDept({ corpId, appId, pageSize: 10000, curPage: 1 })
     if (res.code == 1) {
       setDepartment(res.data.resultList)
     }
@@ -84,22 +63,6 @@ const Detail = observer(() => {
   // 查看介绍
   const onLookIntroduceClick = () => {
     lookIntroduceRef.current.onOpenDrawerClick(measurement)
-  }
-  // 导出
-  const onDeriveClick = async () => {
-    setExportLoading(true)
-    const res = await measurementExport(params.id)
-    if (res.code == 1) {
-      const a = document.createElement('a')
-      a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
-      a.download = res.data.cname
-      a.click()
-      setExportLoading(false)
-    }
-  }
-  // 查看所有tags
-  const onMagnifyClick = () => {
-    lookAllTagsRef?.current?.openModal(chartList?.characterProportions)
   }
   // tag点击
   const onTagClick = (name: string) => {
