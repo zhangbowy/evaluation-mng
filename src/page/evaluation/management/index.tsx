@@ -30,6 +30,7 @@ const Management = () => {
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const { state, dispatch } = useContext(CountContext)
   const { corpId, appId } = getAllUrlParam()
+  let timer: any;
   const paginationObj = {
     showQuickJumper: true,
     defaultPageSize: 10,
@@ -46,13 +47,12 @@ const Management = () => {
     getEvaluationList(Object.keys(SearchData.searchObj).length > 0 ? SearchData.searchObj : {})
   }, [])
   useEffect(() => {
-    let timer: any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(evaluationList)
       }, 1000)
     }
-    () => {
+    return () => {
       clearTimeout(timer)
     }
   }, [tableLoading])

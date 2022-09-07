@@ -23,14 +23,12 @@ const index = () => {
   useEffect(() => {
     getUser()
     getDepartment()
-    if (appType === '1') {
-      timer = setTimeout(() => {
-        currentStep()
-      }, 1000);
-    }
-    () => {
-      clearTimeout(timer)
-    }
+    // timer = setTimeout(() => {
+    //   currentStep()
+    // }, 1000);
+    // return () => {
+    //   clearTimeout(timer)
+    // }
   }, [])
   // 分页配置
   const paginationObj = {
@@ -133,24 +131,24 @@ const index = () => {
       title: '操作', key: 'option', render: (text, record) => {
         const roleKeys = record.roles?.map(v => v?.roleKey);
         const onOpenClick = async (checked: boolean) => {
-          if (appId.split('_')[0] === '1') {
-            const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
-            const res = await setAuths(data);
-            if (res.code === 1) {
-              getUser({ curPage: current })
-              message.success('操作成功');
-            }
-          } else if (appId.split('_')[0] === '2') {
-            const data = {
-              userIds: [record.userId],
-              roleKeys: [checked ? 'ADMIN' : 'BROWSER']
-            };
-            const res = await setUserRole(data);
-            if (res.code === 1) {
-              getUser({ curPage: current })
-              message.success('操作成功');
-            }
+          // if (appId.split('_')[0] === '1') {
+          //   const data = { [checked ? 'addAuths' : 'removeAuths']: ['admin'], userIds: [record.userId] }
+          //   const res = await setAuths(data);
+          //   if (res.code === 1) {
+          //     getUser({ curPage: current })
+          //     message.success('操作成功');
+          //   }
+          // } else if (appId.split('_')[0] === '2') {
+          const data = {
+            userIds: [record.userId],
+            roleKeys: [checked ? 'ADMIN' : 'BROWSER']
+          };
+          const res = await setUserRole(data);
+          if (res.code === 1) {
+            getUser({ curPage: current })
+            message.success('操作成功');
           }
+          // }
         }
         return <Switch
           key="switch"
@@ -198,11 +196,7 @@ const index = () => {
         <div className={styles.detail_main_title}>
           <span>账号列表</span>
           <div>
-            {
-              appType === '1'
-                ? <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
-                : null
-            }
+            {/* <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button> */}
           </div>
         </div>
         <Table loading={tableLoading}

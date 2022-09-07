@@ -21,6 +21,7 @@ const PeopleReport = () => {
   const navigator = useNavigate()
   const [form] = Form.useForm();
   const { setFieldValue } = form
+  let timer: any;
   useEffect(() => {
     if (Object.keys(SearchData.searchObj).length > 0) {
       setFieldValue('name', SearchData.searchObj.name)
@@ -41,13 +42,12 @@ const PeopleReport = () => {
     }
   }
   useEffect(() => {
-    let timer: any;
     if (!tableLoading) {
       timer = setTimeout(() => {
         currentStep(reportList)
       }, 1000)
     }
-    () => {
+    return () => {
       clearTimeout(timer)
     }
   }, [tableLoading])
