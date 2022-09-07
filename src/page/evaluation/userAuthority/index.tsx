@@ -18,8 +18,6 @@ const index = () => {
   const [pageSize, setPageSize] = useState<number>(10) // 多少条
   const [deptId, setDeptId] = useState<number>()
   const [form] = Form.useForm();
-  let timer: any;
-  const appType = getAppIdType();
   useEffect(() => {
     getUser()
     getDepartment()
@@ -73,7 +71,7 @@ const index = () => {
   }
   // 获取部门
   const getDepartment = async () => {
-    const res = await queryDept({ corpId, appId, pageSize: 10000, curPage: 1 })
+    const res = await queryDept({ corpId, appId, curPage: 1, pageSize: 10000 })
     if (res.code == 1) {
       setDepartmentList(res.data.resultList)
     }
@@ -111,9 +109,9 @@ const index = () => {
       if (pickResult.length < 1) {
         return;
       }
-      const res = await setAuths({
-        addAuths: ['admin'],
+      const res = await setUserRole({
         userIds: pickResult.map((item: any) => item.emplId),
+        roleKeys: ['BROWSER']
       });
       if (res.code === 1) {
         message.success('新建成功');
@@ -196,7 +194,7 @@ const index = () => {
         <div className={styles.detail_main_title}>
           <span>账号列表</span>
           <div>
-            {/* <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button> */}
+            <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
           </div>
         </div>
         <Table loading={tableLoading}
