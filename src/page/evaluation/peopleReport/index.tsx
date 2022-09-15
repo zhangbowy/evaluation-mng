@@ -23,7 +23,7 @@ const PeopleReport = () => {
   const { setFieldValue } = form
   let timer: any;
   useEffect(() => {
-    if (Object.keys(SearchData.searchObj).length > 0) {
+    if (Object.keys(SearchData.searchObj).length > 0 && setFieldValue) {
       setFieldValue('name', SearchData.searchObj.name)
       setFieldValue('isDimission', SearchData.searchObj.isDimission)
       setFieldValue('deptId', SearchData.searchObj.deptId)
