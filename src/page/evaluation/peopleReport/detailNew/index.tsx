@@ -26,6 +26,7 @@ import DiscResult from './components/DiscResult';
 import CaResult from './components/CaResult';
 import { getAllUrlParam, openLink } from "@/utils/utils";
 import cs from 'classnames';
+import { Liquid } from '@antv/g2plot';
 // import ModalScreen from '@/components/modalScreen';
 
 const tagsData = ['自信', '决断力高', '竞争性强', '企图心强', '勇于冒险', '热心', '乐观', '活泼', '社交能力强']
@@ -105,6 +106,7 @@ const Detail = () => {
   const [isOpenWorth, setIsOpenWorth] = useState<boolean>(false);
   const [isOpenPosition, setIsOpenPosition] = useState<boolean>(false);
   const lookResultRef: any = useRef()
+  const positionRef: any = useRef();
   const navigator = useNavigate()
   const cx = classNames.bind(styles);
   const { corpId, appId, clientId } = getAllUrlParam();
@@ -141,8 +143,46 @@ const Detail = () => {
     const res = await getWorthMatch({ userId })
     if (res.code === 1) {
       setTotalData(res.data);
+      setTimeout(() => {
+        completionList(res.data);
+      }, 100)
     }
   }
+  const completionList = (worthData: any) => {
+    positionRef.current.innerHTML = ''
+    const liquidPlot = new Liquid(positionRef.current, {
+        percent: (Number(worthData?.positionMatchDTO?.totalMatch) || 0) / 100,
+        outline: {
+            border: 2,
+            style: {
+                stroke: '#EC9108',
+                // strokeOpacity: 0.9
+            },
+            distance: 4,
+        },
+        liquidStyle: {
+        },
+        statistic: {
+            content: {
+                customHtml: (container: any, view: any, { percent }: any) => {
+                    const text = `${(percent * 100).toFixed(0)}%`;
+                    return `<div style="font-size:14px;color: #464C5B;font-weight: 500;">${text}</div>`
+                },
+            }
+        },
+        theme: {
+          styleSheet: {
+            brandColor: '#EC9108'
+          }
+        },
+        wave: {
+            length: 192,
+        },
+    });
+    // liquidPlot.destroy();
+    liquidPlot.render()
+
+}
   // 是否存在报告的样式
   const isReportStyle = {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -473,7 +513,7 @@ const Detail = () => {
                       </div>
                     }
                     <div className={!isFinish ? styles.detail_content_right_summary_consult_right_content_under : styles.detail_content_right_summary_consult_right_content_up}>
-                      {
+                      {/* {
                         positionData?.map((v: any) => (
                           <div key={v.valueId} className={styles.detail_content_right_summary_consult_right_content_item}>
                             <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
@@ -492,14 +532,15 @@ const Detail = () => {
                             </div>
                           </div>
                         ))
-                      }
+                      } */}
+                      <div style={{ height: '100px', width: '100%' }} ref={positionRef}></div>
                     </div>
                     {
                       totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
-                        {
+                        {/* {
                           isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                             : <i className='iconfont icon-jiantouxia' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                        }
+                        } */}
                       </div>
                     }
                   </div>
