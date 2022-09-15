@@ -69,8 +69,8 @@ export const getAllUrlParam = () => {
 }
 // 返回appId前面的类型
 export const getAppIdType = () => {
-    const { appId } = getAllUrlParam();
-    return (appId && appId.split('_')[0]) || '1';
+    const { appId = '1_1' } = getAllUrlParam();
+    return appId.split('_')[0];
 };
 // 钉钉打开链接
 export const openLink = (payload: any, silence: any) => new Promise((resolve, reject) => {
