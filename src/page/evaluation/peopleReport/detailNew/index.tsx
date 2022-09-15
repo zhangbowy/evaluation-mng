@@ -166,13 +166,21 @@ const Detail = () => {
             content: {
                 customHtml: (container: any, view: any, { percent }: any) => {
                     const text = `${(percent * 100).toFixed(0)}%`;
-                    return `<div style="font-size:14px;color: #464C5B;font-weight: 500;">${text}</div>`
+                    console.log(percent, 'percent')
+                    if (percent < 0.80) {
+                      return `<div style="font-size:14px;color: #464C5B;font-weight: 500;">${text}</div>`
+                    }
+                    return `<div style="font-size:14px;color: #fff;font-weight: 500;">${text}</div>`   
                 },
-            }
+                style: {
+                  color: 'red',
+                  fill: 'red'
+                }
+            },
         },
         theme: {
           styleSheet: {
-            brandColor: '#EC9108'
+            brandColor: 'rgba(236, 145, 8, 0.3)'
           }
         },
         wave: {
@@ -533,7 +541,7 @@ const Detail = () => {
                           </div>
                         ))
                       } */}
-                      <div style={{ height: '100px', width: '100%' }} ref={positionRef}></div>
+                      <div style={{ height: '120px', width: '100%' }} ref={positionRef}></div>
                     </div>
                     {
                       totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
