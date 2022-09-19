@@ -259,7 +259,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
     const keyDownPortrait = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             // 调用查询方法
-            searchPortrait(e.target.value);
+            searchPortrait((e.target as HTMLInputElement).value);
         }
     };
     const changeInput = (e: ChangeEvent<HTMLInputElement>) => {

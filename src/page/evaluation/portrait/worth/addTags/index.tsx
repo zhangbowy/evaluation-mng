@@ -105,7 +105,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     const keyDownTag = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             // 调用查询方法
-            search(e.target.value);
+            search((e.target as HTMLInputElement).value);
         }
     };
     // checked
