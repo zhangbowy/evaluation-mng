@@ -214,7 +214,7 @@ const RecruitEvaluation = () => {
       title: '量表名称',
       dataIndex: 'templateTitle',
       width: 200,
-      render: (text: string) => <span className={styles.table_column_text}>{text}</span>
+      render: (text: string) => <span className={styles.table_column_text}>{text || '-'}</span>
     },
     {
       title: '测评状态',
@@ -229,7 +229,7 @@ const RecruitEvaluation = () => {
             'status_start': (text == 1 || text == 2 || text == 3),
             'status_finish': text == 10 || text == 5
           })} >
-          {text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]}
+          {(text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]) || '-'}
         </span>
     },
     {

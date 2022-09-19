@@ -74,7 +74,9 @@ const ReportDetail = (props: any) => {
     }, []);
 
     useEffect(() => {
-        getAllExamResult();
+        if (!isRecruit) {
+            getAllExamResult();
+        }
     }, []);
 
     const handleScroll = () => {
@@ -192,7 +194,7 @@ const ReportDetail = (props: any) => {
     }
 
     return (
-        <div className={styles.detailWrap} ref={reportRef}>
+        <div className={isHaveSwitch ? styles.detailWrap : cs(styles.detailWrap, styles.noSwitch)} ref={reportRef}>
             <div className={styles.pdfDetail}>
                 {/* {
                     templateType === 'DISC' ?
