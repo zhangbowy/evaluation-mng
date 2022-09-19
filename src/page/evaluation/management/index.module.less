@@ -1,6 +1,6 @@
 .management_layout {
     height: 100%;
-    padding: 24px 34px 0;
+    padding: 0 34px 0;
     background-color: var(--white-color);
     overflow: auto;
     position: relative;
@@ -32,7 +32,14 @@
         display: flex !important;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
+        position: sticky;
+        top: 0;
+        left: 0;
+        padding-top: 24px;
+        padding-bottom: 20px;
+        background-color: #fff;
+        z-index: 3;
 
         h1 {
             font-size: 20px;

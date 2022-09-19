@@ -1,10 +1,10 @@
 import { Button, Col, Form, Input, message, Modal, Row, Table, Tag } from 'antd'
-import React, { Fragment, useRef, useState, MouseEvent, useEffect } from 'react'
+import React, { Fragment, useRef, useState, MouseEvent, useEffect, KeyboardEvent, ChangeEvent } from 'react'
 import styles from './index.module.less'
-import { PlusCircleOutlined, CloseOutlined, PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, CloseOutlined, PlusOutlined, ExclamationCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import AddTags from './addTags'
 import TextArea from 'antd/lib/input/TextArea';
-import { ICurList, ICurSelectTag, IFilterList, IFormItem, IPortraitList, IWorth } from './type';
+import { ICurList, ICurSelectTag, IFilterList, IFormItem, IPortraitList, IWorth, IOriginData } from './type';
 import { portraitConfig } from '@/config/portrait.config';
 import { delPost, getPortraitList, getPostList, portraitPublish, postPublish } from '@/api/api';
 
@@ -16,6 +16,11 @@ const Worth = ({ isWorth = true }: IWorth) => {
     const [isEdit, setIsEdit] = useState<boolean>(false) // 是否可以修改
     const [transferredData, setTransferredData] = useState<IObjType>({})
     const [loading, setLoading] = useState<boolean>(true)
+    const [originalData, setOriginalData] = useState<IOriginData[]>([]);
+    const [filterData, setFilterData] = useState<IOriginData[]>([]);
+    const [inputValue, setInputValue] = useState<string>();
+    const [isFocus, setIsFocus] = useState<boolean>(false);
+    const layoutRef: any = useRef();
     const config = isWorth ? portraitConfig.worth : portraitConfig.post // 配置
     useEffect(() => {
         getList({ publish: 1 })
@@ -27,6 +32,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             icon: <ExclamationCircleOutlined />,
             async onOk() {
                 setIsEdit(false)
+                setInputValue('');
                 const obj: any = {}
                 !isWorth && (obj.publish = 1)
                 getList(obj)
@@ -36,6 +42,8 @@ const Worth = ({ isWorth = true }: IWorth) => {
     // 编辑
     const edit = () => {
         setIsEdit(true)
+        setFieldsValue({ [config.fieldName]: originalData });
+        setInputValue('');
         !isWorth && getList()
     }
     // 获取列表
@@ -61,24 +69,30 @@ const Worth = ({ isWorth = true }: IWorth) => {
                     tags: []
                 }]
             }
+            setOriginalData(arr);
             setFieldsValue({ [config.fieldName]: arr });
             setLoading(false)
         }
     }
     // 发布
     const publishClick = () => {
-        validateFields().then(async values => {
-            const res = isWorth ? await portraitPublish(values) : await postPublish(values)
-            if (res.code == 1) {
-                message.success('发布成功');
-                setIsEdit(false)
-                const obj: any = {}
-                !isWorth && (obj.publish = 1)
-                getList(obj)
-            }
-        }).catch((err) => {
-            console.log(err, 'err')
-            message.error('请填写完整信息，再进行发布');
+        const values = getFieldsValue();
+        const mergeData: any = getMergeData(originalData, values[config.fieldName]);
+        setFieldsValue({ [config.fieldName]: mergeData });
+        setInputValue('');
+        setTimeout(() => {
+            validateFields().then(async values => {
+                const res = isWorth ? await portraitPublish(values) : await postPublish(values)
+                if (res.code == 1) {
+                    message.success('发布成功');
+                    setIsEdit(false)
+                    const obj: any = {}
+                    !isWorth && (obj.publish = 1)
+                    getList(obj)
+                }
+            }).catch((err) => {
+                message.error('请填写完整信息，再进行发布');
+            })
         })
     }
     // 删除
@@ -91,6 +105,16 @@ const Worth = ({ isWorth = true }: IWorth) => {
                     const res = await delPost({ id: record[key].id })
                     if (res.code != 1) return;
                 }
+                const list = getFieldsValue()[config.fieldName]
+                const arr: any = [];
+                originalData.map(v => {
+                    const id = v.id || v.rowKey
+                    const deleteId = list[key].id || list[key].rowKey
+                    if (id !== deleteId) {
+                        arr.push(v)
+                    }
+                })
+                setOriginalData(arr);
                 delete transferredData[key]
                 setTransferredData({ ...transferredData })
                 fn(key)
@@ -167,7 +191,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                                 <div>
                                     {
                                         tags?.map((tag: IFilterList, idx: number) => (
-                                            <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, key, idx)}>
+                                            <Tag key={tag.id} className={styles.tagSty} closable={isEdit} onClose={(e: MouseEvent<HTMLElement>) => deleteTag(e, name, idx)}>
                                                 {tag.name}
                                             </Tag>
                                         ))
@@ -183,7 +207,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
             title: config.tableHeader[3],
             dataIndex: 'operate',
             render: (text: any, field: any, index: number) => {
-                const record = (getFieldValue(config.fieldName) || [])
+                const record = (originalData || getFieldValue(config.fieldName) || [])
                 return (
                     <Button
                         onClick={() => deleteWorth(remove, index, record)}
@@ -194,19 +218,82 @@ const Worth = ({ isWorth = true }: IWorth) => {
         isEdit && arr.push(list)
         return arr
     }
+    // 搜索
+    const getMergeData = (oldData : any, newData: any) => {
+        const mergeData: any = newData.reduce((acc: any, cur: any) => {
+            const target = acc.find((e: any) => {
+                if (cur.id) {
+                    return e.id === cur.id
+                }
+                return e.rowKey === cur.rowKey
+            });
+            if (target) {
+                Object.assign(target, cur);
+            } else {
+                acc.push(cur);
+            }
+            return acc;
+        }, oldData);
+        setOriginalData(mergeData);
+        return mergeData;
+    };
+    const searchPortrait = (positionName: string) => {
+        if (isEdit) {
+            // 此处获取修改后的数据，与原始数据进行合并
+            const values = getFieldsValue();
+            const mergeData: any = getMergeData(originalData, values[config.fieldName]);
+            if (positionName === null || positionName === '') {
+                setFilterData(mergeData);
+                setFieldsValue({ [config.fieldName]: mergeData });
+            } else {
+                const filterArr = mergeData.filter((v: any) => v.name && v.name.includes(positionName))
+                setFilterData(filterArr);
+                setFieldsValue({ [config.fieldName]: filterArr });
+            }
+        } else {
+            const filterArr = originalData.filter(v => v.name.includes(positionName))
+            setFilterData(filterArr);
+            setFieldsValue({ [config.fieldName]: filterArr });
+        }
+    };
+    const keyDownPortrait = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            // 调用查询方法
+            searchPortrait(e.target.value);
+        }
+    };
+    const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    }
     return (
         <Fragment>
-            <div className={styles.worth_layout}>
+            <div className={styles.worth_layout} ref={layoutRef}>
                 <header>
                     <h1>{config.title}</h1>
                     <div className={styles.worth_headerRight}>
-                        {isEdit && <Button onClick={cancelClick}>取消</Button>}
-                        {!isEdit && <Button type="primary" onClick={edit}>编辑</Button>}
-                        {isEdit && <Button type="primary" onClick={publishClick}>发布</Button>}
+                        <div>
+                            <span className={styles.worth_headerRight_text}>{!isWorth ? '岗位：' : '价值观：'}</span>
+                            <Input
+                                suffix={isFocus ? null : <SearchOutlined />}
+                                allowClear={isFocus}
+                                value={inputValue}
+                                onKeyDown={(e) => keyDownPortrait(e)}
+                                onChange={changeInput}
+                                placeholder='请输入'
+                                style={{ width: '240px' }}
+                                onFocus={() => setIsFocus(true)}
+                                onBlur={() => setIsFocus(false)}
+                            />
+                        </div>
+                        <div>
+                            {isEdit && <Button onClick={cancelClick}>取消</Button>}
+                            {!isEdit && <Button type="primary" onClick={edit}>编辑</Button>}
+                            {isEdit && <Button type="primary" onClick={publishClick}>发布</Button>}
+                        </div>
                     </div>
                 </header>
                 <Form form={form} >
-                    <Form.List name={config.fieldName} >
+                    <Form.List name={config.fieldName}>
                         {(fields, { add, remove }) => (
                             <>
                                 <Table
@@ -218,7 +305,16 @@ const Worth = ({ isWorth = true }: IWorth) => {
                                     loading={loading}
                                     pagination={false} />
                                 <div className={styles.worth_add} >
-                                    {isEdit && <Button className={styles.worth_addWorth} onClick={() => add()} icon={<PlusCircleOutlined />} type="dashed" block>
+                                    {isEdit && <Button className={styles.worth_addWorth} onClick={() => {
+                                        setInputValue('');
+                                        const values = getFieldsValue();
+                                        const mergeData: any = getMergeData(originalData, values[config.fieldName]);
+                                        setFieldsValue({ [config.fieldName]: mergeData });
+                                        add({ rowKey: new Date().getTime() });
+                                        setTimeout(() => {
+                                            layoutRef.current.scrollTop = layoutRef.current.scrollHeight
+                                        })
+                                    }} icon={<PlusCircleOutlined />} type="dashed" block>
                                         {config.addText}
                                     </Button>}
                                     {/* <Button type="link">下载模板</Button>

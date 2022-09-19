@@ -447,7 +447,7 @@ const CA = ({ resultDetail }: any) => {
                 {
                   resultDetail?.results?.map((item: any, index: number) => (
                     <div key={item.simpleType} className={styles['page-two-bottom-type-position']}>
-                      <span>{item.type.split('：')[1]}岗位匹配：{resultDetail?.htmlDescList[index].matching}</span>
+                      <span>{item.type.split('：')[1]}岗位匹配：{resultDetail?.htmlDescList[index]?.matching}</span>
                     </div>
                   ))
                 }
@@ -498,7 +498,7 @@ const CA = ({ resultDetail }: any) => {
                       <div className={styles['page-four-bottom-content-item']}>
                         <span className={styles['page-four-bottom-content-item-text']}>
                           {
-                            resultDetail?.htmlDescList[index].character
+                            resultDetail?.htmlDescList[index]?.character
                           }
                         </span>
                       </div>
@@ -511,7 +511,7 @@ const CA = ({ resultDetail }: any) => {
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-four-bottom-content-item-text']}>
                           {
-                            resultDetail?.htmlDescList[index].decision
+                            resultDetail?.htmlDescList[index]?.decision
                           }
                         </span>
                       </div>
@@ -524,7 +524,7 @@ const CA = ({ resultDetail }: any) => {
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-four-bottom-content-item-text']}>
                           {
-                            resultDetail?.htmlDescList[index].features
+                            resultDetail?.htmlDescList[index]?.features
                           }
                         </span>
                       </div>

@@ -163,7 +163,7 @@ const index = () => {
   ]
   return (
     <div className={styles.userAuthority_layout}>
-      <h1>账号管理 </h1>
+      <h1 className={styles.userAuthority_title}>账号管理 </h1>
       <nav>
         <Form form={form} layout="inline">
           <Form.Item name="name" label="姓名">

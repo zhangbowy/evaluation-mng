@@ -47,7 +47,9 @@ export interface IRechargeUrl {
 export interface IExamListParams {
     curPage?: number;
     pageSize?: number;
-    isFinish?: number
+    isFinish?: number;
+    templateType?: string;
+    isOpen?: number
 }
 
 export interface IUnLockParams {

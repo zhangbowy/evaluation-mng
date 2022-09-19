@@ -4,16 +4,28 @@
     background-color: var(--white-color);
     padding: 0 32px 18px;
     overflow: scroll;
+    scroll-behavior: smooth;
 
     header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        // display: flex;
+        // align-items: center;
+        // justify-content: space-between;
         position: sticky;
         top: 0;
         z-index: 2;
         padding: 18px 0;
         background-color: #fff;
+        .worth_headerRight {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            .worth_headerRight_text {
+                font-size: 14px;
+                font-weight: 400;
+                color: #464C5B;
+            }
+        }
 
         h1 {
             font-size: 20px;
@@ -152,7 +164,10 @@
         table {
             thead {
                 border-radius: 3px 3px 0px 0px;
-
+                position: sticky;
+                top: 119px;
+                left: 0;
+                z-index: 3;
                 tr {
                     th {
                         background: #F5F7F9;
@@ -214,9 +229,13 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        margin-top: 15px;
         padding: 8px 0;
+        padding-top: 15px;
+        background-color: #fff;
         cursor: pointer;
+        position: sticky;
+        bottom: -24px;
+        left: 0;
 
         .worth_addWorth {
             padding: 0;

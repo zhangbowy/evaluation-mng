@@ -1,14 +1,22 @@
 .recruitEvaluation_layout {
   background-color: var(--white-color);
-  // overflow: auto;
+  overflow: auto;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
 
   .recruitEvaluation_content {
-    flex: auto;
-    overflow: auto;
-    padding: 24px 34px 0;
+    // flex: auto;
+    // overflow: auto;
+    padding: 0 34px 0;
+  }
+  .recruitEvaluation_table_wrap {
+    padding: 0 34px 0;
+    :global {
+      .ant-table-sticky-scroll {
+        display: none;
+      }
+    }
   }
 
   h1 {
@@ -16,7 +24,15 @@
     
     font-weight: 500;
     color: #464C5B;
-    margin-bottom: 32px;
+    // margin-bottom: 32px;
+  }
+  .recruitEvaluation_content_title {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    background-color: #fff;
+    padding: 24px 34px 32px;
   }
 
   nav {
@@ -144,6 +160,15 @@
       padding: 0;
       white-space: pre-wrap;
     }
+    // :global {
+    //   .ant-table-thead {
+    //     position: sticky;
+    //     top: 82px;
+    //     left: 0;
+    //     z-index: 3;
+    //   }
+    // }
+    
   }
 
   footer {

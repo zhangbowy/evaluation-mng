@@ -6,8 +6,16 @@
   // padding-bottom: 50px;
 
   .detail_nav {
-    padding: 25px 32px 0;
+    padding: 25px 32px 24px;
     font-size: 20px;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 3;
+  }
+  .detail_divider {
+    margin-top: 0;
   }
 
   .detail_content {
@@ -283,6 +291,12 @@
                 line-height: 17px;
                 margin-right: 5px;
               }
+              .detail_left_evaluation_content_item_name_no {
+                font-size: 12px;
+                color: #FF9900;
+                line-height: 17px;
+                margin-right: 5px;
+              }
             }
           }
         }
@@ -394,6 +408,30 @@
                   font-size: 12px;
                   cursor: pointer;
                 }
+                .detail_content_right_summary_consult_left_content_empty {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  img {
+                    width: 120px;
+                    height: 96px;
+                  }
+                  .detail_content_right_summary_consult_left_content_empty_text {
+                    font-size: 14px;
+                    color: #3E4043;
+                    font-weight: 400;
+                    line-height: 20px;
+                    margin-bottom: 8px;
+                  }
+                  .detail_content_right_summary_consult_left_content_empty_setting {
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #2B85FF;
+                    line-height: 20px;
+                    cursor: pointer;
+                  }
+                }
 
                 .detail_content_right_summary_consult_left_content_filter {
                   width: 100%;
@@ -501,7 +539,30 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-
+                .detail_content_right_summary_consult_right_content_empty {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  img {
+                    width: 120px;
+                    height: 96px;
+                  }
+                  .detail_content_right_summary_consult_right_content_empty_text {
+                    font-size: 14px;
+                    color: #3E4043;
+                    font-weight: 400;
+                    line-height: 20px;
+                    margin-bottom: 8px;
+                  }
+                  .detail_content_right_summary_consult_right_content_empty_setting {
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: #2B85FF;
+                    line-height: 20px;
+                    cursor: pointer;
+                  }
+                }
                 .detail_content_right_summary_consult_right_icon_wrap {
                   text-align: center;
                 }

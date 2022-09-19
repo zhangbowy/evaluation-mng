@@ -23,7 +23,7 @@ const PeopleReport = () => {
   const { setFieldValue } = form
   let timer: any;
   useEffect(() => {
-    if (Object.keys(SearchData.searchObj).length > 0) {
+    if (Object.keys(SearchData.searchObj).length > 0 && setFieldValue) {
       setFieldValue('name', SearchData.searchObj.name)
       setFieldValue('isDimission', SearchData.searchObj.isDimission)
       setFieldValue('deptId', SearchData.searchObj.deptId)
@@ -163,7 +163,7 @@ const PeopleReport = () => {
   ]
   return (
     <div className={styles.peopleReport_layout}>
-      <h1 id='peopleReport_title'>人才报告 </h1>
+      <h1 id='peopleReport_title' className={styles.peopleReport_title}>人才报告 </h1>
       <nav>
         <Form form={form} layout="inline">
           <Form.Item name="name" label="姓名">

@@ -61,6 +61,7 @@ const LookReport = () => {
                 examPaperId={examPaperId}
                 templateType={templateType}
                 isPeople={true}
+                isHaveSwitch={true}
             />
         </div>
     );
