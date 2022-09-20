@@ -196,7 +196,7 @@ const index = () => {
         <div className={styles.detail_main_title}>
           <span>账号列表</span>
           <div>
-            {/* <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button> */}
+            <Button id="addPermissions" onClick={onAddPeopleClick} type="primary">新建权限</Button>
           </div>
         </div>
         <Table loading={tableLoading}
