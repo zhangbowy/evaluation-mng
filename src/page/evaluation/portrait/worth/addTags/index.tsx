@@ -261,7 +261,12 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                                                                 <div className={styles.modal_lefHeader}>
                                                                     <Input
                                                                         value={inputValue}
-                                                                        onChange={(e) => { setInputValue(e.target.value) }}
+                                                                        onChange={(e) => {
+                                                                            setInputValue(e.target.value)
+                                                                            if (!e.target.value) {
+                                                                                search((e.target as HTMLInputElement).value);
+                                                                            }
+                                                                        }}
                                                                         allowClear
                                                                         placeholder="搜索标签"
                                                                         onKeyDown={(e) => keyDownTag(e)}

@@ -429,7 +429,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         <Button type="primary" onClick={onSearchClick}>搜索</Button>
                     </div>
                 </div>
-                <Divider style={{ margin: '8px 0 24px' }} />
+                <Divider style={{ margin: '8px 0 16px' }} />
                 <div className={styles.detail_main_table}>
                     <div className={styles.detail_main_title}>
                         <span>测评列表</span>
@@ -465,7 +465,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                                 disabled: record.status === 10,
                             })
                         } : undefined}
-                        sticky={{ offsetHeader: 81 }}
+                        sticky={{ offsetHeader: 133 }}
                     />
                 </div>
             </div>

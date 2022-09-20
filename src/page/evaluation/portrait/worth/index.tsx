@@ -150,7 +150,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
     }
     // 获取列
     const getColumns = (remove: (key: number) => void) => {
-        const arr = [
+        const arr: any = [
             {
                 title: config.tableHeader[0],
                 dataIndex: 'name',
@@ -206,6 +206,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
         const list = {
             title: config.tableHeader[3],
             dataIndex: 'operate',
+            width: 120,
             render: (text: any, field: any, index: number) => {
                 const record = (originalData || getFieldValue(config.fieldName) || [])
                 return (
@@ -264,6 +265,9 @@ const Worth = ({ isWorth = true }: IWorth) => {
     };
     const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
+        if (!e.target.value) {
+            searchPortrait((e.target as HTMLInputElement).value);
+        }
     }
     return (
         <Fragment>
