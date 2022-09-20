@@ -17,6 +17,7 @@ const LookReport = () => {
     const [reportDetailList, setReportDetailList] = useState<IReportDetail>()
     const pdfDetail: any = useRef();
     const [loading, setLoading] = useState<boolean>(false);
+    const [reportName, setReportName] = useState<string>('');
     const arr = params.people.split('~');
     const examPaperId = arr[0];
     const userId = arr[1];
@@ -34,6 +35,14 @@ const LookReport = () => {
         }
     }
 
+    useEffect(() => {
+        console.log(pdfDetail, 'pdfDetail')
+    }, [pdfDetail])
+
+    const sendTypeName = (name: string) => {
+        setReportName(name);
+    }
+
 
     return (
         <div className={styles.detail_layout}>
@@ -41,7 +50,7 @@ const LookReport = () => {
                 <Breadcrumb separator=">" className={styles.detail_nav}>
                     <Breadcrumb.Item href="#/evaluation/peopleReport">人才报告</Breadcrumb.Item>
                     <Breadcrumb.Item href={`#/evaluation/peopleReport/detail/${userId}`}>{reportDetailList?.name}</Breadcrumb.Item>
-                    <Breadcrumb.Item>查看报告</Breadcrumb.Item>
+                    <Breadcrumb.Item>{reportName}</Breadcrumb.Item>
                 </Breadcrumb>
                 {/* <Button 
                     type="primary"
@@ -62,6 +71,7 @@ const LookReport = () => {
                 templateType={templateType}
                 isPeople={true}
                 isHaveSwitch={true}
+                sendTypeName={sendTypeName}
             />
         </div>
     );

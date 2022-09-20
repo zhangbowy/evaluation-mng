@@ -127,7 +127,7 @@ function PdpResult({ chartsData = {}, sendNotice, openEvaluation }: any) {
       <div className={styles.pdp_result_header}>
         <div className={styles.pdp_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
         <Tooltip title={chartsData?.introduction ? chartsData?.introduction : ''}>
-          <div className={styles.pdp_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+          <div className={styles.pdp_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : 'PDP(待测试)'}</div>
         </Tooltip>
         {/* {
           (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.pdp_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>

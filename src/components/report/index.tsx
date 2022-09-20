@@ -21,7 +21,7 @@ const typeMap: any = {
     'MBTI': MBTIDetail,
     'DISC': DISCDetail,
     'PDP': PDPDetail,
-    'CA': CADetail
+    'CA': CADetail,
 }
 const typeFlag: any = {
     'MBTI': true,
@@ -30,7 +30,7 @@ const typeFlag: any = {
     'CA': false,
 }
 const ReportDetail = (props: any) => {
-    const { userId, examPaperId, isRecruit, templateType, isPeople, isHaveSwitch = false } = props;
+    const { userId, examPaperId, isRecruit, templateType, isPeople, isHaveSwitch = false, sendTypeName } = props;
     const [resultDetial, setResultDetial] = useState({ examTemplateType: '' });
     const [evaluationList, setEvaluationList] = useState<any[]>([]);
     const [currentExamPaperId, setCurrentExamPaperId] = useState<string>(examPaperId);
@@ -53,23 +53,40 @@ const ReportDetail = (props: any) => {
         })
     };
 
-    const { isFirst, isLast } = useMemo(() => {
-        const resultFlag = {
-            isFirst: true,
-            isLast: true
+    useEffect(() => {
+        for (let i = 0; i < evaluationList.length; i++) {
+            if (evaluationList[i].examTemplateType === currentTemplateType) {
+                sendTypeName && sendTypeName(evaluationList[i].examName)
+                return;
+            }
         }
-        const reportList = evaluationList.filter(v => v.answerStatus === 10).map(v => v.examPaperId);
-        const indexExam = reportList.indexOf(Number(currentExamPaperId));
+    }, [evaluationList, currentTemplateType])
+
+    const { isFirst, isLast, previousInfo, nextInfo } = useMemo(() => {
+        const resultFlag: any = {
+            isFirst: true,
+            isLast: true,
+            previousInfo: {},
+            nextInfo: {},
+        }
+        const reportList = evaluationList.filter(v => v.answerStatus === 10)
+        const reportListIds = reportList.map(v => v.examPaperId);
+        const indexExam = reportListIds.indexOf(Number(currentExamPaperId));
         if (indexExam === 0) {
             resultFlag.isFirst = true
+            resultFlag.previousInfo = {}
         } else {
             resultFlag.isFirst = false
+            resultFlag.previousInfo = reportList[indexExam - 1]
         }
-        if (indexExam === reportList.length - 1) {
+        if (indexExam === reportListIds.length - 1) {
             resultFlag.isLast = true
+            resultFlag.nextInfo = {}
         } else {
             resultFlag.isLast = false
+            resultFlag.nextInfo = reportList[indexExam + 1]
         }
+        console.log(resultFlag, 'resultFlag')
         return resultFlag;
     }, [evaluationList, currentExamPaperId, currentTemplateType])
 
@@ -215,16 +232,16 @@ const ReportDetail = (props: any) => {
             </div>
             {
                 isHaveSwitch && <div className={styles.pdfActions} ref={actionRef}>
-                    <div className={isFirst ? cs(styles.actions_item, styles.first) : styles.actions_item}>
-                        <Tooltip title={isFirst ? '当前是第一份报告' : ''}>
+                    <div className={isFirst ? cs(styles.actions_item, styles.first) : cs(styles.actions_item, styles.noFirst)}>
+                        <Tooltip title={isFirst ? '当前是第一份报告' : previousInfo?.examName}>
                             <span onClick={lastReport}>
                                 <i className='iconfont icon-jiantoushang' style={{ color: '#fff' }} />
                             </span>
                         </Tooltip>
                         <p className={styles.actions_item_text}>上一份报告</p>
                     </div>
-                    <div className={isLast ? cs(styles.actions_item, styles.last) : styles.actions_item}>
-                        <Tooltip title={isLast ? '当前是最后一份报告' : ''}>
+                    <div className={isLast ? cs(styles.actions_item, styles.last) : cs(styles.actions_item, styles.noFirst)}>
+                        <Tooltip title={isLast ? '当前是最后一份报告' : nextInfo?.examName}>
                             <span onClick={nextReport}>
                                 <i className='iconfont icon-jiantouxia'  style={{ color: '#fff' }} />
                             </span>

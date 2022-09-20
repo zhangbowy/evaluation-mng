@@ -454,7 +454,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         rowKey={(row) => row.userId}
                         columns={columns}
                         dataSource={tableList?.resultList}
-                        rowSelection={{
+                        rowSelection={isUrge ? {
                             type: 'checkbox',
                             selectedRowKeys: selectKeys,
                             onChange: (selectedRowKeys, selectedRow, info) => {
@@ -464,7 +464,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                             getCheckboxProps: (record: any) => ({
                                 disabled: record.status === 10,
                             })
-                        }}
+                        } : undefined}
                         sticky={{ offsetHeader: 81 }}
                     />
                 </div>
