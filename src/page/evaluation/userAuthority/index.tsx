@@ -202,6 +202,7 @@ const index = () => {
         <Table loading={tableLoading}
           pagination={paginationObj}
           columns={columns}
+          sticky={{ offsetHeader: 82 }}
           rowKey={(res) => res.userId} dataSource={userList} />
       </main>
     </div>

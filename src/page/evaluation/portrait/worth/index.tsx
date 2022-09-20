@@ -303,6 +303,7 @@ const Worth = ({ isWorth = true }: IWorth) => {
                                     rowKey='key'
                                     columns={getColumns(remove)}
                                     loading={loading}
+                                    sticky={{ offsetHeader: 120 }}
                                     pagination={false} />
                                 <div className={styles.worth_add} >
                                     {isEdit && <Button className={styles.worth_addWorth} onClick={() => {

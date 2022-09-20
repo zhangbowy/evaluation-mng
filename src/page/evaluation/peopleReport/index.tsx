@@ -191,7 +191,10 @@ const PeopleReport = () => {
         <Table loading={tableLoading}
           pagination={paginationObj}
           columns={columns}
-          rowKey={(res) => res.userId} dataSource={reportList} />
+          rowKey={(res) => res.userId}
+          dataSource={reportList}
+          sticky={{ offsetHeader: 82 }}
+          />
       </main>
     </div>
   )

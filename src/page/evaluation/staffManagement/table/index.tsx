@@ -149,7 +149,7 @@ const Tables: FC<Props> = ({ height, searchForm, isReload, setIsReload }: Props)
 
   return (
     <Fragment>
-      <Table columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} pagination={{ showQuickJumper: true, pageSize: pageSize, total: totalItem, current: curPage, showTotal: () => `共 ${totalItem} 条数据`, pageSizeOptions: ["10", "20", "50", "100"], onChange: handlePaging }} />
+      <Table sticky={{ offsetHeader: 100 }} columns={columns} dataSource={tableList} loading={tableLoading} rowKey={record => record.userId} pagination={{ showQuickJumper: true, pageSize: pageSize, total: totalItem, current: curPage, showTotal: () => `共 ${totalItem} 条数据`, pageSizeOptions: ["10", "20", "50", "100"], onChange: handlePaging }} />
       <ModalEdit visible={modalVisible} item={item as DataType} setModalVisible={setModalVisible} reloadList={reloadList} />
     </Fragment>
   )
