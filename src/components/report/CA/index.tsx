@@ -66,7 +66,7 @@ const CA = ({ resultDetail }: any) => {
   const containerRef: any = useRef();
   const columnsRef: any = useRef();
   const groupRef: any = useRef();
-  const [resultList, setResultList] = useState<any>();
+  // const [resultList, setResultList] = useState<any>();
   const [otherResult, setOtherResult] = useState<any>([]);
   const [typeStr, setTypeStr] = useState<string>('');
   const appType = getAppIdType()

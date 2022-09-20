@@ -523,7 +523,7 @@ const Detail = () => {
                       </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_left_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.valuesMatchDTO?.totalMatch ? totalData?.valuesMatchDTO?.totalMatch : '0'}%`}
+                      {!isFinish ? '-' : `${totalData?.valuesMatchDTO?.totalMatch ? totalData?.valuesMatchDTO?.totalMatch : '0'}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_left_content}>
@@ -582,7 +582,7 @@ const Detail = () => {
                       </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_right_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.positionMatchDTO?.totalMatch ? totalData?.positionMatchDTO?.totalMatch : '0'}%`}
+                      {!isFinish ? '-' : `${totalData?.positionMatchDTO?.totalMatch ? totalData?.positionMatchDTO?.totalMatch : '0'}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_right_content}>

@@ -333,6 +333,11 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         setSelectKeys([]);
         setIsUrge(false);
     };
+    // 对象数组去重
+    const uniqueFunc = (arr: any, uniId: string) =>{
+        const res = new Map();
+        return arr.filter((item: any) => !res.has(item[uniId]) && res.set(item[uniId], 1));
+    };
     // 处理表格勾选的数据
     const tableCheckData = (selectData: any) => {
         let copyData = selectKeys;
@@ -352,7 +357,8 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             } 
         }
         finallyData = [...new Set(finallyData)];
-        finallyInfoData = [...new Set(finallyInfoData)];
+        finallyInfoData = uniqueFunc(finallyInfoData, 'examPaperId');
+        console.log(finallyData, finallyInfoData);
         setSelectKeys(finallyData);
         setSelectInfo(finallyInfoData);
     }
@@ -431,7 +437,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                             {
                                 isUrge ? <>
                                     <Button onClick={closeBatch}>取消</Button>
-                                    <Button onClick={confirmUrge} type="primary">确定催办({selectKeys.length})</Button>
+                                    <Button disabled={selectKeys.length === 0} onClick={confirmUrge} type="primary">确定催办({selectKeys.length})</Button>
                                 </>
                                     :<>
                                         <Button type="primary" ghost onClick={startBatch}>批量催办</Button>

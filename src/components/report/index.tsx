@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import styles from './index.module.less';
 import { getExamResult, getUserExamResult, getPDFResult, getAllExam } from '@/api/api';
 import { TagSort } from '@/components/report/MBTI/type';
@@ -35,7 +35,7 @@ const ReportDetail = (props: any) => {
     const [evaluationList, setEvaluationList] = useState<any[]>([]);
     const [currentExamPaperId, setCurrentExamPaperId] = useState<string>(examPaperId);
     const [currentTemplateType, setCurrentTemplateType] = useState<string>(templateType);
-    const [positionY, setPositionY] = useState<number>(0);
+    // const [positionY, setPositionY] = useState<number>(0);
     const reportRef: any = useRef();
     const actionRef: any = useRef();
     // const pdfDetail: any = useRef();
@@ -55,16 +55,20 @@ const ReportDetail = (props: any) => {
 
     const { isFirst, isLast } = useMemo(() => {
         const resultFlag = {
-            isFirst: false,
-            isLast: false
+            isFirst: true,
+            isLast: true
         }
         const reportList = evaluationList.filter(v => v.answerStatus === 10).map(v => v.examPaperId);
         const indexExam = reportList.indexOf(Number(currentExamPaperId));
         if (indexExam === 0) {
             resultFlag.isFirst = true
+        } else {
+            resultFlag.isFirst = false
         }
         if (indexExam === reportList.length - 1) {
             resultFlag.isLast = true
+        } else {
+            resultFlag.isLast = false
         }
         return resultFlag;
     }, [evaluationList, currentExamPaperId, currentTemplateType])
