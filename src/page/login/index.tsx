@@ -17,13 +17,7 @@ const Login = () => {
     const roles: any = item.user.roles.length > 0 ? item.user.roles.map((v: any) => v.roleKey) : []
     const authFlag = roles.includes('ADMIN');
     const supervisorFlag = roles.includes('SUPERVISOR')
-    if (authFlag) {
-      navigate(`/evaluation/management`)
-    } else if (supervisorFlag) {
-      navigate(`/evaluation/peopleReport`)
-    } else {
-      navigate(`/403/99999`)
-    }
+    authFlag ? navigate(`/evaluation/management`) : supervisorFlag ? navigate(`/evaluation/peopleReport`) : navigate(`/403/99999`)
     // authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
   }
   useEffect(() => {
