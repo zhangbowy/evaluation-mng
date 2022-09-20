@@ -15,8 +15,9 @@ const Login = () => {
     window.sessionStorage.setItem('QCP_B_TOKEN', item.token);
     window.sessionStorage.setItem('QCP_B_USER', JSON.stringify(item.user));
     const roles: any = item.user.roles.length > 0 ? item.user.roles.map((v: any) => v.roleKey) : []
-    const authFlag = roles.includes('SUPERVISOR') || roles.includes('ADMIN');
-    authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
+    const authFlag = roles.includes('ADMIN');
+    const supervisorFlag = roles.includes('SUPERVISOR')
+    authFlag ? navigate(`/evaluation/management`) : supervisorFlag ? navigate(`/evaluation/peopleReport`) : navigate(`/403/99999`)
   }
   useEffect(() => {
     if (authCode) {
