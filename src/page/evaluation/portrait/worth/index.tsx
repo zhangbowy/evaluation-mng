@@ -278,12 +278,13 @@ const Worth = ({ isWorth = true }: IWorth) => {
                         <div>
                             <span className={styles.worth_headerRight_text}>{!isWorth ? '岗位：' : '价值观：'}</span>
                             <Input
-                                suffix={isFocus ? null : <SearchOutlined />}
-                                allowClear={isFocus}
+                                // suffix={isFocus ? null : <SearchOutlined />}
+                                // allowClear={isFocus}
+                                allowClear
                                 value={inputValue}
                                 onKeyDown={(e) => keyDownPortrait(e)}
                                 onChange={changeInput}
-                                placeholder='请输入'
+                                placeholder={config.placeholder}
                                 style={{ width: '240px' }}
                                 onFocus={() => setIsFocus(true)}
                                 onBlur={() => setIsFocus(false)}

@@ -268,7 +268,7 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
                                                                             }
                                                                         }}
                                                                         allowClear
-                                                                        placeholder="搜索标签"
+                                                                        placeholder="搜索标签（按Enter搜索）"
                                                                         onKeyDown={(e) => keyDownTag(e)}
                                                                     />
                                                                 </div>
