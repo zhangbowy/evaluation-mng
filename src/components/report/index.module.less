@@ -1,5 +1,81 @@
 .pdfDetail {
     width: 832px;
     border: 1px solid #D7DDE4;
+    // margin: auto;
+}
+.detailWrap {
+    width: 1000px;
     margin: auto;
+    display: flex;
+    position: relative;
+}
+.noSwitch {
+    width: 832px;
+}
+.pdfActions {
+    position: absolute;
+    right: 0;
+    top: 100px;
+    margin-left: 60px;
+    // margin-right: 18px;
+    // position: absolute;
+    // top: 0;
+    // right: 0;
+    // position: fixed;
+    // top: calc(50% - 124px);
+    // right: 80px;
+    // position: sticky;
+    // top: 0;
+    // left: 0;
+    .actions_item {
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 67px;
+        span {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            // background-color: #92bdfd;
+            background-color: #2b85ff;
+            margin-bottom: 11px;
+            cursor: pointer;
+        }
+        .actions_item_text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2B85FF;
+            line-height: 20px;
+        }
+    }
+    .noFirst {
+        &:hover {
+            span {
+                background-color: #5CADFF;
+            }
+            .actions_item_text {
+                color: #5CADFF;
+            }
+        }
+    }
+    .first {
+        span {
+            background-color: #92bdfd;
+        }
+        .actions_item_text {
+            color: #92bdfd;
+        }
+    }
+    .last {
+        span {
+            background-color: #92bdfd;
+        }
+        .actions_item_text {
+            color: #92bdfd;
+        }
+    }
 }

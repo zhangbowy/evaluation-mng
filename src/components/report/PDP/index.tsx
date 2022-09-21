@@ -239,7 +239,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 <div className={styles['page-three-trait-title']}>个性特点</div>
                 <div className={styles['page-three-trait-content']}>
                   {
-                    v.personality.map((item: any) => (
+                    v.personality?.map((item: any) => (
                       <div key={item} className={styles['page-three-trait-content-item']}>{item}</div>
                     ))
                   }
@@ -252,7 +252,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 </div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.advantage.map((adv: any) => (
+                    v.advantage?.map((adv: any) => (
                       <div key={adv} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{adv}</span>
@@ -268,7 +268,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 </div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.shortcoming.map((s: any) => (
+                    v.shortcoming?.map((s: any) => (
                       <div key={s} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{s}</span>
@@ -281,7 +281,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 <div className={cs(styles['page-three-adv-title'])}>工作风格</div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.styleList.map((item: any) => (
+                    v.styleList?.map((item: any) => (
                       <div key={item} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{item}</span>
@@ -294,7 +294,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 <div className={styles['page-three-adv-title']}>关键特质</div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.keyFeatures.map((item: string) => (
+                    v.keyFeatures?.map((item: string) => (
                       <div key={item} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{item}</span>
@@ -307,7 +307,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 <div className={styles['page-three-adv-title']}>作为领导</div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.leader.map((item: string) => (
+                    v.leader?.map((item: string) => (
                       <div key={item} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{item}</span>
@@ -320,7 +320,7 @@ const CA = ({ resultDetail = {} }: any) => {
                 <div className={styles['page-three-adv-title']}>适合工作</div>
                 <div className={styles['page-three-adv-content']}>
                   {
-                    v.work.map((item: string) => (
+                    v.work?.map((item: string) => (
                       <div key={item} className={styles['page-three-adv-content-item']}>
                         <span className={styles['page-three-adv-content-item-point']}></span>
                         <span className={styles['page-three-adv-content-item-text']}>{item}</span>

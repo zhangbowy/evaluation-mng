@@ -143,7 +143,7 @@ const CA = ({ resultDetail }: any) => {
   };
   useEffect(() => {
     if (resultDetail) {
-      radarMap()
+      // radarMap()
       columnMap()
       groupColumnMap();
       // funnelMap();
@@ -431,9 +431,12 @@ const CA = ({ resultDetail }: any) => {
             二、测评结果分析
           </div>
           <div className={cs(styles['page-content'], styles['page-two'])}>
-            <div className={styles['page-two-top']}>
+            {/* <div className={styles['page-two-top']}>
               <div className={cs(styles['page-two-title'], styles.title)}>职业锚测试饼图</div>
               <div ref={containerRef} />
+            </div> */}
+            <div className={styles['page-two-top']}>
+              <div className={cs(styles['page-two-title'], styles.title)}>德才测评结果</div>
             </div>
             <div className={styles['page-two-bottom']}>
               <div className={styles.title}>你的职业锚类型是</div>

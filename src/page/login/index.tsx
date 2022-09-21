@@ -18,6 +18,7 @@ const Login = () => {
     const authFlag = roles.includes('ADMIN');
     const supervisorFlag = roles.includes('SUPERVISOR')
     authFlag ? navigate(`/evaluation/management`) : supervisorFlag ? navigate(`/evaluation/peopleReport`) : navigate(`/403/99999`)
+    // authFlag ? navigate(`/evaluation/management`) : navigate(`/403/99999`);
   }
   useEffect(() => {
     if (authCode) {

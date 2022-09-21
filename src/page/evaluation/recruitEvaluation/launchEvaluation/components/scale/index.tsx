@@ -7,19 +7,33 @@ import { IExamTemplateList, propsType, titleType } from './type';
 import styles from './index.module.less';
 import { getExamTemplateList, UnLockReport } from '@/api/api';
 import { CountContext } from '@/utils/context'
+import Introduce from '../introduce';
 
 const cx = classNames.bind(styles);
 const { confirm } = Modal;
 const checkSvg = 'https://qzz-static.forwe.store/evaluation-mng/imgs/qcp_mng_recruit_hook.svg';
 const Scale = ({ setStampsNum }: propsType) => {
   const [data, setData] = useState<IExamTemplateList[]>([]);
-  const [selectScale, setSelectScale] = useState<number>();
+  const [selectScale, setSelectScale] = useState<number[]>([]);
+  const [priceTotal, setPriceTotal] = useState<number>(0);
+  const [visible, setVisible] = useState<boolean>(false);
   const { dispatch } = useContext(CountContext);
 
   const qcp_user = JSON.parse(sessionStorage.getItem('QCP_B_USER') || '{}');
   const onSelectScale = (index: number) => {
-    setSelectScale(data[index].id);
-    setStampsNum && setStampsNum(data[index].examCouponCommodityDetail.pointPrice, data[index].type)
+    // const dataArr = selectScale;
+    const priceTotalCopy: number = data[index].examCouponCommodityDetail.pointPrice;
+    // if (dataArr.includes(data[index].id)) {
+    //   const delIdx = dataArr.indexOf(data[index].id)
+    //   dataArr.splice(delIdx, 1);
+    //   priceTotalCopy -= data[index].examCouponCommodityDetail.pointPrice
+    // } else {
+    //   priceTotalCopy += data[index].examCouponCommodityDetail.pointPrice
+    //   dataArr.push(data[index].id)
+    // }
+    setSelectScale([data[index].id]);
+    setPriceTotal(priceTotalCopy);
+    setStampsNum && setStampsNum(priceTotalCopy, data[index].type)
   };
 
   const getExamTemplate = () => {
@@ -77,6 +91,13 @@ const Scale = ({ setStampsNum }: propsType) => {
       },
     });
   };
+  const openDrawer = (item: any) => {
+    setVisible(true);
+    console.log(item, 'item');
+  };
+  const closeDrawer = () => {
+    setVisible(false);
+  };
   useEffect(() => {
     getExamTemplate();
   }, [])
@@ -102,22 +123,32 @@ const Scale = ({ setStampsNum }: propsType) => {
               'scale_career': v.type === 'CA',
               'scale_personality': v.type === 'CPI',
               'scale_disc': v.type === 'DISC',
-              'selected': v.id === selectScale
+              'selected': selectScale?.includes(v.id)
             })}
             onClick={() => onSelectScale(index)}
             key={v.id}
           >
             <div className={styles.scale_item_select}>
               {
-                v.id === selectScale ? <img src={checkSvg} alt='check' /> : null
+                selectScale?.includes(v.id) ? <img src={checkSvg} alt='check' /> : null
               }
             </div>
             <div className={styles.scale_item_title}>
               {title[v.type]}
             </div>
             <div className={styles.scale_item_content}>
+              {/* {v.title.split('（')[0]} */}
               {v.includeText}
             </div>
+            {/* <div
+              onClick={(e) => {
+                e.stopPropagation();
+                openDrawer(v)
+              }}
+              className={styles.scale_item_introduce}
+            >
+              查看介绍&gt;
+            </div> */}
           </div>
         } else {
           return (
@@ -145,6 +176,7 @@ const Scale = ({ setStampsNum }: propsType) => {
         }
       })
     }
+    <Introduce visible={visible} closeDrawer={closeDrawer} />
   </div>
 }
 
