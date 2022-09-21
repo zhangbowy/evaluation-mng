@@ -36,8 +36,9 @@ const AddTags = forwardRef((props: IPropsParams, ref) => {
     // 弹窗打开事件
     const onOpenClick = async (item: IFilterList[], isWorth: boolean) => {
         const data = await getTags(isWorth)
+        const copyItem = JSON.parse(JSON.stringify(item));
         setIsWorth(isWorth)
-        setTagsArr(item) // 设置当前已选数组
+        setTagsArr(copyItem) // 设置当前已选数组
         setIsModalVisible(true);
         setIndeterminate(!!item.length && item.length != (data[0]?.tags || []).length);
         setCheckAll(item.length == (data[0]?.tags || []).length);
