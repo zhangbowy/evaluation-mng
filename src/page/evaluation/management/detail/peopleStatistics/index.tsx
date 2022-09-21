@@ -239,15 +239,51 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         getTableList()
     }
     // 导出
+    const getBlob = (url: string, cb: any) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+                if (xhr.status === 200) {
+                    cb(xhr.response);
+                }
+        };
+        xhr.send();
+    }
+    const saveAs = (blob: any, filename: string) => {
+        const link = document.createElement('a');
+        const body = document.querySelector('body');
+
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+
+        // fix Firefox
+        link.style.display = 'none';
+        if (body) {
+            body.appendChild(link);
+            link.click();
+            setExportLoading(false)
+        }
+        
+        if (body) {
+            body.removeChild(link);
+        }
+        window.URL.revokeObjectURL(link.href);
+    }
+    const download = (url: string, filename: string) => {
+        getBlob(url, function(blob: any) {
+            saveAs(blob, filename);
+        });
+    };
     const onDeriveClick = async () => {
         setExportLoading(true)
         const res = await measurementExport(params.id)
         if (res.code == 1) {
-            const a = document.createElement('a')
-            a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
-            a.download = res.data.cname
-            a.click()
-            setExportLoading(false)
+            // const a = document.createElement('a')
+            // a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
+            // a.download = res.data.cname
+            // a.click()
+            download(`${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`, res.data.cname)
         }
     }
     // 关闭loading
