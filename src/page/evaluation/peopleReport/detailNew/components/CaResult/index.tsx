@@ -85,7 +85,11 @@ function CaResult({ chartsData = {}, sendNotice, openEvaluation }: any) {
       <div className={styles.ca_result_header}>
         <div className={styles.ca_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
         <Tooltip title={chartsData?.introduction ? chartsData?.introduction : ''}>
-          <div className={styles.ca_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '职业锚(待测试)'}</div>
+          <div className={styles.ca_result_header_tips}>
+            <span>
+              {chartsData?.introduction ? chartsData?.introduction : '职业锚(待测试)'}
+            </span>
+          </div>
         </Tooltip>
         {/* {
           (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.ca_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
