@@ -111,7 +111,7 @@ const Scale = ({ setStampsNum }: propsType) => {
           'CA': '职业锚',
           'CPI': '人格魅力',
           "DISC": "DISC",
-          'XD-01': '胜任力'
+          'XD-01': '职业胜任力'
         }
         // const title = v.type === 'MBTI' ? 'MBTI' : v.type === 'PDP' ? 'PDP'
         //   : v.type === 'CA' ? '职业锚' : v.type === 'CPI' ? '人格魅力' : ''

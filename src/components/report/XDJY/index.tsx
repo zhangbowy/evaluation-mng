@@ -382,10 +382,10 @@ const CA = ({ resultDetail }: any) => {
             <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon1.png" />
           </div>
           <div className={styles.header}>
-            <p>[职业锚]</p>
-            <p className={styles.fw_600}>人才匹配测评</p>
+            <p>[行动教育]</p>
+            <p className={styles.fw_600}>职业胜任力测评</p>
             <p className={styles.title}>测评报告</p>
-            <p className={styles.pro}>careeranchor</p>
+            <p className={styles.pro}>Post competency evaluation</p>
           </div>
         </div>
         <div className={styles['user-info']}>
