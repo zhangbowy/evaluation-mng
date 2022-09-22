@@ -37,7 +37,9 @@ const Scale = ({ setStampsNum }: propsType) => {
   };
 
   const getExamTemplate = () => {
-    getExamTemplateList().then((res: IBack) => {
+    getExamTemplateList({
+      fromType: 1
+    }).then((res: IBack) => {
       const { code, data } = res;
       if (code === 1) {
         setData(data);

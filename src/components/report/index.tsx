@@ -32,6 +32,13 @@ const typeFlag: any = {
     'CA': false,
     'XD-01': false
 }
+const templateName: any = {
+    'MBTI': '个性与职业规划（MBTI专业版）',
+    'DISC': '人才甄选测评（DISC）',
+    'PDP': '职业性格测评（PDP）',
+    'CA': '人岗匹配测评（职业锚）',
+    'XD-01': '行动教育人才胜任力测评'
+}
 const ReportDetail = (props: any) => {
     const { userId, examPaperId, isRecruit, templateType, isPeople, isHaveSwitch = false, sendTypeName } = props;
     const [resultDetial, setResultDetial] = useState({ examTemplateType: '' });
@@ -100,6 +107,8 @@ const ReportDetail = (props: any) => {
     useEffect(() => {
         if (!isRecruit) {
             getAllExamResult();
+        } else {
+            sendTypeName && sendTypeName(templateName[currentTemplateType])
         }
     }, []);
 
