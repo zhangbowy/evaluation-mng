@@ -385,7 +385,7 @@ const CA = ({ resultDetail }: any) => {
             <p>[行动教育]</p>
             <p className={styles.fw_600}>职业胜任力测评</p>
             <p className={styles.title}>测评报告</p>
-            <p className={styles.pro}>Post competency evaluation</p>
+            <p className={styles.pro}>post competency evaluation</p>
           </div>
         </div>
         <div className={styles['user-info']}>
