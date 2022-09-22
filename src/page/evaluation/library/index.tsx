@@ -55,7 +55,7 @@ const Library = (props: { type?: number }) => {
   }
   // 获取测评库列表
   const getLibraryList = async () => {
-    const res: IBack = await getExamTemplateList();
+    const res: IBack = await getExamTemplateList({});
     if (res.code == 1) {
       setLibraryList(res.data)
       setLibraryLoading(false)
