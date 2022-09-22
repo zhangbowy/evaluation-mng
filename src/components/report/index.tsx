@@ -9,6 +9,7 @@ import DISCDetail from './DISC';
 import PDPDetail from './PDP';
 import CADetail from './CA';
 import MBTIDetail from './MBTI'
+import XDJYDetail from './XDJY'
 import { abilityList, discData } from '@/assets/data';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 import cs from 'classnames';
@@ -22,12 +23,14 @@ const typeMap: any = {
     'DISC': DISCDetail,
     'PDP': PDPDetail,
     'CA': CADetail,
+    'XD-01': XDJYDetail
 }
 const typeFlag: any = {
     'MBTI': true,
     'DISC': false,
     'PDP': false,
     'CA': false,
+    'XD-01': false
 }
 const ReportDetail = (props: any) => {
     const { userId, examPaperId, isRecruit, templateType, isPeople, isHaveSwitch = false, sendTypeName } = props;
@@ -103,7 +106,9 @@ const ReportDetail = (props: any) => {
     const handleScroll = () => {
         const reportParentNode = reportRef.current.parentNode.scrollTop;
         // setPositionY(reportParentNode);
-        actionRef.current.style.top = `${reportParentNode + 100}px`
+        if (actionRef.current) {
+            actionRef.current.style.top = `${reportParentNode + 100}px`
+        }
     }
 
     useEffect(() => {
