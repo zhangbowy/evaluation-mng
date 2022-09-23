@@ -159,13 +159,13 @@ const RecruitEvaluation = () => {
       const curExam = urlData.data.filter((co: ISelectPdfStatusBack) => (co.exam_paper_id + '') == record.examPaperId)
       if (curExam.length > 0) {
         if (curExam[0].oss_url && curExam[0].status == 1) {
-          downloadFile(curExam[0].oss_url, `${record.templateTitle}.pdf`)
+          downloadFile(curExam[0].oss_url, `${record.templateTitle}-${record.name}.pdf`)
           onCloseLoading(record.examPaperId)
         } else {
           tasksPdf.current.push({
             examPaperId: record.examPaperId,
             taskId: curExam[0].task_id,
-            fileName: `${record.templateTitle}.pdf`
+            fileName: `${record.templateTitle}-${record.name}.pdf`
           })
           polling()
         }
@@ -182,7 +182,7 @@ const RecruitEvaluation = () => {
           tasksPdf.current.push({
             examPaperId: record.examPaperId,
             taskId: res.data,
-            fileName: `${record.templateTitle}.pdf`
+            fileName: `${record.templateTitle}-${record.name}.pdf`
           })
           polling()
         } else {
