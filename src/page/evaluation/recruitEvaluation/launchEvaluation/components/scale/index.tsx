@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import { message } from 'antd';
+import { message, Tooltip } from 'antd';
 import { CheckOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { Modal } from 'antd';
 import { IExamTemplateList, propsType, titleType } from './type';
@@ -37,7 +37,9 @@ const Scale = ({ setStampsNum }: propsType) => {
   };
 
   const getExamTemplate = () => {
-    getExamTemplateList().then((res: IBack) => {
+    getExamTemplateList({
+      fromType: 1
+    }).then((res: IBack) => {
       const { code, data } = res;
       if (code === 1) {
         setData(data);
@@ -111,6 +113,7 @@ const Scale = ({ setStampsNum }: propsType) => {
           'CA': '职业锚',
           'CPI': '人格魅力',
           "DISC": "DISC",
+          'XD-01': '职业胜任力'
         }
         // const title = v.type === 'MBTI' ? 'MBTI' : v.type === 'PDP' ? 'PDP'
         //   : v.type === 'CA' ? '职业锚' : v.type === 'CPI' ? '人格魅力' : ''
@@ -123,6 +126,7 @@ const Scale = ({ setStampsNum }: propsType) => {
               'scale_career': v.type === 'CA',
               'scale_personality': v.type === 'CPI',
               'scale_disc': v.type === 'DISC',
+              'scale_xd': v.type === 'XD-01',
               'selected': selectScale?.includes(v.id)
             })}
             onClick={() => onSelectScale(index)}
@@ -136,10 +140,12 @@ const Scale = ({ setStampsNum }: propsType) => {
             <div className={styles.scale_item_title}>
               {title[v.type]}
             </div>
-            <div className={styles.scale_item_content}>
-              {/* {v.title.split('（')[0]} */}
-              {v.includeText}
-            </div>
+            <Tooltip title={v.includeText} placement='bottom'>
+              <div className={styles.scale_item_content}>
+                {/* {v.title.split('（')[0]} */}
+                {v.includeText}
+              </div>
+            </Tooltip>
             {/* <div
               onClick={(e) => {
                 e.stopPropagation();
@@ -165,9 +171,11 @@ const Scale = ({ setStampsNum }: propsType) => {
               <div className={styles.scale_item_title}>
                 {title[v.type]}
               </div>
-              <div className={styles.scale_item_content}>
-                {v.includeText}
-              </div>
+              <Tooltip title={v.includeText}>
+                <div className={styles.scale_item_content}>
+                  {v.includeText}
+                </div>
+              </Tooltip>
               <div onClick={() => onUnlock(v)} className={styles.scale_item_mark}>
                 <span>点击解锁</span>
               </div>

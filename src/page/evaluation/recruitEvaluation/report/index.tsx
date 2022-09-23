@@ -12,17 +12,21 @@ const LookReport = () => {
     const params = useParams() as { people: string }
     const pdfDetail: any = useRef();
     const [loading, setLoading] = useState<boolean>(false);
+    const [reportName, setReportName] = useState<string>('');
     const arr = params.people.split('~');
     const examPaperId = arr[0];
     const userId = arr[1];
     const templateType = arr[2];
 
+    const sendTypeName = (name: string) => {
+        setReportName(name);
+    }
     return (
         <div className={styles.detail_layout}>
             <header>
                 <Breadcrumb separator=">" className={styles.detail_nav}>
                     <Breadcrumb.Item href="#/evaluation/recruitEvaluation">招聘测评</Breadcrumb.Item>
-                    <Breadcrumb.Item>查看报告</Breadcrumb.Item>
+                    <Breadcrumb.Item>{reportName}</Breadcrumb.Item>
                 </Breadcrumb>
                 {/* <Button 
                     type="primary"
@@ -42,6 +46,7 @@ const LookReport = () => {
                 examPaperId={examPaperId}
                 isRecruit={true}
                 templateType={templateType}
+                sendTypeName={sendTypeName}
             />
         </div>
     );

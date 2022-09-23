@@ -102,10 +102,10 @@ const CA = ({ resultDetail }: any) => {
         {
           name: 'Funnel',
           type: 'funnel',
-          left: '0',
+          left: 'center',
           top: 60,
           bottom: 60,
-          width: '80%',
+          width: '55%',
           min: 0,
           max: 8,
           minSize: '0%',
@@ -143,7 +143,7 @@ const CA = ({ resultDetail }: any) => {
   };
   useEffect(() => {
     if (resultDetail) {
-      // radarMap()
+      radarMap()
       columnMap()
       groupColumnMap();
       // funnelMap();
@@ -178,7 +178,7 @@ const CA = ({ resultDetail }: any) => {
     const radarPlot = new Pie(containerRef.current, {
       data: dataPie,
       appendPadding: 10,
-      height: 250,
+      // height: 250,
       angleField: 'a',
       colorField: 'item',
       radius: 0.65,
@@ -206,7 +206,7 @@ const CA = ({ resultDetail }: any) => {
       yField: 'value',
       seriesField: '',
       maxColumnWidth: 40,
-      height: 250,
+      height: 300,
       columnWidthRatio: 0.3,
       color: ({ type }) => {
         if (type === '管理型') {
@@ -313,7 +313,7 @@ const CA = ({ resultDetail }: any) => {
       xField: 'type',
       yField: 'score',
       seriesField: 'name',
-      height: 250,
+      height: 300,
       columnWidthRatio: 0.5,
       // 分组柱状图 组内柱子间的间距 (像素级别)
       dodgePadding: 2,
@@ -382,10 +382,10 @@ const CA = ({ resultDetail }: any) => {
             <img src="https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_ca_icon1.png" />
           </div>
           <div className={styles.header}>
-            <p>[职业锚]</p>
-            <p className={styles.fw_600}>人才匹配测评</p>
+            <p>[行动教育]</p>
+            <p className={styles.fw_600}>职业胜任力测评</p>
             <p className={styles.title}>测评报告</p>
-            <p className={styles.pro}>careeranchor</p>
+            <p className={styles.pro}>post competency evaluation</p>
           </div>
         </div>
         <div className={styles['user-info']}>
@@ -431,15 +431,48 @@ const CA = ({ resultDetail }: any) => {
             二、测评结果分析
           </div>
           <div className={cs(styles['page-content'], styles['page-two'])}>
-            {/* <div className={styles['page-two-top']}>
-              <div className={cs(styles['page-two-title'], styles.title)}>职业锚测试饼图</div>
-              <div ref={containerRef} />
-            </div> */}
             <div className={styles['page-two-top']}>
               <div className={cs(styles['page-two-title'], styles.title)}>德才测评结果</div>
+              <div className={styles['page-two-top-score']}>
+                {
+                  resultDetail?.otherScoreDetail?.map((t: any) => (
+                    <div key={t.groupType} className={styles['page-two-top-score-type']}>
+                      <div className={styles['page-two-top-score-type-total']}>
+                        <span>{t.groupType}：</span>
+                        <span>{t.score}分</span>
+                      </div>
+                      {
+                        t?.scoreList?.map((item: any) => (
+                          <div key={item.resultType} className={styles['page-two-top-score-type-detail']}>
+                            <span>{item.resultType}：</span>
+                            <span>{item.fullScore}</span>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  ))
+                }
+              </div>
+              <div className={styles['page-two-top-area']}>
+                <div className={styles['page-two-top-area-text']}>德</div>
+                <div className={styles['page-two-top-area-btm']}>
+                  <div className={styles['page-two-top-area-btm-content']}>
+                    <div
+                      className={styles['page-two-top-area-btm-content-point']}
+                      style={
+                        {
+                          left: `calc(${resultDetail?.otherScoreDetail?.[1]?.score || 0}% - 10px)`,
+                          bottom: `calc(${resultDetail?.otherScoreDetail?.[0]?.score || 0}% - 10px)`,
+                        }
+                      }
+                    />
+                  </div>
+                  <div className={cs(styles['page-two-top-area-text'], styles['page-two-top-area-text-talent'])}>才</div>
+                </div>
+              </div>
             </div>
             <div className={styles['page-two-bottom']}>
-              <div className={styles.title}>你的职业锚类型是</div>
+              <div className={cs(styles.title, styles['page-two-bottom-title'])}>岗位测评结果</div>
               <div className={styles['page-two-bottom-type']}>
                 <div className={styles['page-two-bottom-type-detail']}>
                   <p className={styles['page-two-bottom-type-detail-text']}>
@@ -461,41 +494,58 @@ const CA = ({ resultDetail }: any) => {
         <div className={styles.page}>
           <div className={cs(styles['page-content'], styles['page-three'])}>
             <div className={styles['page-three-top']}>
-              <div className={cs(styles.title, styles['page-three-top-title'])}>得分柱状图</div>
-              <div ref={columnsRef}></div>
+              <div className={cs(styles['page-three-top-title'], styles.title)}>职业锚测试饼图</div>
+              <div ref={containerRef} />
             </div>
             <div className={styles['page-three-bottom']}>
-              <div className={cs(styles.title, styles['page-three-bottom-title'])}>得分与人群平均分比较</div>
+              <div className={cs(styles.title, styles['page-three-bottom-title'])}>
+                分数分布图
+              </div>
+              <div id='pyramid' className={styles.pyramidCharts}></div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.page}>
+          <div className={cs(styles['pg-content'], styles['page-columns'])}>
+            <div className={styles['page-columns-top']}>
+              <div className={styles['page-columns-top-line']}></div>
+              <div className={cs(styles.title, styles['page-columns-top-title'])}>各项得分分值柱状图</div>
+              <div ref={columnsRef}></div>
+            </div>
+            <div className={styles['page-columns-bottom']}>
+              <div className={styles['page-columns-bottom-line']}></div>
+              <div className={cs(styles.title, styles['page-columns-bottom-title'])}>得分与人群平均分比较</div>
               <div ref={groupRef}></div>
             </div>
           </div>
         </div>
         <div className={styles.page}>
           <div className={cs(styles['page-content'], styles['page-four'])}>
-            <div className={styles['page-four-top']}>
+            {/* <div className={styles['page-four-top']}>
               <div className={cs(styles.title, styles['page-four-top-title'])}>
                 分数分布图
               </div>
-              {/* <div id='pyramid' ref={funnelRef}></div> */}
               <div id='pyramid' className={styles.pyramidCharts}></div>
-            </div>
+            </div> */}
+            {/* <div className={styles['page-four-dash-line']}></div> */}
             {
               resultDetail?.results?.map((item: any, index: number) => (
                 <div key={item.simpleType} className={styles['page-four-bottom']}>
+                  <div className={styles['page-four-dash-line']}></div>
                   <div className={styles['page-four-bottom-progress']}>
                     <div className={cs(styles.title, styles['page-four-bottom-progress-title'])}>
                       {item.type.split('：')[1]}占比
                     </div>
                     <div className={styles['page-four-bottom-progress-out']}>
                       <div
-                        style={{ width: `${item.percentageScore}%`, backgroundColor: colorMap[item.simpleType] }}
+                        style={{ width: `${item.percentageScore || 0 }%`, backgroundColor: colorMap[item.simpleType] }}
                         className={styles['page-four-bottom-progress-inner']}
                       >
-                        {item.percentageScore}%
+                        {item.percentageScore || 0}%
                       </div>
                     </div>
                   </div>
-                  <div className={styles['page-four-bottom-item']}>
+                  <div className={cs(styles['page-four-bottom-item'], styles['page-four-bottom-item-split'])}>
                     <div className={styles['page-four-bottom-title']}>类型描述</div>
                     <div className={styles['page-four-bottom-content']}>
                       <div className={styles['page-four-bottom-content-item']}>
@@ -520,7 +570,7 @@ const CA = ({ resultDetail }: any) => {
                       </div>
                     </div>
                   </div>
-                  <div className={styles['page-four-bottom-item']}>
+                  <div className={cs(styles['page-four-bottom-item'], styles['page-four-bottom-item-split'])}>
                     <div className={styles['page-four-bottom-title']}>人事决策参考</div>
                     <div className={styles['page-four-bottom-content']}>
                       <div className={styles['page-four-bottom-content-item']}>

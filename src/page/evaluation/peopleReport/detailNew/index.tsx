@@ -99,6 +99,16 @@ const data2 = [
     isExist: true
   }
 ]
+const customEvaluationNames: any = {
+  'CA': {
+    iconName: '职',
+    text: '职业锚'
+  },
+  'XD-01': {
+    iconName: '胜',
+    text: '胜任力'
+  }
+}
 const mustReport = ['MBTI', 'PDP', 'DISC', 'CA'];
 const Detail = () => {
   const { userId } = useParams()
@@ -474,14 +484,25 @@ const Detail = () => {
                           'is_ca': item.examTemplateType === 'CA',
                           'is_cpi': item.examTemplateType === 'CPI',
                           'is_disc': item.examTemplateType === 'DISC',
-                          'is_mbti_o': item.examTemplateType === 'MBTI_O'
+                          'is_mbti_o': item.examTemplateType === 'MBTI_O',
+                          'is_XD': item.examTemplateType === 'XD-01'
                         })}
                       >
-                        {item.examTemplateType === 'CA' ? '职' : item.examTemplateType.slice(0, 1)}
+                        {
+                          customEvaluationNames[item.examTemplateType]
+                          ? customEvaluationNames[item.examTemplateType].iconName
+                          : item.examTemplateType.slice(0, 1)
+                        }
+                        {/* {item.examTemplateType === 'CA' ? '职' : item.examTemplateType.slice(0, 1)} */}
                       </div>
                       <div className={styles.detail_left_evaluation_content_item_name}>
                         <span>
-                          {item.examTemplateType === 'CA' ? '职业锚' : item.examTemplateType}
+                          {
+                            customEvaluationNames[item.examTemplateType]
+                            ? customEvaluationNames[item.examTemplateType].text
+                            : item.examTemplateType
+                          }
+                          {/* {item.examTemplateType === 'CA' ? '职业锚' : item.examTemplateType} */}
                         </span>
                         {
                           (item.answerStatus !== 10 && item.answerStatus !== -1) && <span className={styles.detail_left_evaluation_content_item_name_pend}>

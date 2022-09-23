@@ -270,6 +270,7 @@
       color: #3E4043;
       line-height: 25px;
       margin-bottom: 11px;
+      text-align: center;
     }
     .page-first-top-par {
       font-size: 15px;
@@ -298,6 +299,7 @@
       line-height: 25px;
       margin-bottom: 11px;
       margin-top: 43px;
+      text-align: center;
     }
     .page-first-bottom-par {
       font-size: 15px;
@@ -309,7 +311,7 @@
       margin-bottom: 13px;
     }
     img {
-      margin-bottom: 24px;
+      margin-bottom: 40px;
       height: 100%;
       width: 100%;
     }
@@ -318,9 +320,82 @@
 .page-two {
   .page-two-top {
     border-bottom: 1px dashed #8F969E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .page-two-title {
+      margin-bottom: 14px;
+    }
+    .page-two-top-score {
+      width: 390px;
+      height: 234px;
+      display: flex;
+      background-image: url('https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy-img8_books.png');
+      background-size: cover;
+      .page-two-top-score-type {
+        flex: 1;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .page-two-top-score-type-total {
+          font-size: 20px;
+          font-weight: 600;
+          color: #fff;
+          line-height: 28px;
+          margin-bottom: 14px;
+        }
+        .page-two-top-score-type-detail {
+          font-size: 14px;
+          font-weight: 400;
+          color: #fff;
+          line-height: 20px;
+          margin-bottom: 7px;
+        }
+      }
+    }
+    .page-two-top-area {
+      margin-top: 14px;
+      position: relative;
+      margin-bottom: 64px;
+      .page-two-top-area-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: #B7A36C;
+        line-height: 22px;
+        text-align: center;
+      }
+      .page-two-top-area-text-talent {
+        position: absolute;
+        right: -24px;
+      }
+      .page-two-top-area-btm {
+        display: flex;
+        align-items: center;
+        margin-top: 2px;
+        .page-two-top-area-btm-content {
+          width: 204px;
+          height: 175px;
+          position: relative;
+          background-image: url('https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy-img7_coor.png');
+          background-size: cover;
+          .page-two-top-area-btm-content-point {
+            width: 20px;
+            height: 20px;
+            background-color: #B7A36C;
+            border-radius: 50%;
+            border: 3px solid #F3E9CC;
+            position: absolute;
+          }
+        }
+      }
+    }
   }
   .page-two-bottom {
     margin-top: 46px;
+    .page-two-bottom-title {
+      text-align: center;
+    }
     .page-two-bottom-type {
       width: 80%;
       margin: 43px auto 0;
@@ -362,16 +437,44 @@
 .page-three {
   .page-three-top {
     border-bottom: 1px dashed #8F969E;
-    padding-bottom: 70px;
+    border-top: 1px dashed #8F969E;
+    margin-top: 40px;
+    // padding-bottom: 40px;
     .page-three-top-title {
       margin-top: 43px;
-      margin-bottom: 37px;
+      text-align: center;
+      // margin-bottom: 37px;
     }
   }
   .page-three-bottom {
     .page-three-bottom-title {
       margin-top: 43px;
-      margin-bottom: 37px;
+      text-align: center;
+      // margin-bottom: 37px;
+    }
+  }
+}
+.page-columns {
+  padding-bottom: 40px;
+  .page-columns-top {
+    .page-columns-top-line {
+      border-bottom: 1px dashed #8F969E;
+      margin-bottom: 40px;
+    }
+    .page-columns-top-title {
+      margin-bottom: 21px;
+      text-align: center;
+    }
+  }
+  .page-columns-bottom {
+    margin-top: 40px;
+    .page-columns-bottom-line {
+      border-bottom: 1px dashed #8F969E;
+      margin-bottom: 40px;
+    }
+    .page-columns-bottom-title {
+      margin-bottom: 21px;
+      text-align: center;
     }
   }
 }
@@ -383,7 +486,11 @@
       margin-top: 30px;
     }
   }
+  .page-four-dash-line {
+    border-bottom: 1px dashed #8F969E;
+  }
   .page-four-bottom {
+    page-break-before: always;
     .page-four-bottom-progress {
       .page-four-bottom-progress-title {
         font-size: 16px;
@@ -391,7 +498,8 @@
         line-height: 22px;
         color: #3E4043;
         margin-bottom: 16px;
-        margin-top: 24px;
+        margin-top: 40px;
+        text-align: center;
       }
       .page-four-bottom-progress-out {
         background-color: #E4EAF1;
@@ -406,7 +514,7 @@
       }
     }
     .page-four-bottom-item-split {
-      page-break-before: always;
+      page-break-before: auto;
     }
     .page-four-bottom-item {
       border: 1px solid #E3E8EE;

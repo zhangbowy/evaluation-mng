@@ -11,13 +11,15 @@ import { sortBy } from '@antv/util';
 import DISCDetail from '@/components/report/DISC'
 import PDPDetail from '@/components/report/PDP'
 import CADetail from '@/components/report/CA'
+import XDJYDetail from '@/components/report/XDJY'
 
-type templateType = 'MBTI' | 'DISC' | 'PDP' | 'CA'
+type templateType = 'MBTI' | 'DISC' | 'PDP' | 'CA' | 'XD-01'
 const typeFlag: any = {
     'MBTI': true,
     'DISC': false,
     'PDP': false,
     'CA': false,
+    'XD-01': false,
 }
 const PDF = () => {
     const [resultDetail, setResultDetail] = useState<IUserExamResultBack>()
@@ -34,6 +36,7 @@ const PDF = () => {
         "DISC": <DISCDetail resultDetail={resultDetail} />,
         "PDP": <PDPDetail resultDetail={resultDetail} />,
         "CA": <CADetail resultDetail={resultDetail} />,
+        "XD-01": <XDJYDetail resultDetail={resultDetail} />
     }
     // 获取pdf的数据
     const getResultDetail = async () => {
