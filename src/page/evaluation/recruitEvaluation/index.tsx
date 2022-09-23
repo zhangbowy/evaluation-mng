@@ -165,7 +165,7 @@ const RecruitEvaluation = () => {
           tasksPdf.current.push({
             examPaperId: record.examPaperId,
             taskId: curExam[0].task_id,
-            fileName: `${record.templateTitle}.pdf`
+            fileName: `${record.templateTitle}-${record.name}.pdf`
           })
           polling()
         }
@@ -182,7 +182,7 @@ const RecruitEvaluation = () => {
           tasksPdf.current.push({
             examPaperId: record.examPaperId,
             taskId: res.data,
-            fileName: `${record.templateTitle}.pdf`
+            fileName: `${record.templateTitle}-${record.name}.pdf`
           })
           polling()
         } else {
