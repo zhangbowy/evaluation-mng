@@ -490,7 +490,7 @@ const RecruitEvaluation = () => {
         />
       </div>
       {
-        candidateList.length && <footer>
+        candidateList.length > 0 && <footer>
           {/* <div className={styles.footer_line} /> */}
           <Pagination
             showQuickJumper={true}
