@@ -319,11 +319,11 @@ const PdfDetailMBTI = (props: any) => {
                     </div>
                 </div>
                 <div className="tag-sort">
-                    <div className="small-title">
+                    {/* <div className="small-title">
                         <p className="line"></p>
                         <p className="title">您的能力标签排序</p>
                         <p className="line"></p>
-                    </div>
+                    </div> */}
                     <div className="detail">
                         <div className="top">
                             {
