@@ -10,6 +10,7 @@ import PDPDetail from './PDP';
 import CADetail from './CA';
 import MBTIDetail from './MBTI'
 import XDJYDetail from './XDJY'
+import XDJYVALUEDetail from './XDJYVALUE';
 import { abilityList, discData } from '@/assets/data';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 import cs from 'classnames';
@@ -23,21 +24,24 @@ const typeMap: any = {
     'DISC': DISCDetail,
     'PDP': PDPDetail,
     'CA': CADetail,
-    'XD-01': XDJYDetail
+    'XD-01': XDJYDetail,
+    'XD-02': XDJYVALUEDetail
 }
 const typeFlag: any = {
     'MBTI': true,
     'DISC': false,
     'PDP': false,
     'CA': false,
-    'XD-01': false
+    'XD-01': false,
+    'XD-02': false
 }
 const templateName: any = {
     'MBTI': '个性与职业规划（MBTI专业版）',
     'DISC': '人才甄选测评（DISC）',
     'PDP': '职业性格测评（PDP）',
     'CA': '人岗匹配测评（职业锚）',
-    'XD-01': '行动教育人才胜任力测评'
+    'XD-01': '行动教育人才胜任力测评',
+    'XD-02': '行动教育价值观测评'
 }
 const ReportDetail = (props: any) => {
     const { userId, examPaperId, isRecruit, templateType, isPeople, isHaveSwitch = false, sendTypeName } = props;
@@ -136,7 +140,7 @@ const ReportDetail = (props: any) => {
                 if (res.data.results) {
                     const { htmlDesc } = newData;
                     const newDimensional = {};
-                    if (type === 'MBTI') {
+                    if (type === 'MBTI' || type === 'XD-02') {
                         htmlDesc?.dimensional.forEach((item: any) => {
                             Object.assign(newDimensional, {
                                 [item.tag]: item,

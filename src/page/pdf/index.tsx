@@ -12,14 +12,16 @@ import DISCDetail from '@/components/report/DISC'
 import PDPDetail from '@/components/report/PDP'
 import CADetail from '@/components/report/CA'
 import XDJYDetail from '@/components/report/XDJY'
+import XDJYVALUEDetail from '@/components/report/XDJYVALUE'
 
-type templateType = 'MBTI' | 'DISC' | 'PDP' | 'CA' | 'XD-01'
+type templateType = 'MBTI' | 'DISC' | 'PDP' | 'CA' | 'XD-01' | 'XD-02'
 const typeFlag: any = {
     'MBTI': true,
     'DISC': false,
     'PDP': false,
     'CA': false,
     'XD-01': false,
+    'XD-02': false
 }
 const PDF = () => {
     const [resultDetail, setResultDetail] = useState<IUserExamResultBack>()
@@ -36,7 +38,8 @@ const PDF = () => {
         "DISC": <DISCDetail resultDetail={resultDetail} />,
         "PDP": <PDPDetail resultDetail={resultDetail} />,
         "CA": <CADetail resultDetail={resultDetail} />,
-        "XD-01": <XDJYDetail resultDetail={resultDetail} />
+        "XD-01": <XDJYDetail resultDetail={resultDetail} />,
+        "XD-02": <XDJYVALUEDetail resultDetail={resultDetail} />
     }
     // 获取pdf的数据
     const getResultDetail = async () => {
@@ -48,7 +51,7 @@ const PDF = () => {
                 if (res.data.results) {
                     const { htmlDesc } = newData;
                     const newDimensional = {};
-                    if (type === 'MBTI') {
+                    if (type === 'MBTI' || type === 'XD-02') {
                         htmlDesc?.dimensional.forEach((item: any) => {
                             Object.assign(newDimensional, {
                                 [item.tag]: item,
