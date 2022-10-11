@@ -1,4 +1,12 @@
-import { getAllExam, UnLockReport, getUserAllExamResultSummaryGraph, getWorthMatch, notification } from '@/api/api';
+import {
+  getAllExam,
+  UnLockReport,
+  getUserAllExamResultSummaryGraph,
+  getWorthMatch,
+  notification,
+  queryExamUserIds,
+  editExam
+} from '@/api/api';
 import { Breadcrumb, Button, Divider, Tooltip, message } from 'antd';
 import React, { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -24,8 +32,10 @@ import MbtiResult from './components/MbtiResult';
 import PdpResult from './components/PdpResult';
 import DiscResult from './components/DiscResult';
 import CaResult from './components/CaResult';
+import LaunchEvaluation from './components/LaunchEvaluation';
 import { getAllUrlParam, openLink } from "@/utils/utils";
 import cs from 'classnames';
+import { Liquid } from '@antv/g2plot';
 // import ModalScreen from '@/components/modalScreen';
 
 const tagsData = ['自信', '决断力高', '竞争性强', '企图心强', '勇于冒险', '热心', '乐观', '活泼', '社交能力强']
@@ -89,6 +99,17 @@ const data2 = [
     isExist: true
   }
 ]
+const customEvaluationNames: any = {
+  'CA': {
+    iconName: '职',
+    text: '职业锚'
+  },
+  'XD-01': {
+    iconName: '胜',
+    text: '胜任力'
+  }
+}
+const mustReport = ['MBTI', 'PDP', 'DISC', 'CA'];
 const Detail = () => {
   const { userId } = useParams()
   const tagRef: any = useRef();
@@ -104,7 +125,10 @@ const Detail = () => {
   const [totalNum, setTotalNum] = useState<number>(1);
   const [isOpenWorth, setIsOpenWorth] = useState<boolean>(false);
   const [isOpenPosition, setIsOpenPosition] = useState<boolean>(false);
+  const [evaluationVisible, setEvaluationVisible] = useState<boolean>(false);
+  const [examType, setExamType] = useState<string>('');
   const lookResultRef: any = useRef()
+  const positionRef: any = useRef();
   const navigator = useNavigate()
   const cx = classNames.bind(styles);
   const { corpId, appId, clientId } = getAllUrlParam();
@@ -126,8 +150,15 @@ const Detail = () => {
     }
   }
   const isFinish = useMemo(() => {
-    const data = reportDetailList?.evaluationVoList.filter((v: any) => v.answerStatus === 10);
-    return data?.length === 4;
+    // const data = reportDetailList?.evaluationVoList.filter((v: any) => v.answerStatus === 10);
+    // return data?.length === 4;
+    let len = 0;
+    reportDetailList?.evaluationVoList.map((v: any) => {
+      if (mustReport.includes(v.examTemplateType) && v.answerStatus === 10) {
+        len += 1
+      }
+    })
+    return len === mustReport.length;
   }, [reportDetailList])
   // 获取图表数据
   const getChartsData = async () => {
@@ -141,8 +172,54 @@ const Detail = () => {
     const res = await getWorthMatch({ userId })
     if (res.code === 1) {
       setTotalData(res.data);
+      setTimeout(() => {
+        completionList(res.data);
+      }, 100)
     }
   }
+  const completionList = (worthData: any) => {
+    positionRef.current.innerHTML = ''
+    const liquidPlot = new Liquid(positionRef.current, {
+        percent: (Number(worthData?.positionMatchDTO?.totalMatch) || 0) / 100,
+        outline: {
+            border: 2,
+            style: {
+                stroke: '#EC9108',
+                // strokeOpacity: 0.9
+            },
+            distance: 4,
+        },
+        liquidStyle: {
+        },
+        statistic: {
+            content: {
+                customHtml: (container: any, view: any, { percent }: any) => {
+                    const text = `${(percent * 100).toFixed(0)}%`;
+                    console.log(percent, 'percent')
+                    if (percent < 0.80) {
+                      return `<div style="font-size:14px;color: #464C5B;font-weight: 500;">${text}</div>`
+                    }
+                    return `<div style="font-size:14px;color: #fff;font-weight: 500;">${text}</div>`   
+                },
+                style: {
+                  color: 'red',
+                  fill: 'red'
+                }
+            },
+        },
+        theme: {
+          styleSheet: {
+            brandColor: 'rgba(236, 145, 8, 0.3)'
+          }
+        },
+        wave: {
+            length: 192,
+        },
+    });
+    // liquidPlot.destroy();
+    liquidPlot.render()
+
+}
   // 是否存在报告的样式
   const isReportStyle = {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -239,8 +316,10 @@ const Detail = () => {
           {unlockFail[index] ? '点券不足，充值后解锁查看' : unlockLoading[index] ? `解锁中` : '解锁查看'}</Button>
       case 1:
         return <Button type='text' disabled>测评进行中…</Button>
+      case -1:
+        return <Button type='link' onClick={() => openEvaluation(item.examTemplateType)}>发起测评</Button>
       default:
-        return <Button type='link' onClick={() => sendNotice(item.examPaperId)}>通知测评</Button>
+        return <Button type='link' onClick={() => sendNotice(item.examPaperId)}>催办</Button>
     }
   }
   // 标签的展开收起
@@ -273,14 +352,53 @@ const Detail = () => {
       url: `${window.location.origin}/admin/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/share?ddtab=true`
     }, true)
   }
+  // 打开发起测评弹窗
+  const openEvaluation = (type: string) => {
+    setEvaluationVisible(true);
+    setExamType(type);
+  }
+  const closeEvaluation = () => {
+    setEvaluationVisible(false);
+  }
+  // 选择已有测评发起
+  const addEvaluation = async (id: number) => {
+    const result =  await queryExamUserIds(id || 0);
+    if (result.code === 1) {
+      const examUsers = result.data.map((v: string) => ({
+        userId: v
+      }))
+      examUsers.push({
+        userId: reportDetailList?.userId
+      })
+      editExam({
+        examId: id,
+        examUsers: examUsers
+      }).then(res => {
+        const { code } = res;
+        if (code === 1) {
+          getChartsData();
+          getUserReport();
+          closeEvaluation();
+          message.success('邀请成功');
+        }
+      })
+    }
+  }
+  // 跳转价值观画像页面
+  const goValuePage = () => {
+    navigator('/evaluation/portrait/worth');
+  };
+  // 跳转岗位画像页面
+  const goPositionPage = () => {
+    navigator('/evaluation/portrait/post');
+  };
   return (
     <div className={styles.detail_layout}>
       <Breadcrumb separator=">" className={styles.detail_nav}>
         <Breadcrumb.Item href="#/evaluation/peopleReport">人才报告</Breadcrumb.Item>
         <Breadcrumb.Item>{reportDetailList?.name}</Breadcrumb.Item>
       </Breadcrumb>
-      <Divider />
-      {/* <Button onClick={goShare}>点击跳转</Button> */}
+      <Divider className={styles.detail_divider} />
 
       <div className={styles.detail_content}>
         <div className={styles.detail_content_left}>
@@ -355,7 +473,7 @@ const Detail = () => {
                 {
                   reportDetailList?.evaluationVoList.map((item) => (
                     <div
-                      key={item?.examPaperId}
+                      key={item?.examTemplateType}
                       className={item.answerStatus === 10 ? styles.detail_left_evaluation_content_item : cs(styles.detail_left_evaluation_content_item, styles.no)}
                     >
                       <div
@@ -366,19 +484,33 @@ const Detail = () => {
                           'is_ca': item.examTemplateType === 'CA',
                           'is_cpi': item.examTemplateType === 'CPI',
                           'is_disc': item.examTemplateType === 'DISC',
-                          'is_mbti_o': item.examTemplateType === 'MBTI_O'
+                          'is_mbti_o': item.examTemplateType === 'MBTI_O',
+                          'is_XD': item.examTemplateType === 'XD-01'
                         })}
                       >
-                        {item.examTemplateType === 'CA' ? '职' : item.examTemplateType.slice(0, 1)}
+                        {
+                          customEvaluationNames[item.examTemplateType]
+                          ? customEvaluationNames[item.examTemplateType].iconName
+                          : item.examTemplateType.slice(0, 1)
+                        }
+                        {/* {item.examTemplateType === 'CA' ? '职' : item.examTemplateType.slice(0, 1)} */}
                       </div>
                       <div className={styles.detail_left_evaluation_content_item_name}>
                         <span>
-                          {item.examTemplateType === 'CA' ? '职业锚' : item.examTemplateType}
+                          {
+                            customEvaluationNames[item.examTemplateType]
+                            ? customEvaluationNames[item.examTemplateType].text
+                            : item.examTemplateType
+                          }
+                          {/* {item.examTemplateType === 'CA' ? '职业锚' : item.examTemplateType} */}
                         </span>
                         {
-                          item.answerStatus !== 10 && <span className={styles.detail_left_evaluation_content_item_name_pend}>
+                          (item.answerStatus !== 10 && item.answerStatus !== -1) && <span className={styles.detail_left_evaluation_content_item_name_pend}>
                             待测评
                           </span>
+                        }
+                        {
+                          item.answerStatus == -1 && <span className={styles.detail_left_evaluation_content_item_name_no}>未邀请</span>
                         }
 
                       </div>
@@ -412,7 +544,7 @@ const Detail = () => {
                       </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_left_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.valuesMatchDTO?.totalMatch ? totalData?.valuesMatchDTO?.totalMatch : '0'}%`}
+                      {!isFinish ? '-' : `${totalData?.valuesMatchDTO?.totalMatch ? totalData?.valuesMatchDTO?.totalMatch : '0'}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_left_content}>
@@ -424,7 +556,7 @@ const Detail = () => {
                     }
                     <div className={!isFinish ? styles.detail_content_right_summary_consult_left_content_under : styles.detail_content_right_summary_consult_left_content_down}>
                       {
-                        valueData?.map((v: any) => (
+                        valueData?.length > 0 ? valueData?.map((v: any) => (
                           <div key={v.valueId} className={styles.detail_content_right_summary_consult_left_content_item}>
                             <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
                               <span className={styles.detail_content_right_summary_consult_left_content_item_text}>{v.valueName}</span>
@@ -438,6 +570,15 @@ const Detail = () => {
                             />
                           </div>
                         ))
+                        : <div className={styles.detail_content_right_summary_consult_left_content_empty}>
+                          <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy-img6_NotYet.png" alt="" />
+                          <div className={styles.detail_content_right_summary_consult_left_content_empty_text}>
+                            <span>暂无价值观画像信息</span>
+                          </div>
+                          <div onClick={goValuePage} className={styles.detail_content_right_summary_consult_left_content_empty_setting}>
+                            <span>去设置&gt;</span>
+                          </div>
+                        </div>
                       }
                     </div>
                     {
@@ -462,7 +603,7 @@ const Detail = () => {
                       </Tooltip>
                     </span>
                     <span className={styles.detail_content_right_summary_consult_right_header_precent}>
-                      {(reportDetailList?.remainingNum || 0) > 0 ? '-' : `${totalData?.positionMatchDTO?.totalMatch ? totalData?.positionMatchDTO?.totalMatch : '0'}%`}
+                      {!isFinish ? '-' : `${totalData?.positionMatchDTO?.totalMatch ? totalData?.positionMatchDTO?.totalMatch : '0'}%`}
                     </span>
                   </div>
                   <div className={styles.detail_content_right_summary_consult_right_content}>
@@ -473,33 +614,45 @@ const Detail = () => {
                       </div>
                     }
                     <div className={!isFinish ? styles.detail_content_right_summary_consult_right_content_under : styles.detail_content_right_summary_consult_right_content_up}>
-                      {
-                        positionData?.map((v: any) => (
-                          <div key={v.valueId} className={styles.detail_content_right_summary_consult_right_content_item}>
-                            <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
-                              <span className={styles.detail_content_right_summary_consult_right_content_item_text}>{v.valueName}</span>
-                            </Tooltip>
-                            <div className={styles.detail_content_right_summary_consult_right_content_item_wrap}>
+                     {/* {
+                       positionData?.map((v: any) => (
+                        <div key={v.valueId} className={styles.detail_content_right_summary_consult_right_content_item}>
+                          <Tooltip title={v.valueName.length > 8 ? v.valueName : ''}>
+                            <span className={styles.detail_content_right_summary_consult_right_content_item_text}>{v.valueName}</span>
+                          </Tooltip>
+                          <div className={styles.detail_content_right_summary_consult_right_content_item_wrap}>
+                            {
+                              v.isExist ? <CheckCircleFilled style={{ color: '#6BC881' }} />
+                                : <CloseCircleFilled style={{ color: '#EF6544' }} />
+                            }
+                            <span className={styles.detail_content_right_summary_consult_right_content_item_status}>
                               {
-                                v.isExist ? <CheckCircleFilled style={{ color: '#6BC881' }} />
-                                  : <CloseCircleFilled style={{ color: '#EF6544' }} />
+                                v.isExist ? '匹配' : '不匹配'
                               }
-                              <span className={styles.detail_content_right_summary_consult_right_content_item_status}>
-                                {
-                                  v.isExist ? '匹配' : '不匹配'
-                                }
-                              </span>
-                            </div>
+                            </span>
                           </div>
-                        ))
+                        </div>
+                      ))
+                     } */}
+                      {
+                        positionData?.length > 0 ? <div style={{ height: '120px', width: '100%' }} ref={positionRef}></div>
+                        : <div className={styles.detail_content_right_summary_consult_right_content_empty}>
+                          <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/xdjy-img6_NotYet.png" alt="" />
+                          <div className={styles.detail_content_right_summary_consult_right_content_empty_text}>
+                            <span>暂无岗位画像信息</span>
+                          </div>
+                          <div onClick={goPositionPage} className={styles.detail_content_right_summary_consult_right_content_empty_setting}>
+                            <span>去设置&gt;</span>
+                          </div>
+                        </div>
                       }
                     </div>
                     {
                       totalData?.positionMatchDTO?.positionMatchList?.length > 6 && <div className={styles.detail_content_right_summary_consult_right_icon_wrap}>
-                        {
+                        {/* {
                           isOpenPosition ? <i className='iconfont icon-jiantoushang' onClick={closePosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
                             : <i className='iconfont icon-jiantouxia' onClick={openPosition} style={{ color: '#657180', fontSize: '12px', cursor: 'pointer' }} />
-                        }
+                        } */}
                       </div>
                     }
                   </div>
@@ -509,12 +662,28 @@ const Detail = () => {
           </div>
           <div className={styles.detail_content_right_result}>
             <div className={styles.detail_content_right_result_wrap}>
-              <MbtiResult sendNotice={sendNotice} chartsData={chartsData.mbtiResultChart} />
-              <PdpResult sendNotice={sendNotice} chartsData={chartsData.pdpResultChart} />
+              <MbtiResult
+                sendNotice={sendNotice}
+                chartsData={chartsData.mbtiResultChart}
+                openEvaluation={openEvaluation}
+              />
+              <PdpResult
+                sendNotice={sendNotice}
+                chartsData={chartsData.pdpResultChart}
+                openEvaluation={openEvaluation}
+              />
             </div>
             <div className={styles.detail_content_right_result_wrap}>
-              <DiscResult sendNotice={sendNotice} chartsData={chartsData.discResultChart} />
-              <CaResult sendNotice={sendNotice} chartsData={chartsData.caResultChart} />
+              <DiscResult
+                sendNotice={sendNotice}
+                chartsData={chartsData.discResultChart}
+                openEvaluation={openEvaluation}
+              />
+              <CaResult
+                sendNotice={sendNotice}
+                chartsData={chartsData.caResultChart}
+                openEvaluation={openEvaluation}
+              />
             </div>
           </div>
           <div className={styles.detail_content_right_report}>
@@ -525,7 +694,7 @@ const Detail = () => {
               <div className={styles.detail_card_wrapper}>
                 {
                   reportDetailList?.evaluationVoList?.map((item, index) => (
-                    <ul key={item?.examPaperId}>
+                    <ul key={item?.examTemplateType}>
                       <li>
                         {
                           (item.answerStatus === 1 || item.answerStatus === 0) &&
@@ -553,7 +722,13 @@ const Detail = () => {
         </div>
       </div>
       <LookResult ref={lookResultRef} />
-      {/* <ModalScreen visible={true} /> */}
+      <LaunchEvaluation
+        visible={evaluationVisible}
+        reportDetail={reportDetailList}
+        closeEvaluation={closeEvaluation}
+        addEvaluation={addEvaluation}
+        examType={examType}
+      />
     </div>
 
   )

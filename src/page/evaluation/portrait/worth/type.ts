@@ -36,3 +36,11 @@ export interface IPortraitList {
     name: string;
     tags: IFilterList[]
 }
+export interface IOriginData {
+    id: number;
+    description: string;
+    name: string;
+    tags: IFilterList[];
+    tagIds?: number[];
+    rowKey?: number
+}

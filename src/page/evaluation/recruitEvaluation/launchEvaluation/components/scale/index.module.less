@@ -1,11 +1,13 @@
 .scale_wrap {
   display: flex;
+  flex-wrap: wrap;
   padding-left: 125px;
 
   .scale_item {
     width: 104px;
     height: 98px;
     margin-right: 24px;
+    margin-bottom: 12px;
     background-color: #c2cbd6;
     border-radius: 5px;
     padding: 8px;
@@ -41,6 +43,13 @@
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       word-break: break-all;
+    }
+    .scale_item_introduce {
+      font-size: 12px;
+      color: #fff;
+      line-height: 17px;
+      margin-top: 4px;
+      cursor: pointer;
     }
   }
 
@@ -91,6 +100,22 @@
 
     &.selected {
       background-image: linear-gradient(#8C65F6, #9887FD);
+    }
+  }
+  .scale_xd {
+    &:hover {
+      background-image: linear-gradient(#FE6000, #FE9F61);
+    }
+    &.selected {
+      background-image: linear-gradient(#FE6000, #FE9F61);
+    }
+  }
+  .scale_xd_value {
+    &:hover {
+      background-image: linear-gradient(#55E9A3, #37E49B);
+    }
+    &.selected {
+      background-image: linear-gradient(#55E9A3, #37E49B);
     }
   }
 

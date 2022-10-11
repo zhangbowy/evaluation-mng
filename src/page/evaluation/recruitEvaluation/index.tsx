@@ -52,6 +52,7 @@ const RecruitEvaluation = () => {
   const [resultDetial, setResultDetial] = useCallbackState({});
   const history = useNavigate();
   const lookResultRef: any = useRef();
+  const tableRef: any = useRef();
   // const pdfDetail: any = useRef();
   const tasksPdf: any = useRef([]); //下载储存的人任务
   const { appId } = getAllUrlParam();
@@ -158,13 +159,13 @@ const RecruitEvaluation = () => {
       const curExam = urlData.data.filter((co: ISelectPdfStatusBack) => (co.exam_paper_id + '') == record.examPaperId)
       if (curExam.length > 0) {
         if (curExam[0].oss_url && curExam[0].status == 1) {
-          downloadFile(curExam[0].oss_url, `${record.templateTitle}.pdf`)
+          downloadFile(curExam[0].oss_url, `${record.templateTitle}-${record.name}.pdf`)
           onCloseLoading(record.examPaperId)
         } else {
           tasksPdf.current.push({
             examPaperId: record.examPaperId,
             taskId: curExam[0].task_id,
-            fileName: `${record.templateTitle}.pdf`
+            fileName: `${record.templateTitle}-${record.name}.pdf`
           })
           polling()
         }
@@ -181,7 +182,7 @@ const RecruitEvaluation = () => {
           tasksPdf.current.push({
             examPaperId: record.examPaperId,
             taskId: res.data,
-            fileName: `${record.templateTitle}.pdf`
+            fileName: `${record.templateTitle}-${record.name}.pdf`
           })
           polling()
         } else {
@@ -213,7 +214,7 @@ const RecruitEvaluation = () => {
       title: '量表名称',
       dataIndex: 'templateTitle',
       width: 200,
-      render: (text: string) => <span className={styles.table_column_text}>{text}</span>
+      render: (text: string) => <span className={styles.table_column_text}>{text || '-'}</span>
     },
     {
       title: '测评状态',
@@ -228,7 +229,7 @@ const RecruitEvaluation = () => {
             'status_start': (text == 1 || text == 2 || text == 3),
             'status_finish': text == 10 || text == 5
           })} >
-          {text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]}
+          {(text == 5 ? '已完成' : (text == 1 || text == 2 || text == 3) ? '进行中' : rectuitMap[text]) || '-'}
         </span>
     },
     {
@@ -421,8 +422,8 @@ const RecruitEvaluation = () => {
 
   return (
     <div className={styles.recruitEvaluation_layout}>
+      <h1 className={styles.recruitEvaluation_content_title}>招聘测评</h1>
       <div className={styles.recruitEvaluation_content}>
-        <h1>招聘测评</h1>
         <nav>
           <Form form={form} className={styles.from_wrapper} labelAlign={'right'}>
             <Form.Item name="candidateName" label="候选人">
@@ -475,17 +476,21 @@ const RecruitEvaluation = () => {
               发起测评
             </Button>
           </section>
-          <Table loading={tableLoading}
-            pagination={false}
-            columns={columns}
-            rowKey={(res) => res.id}
-            dataSource={candidateList}
-            scroll={{ x: 1620 }}
-          />
         </main>
       </div >
+      <div className={styles.recruitEvaluation_table_wrap}>
+        <Table loading={tableLoading}
+          pagination={false}
+          columns={columns}
+          rowKey={(res) => res.id}
+          dataSource={candidateList}
+          scroll={{ x: 1620 }}
+          ref={tableRef}
+          sticky={{ offsetHeader: 82 }}
+        />
+      </div>
       {
-        candidateList.length && <footer>
+        candidateList.length > 0 && <footer>
           {/* <div className={styles.footer_line} /> */}
           <Pagination
             showQuickJumper={true}

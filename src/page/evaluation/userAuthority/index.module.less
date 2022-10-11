@@ -1,6 +1,6 @@
 .userAuthority_layout {
     background-color: var(--white-color);
-    padding: 24px 34px 0;
+    padding: 0 34px 0;
     overflow: auto;
     height: 100%;
 
@@ -8,7 +8,16 @@
         font-size: 20px;
         font-weight: 500;
         color: #464C5B;
-        margin-bottom: 32px;
+        // margin-bottom: 32px;
+    }
+    .userAuthority_title {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        padding-top: 24px;
+        padding-bottom: 32px;
+        background-color: #fff;
     }
 
     nav {
@@ -68,6 +77,12 @@
             .ant-table-tbody>tr>td {
                 color: #647180;
             }
+            // .ant-table-thead {
+            //     position: sticky;
+            //     top: 82px;
+            //     left: 0;
+            //     z-index: 3;
+            // }
         }
     }
 }

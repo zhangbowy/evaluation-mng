@@ -33,8 +33,8 @@ export const authLogin = async (data: { code: string, appId: string, corpId: str
     return request('/api/member/login/dt/authorization', { data, method: 'POST' })
 }
 
-export const getExamTemplateList = async () => {
-    return request('/api/spf-cc/b/evaluation/library/getExamTemplateList', {})
+export const getExamTemplateList = async (params: any) => {
+    return request('/api/spf-cc/b/evaluation/library/getExamTemplateList', { params })
 }
 
 

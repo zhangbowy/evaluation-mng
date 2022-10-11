@@ -40,7 +40,13 @@
         .detail_main_title {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
+            padding-bottom: 12px;
+            padding-top: 8px;
+            background-color: #fff;
+            position: sticky;
+            top: 81px;
+            left: 0;
+            z-index: 4;
 
             &>span {
                 display: inline-block;
@@ -114,7 +120,6 @@
                         background: #F5F7F9;
                     }
                 }
-
             }
 
             .ant-table-cell {
@@ -137,6 +142,17 @@
                 -webkit-box-shadow: 0;
                 border-radius: 0;
                 background: #f0f2f5;
+            }
+            .ant-table-sticky-scroll {
+                display: none;
+            }
+            .ant-pagination {
+                position: sticky;
+                bottom: -24px;
+                margin: 0;
+                padding: 20px;
+                z-index: 2;
+                background-color: #fff;
             }
         }
     }

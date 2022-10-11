@@ -1,0 +1,114 @@
+.create_userInfo {
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+
+  img {
+      width: 50px;
+      height: 50px;
+      border-radius: 4px;
+      margin-right: 12px;
+  }
+  .create_userInfo_radio {
+    position: absolute;
+    left: 0;
+  }
+}
+.create_right {
+  .create_title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+
+      p {
+          font-size: 14px;
+          font-weight: 500;
+          color: #464C5B;
+          margin-bottom: 10px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 223px;
+          margin: 0;
+      }
+
+      .create_tag {
+          width: 18px;
+          height: 18px;
+          background: linear-gradient(132deg, #7D7063 0%, #584532 100%);
+          border-radius: 2px;
+          color: #fff;
+          transform: scale(0.9);
+          font-size: 12px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 5px;
+      }
+
+      .create_tag2 {
+          border: none;
+      }
+  }
+
+
+  &>span {
+      display: block;
+      font-size: 14px;
+      color: #9EA7B4;
+  }
+
+  :global {
+      .ant-progress-text {
+          color: #464C5B;
+      }
+
+      .ant-progress-line {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+
+          svg {
+              color: var(--success-color);
+          }
+      }
+  }
+}
+.launch_evaluation {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 56px;
+  .launch_evaluation_table {
+    flex: 1;
+    overflow: auto;
+  }
+  .launch_evaluation_footer {
+    position: absolute;
+    // padding: 24px 24px 0;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .launch_evaluation_footer_text {
+      font-size: 14px;
+      font-weight: 400;
+      color: #2B85FF;
+      line-height: 20px;
+      cursor: pointer;
+    }
+    .launch_evaluation_footer_btns {
+      .launch_evaluation_footer_btn_close {
+        margin-right: 8px;
+      }
+      :global {
+        .ant-btn-primary:disabled {
+          background-color: #94BFFF;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
