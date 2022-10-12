@@ -54,4 +54,4 @@ export const discData = [
 ];
 
 
-export const majorType = ['MBTI', 'DISC', 'PDP', 'CA', 'XD-01', 'XD-02']
+export const majorType = ['MBTI', 'DISC', 'PDP', 'CA', 'XD-01', 'XD-02', 'XD-03']

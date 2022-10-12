@@ -25,7 +25,8 @@ const typeMap: any = {
     'PDP': PDPDetail,
     'CA': CADetail,
     'XD-01': XDJYDetail,
-    'XD-02': XDJYVALUEDetail
+    'XD-02': XDJYVALUEDetail,
+    'XD-03': XDJYVALUEDetail
 }
 const typeFlag: any = {
     'MBTI': true,
@@ -33,7 +34,8 @@ const typeFlag: any = {
     'PDP': false,
     'CA': false,
     'XD-01': false,
-    'XD-02': false
+    'XD-02': false,
+    'XD-03': false
 }
 const templateName: any = {
     'MBTI': '个性与职业规划（MBTI专业版）',
@@ -41,7 +43,8 @@ const templateName: any = {
     'PDP': '职业性格测评（PDP）',
     'CA': '人岗匹配测评（职业锚）',
     'XD-01': '行动教育人才胜任力测评',
-    'XD-02': '行动教育价值观测评'
+    'XD-02': '行动教育价值观测评',
+    'XD-03': '康帕斯价值观测评'
 }
 const ReportDetail = (props: any) => {
     const { userId, examPaperId, isRecruit, templateType, isPeople, isHaveSwitch = false, sendTypeName } = props;
@@ -261,7 +264,7 @@ const ReportDetail = (props: any) => {
                     <div className={isLast ? cs(styles.actions_item, styles.last) : cs(styles.actions_item, styles.noFirst)}>
                         <Tooltip title={isLast ? '当前是最后一份报告' : nextInfo?.examName}>
                             <span onClick={nextReport}>
-                                <i className='iconfont icon-jiantouxia'  style={{ color: '#fff' }} />
+                                <i className='iconfont icon-jiantouxia' style={{ color: '#fff' }} />
                             </span>
                         </Tooltip>
                         <p className={styles.actions_item_text}>下一份报告</p>
