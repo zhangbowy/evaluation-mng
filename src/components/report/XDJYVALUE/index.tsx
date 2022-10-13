@@ -112,7 +112,7 @@ const PdfDetailMBTI = (props: any) => {
                     </span>
                 </div>
                 <div className="main-title">
-                    <p className="title">行动教育</p>
+                    <p className="title">{resultDetail?.examTemplateType === 'XD-03' ? '康帕斯' : '行动教育'}</p>
                     <span className="ch-title">
                         价值观测评
                     </span>
@@ -340,6 +340,46 @@ const PdfDetailMBTI = (props: any) => {
                                 </tr>
                                 <tr>
                                     <td>2、协作共赢</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={6}>感恩</td>
+                                    <td className='kps-center'>乐于分享</td>
+                                    <td>1、积极主动分享</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={3}>有责任心</td>
+                                    <td>1、要求别人自己先做到</td>
+                                </tr>
+                                <tr>
+                                    <td>2、第一次就把事情做好</td>
+                                </tr>
+                                <tr>
+                                    <td>3、有主人翁意识</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>利他/正能量</td>
+                                    <td>1、利他爱人</td>
+                                </tr>
+                                <tr>
+                                    <td>2、尊重他人</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={5}>坚信</td>
+                                    <td className='kps-center' rowSpan={3}>诚信（不虚假）</td>
+                                    <td>1、绝不虚假</td>
+                                </tr>
+                                <tr>
+                                    <td>2、为人正直</td>
+                                </tr>
+                                <tr>
+                                    <td>3、说话做事有依据</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>毅力</td>
+                                    <td>1、自驱</td>
+                                </tr>
+                                <tr>
+                                    <td>2、一万小时的训练</td>
                                 </tr>
                             </tbody>
                         </table>
