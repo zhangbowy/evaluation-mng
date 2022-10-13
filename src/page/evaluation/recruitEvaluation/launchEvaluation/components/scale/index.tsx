@@ -114,7 +114,8 @@ const Scale = ({ setStampsNum }: propsType) => {
           'CPI': '人格魅力',
           "DISC": "DISC",
           'XD-01': '职业胜任力',
-          'XD-02': '价值观测评'
+          'XD-02': '价值观测评',
+          'XD-03': '康帕斯价值观',
         }
         // const title = v.type === 'MBTI' ? 'MBTI' : v.type === 'PDP' ? 'PDP'
         //   : v.type === 'CA' ? '职业锚' : v.type === 'CPI' ? '人格魅力' : ''
@@ -129,6 +130,7 @@ const Scale = ({ setStampsNum }: propsType) => {
               'scale_disc': v.type === 'DISC',
               'scale_xd': v.type === 'XD-01',
               'scale_xd_value': v.type === 'XD-02',
+              'scale_kps': v.type === 'XD-03',
               'selected': selectScale?.includes(v.id)
             })}
             onClick={() => onSelectScale(index)}

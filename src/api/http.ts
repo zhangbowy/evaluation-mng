@@ -43,6 +43,12 @@ const request: any = (url: string, option: { params?: any, data?: any, method?: 
         url,
         method: method.toLowerCase(),
         [method.toLowerCase() === 'get' ? 'params' : 'data']: params || data
+    }).catch(err => {
+        Modal.warning({
+            title: '温馨提示',
+            content: err.message || '网络错误',
+            okText: '确认',
+        });
     })
 }
 

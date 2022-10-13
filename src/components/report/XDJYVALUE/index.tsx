@@ -112,7 +112,7 @@ const PdfDetailMBTI = (props: any) => {
                     </span>
                 </div>
                 <div className="main-title">
-                    <p className="title">行动教育</p>
+                    <p className="title">{resultDetail?.examTemplateType === 'XD-03' ? '康帕斯' : '行动教育'}</p>
                     <span className="ch-title">
                         价值观测评
                     </span>
@@ -123,9 +123,12 @@ const PdfDetailMBTI = (props: any) => {
                     <img src={'https://qzz-static.forwe.store/evaluation-mng/imgs/log1.png'} alt="" />
                 </div>
                 <div className="user-info">
-                    <p className="title">{resultDetail?.user?.name}</p>
-                    <p className="sub-title">{resultDetail?.user && Gender[resultDetail?.user?.gender]}</p>
-                    <p className="sub-title">{resultDetail?.created}</p>
+                    <div>
+                        <p className="title">{resultDetail?.user?.name}</p>
+                        <p >{Gender[resultDetail?.user?.gender] ?? '未知'}/{resultDetail?.user?.age || 0}岁/{resultDetail?.user?.qualification}</p>
+                    </div>
+                    <p className="sub-job">应聘岗位：{resultDetail?.user?.job}</p>
+                    <p className="sub-date">{resultDetail?.created}</p>
                 </div>
                 <div className="cover-bottom">
                     鑫蜂维网络科技有限公司 版权所有
@@ -138,112 +141,297 @@ const PdfDetailMBTI = (props: any) => {
                 </div>
                 <div className='page-dash-line'></div>
                 <div className="page-title mg-b-24">
-                  <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
-                  <span>价值观</span>
-                  <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
+                    <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
+                    <span>价值观</span>
+                    <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
                 </div>
-                <table className='page-table'>
-                  <thead>
-                    <tr>
-                      <td className='page-table-header-odd'>诚信为本</td>
-                      <td className='page-table-header-even'>行为准则</td>
-                      <td className='page-table-header-odd'>实效第一</td>
-                      <td className='page-table-header-even'>行为准则</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td rowSpan={3} className='page-table-body-title'>绝不虚假</td>
-                      <td>1、不说假大空话</td>
-                      <td rowSpan={3} className='page-table-body-title'>简单直接</td>
-                      <td>1、复杂事情简单化</td>
-                    </tr>
-                    <tr>
-                      <td>2、说话做事有依据</td>
-                      <td>2、做事抓重点</td>
-                    </tr>
-                    <tr>
-                      <td>3、为人正直</td>
-                      <td>3、凡事成果量化，设定期限</td>
-                    </tr>
+                {
+                    resultDetail?.examTemplateType !== 'XD-03' ?
+                        <table className='page-table'>
+                            <thead>
+                                <tr>
+                                    <td className='page-table-header-odd'>诚信为本</td>
+                                    <td className='page-table-header-even'>行为准则</td>
+                                    <td className='page-table-header-odd'>实效第一</td>
+                                    <td className='page-table-header-even'>行为准则</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowSpan={3} className='page-table-body-title'>绝不虚假</td>
+                                    <td>1、不说假大空话</td>
+                                    <td rowSpan={3} className='page-table-body-title'>简单直接</td>
+                                    <td>1、复杂事情简单化</td>
+                                </tr>
+                                <tr>
+                                    <td>2、说话做事有依据</td>
+                                    <td>2、做事抓重点</td>
+                                </tr>
+                                <tr>
+                                    <td>3、为人正直</td>
+                                    <td>3、凡事成果量化，设定期限</td>
+                                </tr>
 
-                    <tr>
-                      <td rowSpan={4} className='page-table-body-title'>不找借口</td>
-                      <td>1、100%担当责任</td>
-                      <td rowSpan={4} className='page-table-body-title'>精益求精</td>
-                      <td>1、把一件事情做到第一</td>
-                    </tr>
-                    <tr>
-                      <td>2、内向思维</td>
-                      <td>2、高标准，严要求</td>
-                    </tr>
-                    <tr>
-                      <td>3、不抱怨</td>
-                      <td>3、持续反省和改进</td>
-                    </tr>
-                    <tr>
-                      <td>4、对工作成果负责</td>
-                      <td>4、咬定目标，决不放弃</td>
-                    </tr>
+                                <tr>
+                                    <td rowSpan={4} className='page-table-body-title'>不找借口</td>
+                                    <td>1、100%担当责任</td>
+                                    <td rowSpan={4} className='page-table-body-title'>精益求精</td>
+                                    <td>1、把一件事情做到第一</td>
+                                </tr>
+                                <tr>
+                                    <td>2、内向思维</td>
+                                    <td>2、高标准，严要求</td>
+                                </tr>
+                                <tr>
+                                    <td>3、不抱怨</td>
+                                    <td>3、持续反省和改进</td>
+                                </tr>
+                                <tr>
+                                    <td>4、对工作成果负责</td>
+                                    <td>4、咬定目标，决不放弃</td>
+                                </tr>
 
-                    <tr>
-                      <td rowSpan={3} className='page-table-body-title'>有责任心</td>
-                      <td>1、要求别人自己先做到</td>
-                      <td rowSpan={3} className='page-table-body-title'>持续创新</td>
-                      <td>1、每天对用户提供10倍以上价值的产品和服务</td>
-                    </tr>
-                    <tr>
-                      <td>2、第一次把事情做好</td>
-                      <td>2、每周都有5小时以上的专题学习</td>
-                    </tr>
-                    <tr>
-                      <td>3、有主人翁意识</td>
-                      <td>3、每月至少一次主动变革，带来绩效突破性地提升</td>
-                    </tr>
+                                <tr>
+                                    <td rowSpan={3} className='page-table-body-title'>有责任心</td>
+                                    <td>1、要求别人自己先做到</td>
+                                    <td rowSpan={3} className='page-table-body-title'>持续创新</td>
+                                    <td>1、每天对用户提供10倍以上价值的产品和服务</td>
+                                </tr>
+                                <tr>
+                                    <td>2、第一次把事情做好</td>
+                                    <td>2、每周都有5小时以上的专题学习</td>
+                                </tr>
+                                <tr>
+                                    <td>3、有主人翁意识</td>
+                                    <td>3、每月至少一次主动变革，带来绩效突破性地提升</td>
+                                </tr>
 
-                    <tr>
-                      <td rowSpan={3} className='page-table-body-title'>坚守承诺</td>
-                      <td>1、答应别人的事情一定要做到</td>
-                      <td rowSpan={3} className='page-table-body-title'>超出期望</td>
-                      <td>1、每月保证用户成果</td>
-                    </tr>
-                    <tr>
-                      <td>2、全力以赴达成既定目标</td>
-                      <td>2、给用户惊喜感</td>
-                    </tr>
-                    <tr>
-                      <td>3、有敢于承担后果的勇气</td>
-                      <td>3、让用户重复使用</td>
-                    </tr>
+                                <tr>
+                                    <td rowSpan={3} className='page-table-body-title'>坚守承诺</td>
+                                    <td>1、答应别人的事情一定要做到</td>
+                                    <td rowSpan={3} className='page-table-body-title'>超出期望</td>
+                                    <td>1、每月保证用户成果</td>
+                                </tr>
+                                <tr>
+                                    <td>2、全力以赴达成既定目标</td>
+                                    <td>2、给用户惊喜感</td>
+                                </tr>
+                                <tr>
+                                    <td>3、有敢于承担后果的勇气</td>
+                                    <td>3、让用户重复使用</td>
+                                </tr>
 
-                    <tr>
-                      <td rowSpan={3} className='page-table-body-title'>值得信赖</td>
-                      <td>1、做事独挡一面</td>
-                      <td rowSpan={3} className='page-table-body-title'>成为专家</td>
-                      <td>1、一万小时的训练</td>
-                    </tr>
-                    <tr>
-                      <td>2、严于律己，尊重他人</td>
-                      <td>2、用户绝口称赞</td>
-                    </tr>
-                    <tr>
-                      <td>3、利他爱人，凡事感恩</td>
-                      <td>3、对国家和社会有突出的贡献</td>
-                    </tr>
-                  </tbody>
-                </table>
+                                <tr>
+                                    <td rowSpan={3} className='page-table-body-title'>值得信赖</td>
+                                    <td>1、做事独挡一面</td>
+                                    <td rowSpan={3} className='page-table-body-title'>成为专家</td>
+                                    <td>1、一万小时的训练</td>
+                                </tr>
+                                <tr>
+                                    <td>2、严于律己，尊重他人</td>
+                                    <td>2、用户绝口称赞</td>
+                                </tr>
+                                <tr>
+                                    <td>3、利他爱人，凡事感恩</td>
+                                    <td>3、对国家和社会有突出的贡献</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        :
+                        <table className='page-table-kps'>
+                            <tbody>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={13}>成就客户</td>
+                                    <td className='kps-center' rowSpan={3}>坚守承诺</td>
+                                    <td>1、答应别人的事情一定要做到</td>
+                                </tr>
+                                <tr>
+                                    <td>2、全力以赴达成既定目标</td>
+                                </tr>
+                                <tr>
+                                    <td>3、有敢于承担后果的勇气</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={4}>不找借口</td>
+                                    <td>1、100%担当责任</td>
+                                </tr>
+                                <tr>
+                                    <td>2、内向思维</td>
+                                </tr>
+                                <tr>
+                                    <td>3、不抱怨</td>
+                                </tr>
+                                <tr>
+                                    <td>4、对工作成果负责</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>值得信赖</td>
+                                    <td>1、做事独当一面</td>
+                                </tr>
+                                <tr>
+                                    <td>2、严于律己</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={4}>创造价值</td>
+                                    <td>1、遇到困难不言弃</td>
+                                </tr>
+                                <tr>
+                                    <td>2、能够给客户创造价值</td>
+                                </tr>
+                                <tr>
+                                    <td>3、每天对用户提供10倍以上价值的产品和服务</td>
+                                </tr>
+                                <tr>
+                                    <td>4、用户绝口称赞（这个与给用户惊喜感是一个意思）</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={8}>创新</td>
+                                    <td className='kps-center' >主动学习</td>
+                                    <td>1、每周都有3小时以上的学习时间</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>喜欢琢磨</td>
+                                    <td>1、对事情刨根问底，喜欢琢磨</td>
+                                </tr>
+                                <tr>
+                                    <td>2、持续反省和改进</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={3}>超出期望</td>
+                                    <td>1、每月保证用户成果</td>
+                                </tr>
+                                <tr>
+                                    <td>2、给用户惊喜感</td>
+                                </tr>
+                                <tr>
+                                    <td>3、让用户重复使用</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>突破自我</td>
+                                    <td>1、每月至少一次主动创新，带来绩效突破性地提升</td>
+                                </tr>
+                                <tr>
+                                    <td>2、咬定目标，决不放弃</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={2}>拥抱变化</td>
+                                    <td className='kps-center'>接受变化</td>
+                                    <td>1、喜欢变化和挑战</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center'>快速适应变化</td>
+                                    <td>1、适应并拿到结果</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={5}>向前一步</td>
+                                    <td className='kps-center'>空杯心态</td>
+                                    <td>1、做事保持谦虚，能够持续学习</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>强执行力</td>
+                                    <td>1、把一件事情做到第一</td>
+                                </tr>
+                                <tr>
+                                    <td>2、把事情做到极致</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>协作</td>
+                                    <td>1、助人为乐</td>
+                                </tr>
+                                <tr>
+                                    <td>2、协作共赢</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={6}>感恩</td>
+                                    <td className='kps-center'>乐于分享</td>
+                                    <td>1、积极主动分享</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={3}>有责任心</td>
+                                    <td>1、要求别人自己先做到</td>
+                                </tr>
+                                <tr>
+                                    <td>2、第一次就把事情做好</td>
+                                </tr>
+                                <tr>
+                                    <td>3、有主人翁意识</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>利他/正能量</td>
+                                    <td>1、利他爱人</td>
+                                </tr>
+                                <tr>
+                                    <td>2、尊重他人</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={5}>坚信</td>
+                                    <td className='kps-center' rowSpan={3}>诚信（不虚假）</td>
+                                    <td>1、绝不虚假</td>
+                                </tr>
+                                <tr>
+                                    <td>2、为人正直</td>
+                                </tr>
+                                <tr>
+                                    <td>3、说话做事有依据</td>
+                                </tr>
+                                <tr>
+                                    <td className='kps-center' rowSpan={2}>毅力</td>
+                                    <td>1、自驱</td>
+                                </tr>
+                                <tr>
+                                    <td>2、一万小时的训练</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                }
+
+
                 <div className='page-box-score'>
-                  <p>您的测评得分是</p>
-                  <div>{resultDetail?.scoreDetail?.['德']?.score}分</div>
+                    <p>您的测评得分是</p>
+                    <div>{resultDetail?.scoreDetail?.[resultDetail?.examTemplateType === 'XD-03' ? '价值观' : '德']?.score}分</div>
+                </div>
+            </div>
+            {/* 分页 */}
+            <div className="page-box four_mbti">
+                <div className="page-top mg-b">
+                    <div className="logo"></div>
+                </div>
+                <div className='page-dash-line'></div>
+                <div className='score-wrapper'>
+                    {
+                        resultDetail?.scoreDetail?.[resultDetail?.examTemplateType === 'XD-03' ? '价值观' : '德']?.subResultScores.map((res: any) => (
+                            <div key={res.resultType} className='score-main'>
+                                <div>{res.resultType}得分：{res.score}<span>/{res.totalScore}</span></div>
+                                <ul>
+                                    {
+                                        res.subResultScores.map((item: any) => (
+                                            <li key={item.resultType}>
+                                                <p>【{item.resultType}】</p>
+                                                <div>
+                                                    <div className='score-progress' style={{ '--progress': (630 / item.totalScore * item.score) + 'px' } as any}>
+                                                        <span className='score-triangle'></span>
+                                                    </div>
+                                                    <div className='score-numerical'>
+                                                        <span className='score-cur'>{item.score}</span>
+                                                        <span className='score-total'>/ {item.totalScore}</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
             {/* 分页结束 */}
             <div className="page-box four_mbti">
                 <div className='page-dash-line'></div>
                 <div className="page-title">
-                  <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
-                  <span>职业性格</span>
-                  <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
+                    <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
+                    <span>职业性格</span>
+                    <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
                 </div>
                 <div className="tag-line">
                     <div className="tag-apply-chart">
@@ -352,9 +540,9 @@ const PdfDetailMBTI = (props: any) => {
                 </div> */}
                 <div className='page-dash-line'></div>
                 <div className="page-title">
-                  <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
-                  <span>指导建议</span>
-                  <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
+                    <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
+                    <span>指导建议</span>
+                    <img src="https://qzz-static.forwe.store/evaluation-mng/imgs/log2.png" alt="" />
                 </div>
                 <div className="classify-detail m-t-34">
                     <p className="abstract">

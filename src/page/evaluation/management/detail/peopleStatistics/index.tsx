@@ -13,12 +13,13 @@ import { LockOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import LookAllTags from '../lookAllTags';
 import { downloadFile } from '@/components/dd';
 import { IColumns, ISelectPdfStatusBack, SelectPdfStatus } from '@/page/evaluation/recruitEvaluation/type';
-import { getAllUrlParam } from '@/utils/utils';
+import { getAllUrlParam, getAppIdType } from '@/utils/utils';
 
 type IPeopleStatistics = { chartList: IChartList, type: string }
 const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref) => {
     const [form] = Form.useForm();
     const params = useParams() as { id: string }
+    const appType = getAppIdType();
     const measurement = EvalDetail.measurementObj
     const deptId = EvalDetail.departmentId
     const navigator = useNavigate()
@@ -243,10 +244,10 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.responseType = 'blob';
-        xhr.onload = function() {
-                if (xhr.status === 200) {
-                    cb(xhr.response);
-                }
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                cb(xhr.response);
+            }
         };
         xhr.send();
     }
@@ -264,14 +265,14 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             link.click();
             setExportLoading(false)
         }
-        
+
         if (body) {
             body.removeChild(link);
         }
         window.URL.revokeObjectURL(link.href);
     }
     const download = (url: string, filename: string) => {
-        getBlob(url, function(blob: any) {
+        getBlob(url, function (blob: any) {
             saveAs(blob, filename);
         });
     };
@@ -370,7 +371,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         setIsUrge(false);
     };
     // 对象数组去重
-    const uniqueFunc = (arr: any, uniId: string) =>{
+    const uniqueFunc = (arr: any, uniId: string) => {
         const res = new Map();
         return arr.filter((item: any) => !res.has(item[uniId]) && res.set(item[uniId], 1));
     };
@@ -386,11 +387,11 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         const unSelectListKeys = unSelectList?.map(v => v.userId);
         copyData = copyData.concat(selectListKeys);
         copyInfoData = copyInfoData.concat(selectList);
-        for (let i = 0; i < copyData.length ; i++) {
+        for (let i = 0; i < copyData.length; i++) {
             if (unSelectListKeys?.indexOf(copyData[i]) === -1) {
                 finallyData.push(copyData[i]);
                 finallyInfoData.push(copyInfoData[i])
-            } 
+            }
         }
         finallyData = [...new Set(finallyData)];
         finallyInfoData = uniqueFunc(finallyInfoData, 'examPaperId');
@@ -435,7 +436,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                     }
                 })
             },
-          })
+        })
     };
     if (tableLoading) {
         return <Loading />
@@ -475,12 +476,12 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                                     <Button onClick={closeBatch}>取消</Button>
                                     <Button disabled={selectKeys.length === 0} onClick={confirmUrge} type="primary">确定催办({selectKeys.length})</Button>
                                 </>
-                                    :<>
-                                        <Button type="primary" ghost onClick={startBatch}>批量催办</Button>
+                                    : <>
+                                        {appType == 2 && <Button type="primary" ghost onClick={startBatch}>批量催办</Button>}
                                         <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
                                     </>
                             }
-                            
+
                         </div>
                     </div>
                     <Table
