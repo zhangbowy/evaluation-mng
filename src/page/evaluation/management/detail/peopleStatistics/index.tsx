@@ -1,15 +1,15 @@
-import { getExamResult, getExamUsers, getIsHasPdf, getPDFDownLoad, getSelectPdfStatus, measurementExport, UnLockReport } from '@/api/api';
+import { getExamResult, getExamUsers, getIsHasPdf, getPDFDownLoad, getSelectPdfStatus, measurementExport, UnLockReport, notification } from '@/api/api';
 import Loading from '@/components/loading';
 import { doneCondition, tagsColor } from '@/config/management.config';
 import { useCallbackState } from '@/utils/hook';
-import { Button, Divider, Form, Input, Modal, Select, Table } from 'antd'
+import { Button, Divider, Form, Input, message, Modal, Select, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table';
-import React, { Fragment, memo, useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react'
+import React, { Fragment, memo, useEffect, useRef, useState, forwardRef, useImperativeHandle, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { characterProportions, IChartList, IDepartment, IisDimission, IResultList, IResultTable, ISex, ITableParams } from '../../type';
 import styles from './index.module.less'
 import { EvalDetail, SearchData } from '@/store';
-import { LockOutlined } from '@ant-design/icons'
+import { LockOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import LookAllTags from '../lookAllTags';
 import { downloadFile } from '@/components/dd';
 import { IColumns, ISelectPdfStatusBack, SelectPdfStatus } from '@/page/evaluation/recruitEvaluation/type';
@@ -31,9 +31,13 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
     const [pageSize, setPageSize] = useState<number>(10) // 多少条
     const [unlockLoading, setUnlockLoading] = useState<boolean[]>([]);
     const [unlockFail, setUnlockFail] = useState<boolean[]>([]);
+    const [isUrge, setIsUrge] = useState<boolean>(false);
+    const [selectKeys, setSelectKeys] = useState<any[]>([]);
+    const [selectInfo, setSelectInfo] = useState<IResultList[]>([]);
     const lookAllTagsRef: any = useRef()
     const tasksPdf: any = useRef([]); //下载储存的人任务
     const { appId } = getAllUrlParam();
+    const { confirm } = Modal;
     let timer: any;
     useImperativeHandle(ref, () => ({
         getTableList
@@ -142,15 +146,26 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                     }
                 }
                 // 一键催办
-                const onUrgeClick = () => {
-                    console.log('催版')
+                const onUrgeClick = (record: any) => {
+                    notification({
+                        examPaperIds: [record.examPaperId]
+                    }).then(res => {
+                        const { code } = res;
+                        if (code === 1) {
+                            message.success('操作成功');
+                            // setSelectInfo([]);
+                            // setSelectKeys([]);
+                            // setIsUrge(false)
+                        }
+                    })
                 }
                 const getText = (key: number) => {
                     switch (key) {
                         case 0:
                             return <>
                                 <Button type='text' disabled>未参加测评</Button>
-                                {/* <Button type='link' onClick={onUrgeClick} className={styles.urgeBtn}>一键催办</Button> */}
+                                <Divider type="vertical" />
+                                <Button type='link' onClick={() => onUrgeClick(record)} className={styles.urgeBtn}>催办</Button>
                             </>
                         case 1 || 2 || 3:
                             return <Button type='text' disabled>测评中</Button>
@@ -224,15 +239,51 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         getTableList()
     }
     // 导出
+    const getBlob = (url: string, cb: any) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+                if (xhr.status === 200) {
+                    cb(xhr.response);
+                }
+        };
+        xhr.send();
+    }
+    const saveAs = (blob: any, filename: string) => {
+        const link = document.createElement('a');
+        const body = document.querySelector('body');
+
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+
+        // fix Firefox
+        link.style.display = 'none';
+        if (body) {
+            body.appendChild(link);
+            link.click();
+            setExportLoading(false)
+        }
+        
+        if (body) {
+            body.removeChild(link);
+        }
+        window.URL.revokeObjectURL(link.href);
+    }
+    const download = (url: string, filename: string) => {
+        getBlob(url, function(blob: any) {
+            saveAs(blob, filename);
+        });
+    };
     const onDeriveClick = async () => {
         setExportLoading(true)
         const res = await measurementExport(params.id)
         if (res.code == 1) {
-            const a = document.createElement('a')
-            a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
-            a.download = res.data.cname
-            a.click()
-            setExportLoading(false)
+            // const a = document.createElement('a')
+            // a.href = `${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`
+            // a.download = res.data.cname
+            // a.click()
+            download(`${location.protocol}//${res.data.bucket}.${res.data.endpoint}/${res.data.path}`, res.data.cname)
         }
     }
     // 关闭loading
@@ -305,6 +356,87 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             }
         }
     }
+    // 开始批量选择
+    const startBatch = () => {
+        const infoList: any = tableList?.resultList.filter(v => v.status === 0);
+        const keyList = infoList.map((item: any) => item.userId)
+        setSelectKeys(keyList)
+        setSelectInfo(infoList);
+        setIsUrge(true);
+    };
+    // 关闭批量催办
+    const closeBatch = () => {
+        setSelectKeys([]);
+        setIsUrge(false);
+    };
+    // 对象数组去重
+    const uniqueFunc = (arr: any, uniId: string) =>{
+        const res = new Map();
+        return arr.filter((item: any) => !res.has(item[uniId]) && res.set(item[uniId], 1));
+    };
+    // 处理表格勾选的数据
+    const tableCheckData = (selectData: any) => {
+        let copyData = selectKeys;
+        let copyInfoData = selectInfo;
+        let finallyData = [];
+        let finallyInfoData = []
+        const selectList: IResultList[] = tableList?.resultList.filter(item => item.status === 0).filter(v => selectData.indexOf(v.userId) > -1) || [];
+        const selectListKeys = selectList?.map(v => v.userId);
+        const unSelectList = tableList?.resultList.filter(item => item.status === 0).filter(v => selectData.indexOf(v.userId) === -1)
+        const unSelectListKeys = unSelectList?.map(v => v.userId);
+        copyData = copyData.concat(selectListKeys);
+        copyInfoData = copyInfoData.concat(selectList);
+        for (let i = 0; i < copyData.length ; i++) {
+            if (unSelectListKeys?.indexOf(copyData[i]) === -1) {
+                finallyData.push(copyData[i]);
+                finallyInfoData.push(copyInfoData[i])
+            } 
+        }
+        finallyData = [...new Set(finallyData)];
+        finallyInfoData = uniqueFunc(finallyInfoData, 'examPaperId');
+        console.log(finallyData, finallyInfoData);
+        setSelectKeys(finallyData);
+        setSelectInfo(finallyInfoData);
+    }
+    const urgeNames = useMemo(() => {
+        let str = '';
+        if (selectInfo.length > 6) {
+            selectInfo.map((v, index) => {
+                if (index < 6) {
+                    str += v.name + '、'
+                }
+            })
+            str = `${str.substring(0, str.length - 1)}...等${selectInfo.length}人`;
+        } else {
+            selectInfo.map((v, index) => {
+                str += v.name + '、'
+            })
+            str = `${str.substring(0, str.length - 1)}`;
+        }
+        return str;
+    }, [selectInfo]);
+    // 确认催办
+    const confirmUrge = () => {
+        confirm({
+            title: '批量催办',
+            icon: <ExclamationCircleOutlined />,
+            content: `将为您向${urgeNames}发送测评催办`,
+            onOk() {
+                const paperIds = selectInfo.map(v => v.examPaperId)
+                notification({
+                    examPaperIds: paperIds
+                }).then(res => {
+                    const { code } = res;
+                    if (code === 1) {
+                        message.success('操作成功');
+                        setSelectInfo([]);
+                        setSelectKeys([]);
+                        setIsUrge(false)
+                    }
+                })
+            },
+          })
+    };
     if (tableLoading) {
         return <Loading />
     }
@@ -333,16 +465,44 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         <Button type="primary" onClick={onSearchClick}>搜索</Button>
                     </div>
                 </div>
-                <Divider style={{ margin: '8px 0 24px' }} />
+                <Divider style={{ margin: '8px 0 16px' }} />
                 <div className={styles.detail_main_table}>
                     <div className={styles.detail_main_title}>
                         <span>测评列表</span>
                         <div>
-                            {/* <Button type="primary">批量催办</Button> */}
-                            <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
+                            {
+                                isUrge ? <>
+                                    <Button onClick={closeBatch}>取消</Button>
+                                    <Button disabled={selectKeys.length === 0} onClick={confirmUrge} type="primary">确定催办({selectKeys.length})</Button>
+                                </>
+                                    :<>
+                                        <Button type="primary" ghost onClick={startBatch}>批量催办</Button>
+                                        <Button type="primary" loading={exportLoading} onClick={onDeriveClick}>导出</Button>
+                                    </>
+                            }
+                            
                         </div>
                     </div>
-                    <Table pagination={paginationObj} scroll={{ x: 1500, }} loading={tableLoading} rowKey={(row) => row.userId} columns={columns} dataSource={tableList?.resultList} />
+                    <Table
+                        pagination={paginationObj}
+                        scroll={{ x: 1500, }}
+                        loading={tableLoading}
+                        rowKey={(row) => row.userId}
+                        columns={columns}
+                        dataSource={tableList?.resultList}
+                        rowSelection={isUrge ? {
+                            type: 'checkbox',
+                            selectedRowKeys: selectKeys,
+                            onChange: (selectedRowKeys, selectedRow, info) => {
+                                tableCheckData(selectedRowKeys);
+                                // setSelectKeys(selectedRowKeys);
+                            },
+                            getCheckboxProps: (record: any) => ({
+                                disabled: record.status === 10,
+                            })
+                        } : undefined}
+                        sticky={{ offsetHeader: 133 }}
+                    />
                 </div>
             </div>
             <LookAllTags ref={lookAllTagsRef} />

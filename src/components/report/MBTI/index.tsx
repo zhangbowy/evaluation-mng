@@ -324,7 +324,7 @@ const PdfDetailMBTI = (props: any) => {
                                 </div>
                                 <div className="result-item">
                                     <div className="in">
-                                        <div className="label">思考(T):{resultDetail?.scoreDetail?.T.score}</div>
+                                        <div className="label">思考(T):{resultDetail?.scoreDetail?.T?.score}</div>
                                         <div className="pillar-box">
                                             <div className="percent color-3"
                                                 style={{ width: `${resultDetail?.scoreDetail?.T?.fullScore}%` }}
@@ -376,22 +376,22 @@ const PdfDetailMBTI = (props: any) => {
                     <div className="result-detail-item">
                         <p className="title">信息接收（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr[1]}:{resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[1]]}）</p>
                         <div className="result-detail-box">
-                            <p><em>感觉(S):{resultDetail?.scoreDetail?.S.score}</em>倾向于当前发生的事，关注由五官感觉获取的具体信息。</p>
-                            <p><em>直觉(N):{resultDetail?.scoreDetail?.N.score}</em>倾向于未来可能的和潜在的事，关注事物的整体和发展变化趋势。</p>
+                            <p><em>感觉(S):{resultDetail?.scoreDetail?.S?.score}</em>倾向于当前发生的事，关注由五官感觉获取的具体信息。</p>
+                            <p><em>直觉(N):{resultDetail?.scoreDetail?.N?.score}</em>倾向于未来可能的和潜在的事，关注事物的整体和发展变化趋势。</p>
                         </div>
                     </div>
                     <div className="result-detail-item">
                         <p className="title">信息处理（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr[2]}:{resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[2]]}）</p>
                         <div className="result-detail-box">
-                            <p><em>思考(T):{resultDetail?.scoreDetail?.T.score}</em>重视事物之间的逻辑关系，喜欢通过客观分析作决定评价、解决问题。</p>
-                            <p><em>情感(F):{resultDetail?.scoreDetail?.F.score}</em>以自己和他人的感受为重，将自己的主观价值观作为判定标准。</p>
+                            <p><em>思考(T):{resultDetail?.scoreDetail?.T?.score}</em>重视事物之间的逻辑关系，喜欢通过客观分析作决定评价、解决问题。</p>
+                            <p><em>情感(F):{resultDetail?.scoreDetail?.F?.score}</em>以自己和他人的感受为重，将自己的主观价值观作为判定标准。</p>
                         </div>
                     </div>
                     <div className="result-detail-item">
                         <p className="title">行动方式（{resultDetail?.examTemplateArr && resultDetail?.examTemplateArr[3]}:{resultDetail?.examTemplateArr && (MBTISimpel as any)[resultDetail?.examTemplateArr[3]]}）</p>
                         <div className="result-detail-box">
-                            <p><em>判断(J):{resultDetail?.scoreDetail?.J.score}</em>喜欢根据信息来做判断、计划和决定，愿意进行管理和控制，希望生活井然有序</p>
-                            <p><em>知觉(P):{resultDetail?.scoreDetail?.P.score}</em>喜欢以自己的理解和信息做决策，灵活、试图去理解、适应环境,倾向于留有余地，喜欢宽松自由的生活方式。</p>
+                            <p><em>判断(J):{resultDetail?.scoreDetail?.J?.score}</em>喜欢根据信息来做判断、计划和决定，愿意进行管理和控制，希望生活井然有序</p>
+                            <p><em>知觉(P):{resultDetail?.scoreDetail?.P?.score}</em>喜欢以自己的理解和信息做决策，灵活、试图去理解、适应环境,倾向于留有余地，喜欢宽松自由的生活方式。</p>
                         </div>
                     </div>
                 </div>
@@ -475,52 +475,52 @@ const PdfDetailMBTI = (props: any) => {
                             <div className="result-xy">
                                 <div className="result-bg" data-month="忠诚度">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['忠诚度']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['忠诚度']]}` }}
                                     ><s title="8.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="责任心">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['责任心']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['责任心']]}` }}
                                     ><s title="2.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="创新力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['创新力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['创新力']]}` }}
                                     ><s title="3.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="耐心程度">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['耐心程度']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['耐心程度']]}` }}
                                     ><s title="4.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="洞察力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['洞察力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['洞察力']]}` }}
                                     ><s title="5.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="分析能力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['分析能力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['分析能力']]}` }}
                                     ><s title="6.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="适应能力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['适应能力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['适应能力']]}` }}
                                     ><s title="7.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="抗压能力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['抗压能力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['抗压能力']]}` }}
                                     ><s title="6.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="沟通能力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['沟通能力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['沟通能力']]}` }}
                                     ><s title="4.4"></s></span>
                                 </div>
                                 <div className="result-bg" data-month="判断能力">
                                     <span className="result-bar"
-                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability['判断能力']]}` }}
+                                        style={{ height: `${resultDetail?.htmlDesc && (chartHeight as any)[resultDetail?.htmlDesc?.ability?.['判断能力']]}` }}
                                     ><s title="5.4"></s></span>
                                 </div>
                             </div>

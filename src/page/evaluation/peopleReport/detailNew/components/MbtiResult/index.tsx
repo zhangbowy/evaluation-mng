@@ -1,24 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.less';
 import { Button, Tooltip } from 'antd';
+import cs from 'classnames';
+import MarkResult from '../MarkResult';
 
-const MbtiResult = ({ chartsData, sendNotice }: any) => {
+const MbtiResult = ({ chartsData, sendNotice, openEvaluation }: any) => {
+  const [isBlur, setIsBlur] = useState<boolean>(false);
+  const [isHaveInvite, setIsHaveInvite] = useState<boolean>(false);
   const sendInfo = () => {
     sendNotice && sendNotice(chartsData?.examPaperId);
   };
+  useEffect(() => {
+    if (((!chartsData?.chartData && chartsData?.examPaperId) || !chartsData?.examPaperId)) {
+      setIsBlur(true)
+    } else {
+      setIsBlur(false)
+    }
+    if (!chartsData?.examPaperId) {
+      setIsHaveInvite(false)
+    } else {
+      setIsHaveInvite(true)
+    }
+  }, [chartsData])
+  // 发起测评
+  const launchEvaluation = () => {
+    openEvaluation && openEvaluation('MBTI')
+  }
   return (
-    <div className={styles.mbti_result}>
+    <div className={isHaveInvite ? cs(styles.mbti_result) : cs(styles.mbti_result, styles.invite)}>
       <div className={styles.mbti_result_header}>
         <div className={styles.mbti_result_header_title}>{chartsData?.resultType ? chartsData?.resultType : '-型'}</div>
         <Tooltip title={chartsData?.introduction ? chartsData?.introduction : ''}>
-          <div className={styles.mbti_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : '待测试'}</div>
+          <div className={styles.mbti_result_header_tips}>{chartsData?.introduction ? chartsData?.introduction : 'MBTI(待测试)'}</div>
         </Tooltip>
-        {
+        {/* {
           (!chartsData?.chartData && chartsData?.examPaperId) && <Button className={styles.mbti_result_header_action} type='primary' onClick={sendInfo}>通知测评</Button>
         }
+        {
+          !chartsData?.examPaperId && <Button className={styles.mbti_result_header_action} type='primary' onClick={sendInfo}>邀约</Button>
+        } */}
       </div>
       <div className={styles.mbti_result_content}>
-        <div className={styles['result-list']}>
+        {
+          isBlur && <MarkResult isBlur={isBlur} isHaveInvite={isHaveInvite} sendInfo={sendInfo} launchEvaluation={launchEvaluation} />
+          // <div className={styles.mbti_result_content_mark}>
+          //   {
+          //     isHaveInvite ? <>
+          //       <span className={styles.mbti_result_content_mark_text}>待员工提交测评后解锁查看</span>
+          //       <Button className={styles.mbti_result_header_action} type='primary' onClick={sendInfo}>催办</Button>
+          //     </> : <>
+          //       <span className={styles.mbti_result_content_mark_text}>员工暂未开放该量表权限</span>
+          //       <span className={styles.mbti_result_content_mark_btn_text}>发起测评&gt;</span>
+          //     </>
+          //   }
+          // </div>
+        }
+        <div className={isBlur ? cs(styles['result-list'], styles['blur']) : styles['result-list']}>
           <div className={styles['result-item']}>
             <div className={styles.in}>
               <div className={styles.label}>外向(E):{chartsData?.chartData?.E?.score || '-'}</div>

@@ -6,6 +6,9 @@
   margin-bottom: 24px;
   margin-right: 24px;
   float: left;
+  &.invite {
+    background-color: #E3E8EE;
+  }
   .mbti_result_header {
     margin-bottom: 16px;
     position: relative;
@@ -32,10 +35,40 @@
       right: 0;
     }
   }
+  .mbti_result_content {
+    position: relative;
+    .mbti_result_content_mark {
+      width: 100%;
+      height: 100%;
+      // background-color: red;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      .mbti_result_content_mark_text {
+        font-size: 14px;
+        font-weight: 400;
+        color: #3E4043;
+        line-height: 20px;
+        margin-bottom: 12px;
+      }
+      .mbti_result_content_mark_btn_text {
+        font-size: 14px;
+        color: #2B85FF;
+        line-height: 20px;
+        cursor: pointer;
+      }
+    }
+  }
   .result-list {
     text-align: center;
     padding-top: 20px;
     width: 100%;
+    &.blur {
+      filter: blur(3px);
+    }
     .result-item {
         display: flex;
         justify-content: space-around;

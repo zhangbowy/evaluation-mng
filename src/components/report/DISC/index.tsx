@@ -250,7 +250,7 @@ const DISCDetail = (props: any) => {
                 </div>
             </div>
             {
-                resultDetail?.htmlDesc?.features.map((it: any, index: number) => (
+                resultDetail?.htmlDesc?.features?.map((it: any, index: number) => (
                     <div className={styles.page} key={it.type}>
                         <div className={cs(styles.sub_title, styles.m_b_24)}>四、特征分析（{numToStr[index]}）</div>
                         <div className={styles.four_title}>
