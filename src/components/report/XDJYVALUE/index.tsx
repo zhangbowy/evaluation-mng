@@ -413,7 +413,7 @@ const PdfDetailMBTI = (props: any) => {
                                                     </div>
                                                     <div className='score-numerical'>
                                                         <span className='score-cur'>{item.score}</span>
-                                                        <span className='score-total'>/ {item.totalScore}</span>
+                                                        <span className='score-total'>/{item.totalScore}</span>
                                                     </div>
                                                 </div>
                                             </li>

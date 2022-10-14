@@ -103,7 +103,6 @@ const ReportDetail = (props: any) => {
             resultFlag.isLast = false
             resultFlag.nextInfo = reportList[indexExam + 1]
         }
-        console.log(resultFlag, 'resultFlag')
         return resultFlag;
     }, [evaluationList, currentExamPaperId, currentTemplateType])
 
