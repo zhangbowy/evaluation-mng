@@ -1,7 +1,7 @@
 import { Button, Input, message, Modal, Result } from 'antd'
 import React, { useState, forwardRef, useImperativeHandle, ChangeEvent, Fragment, useContext } from 'react';
 import styles from './index.module.less'
-import { ddAddPeople, getAllUrlParam } from '@/utils/utils';
+import { ddAddPeople, getAllUrlParam, getAppIdType } from '@/utils/utils';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IExamTemplateList } from '../type';
 import dd from 'dingtalk-jsapi';
@@ -17,6 +17,12 @@ const AddPeople = forwardRef((props, ref) => {
     const { state, dispatch } = useContext(CountContext)
     const navigator = useNavigate()
     const { corpId, appId, clientId } = getAllUrlParam()
+    const appType = getAppIdType();
+    const logo = appType === '2'
+        ? '//qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
+        : '//qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
+    const linkUrl = appType === '2' ? `dingtalk://dingtalkclient/page/link?url=${window.encodeURIComponent(`${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/login`)}&pc_slide=true`
+        : `dingtalk://dingtalkclient/page/link?url=${window.encodeURIComponent(`${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`)}&pc_slide=true`
     const qcp_b_user = JSON.parse(window.sessionStorage.getItem('QCP_B_USER') || '{}');
     useImperativeHandle(ref, () => ({
         openModal
@@ -78,8 +84,8 @@ const AddPeople = forwardRef((props, ref) => {
                             const msg = {
                                 msgtype: "link",
                                 link: {
-                                    messageUrl: `dingtalk://dingtalkclient/page/link?url=${window.encodeURIComponent(`${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`)}&pc_slide=true`,
-                                    image: "http://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png",
+                                    messageUrl: linkUrl,
+                                    image: logo,
                                     title: "您有一份测评待完成",
                                     text: "全抖音1亿用户都在玩的性格测评，赶紧测一测吧！"
                                 }

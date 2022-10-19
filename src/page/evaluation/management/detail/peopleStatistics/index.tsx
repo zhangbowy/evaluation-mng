@@ -87,6 +87,14 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             render: (text: string) => text || '-'
         },
         {
+            title: '得分明细',
+            width: 170,
+            dataIndex: 'ext',
+            render: (text: { [key: string]: number }) => {
+                return <div>{Object.keys(text).map(item => <span key={item}><br></br>{item}:{text[item]}分</span>)}</div>
+            }
+        },
+        {
             title: '性格类型',
             dataIndex: 'tags',
             width: 230,

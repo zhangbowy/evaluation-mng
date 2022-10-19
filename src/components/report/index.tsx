@@ -142,7 +142,7 @@ const ReportDetail = (props: any) => {
                 if (res.data.results) {
                     const { htmlDesc } = newData;
                     const newDimensional = {};
-                    if (type === 'MBTI' || type === 'XD-02') {
+                    if (type === 'MBTI' || type === 'XD-02' || type === 'XD-03') {
                         htmlDesc?.dimensional.forEach((item: any) => {
                             Object.assign(newDimensional, {
                                 [item.tag]: item,
