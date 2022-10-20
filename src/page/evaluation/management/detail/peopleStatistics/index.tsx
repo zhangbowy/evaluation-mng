@@ -50,6 +50,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
             clearInterval(timer)
         }
     }, [])
+
     const columns: ColumnsType<IResultList> = [
         {
             title: '序号',
@@ -88,10 +89,10 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         },
         {
             title: '得分明细',
-            width: 170,
+            width: measurement?.examTemplateType === 'XD-03' ? 170 : 0,
             dataIndex: 'ext',
             render: (text: { [key: string]: number }) => {
-                return <div>{Object.keys(text).map(item => <span key={item}><br></br>{item}:{text[item]}分</span>)}</div>
+                return <div>{(text && Object.keys(text || '{}').map(item => <span key={item}><br></br>{item}:{text[item] || 0}分</span>)) || '-'}</div>
             }
         },
         {
@@ -146,6 +147,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         operationType: '1',
                         examId: record.examId
                     }
+                    console.log('params', params)
                     const res = await UnLockReport(params)
                     if (res.code == 1) {
                         getTableList()
@@ -174,7 +176,7 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                             return <>
                                 <Button type='text' disabled>未参加测评</Button>
                                 <Divider type="vertical" />
-                                <Button type='link' onClick={() => onUrgeClick(record)} className={styles.urgeBtn}>催办</Button>
+                                {appType == 2 && <Button type='link' onClick={() => onUrgeClick(record)} className={styles.urgeBtn}>催办</Button>}
                             </>
                         case 1 || 2 || 3:
                             return <Button type='text' disabled>测评中</Button>

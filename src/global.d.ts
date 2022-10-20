@@ -49,7 +49,7 @@ interface IMeasurement {
     finishValue: string;
     examTitle: string;
     introduction: string;
-    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI' | 'DISC' | 'MBTI_O';
+    examTemplateType: 'CA' | 'PDP' | 'MBTI' | 'CPI' | 'DISC' | 'MBTI_O' | 'XD-03';
     introductionImage: {
         admin: string;
         mobile: {

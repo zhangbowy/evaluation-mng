@@ -642,7 +642,7 @@ const OverviewStatistics = memo(({ type, chartList, onTabChange }: IOverviewStat
                     </div>
                 </div>
                 {
-                    type != 'CPI' &&
+                    type != 'CPI' && type != 'XD-03' &&
                     <div className={styles.detailed}>
                         <h1>详细分析 </h1>
                         {renderChart()}

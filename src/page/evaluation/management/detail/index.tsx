@@ -45,6 +45,7 @@ const Detail = observer(() => {
     const res = await getAllInfo(params.id)
     if (res.code == 1) {
       setMeasurement(res.data)
+      EvalDetail.setMeasurement(res.data)
     }
   }
   // 获取部门
