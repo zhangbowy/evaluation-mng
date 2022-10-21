@@ -238,21 +238,13 @@ const PdfDetailMBTI = (props: any) => {
                             </tbody>
                         </table>
                         :
+
+
                         <table className='page-table-kps'>
                             <tbody>
                                 <tr>
                                     <td className='kps-center bg-color' rowSpan={13}>成就客户</td>
-                                    <td className='kps-center' rowSpan={3}>坚守承诺</td>
-                                    <td>1、答应别人的事情一定要做到</td>
-                                </tr>
-                                <tr>
-                                    <td>2、全力以赴达成既定目标</td>
-                                </tr>
-                                <tr>
-                                    <td>3、有敢于承担后果的勇气</td>
-                                </tr>
-                                <tr>
-                                    <td className='kps-center' rowSpan={4}>不找借口</td>
+                                    <td rowSpan={3} className='kps-center'>不找借口</td>
                                     <td>1、100%担当责任</td>
                                 </tr>
                                 <tr>
@@ -262,112 +254,130 @@ const PdfDetailMBTI = (props: any) => {
                                     <td>3、不抱怨</td>
                                 </tr>
                                 <tr>
-                                    <td>4、对工作成果负责</td>
-                                </tr>
-                                <tr>
-                                    <td className='kps-center' rowSpan={2}>值得信赖</td>
+                                    <td rowSpan={6} className='kps-center'>超出预期服务</td>
                                     <td>1、做事独当一面</td>
                                 </tr>
                                 <tr>
                                     <td>2、严于律己</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={4}>创造价值</td>
-                                    <td>1、遇到困难不言弃</td>
+                                    <td>3、遇到困难不言弃</td>
                                 </tr>
                                 <tr>
-                                    <td>2、能够给客户创造价值</td>
+                                    <td>4、能够给客户创造价值</td>
                                 </tr>
                                 <tr>
-                                    <td>3、每天对用户提供10倍以上价值的产品和服务</td>
+                                    <td>5、用户绝口称赞</td>
                                 </tr>
                                 <tr>
-                                    <td>4、用户绝口称赞（这个与给用户惊喜感是一个意思）</td>
+                                    <td>6、每天对用户提供10倍以上价值的产品和服务</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center bg-color' rowSpan={8}>创新</td>
-                                    <td className='kps-center' >主动学习</td>
-                                    <td>1、每周都有3小时以上的学习时间</td>
+                                    <td rowSpan={4} className='kps-center'>拿到结果</td>
+                                    <td>1、对工作成果负责</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={2}>喜欢琢磨</td>
+                                    <td>2、全力以赴达成既定目标</td>
+                                </tr>
+                                <tr>
+                                    <td>3、有敢于承担后果的勇气</td>
+                                </tr>
+                                <tr>
+                                    <td>4、答应别人的事情一定要做到</td>
+                                </tr>
+
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={6}>创新</td>
+                                    <td rowSpan={2} className='kps-center'>保持好奇主动学习</td>
                                     <td>1、对事情刨根问底，喜欢琢磨</td>
                                 </tr>
                                 <tr>
-                                    <td>2、持续反省和改进</td>
+                                    <td>2、毅力，持续学习</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={3}>超出期望</td>
-                                    <td>1、每月保证用户成果</td>
+                                    <td rowSpan={2} className='kps-center'>主动创新</td>
+                                    <td>1、持续反省和改进</td>
                                 </tr>
                                 <tr>
-                                    <td>2、给用户惊喜感</td>
+                                    <td>2、有创新思维</td>
                                 </tr>
                                 <tr>
-                                    <td>3、让用户重复使用</td>
+                                    <td rowSpan={2} className='kps-center'>创新成果突出</td>
+                                    <td>1、给内外部客户惊喜感</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={2}>突破自我</td>
-                                    <td>1、每月至少一次主动创新，带来绩效突破性地提升</td>
+                                    <td>2、突破自我，带来绩效突破性地提升</td>
                                 </tr>
+
                                 <tr>
-                                    <td>2、咬定目标，决不放弃</td>
-                                </tr>
-                                <tr>
-                                    <td className='kps-center bg-color' rowSpan={2}>拥抱变化</td>
+                                    <td className='kps-center bg-color' rowSpan={5}>拥抱变化</td>
                                     <td className='kps-center'>接受变化</td>
                                     <td>1、喜欢变化和挑战</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center'>快速适应变化</td>
-                                    <td>1、适应并拿到结果</td>
+                                    <td rowSpan={2} className='kps-center'>适应变化</td>
+                                    <td>1、适应能力强</td>
                                 </tr>
+                                <tr>
+                                    <td>2、适应并拿到结果</td>
+                                </tr>
+                                <tr>
+                                    <td rowSpan={2} className='kps-center'>转变化为机遇</td>
+                                    <td>1、快速适应并带动身边的人</td>
+                                </tr>
+                                <tr>
+                                    <td>2、变机遇</td>
+                                </tr>
+
                                 <tr>
                                     <td className='kps-center bg-color' rowSpan={5}>向前一步</td>
-                                    <td className='kps-center'>空杯心态</td>
-                                    <td>1、做事保持谦虚，能够持续学习</td>
-                                </tr>
-                                <tr>
-                                    <td className='kps-center' rowSpan={2}>强执行力</td>
-                                    <td>1、把一件事情做到第一</td>
+                                    <td rowSpan={2} className='kps-center'>有责任心</td>
+                                    <td>1、助人为乐</td>
                                 </tr>
                                 <tr>
                                     <td>2、把事情做到极致</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={2}>协作</td>
-                                    <td>1、助人为乐</td>
+                                    <td className='kps-center'>挺身而出</td>
+                                    <td>1、主动向前解决问题</td>
                                 </tr>
                                 <tr>
-                                    <td>2、协作共赢</td>
+                                    <td rowSpan={2} className='kps-center'>协作共赢</td>
+                                    <td>1、协作利他</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center bg-color' rowSpan={6}>感恩</td>
-                                    <td className='kps-center'>乐于分享</td>
+                                    <td>2、挺身而出拿结果</td>
+                                </tr>
+
+                                <tr>
+                                    <td className='kps-center bg-color' rowSpan={5}>感恩</td>
+                                    <td className='kps-center'>正能量</td>
+                                    <td>1、有正义感</td>
+                                </tr>
+
+                                <tr>
+                                    <td rowSpan={2} className='kps-center'>乐于分享</td>
                                     <td>1、积极主动分享</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={3}>有责任心</td>
-                                    <td>1、要求别人自己先做到</td>
+                                    <td>2、有主人翁意识</td>
                                 </tr>
                                 <tr>
-                                    <td>2、第一次就把事情做好</td>
+                                    <td rowSpan={2} className='kps-center'>利他爱人</td>
+                                    <td>1、感恩内外部客户</td>
                                 </tr>
                                 <tr>
-                                    <td>3、有主人翁意识</td>
+                                    <td>2、用行动反馈社会</td>
                                 </tr>
-                                <tr>
-                                    <td className='kps-center' rowSpan={2}>利他/正能量</td>
-                                    <td>1、利他爱人</td>
-                                </tr>
-                                <tr>
-                                    <td>2、尊重他人</td>
-                                </tr>
+
+
+
                                 <tr>
                                     <td className='kps-center bg-color' rowSpan={5}>坚信</td>
-                                    <td className='kps-center' rowSpan={3}>诚信（不虚假）</td>
+                                    <td rowSpan={3} className='kps-center'>诚信（不虚假）</td>
                                     <td>1、绝不虚假</td>
                                 </tr>
+
                                 <tr>
                                     <td>2、为人正直</td>
                                 </tr>
@@ -375,11 +385,11 @@ const PdfDetailMBTI = (props: any) => {
                                     <td>3、说话做事有依据</td>
                                 </tr>
                                 <tr>
-                                    <td className='kps-center' rowSpan={2}>毅力</td>
-                                    <td>1、自驱</td>
+                                    <td rowSpan={2} className='kps-center'>相信</td>
+                                    <td>1、简单、相信、照做</td>
                                 </tr>
                                 <tr>
-                                    <td>2、一万小时的训练</td>
+                                    <td>2、毅力</td>
                                 </tr>
                             </tbody>
                         </table>
