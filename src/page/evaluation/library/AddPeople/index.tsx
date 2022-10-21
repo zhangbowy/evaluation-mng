@@ -21,7 +21,7 @@ const AddPeople = forwardRef((props, ref) => {
     const logo = appType === '2'
         ? 'https://qzz-static.forwe.store/evaluation-web/imgs/xdjy/xdjy_logo.png'
         : 'https://qzz-static.forwe.store/evaluation-mng/imgs/%E8%B6%A3%E6%B5%8B%E8%AF%84logo2.png'
-    const linkUrl = appType === '2' ? `dingtalk://dingtalkclient/page/link?url=${window.encodeURIComponent(`${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/login`)}&pc_slide=true`
+    const linkUrl = appType === '2' ? `dingtalk://dingtalkclient/page/link?url=${window.encodeURIComponent(`${window.location.origin}/xdjy-web/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/login`)}&pc_slide=true`
         : `dingtalk://dingtalkclient/page/link?url=${window.encodeURIComponent(`${window.location.origin}/?corpId=${corpId}&appId=${appId}&clientId=${clientId}#/user/login`)}&pc_slide=true`
     const qcp_b_user = JSON.parse(window.sessionStorage.getItem('QCP_B_USER') || '{}');
     useImperativeHandle(ref, () => ({
