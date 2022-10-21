@@ -125,9 +125,13 @@ const PdfDetailMBTI = (props: any) => {
                 <div className="user-info">
                     <div>
                         <p className="title">{resultDetail?.user?.name}</p>
-                        <p >{Gender[resultDetail?.user?.gender] ?? '未知'}/{resultDetail?.user?.age || 0}岁/{resultDetail?.user?.qualification}</p>
+                        {
+                            resultDetail?.user?.age ?
+                                <p className='specificInfo'>{Gender[resultDetail?.user?.gender] ?? '未知'}/{resultDetail?.user?.age || 0}岁/{resultDetail?.user?.qualification ?? '未知'}</p>
+                                : <p>{Gender[resultDetail?.user?.gender] ?? '未知'}</p>
+                        }
                     </div>
-                    <p className="sub-job">应聘岗位：{resultDetail?.user?.job}</p>
+                    <p className="sub-job">{resultDetail?.user?.job && `应聘岗位：${resultDetail?.user?.job}`}</p>
                     <p className="sub-date">{resultDetail?.created}</p>
                 </div>
                 <div className="cover-bottom">

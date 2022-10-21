@@ -92,7 +92,7 @@
 
         .cover-img {
             width: 266px;
-            height: 285px;
+            height: 270px;
 
             // margin-left: 20px;
             // margin-bottom: 40px;
@@ -115,8 +115,18 @@
             }
 
             div {
-                display: flex;
-                align-items: center;
+
+                &:has(.specificInfo) {
+                    display: flex;
+                    align-items: center;
+
+                    p:nth-child(2) {
+                        margin-left: 29px;
+                        font-size: 18px;
+                        color: #464C5B;
+                    }
+                }
+
 
                 p:first-child {
                     font-size: 26px;
@@ -124,11 +134,7 @@
                     color: #464C5B;
                 }
 
-                p:nth-child(2) {
-                    margin-left: 29px;
-                    font-size: 18px;
-                    color: #464C5B;
-                }
+
             }
 
             .sub-job {
@@ -233,6 +239,7 @@
             border-bottom: 1px solid #CAB66C;
 
             tbody {
+
                 tr {
                     .kps-center {
                         text-align: center;
@@ -245,6 +252,7 @@
                         color: #C1B073;
                         letter-spacing: 1px;
                     }
+
                 }
             }
 
