@@ -13,7 +13,6 @@ const PositionDrawer = ({ visible, closeDrawer }: propsType) => {
     AddTagsRef.current.onOpenClick(transferredData || [], false)
   }
   const getSelectTags = (obj: any) => {
-    console.log(obj);
     setTransferredData(obj);
     const idList = obj.map((v: any) => v.name);
     form.setFieldsValue({

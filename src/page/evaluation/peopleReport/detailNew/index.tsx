@@ -199,7 +199,6 @@ const Detail = () => {
         content: {
           customHtml: (container: any, view: any, { percent }: any) => {
             const text = `${(percent * 100).toFixed(0)}%`;
-            console.log(percent, 'percent')
             if (percent < 0.80) {
               return `<div style="font-size:14px;color: #464C5B;font-weight: 500;">${text}</div>`
             }
@@ -286,7 +285,8 @@ const Detail = () => {
   const backText = (item: IEvaluationVoList, index: number) => {
     // 查看详情
     const onDetailClick = (item: IEvaluationVoList) => {
-      if (item.examTemplateType === 'MBTI' || item.examTemplateType === 'DISC' || item.examTemplateType === 'PDP' || item.examTemplateType === 'CA') {
+      const typeArr: string[] = ['MBTI', 'DISC', 'PDP', 'CA', 'XD-03']
+      if (typeArr.includes(item.examTemplateType)) {
         navigator(`/evaluation/peopleReport/lookReport/${userId}/${item.examPaperId}~${userId}~${item.examTemplateType}`);
         return;
       }

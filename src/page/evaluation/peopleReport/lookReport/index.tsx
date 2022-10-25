@@ -35,9 +35,6 @@ const LookReport = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(pdfDetail, 'pdfDetail')
-    }, [pdfDetail])
 
     const sendTypeName = (name: string) => {
         setReportName(name);

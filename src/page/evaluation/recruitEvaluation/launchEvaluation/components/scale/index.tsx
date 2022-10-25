@@ -95,7 +95,6 @@ const Scale = ({ setStampsNum }: propsType) => {
   };
   const openDrawer = (item: any) => {
     setVisible(true);
-    console.log(item, 'item');
   };
   const closeDrawer = () => {
     setVisible(false);

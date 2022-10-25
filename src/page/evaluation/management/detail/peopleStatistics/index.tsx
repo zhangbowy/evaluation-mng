@@ -147,7 +147,6 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
                         operationType: '1',
                         examId: record.examId
                     }
-                    console.log('params', params)
                     const res = await UnLockReport(params)
                     if (res.code == 1) {
                         getTableList()
@@ -405,7 +404,6 @@ const PeopleStatistics = forwardRef(({ chartList, type }: IPeopleStatistics, ref
         }
         finallyData = [...new Set(finallyData)];
         finallyInfoData = uniqueFunc(finallyInfoData, 'examPaperId');
-        console.log(finallyData, finallyInfoData);
         setSelectKeys(finallyData);
         setSelectInfo(finallyInfoData);
     }
