@@ -292,12 +292,17 @@
             }
         }
 
+        .benchmark {
+            width: 100%;
+            margin-top: 25px;
+        }
+
         .score-wrapper {
             width: 100%;
 
             .score-main {
                 width: 100%;
-                margin-bottom: 72px;
+                margin-bottom: 49px;
 
                 &>div {
                     width: 100%;
@@ -326,6 +331,28 @@
                             color: #464C5B;
                             padding-left: 16px;
                             margin: 26px 0 6px;
+
+                            display: flex;
+                            align-items: center;
+
+                            .success,
+                            .error {
+                                border-radius: 50%;
+                                color: #fff;
+                                font-size: 12px;
+                                padding: 2px;
+
+                                margin-left: 10px;
+                            }
+
+                            .success {
+                                background-color: #00CC66;
+                            }
+
+                            .error {
+                                background-color: #FF3200;
+                            }
+
                         }
 
                         div {
@@ -360,14 +387,16 @@
                             //     left: 50%;
                             //     transform: translateX(-50%) rotate(135deg);
                             // }
+                            .fontColor {}
 
                             .score-progress {
                                 margin-left: 24px;
-                                width: 630px;
+                                width: var(--initprogress);
 
                                 &::before {
                                     content: '';
-                                    width: 630px;
+                                    width: var(--initprogress);
+                                    display: inline-block;
                                     height: 10px;
                                     background: #E3E8EE;
                                     border-radius: 7px;
@@ -390,7 +419,7 @@
                                     content: '';
                                     width: var(--progress);
                                     height: 10px;
-                                    background: #C1B073;
+                                    background: var(--bgcolor);
                                     border-radius: 7px;
                                     position: absolute;
                                     top: 0;
@@ -402,6 +431,89 @@
                             }
                         }
                     }
+                }
+            }
+
+            section {
+                margin-bottom: 72px;
+
+                h1 {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #464C5B;
+                    line-height: 22px;
+                }
+
+                &>div {
+                    position: relative;
+                    margin-top: 22px;
+
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        display: inline-block;
+                        width: 3px;
+                        height: 100%;
+                        background: #E3E8EE;
+
+                    }
+
+                    ul {
+                        padding-left: 14px;
+
+                        li:nth-child(1) {
+                            display: flex;
+                            align-items: center;
+
+                            div {
+                                display: flex;
+                                align-items: center;
+                                border-radius: 3px;
+                                padding: 3px 6px 3px 3px;
+                                font-size: 14px;
+                                font-weight: 400;
+
+                                .success,
+                                .error {
+                                    border-radius: 50%;
+                                    color: #fff;
+                                    padding: 2px;
+                                    font-size: 12px;
+                                    margin-right: 5px;
+                                }
+
+                                .success {
+                                    background-color: #00CC66;
+                                }
+
+                                .error {
+                                    background-color: #FF3200;
+                                }
+                            }
+
+                            div:nth-child(1) {
+                                background: #e5f9ef;
+                                margin-right: 10px;
+                                color: #00CC66;
+                            }
+
+                            div:nth-child(2) {
+                                background: #feeae5;
+                                color: #FF3200;
+                            }
+                        }
+
+                        li:nth-child(2) {
+                            font-size: 14px;
+                            font-weight: 400;
+                            color: #3E4043;
+                            line-height: 20px;
+                            margin-top: 12px;
+                        }
+                    }
+
+
                 }
             }
         }

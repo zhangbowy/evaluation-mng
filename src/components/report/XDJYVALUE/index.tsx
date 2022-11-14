@@ -3,10 +3,17 @@ import React, { Fragment, memo, useEffect, } from 'react';
 import './index.less';
 import { getAppIdType } from '@/utils/utils'
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
-
+import { useParams } from 'react-router-dom';
+import { CheckOutlined, ExclamationOutlined } from '@ant-design/icons';
+const datumSuccess = 'https://qzz-material.forwe.store/img/okr_backstage/c253e1609bd14bc0b5b370b2e0c16117.png';
+const datumError = 'https://qzz-material.forwe.store/img/okr_backstage/a4ac52b2c5ba47f6a85d36e3f4e9f8de.png'
 const PdfDetailMBTI = (props: any) => {
     const { resultDetail, childStyle } = props;
+    const { people } = useParams()
+    const curReportType = people?.split('~')[2]
     const appType = getAppIdType()
+    const scoreData = resultDetail?.scoreDetail?.['德']
+    const curStatusImg = scoreData && scoreData?.score >= (scoreData?.totalScore / 2) ? datumSuccess : datumError
     const charactertype = [
         {
             startText: '外向',
@@ -93,6 +100,16 @@ const PdfDetailMBTI = (props: any) => {
             eleLine.style.transform = 'rotate(' + radius + 'rad)';
         });
     }
+    // 获取未达标的
+    const getNoStandard = (arr = []) => {
+        const allSubResult = arr.map((res: any) => res.subResultScores).flat(Infinity)
+        const filterArr = allSubResult.filter((item: any) => item.score < (item.totalScore / 2)).map((res: any) => `【${res.resultType}】`)
+        const str = filterArr.join('、')
+        if (filterArr.length < 1) {
+            return '根据以上测评结果显示，您都以达到基准线。'
+        }
+        return `根据以上测评结果显示，${str}共${filterArr.length}项未达基准线`
+    }
     return (
         <div id="Pdf_Body" className="pdfdetail-layout-value" style={childStyle}>
             {/*封面*/}
@@ -104,12 +121,12 @@ const PdfDetailMBTI = (props: any) => {
                     />
                     <span className="name">
                         {
-                            appType === '1' ? '趣测评' : '招才选将'
+                            appType && (appType === '1' ? '趣测评' : '招才选将')
                         }
                     </span>
                 </div>
                 <div className="main-title">
-                    <p className="title">{resultDetail?.examTemplateType === 'XD-03' ? '康帕斯' : '行动教育'}</p>
+                    <p className="title">{resultDetail?.examTemplateType && (resultDetail?.examTemplateType === 'XD-03' ? '康帕斯' : '行动教育')}</p>
                     <span className="ch-title">
                         价值观测评
                     </span>
@@ -396,11 +413,16 @@ const PdfDetailMBTI = (props: any) => {
                         </table>
                 }
 
+                {
+                    curReportType == 'XD-03' ?
+                        <div className='page-box-score'>
+                            <p>您的测评得分是</p>
+                            <div>{resultDetail?.scoreDetail?.[curReportType === 'XD-03' ? '价值观' : '德']?.score}分</div>
+                        </div>
+                        : <img className='benchmark' src={curStatusImg} alt="" />
+                }
 
-                <div className='page-box-score'>
-                    <p>您的测评得分是</p>
-                    <div>{resultDetail?.scoreDetail?.[resultDetail?.examTemplateType === 'XD-03' ? '价值观' : '德']?.score}分</div>
-                </div>
+
             </div>
             {/* 分页 */}
             <div className="page-box four_mbti">
@@ -417,22 +439,50 @@ const PdfDetailMBTI = (props: any) => {
                                     {
                                         res.subResultScores.map((item: any) => (
                                             <li key={item.resultType}>
-                                                <p>【{item.resultType}】</p>
+                                                <p style={{ color: curReportType == 'XD-03' ? '#464C5B' : item.score >= (item.totalScore / 2) ? '#00CC66' : '#FF3200' }}>
+                                                    {curReportType !== 'XD-03' && (item.score >= (item.totalScore / 2) ? <CheckOutlined className='success' /> : <ExclamationOutlined className='error' />)}
+                                                    【{item.resultType}】
+                                                </p>
                                                 <div>
-                                                    <div className='score-progress' style={{ '--progress': (630 / item.totalScore * item.score) + 'px' } as any}>
+                                                    <div className='score-progress' style={{
+                                                        '--progress': ((curReportType == 'XD-03' ? 630 : 690) / item.totalScore * item.score) + 'px',
+                                                        '--initprogress': (curReportType == 'XD-03' ? 630 : 690) + 'px',
+                                                        '--bgcolor': curReportType == 'XD-03' ? '#C1B073' : item.score >= (item.totalScore / 2) ? '#C1B073' : '#FF3200'
+                                                    } as any}>
                                                         <span className='score-triangle'></span>
                                                     </div>
-                                                    <div className='score-numerical'>
-                                                        <span className='score-cur'>{item.score}</span>
-                                                        <span className='score-total'>/{item.totalScore}</span>
-                                                    </div>
+                                                    {
+                                                        curReportType == 'XD-03' &&
+                                                        <div className='score-numerical'>
+                                                            <span className='score-cur'>{item.score}</span>
+                                                            <span className='score-total'>/{item.totalScore}</span>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </li>
                                         ))
                                     }
                                 </ul>
+
                             </div>
                         ))
+                    }
+                    {
+                        curReportType !== 'XD-03' &&
+                        <section>
+                            <h1>解读说明</h1>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <div><CheckOutlined className='success' /> 代表该项超过基准线</div>
+                                        <div><ExclamationOutlined className='error' />代表未过基准线，需要着重改进</div>
+                                    </li>
+                                    <li>
+                                        {getNoStandard(resultDetail?.scoreDetail?.['德']?.subResultScores)}
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
                     }
                 </div>
             </div>
@@ -578,7 +628,7 @@ const PdfDetailMBTI = (props: any) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 export default PdfDetailMBTI;
