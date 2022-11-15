@@ -4,16 +4,15 @@ import './index.less';
 import { getAppIdType } from '@/utils/utils'
 import { MBTIResult, MBTIType, MBTISimpel, chartHeight, Gender } from './type';
 import { useParams } from 'react-router-dom';
-import { CheckOutlined, ExclamationOutlined } from '@ant-design/icons';
-const datumSuccess = 'https://qzz-material.forwe.store/img/okr_backstage/c253e1609bd14bc0b5b370b2e0c16117.png';
-const datumError = 'https://qzz-material.forwe.store/img/okr_backstage/a4ac52b2c5ba47f6a85d36e3f4e9f8de.png'
+const datumSuccess = 'https://qzz-material.forwe.store/img/okr_backstage/38d2e13eb7d94de1ba16a23aa3cd5c6e.png';
+const datumError = 'https://qzz-material.forwe.store/img/okr_backstage/02830c2f1eae4ab0bbb473211ede3a3c.png'
 const PdfDetailMBTI = (props: any) => {
     const { resultDetail, childStyle } = props;
     const { people } = useParams()
     const curReportType = people?.split('~')[2]
     const appType = getAppIdType()
     const scoreData = resultDetail?.scoreDetail?.['德']
-    const curStatusImg = scoreData && scoreData?.score >= (scoreData?.totalScore / 2) ? datumSuccess : datumError
+    const curStatusImg = scoreData && scoreData?.score >= 80 ? datumSuccess : datumError
     const charactertype = [
         {
             startText: '外向',
@@ -108,7 +107,7 @@ const PdfDetailMBTI = (props: any) => {
         if (filterArr.length < 1) {
             return '根据以上测评结果显示，您都以达到基准线。'
         }
-        return `根据以上测评结果显示，${str}共${filterArr.length}项未达基准线`
+        return <Fragment>{`根据以上测评结果显示，`}<span>{str}</span>{`共 ${filterArr.length} 项未达基准线`}</Fragment>
     }
     return (
         <div id="Pdf_Body" className="pdfdetail-layout-value" style={childStyle}>
@@ -434,13 +433,13 @@ const PdfDetailMBTI = (props: any) => {
                     {
                         resultDetail?.scoreDetail?.[resultDetail?.examTemplateType === 'XD-03' ? '价值观' : '德']?.subResultScores.map((res: any) => (
                             <div key={res.resultType} className='score-main'>
-                                <div>{res.resultType}得分：{res.score}<span>/{res.totalScore}</span></div>
+                                <div>{res.resultType}{curReportType == 'XD-03' && <Fragment>得分：{res.score}<span>/{res.totalScore}</span></Fragment>}</div>
                                 <ul>
                                     {
                                         res.subResultScores.map((item: any) => (
                                             <li key={item.resultType}>
-                                                <p style={{ color: curReportType == 'XD-03' ? '#464C5B' : item.score >= (item.totalScore / 2) ? '#00CC66' : '#FF3200' }}>
-                                                    {curReportType !== 'XD-03' && (item.score >= (item.totalScore / 2) ? <CheckOutlined className='success' /> : <ExclamationOutlined className='error' />)}
+                                                <p style={{ color: curReportType == 'XD-03' ? '#464C5B' : item.score >= (item.totalScore / 2) ? '#464C5B' : '#FF3200' }}>
+                                                    {curReportType !== 'XD-03' && (item.score >= (item.totalScore / 2) ? <span className='iconfont icon-mianxingchenggong success' /> : <span className='iconfont icon-mianxingtishi error' />)}
                                                     【{item.resultType}】
                                                 </p>
                                                 <div>
@@ -474,8 +473,8 @@ const PdfDetailMBTI = (props: any) => {
                             <div>
                                 <ul>
                                     <li>
-                                        <div><CheckOutlined className='success' /> 代表该项超过基准线</div>
-                                        <div><ExclamationOutlined className='error' />代表未过基准线，需要着重改进</div>
+                                        <div><span className='iconfont icon-mianxingchenggong success' /> 代表该项超过基准线</div>
+                                        <div><span className='iconfont icon-mianxingtishi error' />代表未过基准线，需要着重改进</div>
                                     </li>
                                     <li>
                                         {getNoStandard(resultDetail?.scoreDetail?.['德']?.subResultScores)}
